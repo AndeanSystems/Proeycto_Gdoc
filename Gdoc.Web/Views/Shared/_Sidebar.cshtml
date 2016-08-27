@@ -1,0 +1,82 @@
+﻿<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar navbar-fixed-top">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar" style="height: auto; background-color: #A20012;">
+        <!-- Sidebar user panel -->
+        <!-- search form -->
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li class="header">MENU</li>
+            <li class="  treeview">
+                <a href="#">
+                    <i class="fa fa-cubes"></i><span>Gestion</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    @*<li class="active"><a href="documento_electronico.html"><i class="fa fa-check"></i>Documento Electronico</a></li>*@
+                    <li class="active"><a href="@Url.Action("DocumentoElectronico","Gestion")"><i class="fa fa-check"></i>Documento Electronico</a></li>
+                    @*<li class="active"><a href="documento_digital.html"><i class="fa fa-check"></i>Documento Digital</a></li>*@
+                    <li class="active"><a href="@Url.Action("DocumentoDigital", "Gestion")"><i class="fa fa-check"></i>Documento Digital</a></li>
+                    @*<li class="active"><a href="mesavnuevo.html"><i class="fa fa-check"></i>Mesa Virtual</a></li>*@
+                    <li class="active"><a href="@Url.Action("MesaVirtual", "Gestion")"><i class="fa fa-check"></i>Mesa Virtual</a></li>
+
+
+                </ul>
+            </li>
+
+
+            <li class="  treeview">
+                <a href="#">
+                    <i class="fa fa-hand-o-right"></i><span>Administracion</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Busqueda", "Administracion")"><i class="fa fa-check"></i>Busquedas</a></li>
+                    <li><a href="log_operaciones.html"><i class="fa fa-check"></i>Log de Operaciones</a></li>
+                </ul>
+            </li>
+            <li class="  treeview">
+                <a href="#">
+                    <i class="fa fa-cogs"></i><span>Configuracion</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="@Url.Action("Concepto", "Configuracion")"><i class="fa fa-check"></i>Concepto</a></li>
+                    <li><a href="@Url.Action("Usuarios", "Configuracion")"><i class="fa fa-check"></i>Usuarios</a></li>
+                    <li ><a href="@Url.Action("Acceso", "Configuracion")"><i class="fa fa-check"></i>Acceso</a></li>
+                    <li><a href="#empresa.html" data-toggle="modal" data-target="#modal_page"><i class="fa fa-check"></i>Empresa</a></li>
+                    <li><a href="@Url.Action("Grupos", "Configuracion")"><i class="fa fa-check"></i>Grupo</a></li>
+                </ul>
+            </li>
+
+            
+        </ul>
+    </section>
+    <div style="height: 10px"> </div>
+    <section class="sidebar" style="height: auto; background-color: #A20012;">
+        <!-- Sidebar user panel -->
+        <!-- search form -->
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li>
+                <a href="@Url.Action("Alertas", "Alertas")">
+                    <i class="fa fa-calendar"></i><span>Alertas Recibidas</span>
+                    <small class="label pull-right bg-red">3</small>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("DocumentosRecibidos", "Alertas")">
+                    <i class="fa fa-envelope"></i><span>Documentos Recibidos</span>
+                    <small class="label pull-right bg-yellow">12</small>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("MesaTrabajoVirtual", "Alertas")">
+                    <i class="fa fa-users"></i><span>Mesas de Trabajo Virtual</span>
+                    <small class="label pull-right bg-yellow">12</small>
+                </a>
+            </li>
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
