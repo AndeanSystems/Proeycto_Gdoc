@@ -30,7 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,9 +49,61 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AccesoSistema.cs" />
+    <Compile Include="Models\CentroCosto.cs" />
+    <Compile Include="Models\Concepto.cs" />
+    <Compile Include="Models\DocumentoAdjunto.cs" />
+    <Compile Include="Models\DocumentoDigitalOperacion.cs" />
+    <Compile Include="Models\DocumentoElectronicoOperacion.cs" />
+    <Compile Include="Models\Empresa.cs" />
+    <Compile Include="Models\Folio.cs" />
+    <Compile Include="Models\General.cs" />
+    <Compile Include="Models\Gesdoc_v2016Context.cs" />
+    <Compile Include="Models\Grupo.cs" />
+    <Compile Include="Models\IndexacionDocumento.cs" />
+    <Compile Include="Models\LogOperacion.cs" />
+    <Compile Include="Models\Mapping\AccesoSistemaMap.cs" />
+    <Compile Include="Models\Mapping\CentroCostoMap.cs" />
+    <Compile Include="Models\Mapping\ConceptoMap.cs" />
+    <Compile Include="Models\Mapping\DocumentoAdjuntoMap.cs" />
+    <Compile Include="Models\Mapping\DocumentoDigitalOperacionMap.cs" />
+    <Compile Include="Models\Mapping\DocumentoElectronicoOperacionMap.cs" />
+    <Compile Include="Models\Mapping\EmpresaMap.cs" />
+    <Compile Include="Models\Mapping\FolioMap.cs" />
+    <Compile Include="Models\Mapping\GeneralMap.cs" />
+    <Compile Include="Models\Mapping\GrupoMap.cs" />
+    <Compile Include="Models\Mapping\IndexacionDocumentoMap.cs" />
+    <Compile Include="Models\Mapping\LogOperacionMap.cs" />
+    <Compile Include="Models\Mapping\MensajeAlertaMap.cs" />
+    <Compile Include="Models\Mapping\MesaVirtualComentarioMap.cs" />
+    <Compile Include="Models\Mapping\ModuloPaginaUrlMap.cs" />
+    <Compile Include="Models\Mapping\OperacionMap.cs" />
+    <Compile Include="Models\Mapping\PersonalMap.cs" />
+    <Compile Include="Models\Mapping\SedeMap.cs" />
+    <Compile Include="Models\Mapping\sysdiagramMap.cs" />
+    <Compile Include="Models\Mapping\UbigeoMap.cs" />
+    <Compile Include="Models\Mapping\UsuarioAutorizadorMap.cs" />
+    <Compile Include="Models\Mapping\UsuarioGrupoMap.cs" />
+    <Compile Include="Models\Mapping\UsuarioMap.cs" />
+    <Compile Include="Models\Mapping\UsuarioParticipanteMap.cs" />
+    <Compile Include="Models\MensajeAlerta.cs" />
+    <Compile Include="Models\MesaVirtualComentario.cs" />
+    <Compile Include="Models\ModuloPaginaUrl.cs" />
+    <Compile Include="Models\Operacion.cs" />
+    <Compile Include="Models\Personal.cs" />
+    <Compile Include="Models\Sede.cs" />
+    <Compile Include="Models\sysdiagram.cs" />
+    <Compile Include="Models\Ubigeo.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\UsuarioAutorizador.cs" />
+    <Compile Include="Models\UsuarioGrupo.cs" />
+    <Compile Include="Models\UsuarioParticipante.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

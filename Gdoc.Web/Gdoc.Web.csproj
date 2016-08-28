@@ -218,30 +218,22 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\plugins\bootstrap-slider\" />
     <Folder Include="Content\plugins\bootstrap-wysihtml5\" />
     <Folder Include="Content\plugins\chartjs\" />
     <Folder Include="Content\plugins\ckeditor\" />
     <Folder Include="Content\plugins\colorpicker\" />
     <Folder Include="Content\plugins\datatables\" />
-    <Folder Include="Content\plugins\datepicker\" />
-    <Folder Include="Content\plugins\daterangepicker\" />
     <Folder Include="Content\plugins\fastclick\" />
     <Folder Include="Content\plugins\flot\" />
     <Folder Include="Content\plugins\fullcalendar\" />
     <Folder Include="Content\plugins\iCheck\" />
     <Folder Include="Content\plugins\input-mask\" />
-    <Folder Include="Content\plugins\ionslider\" />
-    <Folder Include="Content\plugins\jQueryUI\" />
-    <Folder Include="Content\plugins\jQuery\" />
     <Folder Include="Content\plugins\jvectormap\" />
     <Folder Include="Content\plugins\knob\" />
     <Folder Include="Content\plugins\morris\" />
     <Folder Include="Content\plugins\pace\" />
-    <Folder Include="Content\plugins\select2\" />
     <Folder Include="Content\plugins\slimScroll\" />
     <Folder Include="Content\plugins\sparkline\" />
-    <Folder Include="Content\plugins\timepicker\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
