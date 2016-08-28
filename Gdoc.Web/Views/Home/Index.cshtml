@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Gdoc.Entity.Models.Usuario
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -29,7 +30,7 @@
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
-@using (Html.BeginForm())
+@using (Html.BeginForm("Login","Usuario",FormMethod.Post))
 {
         <div class="login-logo">
             <img width="200" height="50" src="~/resources/img/fepcmac.jpg" /> 
@@ -39,11 +40,11 @@
             <p class="login-box-msg">Inicio sesión</p>
            
                 <div class="form-group has-feedback">
-                    <input type="text" id="txtUsuario" class="form-control" placeholder="Usuario" required autofocus name="id" value="@ViewBag.id">
+                    @Html.EditorFor(x => x.NombreUsuario, new { htmlAttributes = new { @class = "form-control", @autofocus = true, @required = true } })
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" id="txtPassword" class="form-control" placeholder="Password" required name="con" value="@ViewBag.con">
+                    @Html.EditorFor(x => x.ClaveUsuario, new { htmlAttributes = new { @type = "password",@class = "form-control", @autofocus = true , @required = true} })
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <div class="row">
