@@ -2,7 +2,7 @@
 
     'use strict';
 
-    angular.module('app', ['ui.grid']).factory('app_factory', app_factory);
+    angular.module('app', ['ui.grid','ui.grid.pagination']).factory('app_factory', app_factory);
 
     app_factory.$inject = ['$http'];
 
