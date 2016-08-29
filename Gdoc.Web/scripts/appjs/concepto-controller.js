@@ -8,8 +8,20 @@
         /* jshint validthis:true */
         ///Variables
         var context = this;
-        context.listConcepto = [];
         context.concepto = {};
+        context.gridOptions = {
+            data: [],
+            columnDefs: [
+                { field: 'CodiConcepto', displayName: 'Codigo' },
+                { field: 'DescripcionConcepto', displayName: 'Descripcion' },
+                { field: 'DescripcionCorta', displayName: 'Abreviatura' },
+                { field: 'ValorUno', displayName: 'Valor1' },
+                { field: 'ValorDos', displayName: 'Valor2' },
+                { field: 'TextoUno', displayName: 'Texto1' },
+                { field: 'TextoDos', displayName: 'Texto2' },
+                { field: 'EstadoConcepto', displayName: 'Estado' }
+            ]
+        };
         //Eventos
         context.grabar = function () {
             console.log(context.concepto);
@@ -23,7 +35,7 @@
         //Metodos
         function listarConcepto() {
             dataProvider.getData("Concepto/ListarConcepto").success(function (respuesta) {
-                context.listConcepto = respuesta;
+                context.gridOptions.data = respuesta;
             }).error(function (error) {
                 //MostrarError();
             });
