@@ -182,6 +182,8 @@
     <Content Include="scripts\angular\angular.js" />
     <Content Include="scripts\angular\angular.min.js" />
     <Content Include="scripts\app.min.js" />
+    <Content Include="scripts\appjs\app-factory.js" />
+    <Content Include="scripts\appjs\concepto-controller.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="resources\pdf\DE0002-2015-FPC-GPD.pdf" />
@@ -195,11 +197,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="api\Class1.cs" />
+    <Compile Include="api\ConceptoController.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdministracionController.cs" />
     <Compile Include="Controllers\AlertasController.cs" />
+    <Compile Include="Controllers\ConceptoController.cs" />
     <Compile Include="Controllers\ConfiguracionController.cs" />
     <Compile Include="Controllers\GestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -208,6 +211,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\MensajeConfirmacion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -236,6 +240,8 @@
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="scripts\jquery-3.1.0.min.map" />
+    <Content Include="Views\Concepto\Index.cshtml" />
+    <Content Include="Views\Concepto\_CreateAndEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,93 @@
+﻿<div class="modal fade" id="modal_contenido">
+    <div class="modal-dialog modal-lg" style="width:60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Registro Concepto</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Opciones del Concepto</h3>
+                            </div><!-- /.box-header -->
+                            <!-- form start -->
+                            <form role="form" novalidate name="frmConcepto">
+                                <div class="box-body no-padding">
+
+                                    <div class="form-group no-margin-bottom">
+                                        <label>Tipo de Concepto</label>
+                                        <select class="form-control" ng-model="ctrl.concepto.TipoConcepto">
+                                            <option>Estado</option>
+                                            <option>Mensaje</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group no-margin-bottom">
+                                        <label>Codigo</label>
+                                        <input type="text" class="form-control" placeholder="Codigo" ng-model="ctrl.concepto.CodiConcepto">
+                                    </div>
+
+                                    <div class="form-group no-margin-bottom">
+                                        <label>Descripcion</label>
+                                        <input type="text" class="form-control" placeholder="Descripcion" ng-model="ctrl.concepto.DescripcionConcepto">
+                                    </div>
+
+                                    <div class="form-group no-margin-bottom">
+                                        <label>Descripcion Abreviatura</label>
+                                        <input type="text" class="form-control" placeholder="Abreviatura" ng-model="ctrl.concepto.DescripcionCorta">
+                                    </div>
+
+                                    <div class="form-group no-margin-bottom">
+                                        <label class="col-sm-4">Estado</label>
+                                        <div class="col-sm-8">
+                                            <label><input type="checkbox" class="checkbox" ng-model="ctrl.concepto.EstadoConcepto"> Activo</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- /.col -->
+
+                    <div class="col-md-6">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Contenido del Concepto</h3>
+                                <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
+                                <button class="btn btn-default pull-right"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar" ng-click="ctrl.grabar()"></i></button>
+                            </div><!-- /.box-header -->
+
+                            <form role="form">
+                                <div class="box-body no-padding">
+
+                                    <div class="form-group no-margin-bottom">
+                                        <label>Valor1</label>
+                                        <input type="text" class="form-control" placeholder="Valor1" ng-model="ctrl.concepto.ValorUno">
+                                    </div>
+
+                                    <div class="form-group no-margin-bottom">
+                                        <label>Valor2</label>
+                                        <input type="text" class="form-control" placeholder="Valor2" ng-model="ctrl.concepto.ValorDos">
+                                    </div>
+
+                                    <div class="form-group no-margin-bottom">
+                                        <label>Texto1</label>
+                                        <input type="text" class="form-control" placeholder="Texto1" ng-model="ctrl.concepto.TextoUno">
+                                    </div>
+
+                                    <div class="form-group no-margin-bottom">
+                                        <label>Texto2</label>
+                                        <input type="text" class="form-control" placeholder="Texto2" ng-model="ctrl.concepto.TextoDos">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+</div>

@@ -11,14 +11,18 @@ namespace Gdoc.Web.Controllers
         {
             return View();
         }
-        public ActionResult Login(Usuario usuario) {
+        public ActionResult Login(Usuario usuario)
+        {
             using (var NUsuario = new NUsuario())
             {
                 var UsuarioEncontrado = NUsuario.ValidarLogin(usuario);
                 if (UsuarioEncontrado != null)
+                {
+                    Session["IDEmpresa"] = 1001;
                     return RedirectToAction("Alertas", "Alertas");
+                }
                 else
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index", "Home");
             }
         }
     }
