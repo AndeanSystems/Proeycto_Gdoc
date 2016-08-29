@@ -10,6 +10,8 @@
         var context = this;
         context.concepto = {};
         context.gridOptions = {
+            paginationPageSizes: [25, 50, 75],
+            paginationPageSize: 25,
             data: [],
             columnDefs: [
                 { field: 'CodiConcepto', displayName: 'Codigo' },
@@ -19,7 +21,8 @@
                 { field: 'ValorDos', displayName: 'Valor2' },
                 { field: 'TextoUno', displayName: 'Texto1' },
                 { field: 'TextoDos', displayName: 'Texto2' },
-                { field: 'EstadoConcepto', displayName: 'Estado' }
+                { field: 'EstadoConcepto', displayName: 'Estado' },
+                { field: 'Empresa.DireccionEmpresa',displayName:'Direción Empresa' }
             ]
         };
         //Eventos
