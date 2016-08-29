@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Gdoc.Entity.Extension;
 
 namespace Gdoc.Web.Controllers
 {
@@ -33,11 +34,10 @@ namespace Gdoc.Web.Controllers
         [HttpGet]
         public JsonResult ListarUsuario()
         {
-            var listUsuario = new List<Usuario>();
+            var listUsuario = new List<EUsuario>();
             using (var oUsuario = new NUsuario())
             {
                 listUsuario = oUsuario.ListarUsuario();
-                //listConceptoRetorno.ForEach(x => listConcepto.Add(x));
             }
             return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

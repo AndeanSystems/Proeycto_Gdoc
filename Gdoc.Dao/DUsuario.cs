@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gdoc.Entity.Models;
+using Gdoc.Entity.Extension;
 
 namespace Gdoc.Dao
 {
@@ -25,41 +26,76 @@ namespace Gdoc.Dao
             }
         }
 
-        public List<Usuario> ListarUsuario()
+        public List<EUsuario> ListarUsuario()
         {
-            var listUsuario = new List<Usuario>();
+            var listUsuario = new List<EUsuario>();
             try
             {
                 using (var db = new DataBaseContext())
                 {
-                    var list = db.Usuarios.ToList();
+                    var list4 = (from u in db.Usuarios
+                                 join p in db.Personals
+                                 on u.IDPersonal equals p.IDPersonal
 
-                    var list3 = db.Usuarios.Join(db.Personals,
-                                    u => u.IDPersonal,
-                                    p => p.IDPersonal,
-                                    (u, p) => new { Usuario = u, Personal = p }).ToList();
+                                 join Cargo in db.Conceptoes
+                                 on p.CodigoCargo equals Cargo.CodiConcepto
 
-                    list.ForEach(x => listUsuario.Add(new Usuario
+                                 join Tipo in db.Conceptoes
+                                 on u.CodigoTipoUsua equals Tipo.CodiConcepto
+
+                                 join Area in db.Conceptoes
+                                 on p.CodigoArea equals Area.CodiConcepto
+
+                                 join Clase in db.Conceptoes
+                                 on u.ClaseUsuario equals Clase.CodiConcepto
+
+                                 where Cargo.TipoConcepto.Equals("007") &&
+                                         Tipo.TipoConcepto.Equals("010") &&
+                                         Area.TipoConcepto.Equals("013") &&
+                                         Clase.TipoConcepto.Equals("021")
+
+
+                                 select new { u, p, Cargo, Tipo, Area, Clase }).ToList();
+
+
+                    list4.ForEach(x => listUsuario.Add(new EUsuario
                     {
-                        IDUsuario = x.IDUsuario,
-                        NombreUsuario = x.NombreUsuario,
-                        FirmaElectronica=x.FirmaElectronica,
-                        EstadoUsuario=x.EstadoUsuario,
-                        FechaRegistro=x.FechaRegistro,
-                        FechaUltimoAcceso=x.FechaUltimoAcceso,
-                        FechaModifica=x.FechaModifica,
-                        IntentoErradoClave=x.IntentoErradoClave,
-                        IntentoerradoFirma=x.IntentoerradoFirma,
-                        TerminalUsuario=x.TerminalUsuario,
-                        UsuarioRegistro=x.UsuarioRegistro,
-                        CodigoConexion=x.CodigoConexion,
-                        IDPersonal=x.IDPersonal,
-                        CodigoRol=x.CodigoRol,
-                        CodigoTipoUsua=x.CodigoTipoUsua,
-                        ExpiraClave=x.ExpiraClave,
-                        ExpiraFirma=x.ExpiraFirma,
-                        FechaExpiraClave=x.FechaExpiraClave,
-                        FechaExpiraFirma=x.FechaExpiraFirma
+                        IDUsuario = x.u.IDUsuario,
+                        NombreUsuario = x.u.NombreUsuario,
+                        FirmaElectronica = x.u.FirmaElectronica,
+                        EstadoUsuario = x.u.EstadoUsuario,
+                        FechaRegistro = x.u.FechaRegistro,
+                        FechaUltimoAcceso = x.u.FechaUltimoAcceso,
+                        FechaModifica = x.u.FechaModifica,
+                        IntentoErradoClave = x.u.IntentoErradoClave,
+                        IntentoerradoFirma = x.u.IntentoerradoFirma,
+                        TerminalUsuario = x.u.TerminalUsuario,
+                        UsuarioRegistro = x.u.UsuarioRegistro,
+                        CodigoConexion = x.u.CodigoConexion,
+                        IDPersonal = x.u.IDPersonal,
+                        CodigoRol = x.u.CodigoRol,
+                        CodigoTipoUsua = x.u.CodigoTipoUsua,
+                        ExpiraClave = x.u.ExpiraClave,
+                        ExpiraFirma = x.u.ExpiraFirma,
+                        FechaExpiraClave = x.u.FechaExpiraClave,
+                        FechaExpiraFirma = x.u.FechaExpiraFirma,
+                        Personal = new Personal
+                        {
+                            IDPersonal = x.p.IDPersonal,
+                            IDEmpresa = x.p.IDEmpresa,
+                            CodigoCargo = x.p.CodigoCargo,
+                            CodigoArea = x.p.CodigoArea,
+                            NombrePers = x.p.NombrePers,
+                            ApellidoPersonal = x.p.ApellidoPersonal,
+                            EmailTrabrajo = x.p.EmailTrabrajo,
+                            TelefonoPersonal = x.p.TelefonoPersonal
+
+                        },
+                        Cargo = new Concepto { DescripcionConcepto = x.Cargo.DescripcionConcepto },
+                        TipoUsuario = new Concepto { DescripcionConcepto = x.Tipo.DescripcionConcepto },
+                        Area = new Concepto { DescripcionConcepto = x.Area.DescripcionConcepto },
+                        ClaseUsu = new Concepto { DescripcionConcepto = x.Clase.DescripcionConcepto }
+
                     }));
                 }
             }
