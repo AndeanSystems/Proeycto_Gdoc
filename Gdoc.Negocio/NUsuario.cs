@@ -28,5 +28,19 @@ namespace Gdoc.Negocio
                 throw ex;
             }
         }
+
+        public List<Usuario> ListarUsuario()
+        {
+            try
+            {
+                return dUsuario.ListarUsuario();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

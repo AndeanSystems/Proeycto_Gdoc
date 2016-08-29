@@ -1,5 +1,10 @@
 ﻿using Gdoc.Entity.Models;
 using Gdoc.Negocio;
+using Gdoc.Web.Util;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Gdoc.Web.Controllers
@@ -24,6 +29,17 @@ namespace Gdoc.Web.Controllers
                 else
                     return RedirectToAction("Index", "Home");
             }
+        }
+        [HttpGet]
+        public JsonResult ListarUsuario()
+        {
+            var listUsuario = new List<Usuario>();
+            using (var oUsuario = new NUsuario())
+            {
+                listUsuario = oUsuario.ListarUsuario();
+                //listConceptoRetorno.ForEach(x => listConcepto.Add(x));
+            }
+            return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
     }
 }
