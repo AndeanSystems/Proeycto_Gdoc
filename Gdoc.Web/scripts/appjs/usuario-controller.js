@@ -8,7 +8,35 @@
         /* jshint validthis:true */
         ///Variables
         var context = this;
-        context.listUsuario = [];
+        context.gridOptions = {
+            paginationPageSizes: [25, 50, 75],
+            paginationPageSize: 25,
+            enableFiltering: true,
+            data: [],
+            columnDefs: [
+                { field: 'IDUsuario', displayName: 'IDUsuario' },
+                { field: 'Personal.NombrePers', displayName: 'Nombres' },
+                { field: 'Personal.ApellidoPersonal', displayName: 'Apellidos' },
+                { field: 'Personal.IDEmpresa', displayName: 'IDEmpresa' },
+                { field: 'TipoUsuario.DescripcionConcepto', displayName: 'Tipo Usuario' },
+                { field: 'Cargo.DescripcionConcepto', displayName: 'Cargo' },
+                { field: 'Area.DescripcionConcepto', displayName: 'Area' },
+                { field: 'Personal.EmailTrabrajo', displayName: 'Email Trabrajo' },
+                { field: 'Personal.TelefonoPersonal', displayName: 'Telefono Personal' },
+                { field: 'ClaseUsu.DescripcionConcepto', displayName: 'Clase Usuario' }
+            ],
+             multiSelect : false,
+             modifierKeysToMultiSelect: false,
+             //onRegisterApi : function( gridApi ) {
+             //    context.gridApi = gridApi;
+             //    gridApi.selection.on.rowSelectionChanged(context, function (row) {
+             //        var msg = 'row selected ' + row.isSelected;
+             //        console.log(msg);
+             //    });
+             //}
+        };
+
+       
         //context.Usuario = {};
         //Eventos
 
@@ -24,7 +52,7 @@
         //Metodos
         function listarUsuario() {
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
-                context.listUsuario = respuesta;
+                context.gridOptions.data = respuesta;
             }).error(function (error) {
                 //MostrarError();
             });
