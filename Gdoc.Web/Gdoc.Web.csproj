@@ -373,6 +373,7 @@
     <Content Include="scripts\appjs\app-factory.js" />
     <Content Include="scripts\appjs\concepto-controller.js" />
     <Content Include="scripts\appjs\empresa-controller.js" />
+    <Content Include="scripts\appjs\app-service.js" />
     <Content Include="scripts\appjs\usuario-controller.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
