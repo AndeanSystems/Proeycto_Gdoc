@@ -37,7 +37,6 @@ namespace Gdoc.Dao
             }
             catch (Exception ex)
             {
-
                 throw;
             }
             return listConcepto;
@@ -56,7 +55,6 @@ namespace Gdoc.Dao
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }
