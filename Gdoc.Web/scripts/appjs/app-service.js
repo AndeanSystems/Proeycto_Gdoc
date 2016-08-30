@@ -6,6 +6,9 @@
     function service(dataProvider) {
         this.listarConcepto = function (concepto) {
             return dataProvider.postData("Concepto/ListarConcepto", concepto);
+        },
+        this.prueba = function () {
+
         }
     }
 })();
