@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="NConcepto.cs" />
     <Compile Include="NEmpresa.cs" />
+    <Compile Include="NGrupo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NUsuario.cs" />
   </ItemGroup>

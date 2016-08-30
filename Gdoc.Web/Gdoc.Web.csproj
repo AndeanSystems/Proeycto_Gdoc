@@ -372,7 +372,9 @@
     <Content Include="scripts\app.min.js" />
     <Content Include="scripts\appjs\app-factory.js" />
     <Content Include="scripts\appjs\concepto-controller.js" />
+    <Content Include="scripts\appjs\documentoelectronico-controller.js" />
     <Content Include="scripts\appjs\empresa-controller.js" />
+    <Content Include="scripts\appjs\grupo-controller.js" />
     <Content Include="scripts\appjs\usuario-controller.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -411,8 +413,10 @@
     <Compile Include="Controllers\AlertasController.cs" />
     <Compile Include="Controllers\ConceptoController.cs" />
     <Compile Include="Controllers\ConfiguracionController.cs" />
+    <Compile Include="Controllers\DocumentoElectronicoController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\GestionController.cs" />
+    <Compile Include="Controllers\GrupoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -453,6 +457,8 @@
     <Content Include="Views\Acceso\Index.cshtml" />
     <Content Include="Views\Empresa\Index.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Grupo\Index.cshtml" />
+    <Content Include="Views\DocumentoElectronico\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -49,13 +49,16 @@ namespace Gdoc.Dao
                                  join Clase in db.Conceptoes
                                  on u.ClaseUsuario equals Clase.CodiConcepto
 
+                                 join e in db.Empresas
+                                 on p.IDEmpresa equals e.IDEmpresa
+
                                  where Cargo.TipoConcepto.Equals("007") &&
                                          Tipo.TipoConcepto.Equals("010") &&
                                          Area.TipoConcepto.Equals("013") &&
                                          Clase.TipoConcepto.Equals("021")
 
 
-                                 select new { u, p, Cargo, Tipo, Area, Clase }).ToList();
+                                 select new { u, p, Cargo, Tipo, Area, Clase, e }).ToList();
 
 
                     list4.ForEach(x => listUsuario.Add(new EUsuario
@@ -88,9 +91,10 @@ namespace Gdoc.Dao
                             NombrePers = x.p.NombrePers,
                             ApellidoPersonal = x.p.ApellidoPersonal,
                             EmailTrabrajo = x.p.EmailTrabrajo,
-                            TelefonoPersonal = x.p.TelefonoPersonal
+                            TelefonoPersonal = x.p.TelefonoPersonal,
 
                         },
+                        RazoSocial=new Empresa{ RazonSocial=x.e.RazonSocial},
                         Cargo = new Concepto { DescripcionConcepto = x.Cargo.DescripcionConcepto },
                         TipoUsuario = new Concepto { DescripcionConcepto = x.Tipo.DescripcionConcepto },
                         Area = new Concepto { DescripcionConcepto = x.Area.DescripcionConcepto },
@@ -101,7 +105,6 @@ namespace Gdoc.Dao
             }
             catch (Exception ex)
             {
-
                 throw;
             }
             return listUsuario;

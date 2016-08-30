@@ -12,6 +12,7 @@
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
+            enableFiltering: true,
             data: [],
             columnDefs: [
                 { field: 'CodiConcepto', displayName: 'Codigo' },

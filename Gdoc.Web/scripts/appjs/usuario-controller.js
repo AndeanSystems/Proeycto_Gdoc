@@ -8,11 +8,13 @@
         /* jshint validthis:true */
         ///Variables
         var context = this;
+        context.listUsuario = [];
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
-            enableFiltering: true,
+            //enableFiltering: true,
             data: [],
+
             columnDefs: [
                 { field: 'IDUsuario', displayName: 'IDUsuario' },
                 { field: 'Personal.NombrePers', displayName: 'Nombres' },
@@ -23,7 +25,9 @@
                 { field: 'Area.DescripcionConcepto', displayName: 'Area' },
                 { field: 'Personal.EmailTrabrajo', displayName: 'Email Trabrajo' },
                 { field: 'Personal.TelefonoPersonal', displayName: 'Telefono Personal' },
-                { field: 'ClaseUsu.DescripcionConcepto', displayName: 'Clase Usuario' }
+                { field: 'ClaseUsu.DescripcionConcepto', displayName: 'Clase Usuario' },
+                { name: 'Acciones', cellTemplate: '<i class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="modal" data-target="#modal_contenido" title="Editar"></i><i class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i> ' }
+
             ],
              multiSelect : false,
              modifierKeysToMultiSelect: false,
@@ -53,6 +57,7 @@
         function listarUsuario() {
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
+                context.listUsuario = respuesta;
             }).error(function (error) {
                 //MostrarError();
             });

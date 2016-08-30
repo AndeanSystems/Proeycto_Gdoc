@@ -44,6 +44,7 @@
     <Compile Include="DataBaseContext.cs" />
     <Compile Include="DConcepto.cs" />
     <Compile Include="DEmpresa.cs" />
+    <Compile Include="DGrupo.cs" />
     <Compile Include="DUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -15,5 +15,6 @@ namespace Gdoc.Entity.Extension
         public Concepto TipoUsuario { get; set; }
         public Concepto Area { get; set; }
         public Concepto ClaseUsu { get; set; }
+        public Empresa RazoSocial { get; set; }
     }
 }
