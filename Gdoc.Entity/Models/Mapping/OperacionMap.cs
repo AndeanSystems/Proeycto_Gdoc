@@ -67,6 +67,8 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.TipoComunicacion).HasColumnName("TipoComunicacion");
             this.Property(t => t.NotificacionOperacion).HasColumnName("NotificacionOperacion");
 
+            this.Property(t => t.TipoDocumento).HasColumnName("TipoDocumento");
+
             // Relationships
             this.HasRequired(t => t.Empresa)
                 .WithMany(t => t.Operacions)

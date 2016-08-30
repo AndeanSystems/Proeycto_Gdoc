@@ -45,5 +45,6 @@ namespace Gdoc.Entity.Models
         public virtual ICollection<MesaVirtualComentario> MesaVirtualComentarios { get; set; }
         public virtual ICollection<UsuarioAutorizador> UsuarioAutorizadors { get; set; }
         public virtual ICollection<UsuarioParticipante> UsuarioParticipantes { get; set; }
+        public string TipoDocumento { get; set; }
     }
 }

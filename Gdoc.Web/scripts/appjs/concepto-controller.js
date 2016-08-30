@@ -2,12 +2,16 @@
     'use strict';
 
     angular.module('app').controller('concepto_controller', concepto_controller);
-    concepto_controller.$inject = ['$location', 'app_factory'];
+    concepto_controller.$inject = ['$location', 'app_factory', 'appService'];
 
-    function concepto_controller($location, dataProvider) {
+    function concepto_controller($location, dataProvider, appService) {
         /* jshint validthis:true */
         ///Variables
         var context = this;
+        var concepto = { TipoConcepto: "012" };
+        appService.listarConcepto(concepto).success(function (respuesta) {
+            console.log(respuesta);
+        });
         context.concepto = {};
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
