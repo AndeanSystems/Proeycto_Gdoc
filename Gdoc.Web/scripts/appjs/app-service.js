@@ -7,8 +7,8 @@
         this.listarConcepto = function (concepto) {
             return dataProvider.postData("Concepto/ListarConcepto", concepto);
         },
-        this.prueba = function () {
-
+        this.listarUsuario = function (usuario) {
+            return dataProvider.postData("Usuario/ListarUsuario", usuario);
         }
     }
 })();
