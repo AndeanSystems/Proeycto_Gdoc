@@ -2,13 +2,24 @@
     'use strict';
 
     angular.module('app').controller('usuario_controller', usuario_controller);
-    usuario_controller.$inject = ['$location', 'app_factory'];
+    usuario_controller.$inject = ['$location', 'app_factory', 'appService'];
 
-    function usuario_controller($location, dataProvider) {
+    function usuario_controller($location, dataProvider, appService) {
         /* jshint validthis:true */
         ///Variables
+        
         var context = this;
+        //LLENAR CONCEPTOS
+        LlenarConcepto("010");
+        LlenarConcepto("007");
+        LlenarConcepto("013");
+        LlenarConcepto("021");
+        LlenarConcepto("009");
+
+        context.personal = {};
+        context.usuario = {};
         context.listUsuario = [];
+        context.listDepartamento = [];
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -40,18 +51,68 @@
              //}
         };
 
-       
-        //context.Usuario = {};
         //Eventos
+        context.grabar = function (numeroboton) {
+            console.log(context.personal);
 
-        //context.grabar = function () {
-        //    console.log(context.Usuario);
-        //    dataProvider.postData("Concepto/GrabarConcepto", context.Usuario).success(function (respuesta) {
-        //        console.log(respuesta);
-        //    }).error(function (error) {
-        //        //MostrarError();
-        //    });
-        //}
+            var personal = context.personal;
+            var usuario = context.usuario;
+
+            var departamento, provincia, distrito;
+
+            departamento = (context.codigodepartamento < 10) ? "0" + context.codigodepartamento : context.codigodepartamento.toString();
+            provincia = (context.codigoprovincia < 10) ? "0" + context.codigoprovincia : context.codigoprovincia.toString();
+            distrito = (context.codigodistrito < 10) ? "0" + context.codigodistrito : context.codigodistrito.toString();
+            //GRABAR PERSONAL
+            if (numeroboton == 1)
+                personal.EstadoPersonal = 0
+            else if (numeroboton == 2)
+                personal.EstadoPersonal = 1
+            personal.CodigoUbigeo = (departamento + provincia + distrito);
+
+            dataProvider.postData("Personal/GrabarPersonal", personal).success(function (respuesta) {
+                console.log(respuesta);
+                //listarUsuario();
+                //$("#modal_contenido").modal("hide");
+            }).error(function (error) {
+                //MostrarError();
+            });
+            //GRABAR USUARIO
+            usuario.NombreUsuario = personal.NombrePers.substr(0,1) + personal.ApellidoPersonal;
+            usuario.ClaveUsuario = 123;
+            usuario.IDPersonal = personal.IDPersonal;   
+            if (numeroboton == 1)
+                usuario.EstadoUsuario = 0
+            else if (numeroboton == 2)
+                usuario.EstadoUsuario = 1
+            
+
+            dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
+                console.log(respuesta);
+                listarUsuario();
+                $("#modal_contenido").modal("hide");
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+
+        context.listPronvincia = function (CodigoDepartamento) {
+            dataProvider.postData("Ubigeo/ListarProvincias", { CodigoDepartamento: CodigoDepartamento }).success(function (respuesta) {
+                console.log(respuesta);
+                context.listPronvincia = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+
+        context.listDistrito = function (CodigoDepartamento, CodigoProvincia) {
+            dataProvider.postData("Ubigeo/ListarDistritos", { CodigoDepartamento: CodigoDepartamento, CodigoProvincia: CodigoProvincia }).success(function (respuesta) {
+                console.log(respuesta);
+                context.listDistrito = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
 
         //Metodos
         function listarUsuario() {
@@ -62,7 +123,32 @@
                 //MostrarError();
             });
         }
+
+        function listarDepartamento() {
+            dataProvider.getData("Ubigeo/ListarDepartamento").success(function (respuesta) {
+                context.listDepartamento = respuesta;
+            }).error(function (error) {
+
+            });
+        }
+
+        function LlenarConcepto(tipoConcepto) {
+            var concepto = { TipoConcepto: tipoConcepto };
+            appService.listarConcepto(concepto).success(function (respuesta) {
+                if (concepto.TipoConcepto == "010")
+                    context.listTipoUsuario = respuesta;
+                else if (concepto.TipoConcepto == "007")
+                    context.listTipoCargo = respuesta;
+                else if (concepto.TipoConcepto == "013")
+                    context.listArea = respuesta;
+                else if (concepto.TipoConcepto == "021")
+                    context.listClaseUsuario = respuesta;
+                else if (concepto.TipoConcepto == "009")
+                    context.listTipoRol = respuesta;
+            });
+        }
         //Carga
         listarUsuario();
+        listarDepartamento();
     }
 })();

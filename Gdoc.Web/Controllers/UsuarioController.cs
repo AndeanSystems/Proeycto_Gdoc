@@ -12,6 +12,9 @@ namespace Gdoc.Web.Controllers
 {
     public class UsuarioController : Controller
     {
+        #region "Variables"
+        MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
+        #endregion
         // GET: Usuario
         public ActionResult Index()
         {
@@ -24,9 +27,16 @@ namespace Gdoc.Web.Controllers
                 var UsuarioEncontrado = NUsuario.ValidarLogin(usuario);
                 if (UsuarioEncontrado != null)
                 {
+                    //string nombre = UsuarioEncontrado.Personal.NombrePers;
+                    //string nombre_may = UsuarioEncontrado.Personal.NombrePers.ToUpper();
+
+                    //nombre=nombre.ToLower();
+
+                    //nombre = nombre.Replace(nombre[0], nombre_may[0]);
+
                     Session["IDEmpresa"] = 1001; //Pendiente falta terminar
                     Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
-                    Session["NombreCompleto"] = string.Format("{0}, {1}", UsuarioEncontrado.Personal.NombrePers, UsuarioEncontrado.Personal.ApellidoPersonal);
+                    Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
                     Session["CargoUsuario"] = UsuarioEncontrado.Personal.CodigoCargo;
                     return RedirectToAction("Alertas", "Alertas");
                 }
@@ -64,5 +74,39 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listUsuarioGrupo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+        public JsonResult GrabarUsuario(Usuario usuario)
+        {
+            using (var oUsuario = new NUsuario())
+            {
+                //POR TERMINAR
+                usuario.FechaRegistro = System.DateTime.Now;
+                usuario.FirmaElectronica = "ABC";
+                usuario.IntentoErradoClave = 3;
+                usuario.IntentoerradoFirma = 2;
+                usuario.UsuarioRegistro = Session["NombreUsuario"].ToString();
+                usuario.ExpiraClave = "1";
+                usuario.ExpiraFirma = "1";
+                usuario.FechaExpiraClave = Convert.ToDateTime("2016-12-31");
+                usuario.FechaExpiraFirma = Convert.ToDateTime("2016-12-31");
+
+                var respuesta = oUsuario.GrabarUsuario(usuario);
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Grabación Exitosa";
+            }
+            return new JsonResult { Data = mensajeRespuesta };
+        }
+
+        #region "Metodos"
+        public string FormatoNombre(string nombre)
+        {
+            string nombre_orig = nombre;
+            string nombre_may = nombre.ToUpper();
+
+            nombre_orig = nombre_orig.ToLower();
+
+            nombre_orig = nombre_orig.Replace(nombre_orig[0], nombre_may[0]);
+            return nombre_orig;
+        }
+        #endregion
     }
 }

@@ -419,6 +419,8 @@
     <Compile Include="Controllers\GestionController.cs" />
     <Compile Include="Controllers\GrupoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PersonalController.cs" />
+    <Compile Include="Controllers\UbigeoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -458,6 +460,8 @@
     <Content Include="Views\Grupo\Index.cshtml" />
     <Content Include="Views\DocumentoElectronico\Index.cshtml" />
     <Content Include="Views\Empresa\_CreateAndEdit.cshtml" />
+    <Content Include="Views\Grupo\_CreateAnEdit.cshtml" />
+    <Content Include="Views\Usuario\_CreateAndEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -483,6 +487,7 @@
     <Folder Include="Content\plugins\slimScroll\" />
     <Folder Include="Content\plugins\sparkline\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Personal\" />
     <Folder Include="Views\Ubigeo\" />
   </ItemGroup>
   <ItemGroup>

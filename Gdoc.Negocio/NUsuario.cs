@@ -42,6 +42,18 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public Usuario GrabarUsuario(Usuario usuario)
+        {
+            try
+            {
+                return dUsuario.GrabarUsuario(usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
     }
 }
