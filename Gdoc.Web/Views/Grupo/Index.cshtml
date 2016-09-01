@@ -38,6 +38,8 @@
                             <th>Participante(s)<i class="fa fa-sort"></i></th>
                             <th>Estado<i class="fa fa-sort"></i></th>
                             <th>Comentario<i class="fa fa-sort"></i></th>
+                            <th>Acciones<i class="fa fa-sort"></i></th>
+
 
                             </thead>
                             <tbody>
@@ -46,6 +48,11 @@
                                     <td class="mailbox-subject">nose</td>
                                     <td class="mailbox-subject">{{item.EstadoGrupo}}</td>
                                     <td class="mailbox-subject">{{item.ComentarioGrupo}}</td>
+                                    <td>
+                                        <i class="fa fa-pencil-square-o  " data-placement="top" data-toggle="tooltip" title="Editar"></i>
+                                        <i class="fa fa-times  " data-placement="top" data-toggle="tooltip" title="Borrar"></i>
+                                        <i class="fa fa-eye  " data-placement="top" data-toggle="tooltip" title="" data-original-title="Ver"></i>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -73,34 +80,45 @@
                                     <div class="box-header with-border">
                                         <h3 class="box-title">Datos del Grupo</h3>
                                         <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
-                                        <button class="btn btn-default pull-right"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+                                        <button class="btn btn-default pull-right"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar" ng-click="ctrl.grabar()"></i></button>
                                     </div><!-- /.box-header -->
 
                                     <form role="form">
                                         <div class="box-body no-padding">
 
                                             <div class="form-group">
-                                                <label class="col-sm-3">Nombre del Grupo</label>
+                                                <label class="col-sm-3">Codigo de Grupo</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" ng-model="ctrl.grupo.CodigoGrupo">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3">Descripcion del Grupo</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" ng-model="ctrl.grupo.NombreGrupo" >
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="col-sm-3">Comentario</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control"></textarea>
+                                                    <textarea style="resize:inherit" class="form-control" ng-model="ctrl.grupo.ComentarioGrupo"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="col-sm-3">Participantes</label>
-                                                <div class="col-sm-9">
-                                                    <select class="form-control select2" multiple="multiple" data-placeholder="Seleccione los usuarios">
-                                                        <option>JSANCHEZ</option>
-                                                        <option>Jmoralez</option>
-                                                        <option>otros</option>
+                                                <div class="col-sm-7">
+                                                    <select class="form-control" ng-model="ctrl.grupo.IDUsuario" ng-options="par.IDUsuario as par.NombreUsuario for par in ctrl.listUsuario">
+                                                        <option value="">Seleccione</option>
                                                     </select>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <span class="input-group-btn">
+                                                        @*<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-plus-circle" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>*@
+                                                        <button name="search" id="search-btn" class="btn btn-default" ng-click="ctrl.agregar()"><i class="glyphicon glyphicon-plus" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>
+                                                    </span>
                                                 </div>
                                             </div>
 
@@ -109,36 +127,29 @@
                                     <br />
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="form-group">
+                                            @*<div class="form-group">
                                                 <div class="col-sm-11">
                                                     <input type="text" class="form-control" placeholder="Buscar Usuario">
                                                 </div>
                                                 <div class="col-sm-1">
                                                     <span class="input-group-btn">
-                                                        @*<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-plus-circle" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>*@
+                                                        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-plus-circle" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>
                                                         <button type="submit" name="search" id="search-btn" class="btn btn-default"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
                                                     </span>
                                                 </div>
-                                            </div>
+                                            </div>*@
                                             <div class="col-md-12">
                                                 <div class="table-responsive mailbox-messages">
-                                                    <table class="table table-hover table-striped">
+                                                    <table class="table table-hover table-striped" id="tbUsuariosGrupo">
                                                         <thead>
                                                         <th>Nombre y Apellidos</th>
                                                         <th>Cargo</th>
                                                         <th>Acciones    </th>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td class="mailbox-date">Julio Sanchez</td>
-                                                                <td class="mailbox-date">Administrador</td>
-                                                                <td>
-                                                                    <i class="fa fa-times  " data-placement="top" data-toggle="tooltip" title="Borrar"></i>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="mailbox-date">Julio Sanchez</td>
-                                                                <td class="mailbox-date">Administrador</td>
+                                                            <tr ng-repeat="item in ctrl.listaUsuariosGrupo">
+                                                                <td class="mailbox-date">{{item.NombreGrupo}}</td>
+                                                                <td class="mailbox-date">{{item.ComentarioGrupo}}</td>
                                                                 <td>
                                                                     <i class="fa fa-times  " data-placement="top" data-toggle="tooltip" title="Borrar"></i>
                                                                 </td>
@@ -160,69 +171,6 @@
             </div>
         </div>
 
-        <!-- Page script -->
-        <script type="text/javascript">
-            $(function () {
-                //Initialize Select2 Elements
-                $(".select2").select2();
-
-                //Datemask dd/mm/yyyy
-                $("#datemask").inputmask("dd/mm/yyyy", { "placeholder": "dd/mm/yyyy" });
-                //Datemask2 mm/dd/yyyy
-                $("#datemask2").inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" });
-                //Money Euro
-                $("[data-mask]").inputmask();
-
-                //Date range picker
-                $('#reservation').daterangepicker();
-                //Date range picker with time picker
-                $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' });
-                //Date range as a button
-                $('#daterange-btn').daterangepicker(
-                        {
-                            ranges: {
-                                'Today': [moment(), moment()],
-                                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                            },
-                            startDate: moment().subtract(29, 'days'),
-                            endDate: moment()
-                        },
-                function (start, end) {
-                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                }
-                );
-
-                //iCheck for checkbox and radio inputs
-                $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                    checkboxClass: 'icheckbox_minimal-blue',
-                    radioClass: 'iradio_minimal-blue'
-                });
-                //Red color scheme for iCheck
-                $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
-                    checkboxClass: 'icheckbox_minimal-red',
-                    radioClass: 'iradio_minimal-red'
-                });
-                //Flat red color scheme for iCheck
-                $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-                    checkboxClass: 'icheckbox_flat-green',
-                    radioClass: 'iradio_flat-green'
-                });
-
-                //Colorpicker
-                $(".my-colorpicker1").colorpicker();
-                //color picker with addon
-                $(".my-colorpicker2").colorpicker();
-
-                //Timepicker
-                $(".timepicker").timepicker({
-                    showInputs: false
-                });
-            });
-        </script>
 
     </section>
 </section>

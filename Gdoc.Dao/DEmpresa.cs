@@ -38,5 +38,23 @@ namespace Gdoc.Dao
             }
             return listEmpresa;
         }
+
+        public Empresa GrabarEmpresa(Empresa empresa)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    db.Empresas.Add(empresa);
+                    db.SaveChanges();
+                }
+                return empresa;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
     }
 }

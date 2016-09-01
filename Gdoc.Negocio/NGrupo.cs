@@ -26,6 +26,17 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public Grupo GrabarGrupoUsuarios(Grupo grupo)
+        {
+            try
+            {
+                return dGrupo.GrabarGrupoUsuarios(grupo);
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
     }
 }

@@ -37,5 +37,21 @@ namespace Gdoc.Dao
             }
             return listGrupo;
         }
+        public Grupo GrabarGrupoUsuarios(Grupo grupo)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    db.Grupoes.Add(grupo);
+                    db.SaveChanges();
+                }
+                return grupo;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

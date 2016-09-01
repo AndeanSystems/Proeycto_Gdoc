@@ -9,17 +9,30 @@
         ///Variables
         var context = this;
         context.listGrupo = [];
+        context.listUsuario = [];
+        context.grupo = {};
+        context.listaUsuariosGrupo = [];
+
+        //context.listausuariosgrupo = [];
         //context.Usuario = {};
         //Eventos
 
-        //context.grabar = function () {
-        //    console.log(context.Usuario);
-        //    dataProvider.postData("Concepto/GrabarConcepto", context.Usuario).success(function (respuesta) {
-        //        console.log(respuesta);
-        //    }).error(function (error) {
-        //        //MostrarError();
-        //    });
-        //}
+        context.agregar = function () {
+            if (context.grupo.CodigoGrupo == undefined)
+                alert("vacio");
+            else {
+                context.listaUsuariosGrupo.push(context.grupo);
+                context.grupo = {};
+            }
+        }
+        context.grabar = function () {
+            console.log(context.grupo);
+            dataProvider.postData("Grupo/GrabarGrupoUsuarios", context.grupo).success(function (respuesta) {
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
 
         //Metodos
         function listarGrupo() {
@@ -29,7 +42,18 @@
                 //MostrarError();
             });
         }
+
+        function listarUsuario() {
+            dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
+                context.listUsuario = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+
+        
         //Carga
         listarGrupo();
+        listarUsuario();
     }
 })();

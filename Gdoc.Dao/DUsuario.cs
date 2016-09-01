@@ -16,7 +16,17 @@ namespace Gdoc.Dao
             {
                 using (var db = new DataBaseContext())
                 {
-                    return db.Usuarios.Where(x => x.NombreUsuario == usuario.NombreUsuario && x.ClaveUsuario == usuario.ClaveUsuario).FirstOrDefault();
+                    var usu = (from usua in db.Usuarios
+                               join persona in db.Personals
+                               on usua.IDPersonal equals persona.IDPersonal
+                               where usua.NombreUsuario == usuario.NombreUsuario &&
+                               usua.ClaveUsuario == usuario.ClaveUsuario
+                               select new { usua,persona}).FirstOrDefault();
+                    return new Usuario() {
+                         IDUsuario = usu.usua.IDUsuario,
+                         NombreUsuario = usu.usua.NombreUsuario,
+                         Personal = usu.persona 
+                    };
                 }
             }
             catch (Exception ex)

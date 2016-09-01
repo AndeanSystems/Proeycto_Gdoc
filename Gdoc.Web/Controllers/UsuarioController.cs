@@ -24,7 +24,10 @@ namespace Gdoc.Web.Controllers
                 var UsuarioEncontrado = NUsuario.ValidarLogin(usuario);
                 if (UsuarioEncontrado != null)
                 {
-                    Session["IDEmpresa"] = 1001;
+                    Session["IDEmpresa"] = 1001; //Pendiente falta terminar
+                    Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
+                    Session["NombreCompleto"] = string.Format("{0}, {1}", UsuarioEncontrado.Personal.NombrePers, UsuarioEncontrado.Personal.ApellidoPersonal);
+                    Session["CargoUsuario"] = UsuarioEncontrado.Personal.CodigoCargo;
                     return RedirectToAction("Alertas", "Alertas");
                 }
                 else
@@ -47,16 +50,19 @@ namespace Gdoc.Web.Controllers
             var listUsuario = new List<EUsuario>();
             using (var oUsuario = new NUsuario())
             {
-                //listUsuario = oUsuario.ListarUsuario();
-                listUsuario.AddRange(new List<EUsuario> {
-                    new EUsuario {IDUsuario = 19, NombreUsuario = "APACAYA", Personal = new Personal { NombrePers = "ALEXANDER", ApellidoPersonal = "PACAYA" ,EmailTrabrajo = "@gmail.com"} },
-                    new EUsuario { IDUsuario = 20, NombreUsuario = "JSANCHEZ", Personal = new Personal { NombrePers = "JUAN", ApellidoPersonal = "SANCHEZ SANCHEZ" ,EmailTrabrajo = "@gmail.com"} },
-                    new EUsuario { IDUsuario = 21, NombreUsuario = "JMORALES", Personal = new Personal { NombrePers = "JUAN", ApellidoPersonal = "MORALES FERNANDEZ" ,EmailTrabrajo = "@gmail.com"} },
-                    new EUsuario { IDUsuario = 22, NombreUsuario = "FSALINAS", Personal = new Personal { NombrePers = "FRANCISCO", ApellidoPersonal = "SALINAS PEREZ" ,EmailTrabrajo = "@gmail.com"} }
-                    }
-                );
+                listUsuario = oUsuario.ListarUsuario();
             }
             return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+        [HttpPost]
+        public JsonResult ListarUsuarioGrupo(Usuario usuario)
+        {
+            var listUsuarioGrupo = new List<EUsuario>();
+            using (var oUsuario = new NUsuario())
+            {
+                listUsuarioGrupo = oUsuario.ListarUsuario().Where(x => x.IDUsuario == usuario.IDUsuario).ToList();
+            }
+            return new JsonResult { Data = listUsuarioGrupo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
     }
 }

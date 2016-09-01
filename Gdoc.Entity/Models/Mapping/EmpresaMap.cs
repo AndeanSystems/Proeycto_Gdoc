@@ -12,7 +12,7 @@ namespace Gdoc.Entity.Models.Mapping
 
             // Properties
             this.Property(t => t.IDEmpresa)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             this.Property(t => t.RazonSocial)
                 .IsRequired()

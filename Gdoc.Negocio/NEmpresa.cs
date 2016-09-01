@@ -27,5 +27,17 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public Empresa GrabarEmpresa(Empresa empresa)
+        {
+            try
+            {
+                return dEmpresa.GrabarEmpresa(empresa);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
