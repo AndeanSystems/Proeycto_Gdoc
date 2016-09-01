@@ -52,7 +52,7 @@ namespace Gdoc.Web.Controllers
             {
                 listUsuario = oUsuario.ListarUsuario();
             }
-            return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
         }
         [HttpPost]
         public JsonResult ListarUsuarioGrupo(Usuario usuario)

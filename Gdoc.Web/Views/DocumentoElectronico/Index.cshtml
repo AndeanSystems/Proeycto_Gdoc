@@ -1,6 +1,6 @@
 ﻿<!-- Content Header (Page header) -->
 <section class="content-header">
-    <section class="content" ng-controller="documentoelectronico_controller as ctrl" ng-cloak>
+    <section class="content" ng-controller="documentoelectronico_controller as ctrl" layout="column" ng-cloak>
         <!--comienso de cuerpo documento electrocnico-->
         <div class="row">
             <div class="col-md-12">
@@ -25,6 +25,18 @@
                             </div>
                             <div class="col-md-2"></div>
                         </div>
+                        <md-content class="md-padding autocomplete" layout="column">
+                            <md-contact-chips ng-model="ctrl.usuarioRemitentes"
+                                              md-contacts="ctrl.querySearch($query)"
+                                              md-contact-name="NombreUsuario"
+                                              md-contact-image="RutaFoto"
+                                              md-contact-email="EmailTrabrajo"
+                                              md-require-match="true"
+                                              md-highlight-flags="i"
+                                              filter-selected="ctrl.filterSelected"
+                                              placeholder="Remitente">
+                            </md-contact-chips>
+                        </md-content>
                         <br>
                         <div class="table-responsive mailbox-messages">
                             <table class="table table-hover table-striped">
@@ -81,7 +93,6 @@
                                     <!-- form start -->
                                     <form role="form">
                                         <div class="box-body">
-
                                             <div class="form-group no-margin-bottom">
                                                 <label>Tipo de Accesso</label>
                                                 <md-radio-group ng-model="ctrl.operacion.AccesoOperacion" style="display:flexbox">
@@ -141,30 +152,36 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2">Remitente</label>
                                                 <div class="col-sm-10">
-                                                    <md-contact-chips ng-model="ctrl.usuario"
-                                                                      md-contacts="ctrl.querySearch($query)"
-                                                                      md-contact-name="NombreUsuario"                                                                 md-contact-name="NombreUsuario"
-                                                                      md-contact-email="Personal.EmailTrabrajo"
-                                                                      md-require-match="true"
-                                                                      md-highlight-flags="i"
-                                                                      filter-selected="ctrl.filterSelected"
-                                                                      placeholder="Remitente">
-                                                    </md-contact-chips>
+                                                    <md-content class="md-padding autocomplete" layout="column">
+                                                        <md-contact-chips ng-model="ctrl.usuarioRemitentes"
+                                                                          md-contacts="ctrl.querySearch($query)"
+                                                                          md-contact-name="NombreUsuario"
+                                                                          md-contact-image="RutaFoto"
+                                                                          md-contact-email="EmailTrabrajo"
+                                                                          md-require-match="true"
+                                                                          md-highlight-flags="i"
+                                                                          filter-selected="ctrl.filterSelected"
+                                                                          placeholder="Remitente">
+                                                        </md-contact-chips>
+                                                    </md-content>
                                                 </div><!-- /.form-group -->
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="col-sm-2">Destinatario</label>
                                                 <div class="col-sm-10">
-                                                    <md-contact-chips ng-model="ctrl.usuario"
-                                                                      md-contacts="ctrl.querySearch($query)"
-                                                                      md-contact-name="NombreUsuario"
-                                                                      md-contact-email="Personal.EmailTrabrajo"
-                                                                      md-require-match="true"
-                                                                      md-highlight-flags="i"
-                                                                      filter-selected="ctrl.filterSelected"
-                                                                      placeholder="Destinatario">
-                                                    </md-contact-chips>
+                                                    <md-content class="md-padding autocomplete" layout="column">
+                                                        <md-contact-chips ng-model="ctrl.usuarioDestinatarios"
+                                                                          md-contacts="ctrl.querySearch($query)"
+                                                                          md-contact-name="NombreUsuario"
+                                                                          md-contact-image="RutaFoto"
+                                                                          md-contact-email="EmailTrabrajo"
+                                                                          md-require-match="true"
+                                                                          md-highlight-flags="i"
+                                                                          filter-selected="ctrl.filterSelected"
+                                                                          placeholder="Destinatario">
+                                                        </md-contact-chips>
+                                                    </md-content>
                                                 </div><!-- /.form-group -->
                                             </div>
                                         </div>

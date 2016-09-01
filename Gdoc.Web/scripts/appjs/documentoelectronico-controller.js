@@ -70,51 +70,25 @@
         //Crear Combo Auto Filters
         var pendingSearch, cancelSearch = angular.noop;
         var cachedQuery, lastSearch;
-        context.usuario = [];
+
+        context.usuarioRemitentes = [];
+        context.usuarioDestinatarios = [];
+
         context.filterSelected = true;
         context.querySearch = querySearch;
-        context.delayedQuerySearch = delayedQuerySearch;
         var usuario= {};
         appService.listarUsuario(usuario).success(function (respuesta) {
+            //context.listaUsuario = respuesta;
             context.listaUsuario = respuesta;
         });
         function querySearch(criteria) {
             cachedQuery = cachedQuery || criteria;
-            console.log(criteria);
             return cachedQuery ? context.listaUsuario.filter(createFilterFor(cachedQuery)) : [];
         }
-        function delayedQuerySearch(criteria) {
-            cachedQuery = criteria;
-            if (!pendingSearch || !debounceSearch()) {
-                cancelSearch();
-                return pendingSearch = $q(function (resolve, reject) {
-                    // Simulate async search... (after debouncing)
-                    cancelSearch = reject;
-                    $timeout(function () {
-                        resolve(self.querySearch());
-                        refreshDebounce();
-                    }, Math.random() * 500, true)
-                });
-            }
-            return pendingSearch;
-        }
-        function refreshDebounce() {
-            lastSearch = 0;
-            pendingSearch = null;
-            cancelSearch = angular.noop;
-        }
-        function debounceSearch() {
-            var now = new Date().getMilliseconds();
-            lastSearch = lastSearch || now;
-            return ((now - lastSearch) < 300);
-        }
-        /**
-         * Create filter function for a query string
-         */
         function createFilterFor(query) {
-            var lowercaseQuery = angular.lowercase(query);
-            return function filterFn(contact) {
-                return (contact.NombreUsuario.indexOf(lowercaseQuery) != -1);;
+            var uppercaseQuery = angular.uppercase(query);
+            return function filterFn(usuario) {
+                return (usuario.NombreUsuario.indexOf(uppercaseQuery) != -1);;
             };
         }
     }

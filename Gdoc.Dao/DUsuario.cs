@@ -47,7 +47,7 @@ namespace Gdoc.Dao
                                  join p in db.Personals
                                  on u.IDPersonal equals p.IDPersonal
 
-                                 join Cargo in db.Conceptoes
+                                 /*join Cargo in db.Conceptoes
                                  on p.CodigoCargo equals Cargo.CodiConcepto
 
                                  join Tipo in db.Conceptoes
@@ -65,10 +65,10 @@ namespace Gdoc.Dao
                                  where Cargo.TipoConcepto.Equals("007") &&
                                          Tipo.TipoConcepto.Equals("010") &&
                                          Area.TipoConcepto.Equals("013") &&
-                                         Clase.TipoConcepto.Equals("021")
+                                         Clase.TipoConcepto.Equals("021")*/
 
 
-                                 select new { u, p, Cargo, Tipo, Area, Clase, e }).ToList();
+                                 select new { u, p,}).ToList();
 
 
                     list4.ForEach(x => listUsuario.Add(new EUsuario
@@ -104,11 +104,12 @@ namespace Gdoc.Dao
                             TelefonoPersonal = x.p.TelefonoPersonal,
 
                         },
-                        RazoSocial=new Empresa{ RazonSocial=x.e.RazonSocial},
-                        Cargo = new Concepto { DescripcionConcepto = x.Cargo.DescripcionConcepto },
-                        TipoUsuario = new Concepto { DescripcionConcepto = x.Tipo.DescripcionConcepto },
-                        Area = new Concepto { DescripcionConcepto = x.Area.DescripcionConcepto },
-                        ClaseUsu = new Concepto { DescripcionConcepto = x.Clase.DescripcionConcepto }
+                        RutaFoto = "http://lorempixel.com/50/50/people?6"
+                        // RazoSocial=new Empresa{ RazonSocial=x.e.RazonSocial},
+                        //Cargo = new Concepto { DescripcionConcepto = x.Cargo.DescripcionConcepto },
+                        //TipoUsuario = new Concepto { DescripcionConcepto = x.Tipo.DescripcionConcepto },
+                        //Area = new Concepto { DescripcionConcepto = x.Area.DescripcionConcepto },
+                        //ClaseUsu = new Concepto { DescripcionConcepto = x.Clase.DescripcionConcepto }
 
                     }));
                 }
