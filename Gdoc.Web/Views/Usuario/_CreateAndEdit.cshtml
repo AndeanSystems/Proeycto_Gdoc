@@ -14,8 +14,8 @@
                             </div>
 
                             <div class="form-group no-margin-bottom">
-                                <label class="col-sm-12">Nombre</label>
-                                <div class="col-sm-12">
+                                <label class="col-sm-3">Nombre</label>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" ng-model="ctrl.personal.NombrePers" placeholder="Nombre">
                                 </div>
 
@@ -43,10 +43,11 @@
                             <div class="form-group no-margin-bottom">
                                 <label class="col-sm-3">Empresa</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control">
+                                    <input type="text" class="form-control" placeholder="FEPCMAC" disabled="true" >
+                                    @*<select class="form-control">
                                         <option>FEPCMAC</option>
                                         <option>SBS</option>
-                                    </select>
+                                    </select>*@
                                 </div>
                             </div>
 
@@ -195,6 +196,15 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-group no-margin-bottom">
+                                <label class="col-sm-3">Tipo Personal</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" ng-model="ctrl.personal.ClasePersonal" ng-options="tp.CodiConcepto as tp.DescripcionConcepto for tp in ctrl.listTipoPersonal">
+                                        <option value="">Seleccione</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -204,3 +214,4 @@
         </div>
     </div>
 </div>
+

@@ -15,6 +15,7 @@
         LlenarConcepto("013");
         LlenarConcepto("021");
         LlenarConcepto("009");
+        LlenarConcepto("015");
 
         context.personal = {};
         context.usuario = {};
@@ -80,7 +81,9 @@
             //GRABAR USUARIO
             usuario.NombreUsuario = personal.NombrePers.substr(0,1) + personal.ApellidoPersonal;
             usuario.ClaveUsuario = 123;
-            usuario.IDPersonal = personal.IDPersonal;   
+
+            //usuario.IDPersonal = personal.IDPersonal;
+
             if (numeroboton == 1)
                 usuario.EstadoUsuario = 0
             else if (numeroboton == 2)
@@ -90,6 +93,11 @@
             dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
                 console.log(respuesta);
                 listarUsuario();
+                context.personal = {};
+                context.usuario = {};
+                context.listDepartamento = [];
+                context.listPronvincia = [];
+                context.listDistrito = [];
                 $("#modal_contenido").modal("hide");
             }).error(function (error) {
                 //MostrarError();
@@ -145,6 +153,8 @@
                     context.listClaseUsuario = respuesta;
                 else if (concepto.TipoConcepto == "009")
                     context.listTipoRol = respuesta;
+                else if (concepto.TipoConcepto == "015")
+                    context.listTipoPersonal = respuesta;
             });
         }
         //Carga

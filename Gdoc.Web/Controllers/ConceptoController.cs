@@ -46,6 +46,9 @@ namespace Gdoc.Web.Controllers
             using (var oConcepto = new NConcepto())
             {
                 concepto.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
+                concepto.EditarRegistro = 1;//por terminar
+                concepto.UsuarioModifica = Session["NombreUsuario"].ToString();
+                concepto.FechaModifica=System.DateTime.Now;
                 var respuesta = oConcepto.GrabarConcepto(concepto);
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitoso";

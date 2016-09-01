@@ -74,7 +74,7 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listUsuarioGrupo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        public JsonResult GrabarUsuario(Usuario usuario)
+        public JsonResult GrabarUsuario(Usuario usuario,Personal persona)
         {
             using (var oUsuario = new NUsuario())
             {

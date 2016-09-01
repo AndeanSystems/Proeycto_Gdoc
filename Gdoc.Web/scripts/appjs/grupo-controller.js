@@ -17,13 +17,19 @@
         //context.Usuario = {};
         //Eventos
 
-        context.agregar = function () {
+        context.agregar = function (IDUsuario) {
             if (context.grupo.CodigoGrupo == undefined)
                 alert("vacio");
             else {
                 context.listaUsuariosGrupo.push(context.grupo);
                 context.grupo = {};
             }
+            //dataProvider.postData("Usuario/ListarUsuarioGrupo", { IDUsuario: IDUsuario }).success(function (respuesta) {
+            //    console.log(respuesta);
+            //    context.listaUsuariosGrupo.push(respuesta);
+            //}).error(function (error) {
+            //    //MostrarError();
+            //});
         }
         context.grabar = function () {
             console.log(context.grupo);

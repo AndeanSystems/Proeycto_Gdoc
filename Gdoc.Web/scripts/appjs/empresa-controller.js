@@ -56,6 +56,7 @@
             dataProvider.postData("Empresa/GrabarEmpresa", empresa).success(function (respuesta) {
                 console.log(respuesta);
                 listarEmpresa();
+                context.empresa = {};
                 $("#modal_contenido").modal("hide");
             }).error(function (error) {
                 //MostrarError();

@@ -18,9 +18,8 @@
 
                                     <div class="form-group no-margin-bottom">
                                         <label>Tipo de Concepto</label>
-                                        <select class="form-control" ng-model="ctrl.concepto.TipoConcepto">
-                                            <option>Estado</option>
-                                            <option>Mensaje</option>
+                                        <select class="form-control" ng-model="ctrl.concepto.TipoConcepto" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoConceptoTitulo">
+                                            <option value="">Seleccione</option>
                                         </select>
                                     </div>
 
@@ -40,10 +39,8 @@
                                     </div>
 
                                     <div class="form-group no-margin-bottom">
-                                        <label class="col-sm-4">Estado</label>
-                                        <div class="col-sm-8">
-                                            <label><input type="checkbox" class="checkbox" ng-model="ctrl.concepto.EstadoConcepto"> Activo</label>
-                                        </div>
+                                        <label>Estado</label>
+                                        <input type="text" class="form-control" placeholder="Creado" disabled="true" >
                                     </div>
                                 </div>
                             </form>
@@ -54,8 +51,8 @@
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Contenido del Concepto</h3>
-                                <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
-                                <button class="btn btn-default pull-right"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar" ng-click="ctrl.grabar()"></i></button>
+                                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
+                                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
                             </div><!-- /.box-header -->
 
                             <form role="form">

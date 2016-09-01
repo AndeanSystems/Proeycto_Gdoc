@@ -18,15 +18,20 @@ namespace Gdoc.Dao
                 {
                     var list = db.Grupoes.ToList();
 
+                    var list2 = (from grupo in db.Grupoes
+                                join usugrupo in db.UsuarioGrupoes
+                                on grupo.IDGrupo equals usugrupo.IDGrupo
+                                select new { grupo, usugrupo }).ToList();
+
                     list.ForEach(x => listGrupo.Add(new Grupo
                     {
                         IDGrupo = x.IDGrupo,
-                        CodigoGrupo=x.CodigoGrupo,
-                        NombreGrupo=x.NombreGrupo,
-                        FechaModifica=x.FechaModifica,
-                        UsuarioModifica=x.UsuarioModifica,
-                        ComentarioGrupo=x.ComentarioGrupo,
-                        EstadoGrupo=x.EstadoGrupo,
+                        CodigoGrupo = x.CodigoGrupo,
+                        NombreGrupo = x.NombreGrupo,
+                        FechaModifica = x.FechaModifica,
+                        UsuarioModifica = x.UsuarioModifica,
+                        ComentarioGrupo = x.ComentarioGrupo,
+                        EstadoGrupo = x.EstadoGrupo,
 
                     }));
                 }

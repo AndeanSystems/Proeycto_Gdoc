@@ -370,6 +370,7 @@
     <Content Include="scripts\angular\angular.js" />
     <Content Include="scripts\angular\angular.min.js" />
     <Content Include="scripts\app.min.js" />
+    <Content Include="scripts\appjs\acceso-controller.js" />
     <Content Include="scripts\appjs\app-factory.js" />
     <Content Include="scripts\appjs\app-service.js" />
     <Content Include="scripts\appjs\concepto-controller.js" />
