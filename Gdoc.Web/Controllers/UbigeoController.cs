@@ -35,7 +35,7 @@ namespace Gdoc.Web.Controllers
             var listUbigeo = new List<Ubigeo>();
             using (var oUbigeo = new NUbigeo())
             {
-                listUbigeo = oUbigeo.ListarUbigeo().Where(x => x.CodigoProvincia == 0 && x.CodigoDistrito==0 && x.EstadoUbigeo==1).ToList();
+                listUbigeo = oUbigeo.ListarUbigeo().Where(x => x.CodigoProvincia == 0 && x.CodigoDistrito==0 && x.EstadoUbigeo==0).ToList();
             }
             return new JsonResult { Data = listUbigeo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
@@ -45,7 +45,7 @@ namespace Gdoc.Web.Controllers
             var listUbigeo = new List<Ubigeo>();
             using (var oUbigeo = new NUbigeo())
             {
-                listUbigeo = oUbigeo.ListarUbigeo().Where(x => x.CodigoDepartamento==ubigeo.CodigoDepartamento && x.CodigoProvincia != 0 && x.CodigoDistrito == 0 && x.EstadoUbigeo == 1).ToList();
+                listUbigeo = oUbigeo.ListarUbigeo().Where(x => x.CodigoDepartamento==ubigeo.CodigoDepartamento && x.CodigoProvincia != 0 && x.CodigoDistrito == 0 && x.EstadoUbigeo == 0).ToList();
             }
             return new JsonResult { Data = listUbigeo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
@@ -55,7 +55,7 @@ namespace Gdoc.Web.Controllers
             var listUbigeo = new List<Ubigeo>();
             using (var oUbigeo = new NUbigeo())
             {
-                listUbigeo = oUbigeo.ListarUbigeo().Where(x => x.CodigoDepartamento == ubigeo.CodigoDepartamento && x.CodigoProvincia ==ubigeo.CodigoProvincia && x.CodigoDistrito != 0 && x.EstadoUbigeo == 1).ToList();
+                listUbigeo = oUbigeo.ListarUbigeo().Where(x => x.CodigoDepartamento == ubigeo.CodigoDepartamento && x.CodigoProvincia ==ubigeo.CodigoProvincia && x.CodigoDistrito != 0 && x.EstadoUbigeo == 0).ToList();
             }
             return new JsonResult { Data = listUbigeo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

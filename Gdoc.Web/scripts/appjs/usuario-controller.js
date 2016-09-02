@@ -71,13 +71,13 @@
                 personal.EstadoPersonal = 1
             personal.CodigoUbigeo = (departamento + provincia + distrito);
 
-            dataProvider.postData("Personal/GrabarPersonal", personal).success(function (respuesta) {
-                console.log(respuesta);
-                //listarUsuario();
-                //$("#modal_contenido").modal("hide");
-            }).error(function (error) {
-                //MostrarError();
-            });
+            //dataProvider.postData("Personal/GrabarPersonal", personal).success(function (respuesta) {
+            //    console.log(respuesta);
+            //    //listarUsuario();
+            //    //$("#modal_contenido").modal("hide");
+            //}).error(function (error) {
+            //    //MostrarError();
+            //});
             //GRABAR USUARIO
             usuario.NombreUsuario = personal.NombrePers.substr(0,1) + personal.ApellidoPersonal;
             usuario.ClaveUsuario = 123;
@@ -89,7 +89,8 @@
             else if (numeroboton == 2)
                 usuario.EstadoUsuario = 1
             
-
+            //Aqui se llena la entidad usuario, y tambien personal. Asignandole la propiedad de usuario.personal con la (Entidad) Personal
+            usuario.Personal = personal;
             dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
                 console.log(respuesta);
                 listarUsuario();
