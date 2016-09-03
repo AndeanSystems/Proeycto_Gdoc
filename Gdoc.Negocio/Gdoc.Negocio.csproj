@@ -46,6 +46,7 @@
     <Compile Include="NEUsuarioGrupo.cs" />
     <Compile Include="NGrupo.cs" />
     <Compile Include="NMensajeAlerta.cs" />
+    <Compile Include="NOperacion.cs" />
     <Compile Include="NPersonal.cs" />
     <Compile Include="NUbigeo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

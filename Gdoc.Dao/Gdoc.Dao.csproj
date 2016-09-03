@@ -48,6 +48,7 @@
     <Compile Include="DEUsuarioGrupo.cs" />
     <Compile Include="DGrupo.cs" />
     <Compile Include="DMensajeAlerta.cs" />
+    <Compile Include="DOperacion.cs" />
     <Compile Include="DPersonal.cs" />
     <Compile Include="DUbigeo.cs" />
     <Compile Include="DUsuario.cs" />
