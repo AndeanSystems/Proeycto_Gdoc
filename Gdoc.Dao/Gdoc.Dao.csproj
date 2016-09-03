@@ -46,6 +46,7 @@
     <Compile Include="DConcepto.cs" />
     <Compile Include="DEmpresa.cs" />
     <Compile Include="DGrupo.cs" />
+    <Compile Include="DMensajeAlerta.cs" />
     <Compile Include="DPersonal.cs" />
     <Compile Include="DUbigeo.cs" />
     <Compile Include="DUsuario.cs" />

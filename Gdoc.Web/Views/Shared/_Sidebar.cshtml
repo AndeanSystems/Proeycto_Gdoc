@@ -36,16 +36,31 @@
             </li>
             <li class="  treeview">
                 <a href="#">
-                    <i class="fa fa-cogs"></i><span>Configuracion</span> <i class="fa fa-angle-left pull-right"></i>
+                    <i class="fa fa-cogs"></i><span>Mantenimiento</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
                     <li class="active"><a href="@Url.Action("Index", "Usuario")"><i class="fa fa-check"></i>Usuarios</a></li>
-                    <li ><a href="@Url.Action("Index", "Acceso")"><i class="fa fa-check"></i>Acceso</a></li>
-                    <li><a href="@Url.Action("Index", "Empresa")"><i class="fa fa-check"></i>Empresa</a></li>
-                    <li><a href="@Url.Action("Index", "Grupo")"><i class="fa fa-check"></i>Grupo</a></li>
-                    <li><a href="@Url.Action("Index", "Concepto")"><i class="fa fa-check"></i>Concepto</a></li>
+                    <li ><a href="@Url.Action("Index", "Acceso")"><i class="fa fa-check"></i>Accesos</a></li>
+                    <li><a href="@Url.Action("Index", "Grupo")"><i class="fa fa-check"></i>Grupos</a></li>
                 </ul>
             </li>
+            <li class="  treeview">
+                <a href="#">
+                    <i class="fa fa-cogs"></i><span>Configuracion</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li class ="active"><a href="@Url.Action("Index", "Concepto")"><i class="fa fa-check"></i>Concepto</a></liclass>
+                    <li><a href="@Url.Action("Index", "Empresa")"><i class="fa fa-check"></i>Empresa</a></li>
+                    <li><a href="@Url.Action("Index", "General")"><i class="fa fa-check"></i>Parametros</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="@Url.Action("Index", "Home")">
+                    <i class="fa fa-power-off" ></i>Cerrar Sesión
+                </a>
+            </li>
+            
 
             
         </ul>
@@ -58,7 +73,7 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li>
-                <a href="@Url.Action("Alertas", "Alertas")">
+                <a href="@Url.Action("Index", "Alertas")">
                     <i class="fa fa-calendar"></i><span>Alertas Recibidas</span>
                     <small class="label pull-right bg-red">3</small>
                 </a>

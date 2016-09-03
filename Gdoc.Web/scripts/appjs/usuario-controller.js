@@ -123,7 +123,8 @@
 
         context.buscarUsuario = function (usuario) {
             //usuario.Personal.NombrePers = usuario
-            dataProvider.postData("Usuario/BuscarUsuarioNombre", { usuario }).success(function (respuesta) {
+            dataProvider.postData("Usuario/BuscarUsuarioNombre", usuario).success(function (respuesta) {
+                context.usuario = respuesta[0];
                 context.gridOptions.data = respuesta;
             }).error(function (error) {
                 //MostrarError();

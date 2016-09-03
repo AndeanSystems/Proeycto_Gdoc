@@ -5,11 +5,11 @@ namespace Gdoc.Entity.Models
 {
     public partial class AccesoSistema
     {
-        public AccesoSistema()
-        {
-            this.ModuloPaginaUrl = new ModuloPaginaUrl();
-            this.Usuario = new Usuario();
-        }
+        //public AccesoSistema()
+        //{
+        //    this.ModuloPaginaUrl = new ModuloPaginaUrl();
+        //    this.Usuario = new Usuario();
+        //}
         public long IDAcceso { get; set; }
         public string IdeUsuarioRegistro { get; set; }
         public Nullable<System.DateTime> FechaModificacion { get; set; }

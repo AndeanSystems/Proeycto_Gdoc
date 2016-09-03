@@ -364,6 +364,7 @@
     <Content Include="scripts\angular-animate\angular-animate.min.js" />
     <Content Include="scripts\angular-aria\angular-aria.js" />
     <Content Include="scripts\angular-aria\angular-aria.min.js" />
+    <Content Include="scripts\angular-locale_es-pe.js" />
     <Content Include="scripts\angular-material\angular-material-mocks.js" />
     <Content Include="scripts\angular-material\angular-material.js" />
     <Content Include="scripts\angular-material\angular-material.min.js" />
@@ -371,6 +372,7 @@
     <Content Include="scripts\angular\angular.min.js" />
     <Content Include="scripts\app.min.js" />
     <Content Include="scripts\appjs\acceso-controller.js" />
+    <Content Include="scripts\appjs\alerta-controller.js" />
     <Content Include="scripts\appjs\app-factory.js" />
     <Content Include="scripts\appjs\app-service.js" />
     <Content Include="scripts\appjs\concepto-controller.js" />
@@ -417,6 +419,7 @@
     <Compile Include="Controllers\ConfiguracionController.cs" />
     <Compile Include="Controllers\DocumentoElectronicoController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
+    <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\GestionController.cs" />
     <Compile Include="Controllers\GrupoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -464,6 +467,8 @@
     <Content Include="Views\Empresa\_CreateAndEdit.cshtml" />
     <Content Include="Views\Grupo\_CreateAnEdit.cshtml" />
     <Content Include="Views\Usuario\_CreateAndEdit.cshtml" />
+    <Content Include="Views\Alertas\Index.cshtml" />
+    <Content Include="Views\General\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

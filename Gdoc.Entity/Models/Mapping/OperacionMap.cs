@@ -33,7 +33,7 @@ namespace Gdoc.Entity.Models.Mapping
 
             this.Property(t => t.PrioridadOperacion)
                 .IsFixedLength()
-                .HasMaxLength(1);
+                .HasMaxLength(2);
 
             this.Property(t => t.DocumentoAdjunto)
                 .IsFixedLength()
