@@ -44,5 +44,16 @@ namespace Gdoc.Web.Controllers
             return new JsonResult { Data = mensajeRespuesta };
         }
 
+        public JsonResult EliminarEmpresa(Empresa empresa)
+        {
+            using (var oEmpresa = new NEmpresa())
+            {
+                var respuesta = oEmpresa.EliminarEmpresa(empresa);
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+            }
+            return new JsonResult { Data = mensajeRespuesta };
+        }
+
 	}
 }

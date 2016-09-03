@@ -15,6 +15,11 @@
         appService.listarConcepto(concepto).success(function (respuesta) {
             console.log(respuesta);
         });
+
+        context.editarConcepto = function () {
+            alert("falta terminar editar registro de concepto en el modal para su modificacion")
+        };
+
         context.concepto = {};
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
@@ -27,6 +32,7 @@
             enableRowHeaderSelection: false, 
             enableRowSelection: true, 
             data: [],
+            appScopeProvider: context,
             columnDefs: [
                 { field: 'TipoConcepto', displayName: 'Tipo Concepto' },
                 { field: 'CodiConcepto', displayName: 'Codigo' },
@@ -36,7 +42,12 @@
                 { field: 'ValorDos', width: '8%', displayName: 'Valor2' },
                 { field: 'TextoUno', width: '8%', displayName: 'Texto1' },
                 { field: 'TextoDos', width: '8%', displayName: 'Texto2' },
-                { field: 'EstadoConcepto', displayName: 'Estado' }
+                { field: 'EstadoConcepto', displayName: 'Estado' },
+                {
+                    //falta terminar editar registro de concepto en el modal para su modificacion
+                    name: 'Acciones',
+                    cellTemplate: '<i ng-click="grid.appScope.editarConcepto()" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>'
+                }
                 //{ field: 'Empresa.DireccionEmpresa',displayName:'Direción Empresa' }
             ]
         };
@@ -54,12 +65,38 @@
 
             dataProvider.postData("Concepto/GrabarConcepto", context.concepto).success(function (respuesta) {
                 console.log(respuesta);
-                listarConcepto();
+                //listarConcepto();
                 context.concepto = {};
                 $("#modal_contenido").modal("hide");
             }).error(function (error) {
                 //MostrarError();
             });
+        }
+
+        context.buscarConcepto = function (CodiConcepto, EstadoConcepto) {
+            if (CodiConcepto == null) {
+                alert("Seleccione el tipo de concepto para la consulta");
+            }
+            else {
+                if (EstadoConcepto == null) {
+                    dataProvider.postData("Concepto/BuscarConceptoEstado", { CodiConcepto: CodiConcepto}).success(function (respuesta) {
+                        console.log(respuesta);
+                        context.gridOptions.data = respuesta;
+                    }).error(function (error) {
+                        //MostrarError();
+                    });
+                }
+                else {
+                    dataProvider.postData("Concepto/BuscarConceptoEstado", { CodiConcepto: CodiConcepto, EstadoConcepto: EstadoConcepto }).success(function (respuesta) {
+                        console.log(respuesta);
+                        context.gridOptions.data = respuesta;
+                    }).error(function (error) {
+                        //MostrarError();
+                    });
+                }
+                
+            }
+            
         }
 
         //Metodos
@@ -78,6 +115,6 @@
             });
         }
         //Carga
-        listarConcepto();
+        //listarConcepto();
     }
 })();

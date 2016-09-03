@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gdoc.Entity.Models;
+using Gdoc.Entity.Extension;
 namespace Gdoc.Negocio
 {
     public class NGrupo : IDisposable
@@ -14,7 +15,7 @@ namespace Gdoc.Negocio
         {
             dGrupo = null;
         }
-        public List<Grupo> ListarGrupo()
+        public List<EGrupo> ListarGrupo()
         {
             try
             {

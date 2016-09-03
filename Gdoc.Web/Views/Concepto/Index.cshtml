@@ -14,26 +14,31 @@
                     <div class="box-body no-padding">
                         <div class="row">
                             <br>
-                            <div class="col-md-2">
-                                <h5 class="pull-right">Descripcion</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" placeholder="Buscar Concepto">
-                            </div>
 
                             <div class="col-md-2">
-                                <h5 class="pull-right">Estado</h5>
+                                <h5 class="pull-right">Tipo de Concepto</h5>
+
                             </div>
                             <div class="col-md-3">
-                                <select class="form-control">
-                                    <option>Activo</option>
-                                    <option>Inactivo</option>
+                                <select class="form-control" ng-model="ctrl.concepto.TipoConcepto" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoConceptoTitulo">
+                                    <option value="">Seleccione</option>
+                                </select>
+                            </div>
+                                
+                            <div class="col-md-2">
+                                <h5 class="pull-right" >Estado</h5>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="ctrl.EstadoConcepto">
+                                    <option value="">Seleccione</option>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
                                 </select>
 
                             </div>
 
                             <div class="col-md-2">
-                                <button type="submit" name="search" id="search-btn" class="btn btn-default"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
+                                <button type="submit" name="search" id="search-btn" class="btn btn-default" ng-click="ctrl.buscarConcepto(ctrl.concepto.TipoConcepto,ctrl.EstadoConcepto)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
                                 <button class="btn btn-default" data-toggle="modal" data-target="#modal_contenido"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
                             </div>
                         </div>

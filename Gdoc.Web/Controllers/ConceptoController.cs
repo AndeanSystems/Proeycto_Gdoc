@@ -25,8 +25,9 @@ namespace Gdoc.Web.Controllers
             var listConcepto = new List<Concepto>();
             using (var oConcepto = new NConcepto())
             {
-                listConcepto = oConcepto.ListarConcepto();
-                //listConceptoRetorno.ForEach(x => listConcepto.Add(x));
+                //falta terminar
+                listConcepto = oConcepto.ListarConcepto().OrderBy(x => x.CodiConcepto).ToList();
+    
             }
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
@@ -36,7 +37,25 @@ namespace Gdoc.Web.Controllers
             var listConcepto = new List<Concepto>();
             using (var oConcepto = new NConcepto())
             {
-                listConcepto = oConcepto.ListarConcepto().Where(x => x.TipoConcepto == concepto.TipoConcepto).ToList();
+                listConcepto = oConcepto.ListarConcepto().Where(x => x.TipoConcepto == concepto.TipoConcepto).OrderBy(x => x.DescripcionConcepto).ToList();
+                //listConceptoRetorno.ForEach(x => listConcepto.Add(x));
+            }
+            return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+        [HttpPost]
+        public JsonResult BuscarConceptoEstado(Concepto concepto)
+        {
+            var listConcepto = new List<Concepto>();
+            using (var oConcepto = new NConcepto())
+            {
+                if (concepto.EstadoConcepto == null)
+                {
+                    listConcepto = oConcepto.ListarConcepto().Where(x => x.TipoConcepto == concepto.CodiConcepto).ToList();
+                }
+                else
+                {
+                    listConcepto = oConcepto.ListarConcepto().Where(x => x.TipoConcepto == concepto.CodiConcepto && x.EstadoConcepto == concepto.EstadoConcepto).ToList();
+                }
                 //listConceptoRetorno.ForEach(x => listConcepto.Add(x));
             }
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };

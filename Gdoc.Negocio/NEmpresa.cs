@@ -39,5 +39,18 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+
+        public Empresa EliminarEmpresa(Empresa empresa)
+        {
+            try
+            {
+                return dEmpresa.EliminarEmpresa(empresa);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -56,5 +56,23 @@ namespace Gdoc.Dao
             }
         }
 
+        public Empresa EliminarEmpresa(Empresa empresa)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var emp = db.Empresas.Find(empresa.IDEmpresa);
+                    emp.EstadoEmpresa = 2;
+                    db.SaveChanges();
+                }
+                return empresa;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
     }
 }

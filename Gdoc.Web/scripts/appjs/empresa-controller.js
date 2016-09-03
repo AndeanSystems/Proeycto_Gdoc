@@ -13,18 +13,40 @@
         context.listProvincia = [];
         context.empresa = {};
         context.ubigeo = {};
+        
+
+
+        context.editarEmpresa = function () {
+            $("#modal_contenido").modal("show");
+            alert("Falta terminar: llenar modal con registro empresa para actualizar")
+        };
+
+        context.eliminarEmpresa = function (idempresa) {
+            alert("Falta terminar: cambiar estado de empresa a 2:inactivo")
+            //dataProvider.postData("Empresa/EliminarEmpresa", { IDEmpresa: idempresa }).success(function (respuesta) {
+            //    console.log(respuesta);
+            //    context.listEmpresa = respuesta;
+            //}).error(function (error) {
+            //    //MostrarError();
+            //});
+        };
 
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             //enableFiltering: true,
             data: [],
+            appScopeProvider : context,
 
             columnDefs: [
                 { field: 'RucEmpresa', displayName: 'Ruc Empresa' },
                 { field: 'RazonSocial', displayName: 'Razon Social' },
                 { field: 'EstadoEmpresa', displayName: 'Estado' },
-                { name: 'Acciones', cellTemplate: '<i class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="modal" data-target="#modal_contenido" title="Editar"></i><i class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i> ' }
+                {
+                    name: 'Acciones',
+                    cellTemplate: '<i ng-click="grid.appScope.editarEmpresa()" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                  '<i ng-click="grid.appScope.eliminarEmpresa()"class="fa fa-times"  style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>'
+                }
 
             ],
             multiSelect: false,
@@ -37,6 +59,7 @@
             //    });
             //}
         };
+
         //Eventos
         context.grabar = function (numeroboton) {
             console.log(context.empresa);
@@ -70,7 +93,6 @@
                 //MostrarError();
             });
         }
-
         context.listDistrito = function (CodigoDepartamento, CodigoProvincia) {
             dataProvider.postData("Ubigeo/ListarDistritos", { CodigoDepartamento: CodigoDepartamento , CodigoProvincia: CodigoProvincia}).success(function (respuesta) {
                 console.log(respuesta);
@@ -79,6 +101,7 @@
                 //MostrarError();
             });
         }
+        
         //Metodos
         function listarEmpresa() {
             dataProvider.getData("Empresa/ListarEmpresa").success(function (respuesta) {

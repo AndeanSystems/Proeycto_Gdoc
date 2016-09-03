@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\EGrupo.cs" />
     <Compile Include="Extension\EUsuario.cs" />
     <Compile Include="Models\AccesoSistema.cs" />
     <Compile Include="Models\CentroCosto.cs" />

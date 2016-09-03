@@ -1,4 +1,5 @@
-﻿using Gdoc.Entity.Models;
+﻿using Gdoc.Entity.Extension;
+using Gdoc.Entity.Models;
 using Gdoc.Negocio;
 using Gdoc.Web.Util;
 using System;
@@ -22,10 +23,10 @@ namespace Gdoc.Web.Controllers
         [HttpGet]
         public JsonResult ListarGrupo()
         {
-            var listGrupo = new List<Grupo>();
+            var listGrupo = new List<EGrupo>();
             using (var oGrupo = new NGrupo())
             {
-                listGrupo = oGrupo.ListarGrupo();
+                listGrupo = oGrupo.ListarGrupo().OrderBy(x => x.NombreGrupo).ToList();
             }
             return new JsonResult { Data = listGrupo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
@@ -43,6 +44,17 @@ namespace Gdoc.Web.Controllers
             //RedirectToAction("Index", "Grupo"); falta terminar redireccionar la pagina
             return new JsonResult { Data = mensajeRespuesta };
 
+        }
+        [HttpPost]
+        public JsonResult BuscarGrupo(EGrupo grupo)
+        {
+            var listConcepto = new List<EGrupo>();
+            using (var oConcepto = new NGrupo())
+            {
+                listConcepto = oConcepto.ListarGrupo().Where(x => x.NombreGrupo == grupo.NombreGrupo).ToList();
+                //listConceptoRetorno.ForEach(x => listConcepto.Add(x));
+            }
+            return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
 	}
 }

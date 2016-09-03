@@ -79,21 +79,36 @@ namespace Gdoc.Web.Controllers
             using (var oUsuario = new NUsuario())
             {
                 //POR TERMINAR
+                usuario.ClaveUsuario = "";
                 usuario.FechaRegistro = System.DateTime.Now;
-                usuario.FirmaElectronica = "ABC";
+                usuario.FirmaElectronica = "";
+                usuario.FechaModifica = System.DateTime.Now;
                 usuario.IntentoErradoClave = 3;
                 usuario.IntentoerradoFirma = 2;
+                usuario.CodigoConexion = "";
                 usuario.UsuarioRegistro = Session["NombreUsuario"].ToString();
-                usuario.ExpiraClave = "1";
-                usuario.ExpiraFirma = "1";
-                usuario.FechaExpiraClave = Convert.ToDateTime("2016-12-31");
-                usuario.FechaExpiraFirma = Convert.ToDateTime("2016-12-31");
+                usuario.ExpiraClave = "1";//0=EXPIRA || 1=NO EXPIRA
+                //usuario.ExpiraFirma = "90";
+                usuario.FechaExpiraClave = System.DateTime.Now;
+                usuario.FechaExpiraFirma = System.DateTime.Now.AddDays(90);//falta terminar traer el valor de dias de experacion de firmas de la tabla general
 
                 var respuesta = oUsuario.GrabarUsuario(usuario);
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitosa";
             }
             return new JsonResult { Data = mensajeRespuesta };
+        }
+
+        [HttpPost]
+        public JsonResult BuscarUsuarioNombre(Usuario usuario)
+        {
+            var listUsuario = new List<EUsuario>();
+            using (var oUsuario = new NUsuario())
+            {
+                listUsuario = oUsuario.ListarUsuario().Where(x => x.Personal.NombrePers==usuario.Personal.NombrePers).ToList();
+            }
+
+            return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
         }
 
         #region "Metodos"

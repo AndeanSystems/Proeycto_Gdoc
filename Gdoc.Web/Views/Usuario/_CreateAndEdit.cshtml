@@ -1,187 +1,70 @@
 ﻿<div class="modal fade" id="modal_contenido">
-    <div class="modal-dialog modal-lg" style="width:70%;">
+    <div class="modal-dialog modal-lg" style="width:50%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Registro de Usuario</h4>
-            </div>
+                <div class="col-md-10">
+                    <h4 class="modal-title">Registro de Usuario</h4>
+                </div>
+                
+                </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
+                
+                <div class="row" >
+                    <div class="col-md-12">
                         <div class="box box-primary">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Datos Personales</h3>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Nombre</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.NombrePers" placeholder="Nombre">
-                                </div>
-
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Apellidos</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.ApellidoPersonal" placeholder="Apellidos">
-
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Sexo</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="ctrl.personal.SexoPersonal">
-                                        <option value="">Seleccione</option>
-                                        <option value="H">Masculino</option>
-                                        <option value="M">Femenino</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Empresa</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" placeholder="FEPCMAC" disabled="true" >
-                                    @*<select class="form-control">
-                                        <option>FEPCMAC</option>
-                                        <option>SBS</option>
-                                    </select>*@
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">N° de DNI</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.NumeroDNI" placeholder="DNI">
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Fecha Nacimiento</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.FechaNacimiento" placeholder="Fecha de Nacimiento">
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Tipo de Usuario</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="ctrl.usuario.CodigoTipoUsua" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoUsuario">
-                                        <option value="">Seleccione</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Email Personal</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.EmailPersonal" placeholder="Email Personal">
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Celular Personal</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.CelularPersonalUno" placeholder="Celular">
-                                </div>
-                            </div>
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-12">Ubigeo</label>
-                                <div class="col-sm-4">
-                                    <select class="form-control" ng-model="ctrl.codigodepartamento" ng-options="dep.CodigoDepartamento as dep.DescripcionUbicacion for dep in ctrl.listDepartamento" ng-change="ctrl.listPronvincia(ctrl.codigodepartamento)">
-                                        <option value="">Seleccione</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
-                                    <select class="form-control" ng-model="ctrl.codigoprovincia" ng-options="dep.CodigoProvincia as dep.DescripcionUbicacion for dep in ctrl.listPronvincia" ng-change="ctrl.listDistrito(ctrl.codigodepartamento, ctrl.codigoprovincia)">
-                                        <option value="">Seleccione</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
-                                    <select class="form-control" ng-model="ctrl.codigodistrito" ng-options="dep.CodigoDistrito as dep.DescripcionUbicacion for dep in ctrl.listDistrito">
-                                        <option value="">Seleccione</option>
-                                    </select>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div><!-- /.col -->
-
-                    <div class="col-md-6">
-                        <div class="box box-primary">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Datos Laborales</h3>
                                 <button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
                                 <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
-                            </div><!-- /.box-header -->
+                                <button type="submit" name="search" id="search-btn" class="btn btn-default pull-right" ng-click="ctrl.buscarUsuario(ctrl.NombreUsuario)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar Usuario"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    @*<div class="col-md-12">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Datos Laborales</h3>
+                            </div>
+                    </div>*@
+                    
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                            
+
+
 
 
                             <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Cargo</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="ctrl.personal.CodigoCargo" ng-options="tca.CodiConcepto as tca.DescripcionConcepto for tca in ctrl.listTipoCargo">
-                                        <option value="">Seleccione</option>
-                                    </select>
+                                <label class="col-sm-12">Usuario</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" ng-model="ctrl.usuario.NombreUsuario" placeholder="Nombre">
                                 </div>
+
                             </div>
 
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Area</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="ctrl.personal.CodigoArea" ng-options="ta.CodiConcepto as ta.DescripcionConcepto for ta in ctrl.listArea">
-                                        <option value="">Seleccione</option>
-                                    </select>
-                                </div>
-                            </div>
 
                             <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Email Laboral</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.EmailTrabrajo" placeholder="Email">
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Direccion</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.DireccionPersonal" placeholder="Direccion">
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Terminal</label>
-                                <div class="col-sm-9">
+                                <label class="col-sm-12">Terminal</label>
+                                <div class="col-sm-12">
                                     <input type="text" class="form-control" ng-model="ctrl.usuario.TerminalUsuario" placeholder="Terminal">
                                 </div>
                             </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Telefono</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.TelefonoPersonal" placeholder="Telefono">
-                                </div>
+                        <div class="form-group no-margin-bottom">
+                            <label class="col-sm-12">Tipo de Usuario</label>
+                            <div class="col-sm-12">
+                                <select class="form-control" ng-model="ctrl.usuario.CodigoTipoUsua" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoUsuario">
+                                    <option value="">Seleccione</option>
+                                </select>
                             </div>
+                        </div>
 
                             <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Anexo</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.AnexoPersonal" placeholder="Anexo">
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Celular</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="ctrl.personal.CelularPersonalDos" placeholder="Celular">
-                                </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Clase de Usuario</label>
-                                <div class="col-sm-9">
+                                <label class="col-sm-12">Clase de Usuario</label>
+                                <div class="col-sm-12">
                                     <select class="form-control" ng-model="ctrl.usuario.ClaseUsuario" ng-options="ca.CodiConcepto as ca.DescripcionConcepto for ca in ctrl.listClaseUsuario">
                                         <option value="">Seleccione</option>
                                     </select>
@@ -189,8 +72,8 @@
                             </div>
 
                             <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Rol de Usuario</label>
-                                <div class="col-sm-9">
+                                <label class="col-sm-12">Rol de Usuario</label>
+                                <div class="col-sm-12">
                                     <select class="form-control" ng-model="ctrl.usuario.CodigoRol" ng-options="tr.CodiConcepto as tr.DescripcionConcepto for tr in ctrl.listTipoRol">
                                         <option value="">Seleccione</option>
                                     </select>
@@ -198,18 +81,67 @@
                             </div>
 
                             <div class="form-group no-margin-bottom">
-                                <label class="col-sm-3">Tipo Personal</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="ctrl.personal.ClasePersonal" ng-options="tp.CodiConcepto as tp.DescripcionConcepto for tp in ctrl.listTipoPersonal">
-                                        <option value="">Seleccione</option>
-                                    </select>
+                                <label class ="col-sm-12">Expira Firma Electronica</labelclass>
+                                    <md-radio-group ng-model="ctrl.usuario.ExpiraFirma" style="display:flexbox">
+                                        <!--Falta terminar poner los radiobutton en una sola linea-->
+                                        <md-radio-button value="0" class="md-primary active">Si</md-radio-button><!--Falta terminar Asignale por defecto -->
+                                        <md-radio-button value="1" class="md-primary">No</md-radio-button>
+
+                                    </md-radio-group>
+                            </div>
+
+                    </div>
+                    <div class="col-md-6">
+                            @*<div class="box-header with-border">
+                                <h3 class="box-title">Datos Personales</h3>
+                            </div>*@
+
+
+                            <div class="form-group no-margin-bottom">
+                                <label class="col-sm-12">N° de DNI</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" ng-model="ctrl.personal.NumeroDNI" placeholder="DNI" disabled="true">
                                 </div>
                             </div>
-                        </div>
-                    </div>
+
+                            <div class="form-group no-margin-bottom">
+                                <label class="col-sm-12">Apellidos y Nombres</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" ng-model="ctrl.personal.NombrePers" placeholder="Nombre" disabled="true">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group no-margin-bottom">
+                                <label class="col-sm-12">Cargo</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" ng-model="ctrl.personal.NombrePers" placeholder="Cargo" disabled="true">
+                                    @*<select class="form-control" ng-model="ctrl.personal.CodigoCargo" ng-options="tca.CodiConcepto as tca.DescripcionConcepto for tca in ctrl.listTipoCargo">
+                                        <option value="">Seleccione</option>
+                                    </select>*@
+                                </div>
+                            </div>
+
+                            <div class="form-group no-margin-bottom">
+                                <label class="col-sm-12">Area</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" ng-model="ctrl.personal.NombrePers" placeholder="Area" disabled="true">
+                                    @*<select class="form-control" ng-model="ctrl.personal.CodigoArea" ng-options="ta.CodiConcepto as ta.DescripcionConcepto for ta in ctrl.listArea">
+                                        <option value="">Seleccione</option>
+                                    </select>*@
+                                </div>
+                            </div>
+
+                            
+
+
+                    </div><!-- /.col -->
+
+                    
                     <div class="modal-footer">
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
+                
             </div><!-- /.modal -->
         </div>
     </div>

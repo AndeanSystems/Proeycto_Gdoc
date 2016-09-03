@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gdoc.Entity.Models;
+using Gdoc.Entity.Extension;
 
 namespace Gdoc.Dao
 {
     public class DGrupo
     {
-        public List<Grupo> ListarGrupo()
+        public List<EGrupo> ListarGrupo()
         {
-            var listGrupo = new List<Grupo>();
+            var listGrupo = new List<EGrupo>();
             try
             {
                 using (var db = new DataBaseContext())
@@ -21,17 +22,27 @@ namespace Gdoc.Dao
                     var list2 = (from grupo in db.Grupoes
                                 join usugrupo in db.UsuarioGrupoes
                                 on grupo.IDGrupo equals usugrupo.IDGrupo
-                                select new { grupo, usugrupo }).ToList();
+                                group new {grupo,usugrupo} by  new {
+                                    grupo.CodigoGrupo,
+                                    grupo.NombreGrupo,
+                                    grupo.ComentarioGrupo,
+                                    grupo.EstadoGrupo}
+                                into grp
+                                     select new { Count = grp.Count(), 
+                                         grp.Key.CodigoGrupo,
+                                         grp.Key.NombreGrupo,
+                                         grp.Key.ComentarioGrupo,
+                                         grp.Key.EstadoGrupo}).ToList();
+                    // grupo, usugrupo 
 
-                    list.ForEach(x => listGrupo.Add(new Grupo
+                    list2.ForEach(x => listGrupo.Add(new EGrupo
                     {
-                        IDGrupo = x.IDGrupo,
                         CodigoGrupo = x.CodigoGrupo,
                         NombreGrupo = x.NombreGrupo,
-                        FechaModifica = x.FechaModifica,
-                        UsuarioModifica = x.UsuarioModifica,
                         ComentarioGrupo = x.ComentarioGrupo,
                         EstadoGrupo = x.EstadoGrupo,
+                        CantidadUsuarios=x.Count,
+                        
 
                     }));
                 }

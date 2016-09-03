@@ -12,18 +12,20 @@
 
         context.usuario = {};
         context.listUsuario = [];
-        context.gridUsuarios = {
+        context.listarAccesoSistema = [];
+        context.gridAccesos = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             //enableFiltering: true,
             data: [],
 
             columnDefs: [
-                { field: 'IDUsuario', displayName: 'IDUsuario' },
-                { field: 'NombreUsuario', displayName: 'Usuario' },
-                { field: 'RazoSocial.RazonSocial', displayName: 'Empresa' },
-                { field: 'Cargo.DescripcionConcepto', displayName: 'Cargo' },
-                { field: 'Area.DescripcionConcepto', displayName: 'Area' },
+                { field: 'ModuloPaginaUrl.ModuloSistema', displayName: 'Modulo de Sistema' },
+                { field: 'ModuloPaginaUrl.NombrePagina', displayName: 'Nombre de Pagina' },
+                { field: 'ModuloPaginaUrl.DireccionFisicaPagina', displayName: 'Direccion de la Pagina' },
+                { field: 'FechaModificacion', displayName: 'Fecha Actualizacion' },
+                { field: 'ModuloPaginaUrl.CodigoPaginaPadre', displayName: 'Pagina Origen' },
+                { field: 'EstadoAcceso', displayName: 'Estado' },
                 { name: 'Acciones', cellTemplate: '<i class="fa fa-pencil-square-o  " style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Permisos"></i>' }
 
             ],
@@ -39,64 +41,45 @@
         };
 
         //Eventos
-        //context.grabar = function (numeroboton) {
-        //    console.log(context.personal);
+        context.buscarAccesoSistema = function (NombreUsuario) {
+            if (NombreUsuario == null) {
+                alert("Ingrese el Nombre Usuario");
+            }
+            else {
+                dataProvider.postData("Acceso/ListarAccesoSistema", { NombreUsuario: NombreUsuario }).success(function (respuesta) {
+                    console.log(respuesta);
+                    context.gridAccesos.data = respuesta;
+                }).error(function (error) {
+                    //MostrarError();
+                });
+            }
 
-        //    var personal = context.personal;
-        //    var usuario = context.usuario;
+            
 
-        //    var departamento, provincia, distrito;
-
-        //    departamento = (context.codigodepartamento < 10) ? "0" + context.codigodepartamento : context.codigodepartamento.toString();
-        //    provincia = (context.codigoprovincia < 10) ? "0" + context.codigoprovincia : context.codigoprovincia.toString();
-        //    distrito = (context.codigodistrito < 10) ? "0" + context.codigodistrito : context.codigodistrito.toString();
-        //    //GRABAR PERSONAL
-        //    if (numeroboton == 1)
-        //        personal.EstadoPersonal = 0
-        //    else if (numeroboton == 2)
-        //        personal.EstadoPersonal = 1
-        //    personal.CodigoUbigeo = (departamento + provincia + distrito);
-
-        //    dataProvider.postData("Personal/GrabarPersonal", personal).success(function (respuesta) {
-        //        console.log(respuesta);
-        //        //listarUsuario();
-        //        //$("#modal_contenido").modal("hide");
-        //    }).error(function (error) {
-        //        //MostrarError();
-        //    });
-        //    //GRABAR USUARIO
-        //    usuario.NombreUsuario = personal.NombrePers.substr(0, 1) + personal.ApellidoPersonal;
-        //    usuario.ClaveUsuario = 123;
-        //    usuario.IDPersonal = personal.IDPersonal;
-        //    if (numeroboton == 1)
-        //        usuario.EstadoUsuario = 0
-        //    else if (numeroboton == 2)
-        //        usuario.EstadoUsuario = 1
-
-
-        //    dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
-        //        console.log(respuesta);
-        //        listarUsuario();
-        //        $("#modal_contenido").modal("hide");
-        //    }).error(function (error) {
-        //        //MostrarError();
-        //    });
-        //}
+        }
 
 
         //Metodos
         function listarUsuario() {
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
-                context.gridUsuarios.data = respuesta;
+                context.gridAccesos.data = respuesta;
                 context.listUsuario = respuesta;
             }).error(function (error) {
                 //MostrarError();
             });
         }
 
+        function listarAccesoSistema() {
+            dataProvider.getData("Acceso/ListarAccesoSistema").success(function (respuesta) {
+                context.gridUsuarios.data = respuesta;
+                context.listAccesoSistema = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
 
         
         //Carga
-        listarUsuario();
+        //listarAccesoSistema();
     }
 })();
