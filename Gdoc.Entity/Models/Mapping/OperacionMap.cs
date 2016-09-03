@@ -12,7 +12,7 @@ namespace Gdoc.Entity.Models.Mapping
 
             // Properties
             this.Property(t => t.IDOperacion)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             this.Property(t => t.CodigoTipoOperacion)
                 .HasMaxLength(5);
@@ -33,7 +33,7 @@ namespace Gdoc.Entity.Models.Mapping
 
             this.Property(t => t.PrioridadOperacion)
                 .IsFixedLength()
-                .HasMaxLength(1);
+                .HasMaxLength(2);
 
             this.Property(t => t.DocumentoAdjunto)
                 .IsFixedLength()

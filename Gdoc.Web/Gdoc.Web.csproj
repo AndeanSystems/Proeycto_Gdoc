@@ -413,6 +413,7 @@
     <Compile Include="Controllers\AccesoController.cs" />
     <Compile Include="Controllers\AdministracionController.cs" />
     <Compile Include="Controllers\AlertasController.cs" />
+    <Compile Include="Controllers\ComboUsuarioGrupoController.cs" />
     <Compile Include="Controllers\ConceptoController.cs" />
     <Compile Include="Controllers\ConfiguracionController.cs" />
     <Compile Include="Controllers\DocumentoElectronicoController.cs" />
@@ -464,6 +465,8 @@
     <Content Include="Views\Empresa\_CreateAndEdit.cshtml" />
     <Content Include="Views\Grupo\_CreateAnEdit.cshtml" />
     <Content Include="Views\Usuario\_CreateAndEdit.cshtml" />
+    <Content Include="Views\DocumentoElectronico\_CreateAndEdit.cshtml" />
+    <Content Include="Views\DocumentoElectronico\_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -489,6 +492,7 @@
     <Folder Include="Content\plugins\slimScroll\" />
     <Folder Include="Content\plugins\sparkline\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\ComboUsuarioGrupo\" />
     <Folder Include="Views\Personal\" />
     <Folder Include="Views\Ubigeo\" />
   </ItemGroup>

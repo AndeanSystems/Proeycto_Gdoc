@@ -7,28 +7,30 @@
     function documentoelectronico_controller($location, dataProvider, appService) {
         /* jshint validthis:true */
         ///Variables
+        let TipoDocumento = "012";
+        let PrioridadAtencion = "005";
+        let TipoAcceso = "002";
+        let TipoComunicacion = "022";
         var context = this;
-        LlenarConcepto("012");
-        LlenarConcepto("005");
-        LlenarConcepto("002");
-
-        //appService.listarConcepto(concepto).success(function (respuesta) {
-        //    context.listTipoDocumento = respuesta;
-
-        //});
         context.operacion = {};
+        context.visible = "List";
+        context.listaUsuarioGrupo = [];
 
-        function LlenarConcepto(tipoConcepto) {
-            var concepto = { TipoConcepto: tipoConcepto };
-            appService.listarConcepto(concepto).success(function (respuesta) {
-                if (concepto.TipoConcepto == "012")
-                    context.listTipoDocumento = respuesta;
-                else if(concepto.TipoConcepto == "005")
-                    context.listPrioridadAtencion = respuesta;
-                else if (concepto.TipoConcepto == "002")
-                    context.listTipoAcceso = respuesta;
-            });
-        }
+        //Crear Combo Auto Filters
+        var pendingSearch, cancelSearch = angular.noop;
+        var cachedQuery, lastSearch;
+        context.usuarioRemitentes = [];
+        context.usuarioDestinatarios = [];
+        context.filterSelected = true;
+        context.querySearch = querySearch;
+        var usuario = {};
+
+
+
+        LlenarConcepto(TipoDocumento);
+        LlenarConcepto(PrioridadAtencion);
+        LlenarConcepto(TipoAcceso);
+        LlenarConcepto(TipoComunicacion);
         
         //context.gridOptions = {
         //    paginationPageSizes: [25, 50, 75],
@@ -48,48 +50,57 @@
         //    ]
         //};
         //Eventos
-        //context.grabar = function () {
-        //    console.log(context.concepto);
-        //    dataProvider.postData("Concepto/GrabarConcepto", context.concepto).success(function (respuesta) {
-        //        console.log(respuesta);
-        //    }).error(function (error) {
-        //        //MostrarError();
-        //    });
-        //}
-
-        ////Metodos
-        //function listarConcepto() {
-        //    dataProvider.getData("Concepto/ListarConcepto").success(function (respuesta) {
-        //        context.gridOptions.data = respuesta;
-        //    }).error(function (error) {
-        //        //MostrarError();
-        //    });
-        //}
-        ////Carga
-        //listarConcepto();
-        //Crear Combo Auto Filters
-        var pendingSearch, cancelSearch = angular.noop;
-        var cachedQuery, lastSearch;
-
-        context.usuarioRemitentes = [];
-        context.usuarioDestinatarios = [];
-
-        context.filterSelected = true;
-        context.querySearch = querySearch;
-        var usuario= {};
-        appService.listarUsuario(usuario).success(function (respuesta) {
-            //context.listaUsuario = respuesta;
-            context.listaUsuario = respuesta;
-        });
-        function querySearch(criteria) {
-            cachedQuery = cachedQuery || criteria;
-            return cachedQuery ? context.listaUsuario.filter(createFilterFor(cachedQuery)) : [];
+        context.grabar = function () {
+            console.log(context.operacion);
+            let Operacion = context.operacion;
+            let listEUsuarioGrupo = [];
+            for (var ind in context.usuarioDestinatarios) {
+                listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
+            }
+            for(var ind in context.usuarioRemitentes){
+                listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
+            }
+            console.log(listEUsuarioGrupo);
+            dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
         }
-        function createFilterFor(query) {
-            var uppercaseQuery = angular.uppercase(query);
-            return function filterFn(usuario) {
-                return (usuario.NombreUsuario.indexOf(uppercaseQuery) != -1);;
-            };
+        context.CambiarVentana = function (mostrarVentana) {
+            context.visible = mostrarVentana;
+            if (context.visible != "List") {
+                //CKEDITOR.replace('editor1');
+                //$(".textarea").wysihtml5();
+            }
+        }
+        ////
+        function listarUsuarioGrupoAutoComplete(Nombre) {
+            var UsuarioGrupo = { Nombre: Nombre };
+            appService.buscarUsuarioGrupoAutoComplete(UsuarioGrupo).success(function (respuesta) {
+                //context.listaUsuario = respuesta;
+                context.listaUsuarioGrupo = respuesta;
+            });
+        }
+
+        function querySearch(criteria) {
+            listarUsuarioGrupoAutoComplete(criteria);
+            cachedQuery = cachedQuery || criteria;
+            return cachedQuery ? context.listaUsuarioGrupo : [];
+        }
+
+        function LlenarConcepto(tipoConcepto) {
+            var concepto = { TipoConcepto: tipoConcepto };
+            appService.listarConcepto(concepto).success(function (respuesta) {
+                if (concepto.TipoConcepto == TipoDocumento)
+                    context.listTipoDocumento = respuesta;
+                else if (concepto.TipoConcepto == PrioridadAtencion)
+                    context.listPrioridadAtencion = respuesta;
+                else if (concepto.TipoConcepto == TipoAcceso)
+                    context.listTipoAcceso = respuesta;
+                else if (concepto.TipoConcepto == TipoComunicacion)
+                    context.listTipoComunicacion = respuesta;
+            });
         }
     }
 })();

@@ -43,7 +43,9 @@
     <Compile Include="NAccesoSistema.cs" />
     <Compile Include="NConcepto.cs" />
     <Compile Include="NEmpresa.cs" />
+    <Compile Include="NEUsuarioGrupo.cs" />
     <Compile Include="NGrupo.cs" />
+    <Compile Include="NOperacion.cs" />
     <Compile Include="NPersonal.cs" />
     <Compile Include="NUbigeo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

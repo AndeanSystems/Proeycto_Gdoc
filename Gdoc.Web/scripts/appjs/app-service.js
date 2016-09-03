@@ -15,6 +15,10 @@
         this.listarUsuarioGrupo = function (usuario) {
             return dataProvider.postData("Usuario/ListarUsuarioGrupo", usuario);
         },
+        //Autocomplete Usuario Grupo
+        this.buscarUsuarioGrupoAutoComplete = function (eUsuarioGrupo) {
+            return dataProvider.postData("ComboUsuarioGrupo/ObtenerUsuarioGrupo", eUsuarioGrupo);
+        },
         //UBIGEO
         this.listarDepartamento = function (ubigeo) {
             return dataProvider.getData("Ubigeo/ListarDepartamento");

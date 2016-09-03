@@ -12,7 +12,7 @@ namespace Gdoc.Entity.Models.Mapping
 
             // Properties
             this.Property(t => t.CodigoGrupo)
-                .HasMaxLength(3);
+                .HasMaxLength(15);
 
             this.Property(t => t.NombreGrupo)
                 .HasMaxLength(150);

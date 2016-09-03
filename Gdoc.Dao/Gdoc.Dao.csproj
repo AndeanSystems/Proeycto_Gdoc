@@ -45,10 +45,13 @@
     <Compile Include="DataBaseContext.cs" />
     <Compile Include="DConcepto.cs" />
     <Compile Include="DEmpresa.cs" />
+    <Compile Include="DEUsuarioGrupo.cs" />
     <Compile Include="DGrupo.cs" />
+    <Compile Include="DOperacion.cs" />
     <Compile Include="DPersonal.cs" />
     <Compile Include="DUbigeo.cs" />
     <Compile Include="DUsuario.cs" />
+    <Compile Include="DUsuarioParticipante.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +60,7 @@
       <Name>Gdoc.Entidad</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
