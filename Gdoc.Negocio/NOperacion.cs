@@ -27,6 +27,7 @@ namespace Gdoc.Negocio
         {
             try
             {
+
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 dOperacion.Grabar(operacion);
                 //Falta Terminar

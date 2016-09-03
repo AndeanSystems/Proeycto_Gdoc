@@ -9,6 +9,7 @@ namespace Gdoc.Dao
         {
             try
             {
+
                 using (var db = new DataBaseContext())
                 {
                     db.Operacions.Add(operacion);
