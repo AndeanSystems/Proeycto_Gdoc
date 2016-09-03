@@ -1,9 +1,4 @@
 ﻿using Gdoc.Entity.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Gdoc.Entity.Extension
@@ -17,5 +12,6 @@ namespace Gdoc.Entity.Extension
         public Concepto ClaseUsu { get; set; }
         public Empresa RazoSocial { get; set; }
         public string RutaFoto { get; set; }
+        public string NombreCompleto { get; set; }
     }
 }

@@ -19,7 +19,6 @@
 
         context.personal = {};
         context.usuario = {};
-        context.listUsuario = [];
         context.listDepartamento = [];
 
         var NombreCompleto = "Personal.NombrePers".concat(" Personal.ApellidoPersonal");
@@ -34,7 +33,7 @@
 
             columnDefs: [
                 { field: 'NombreUsuario', displayName: 'ID Usuario' },
-                { field: NombreCompleto , displayName: 'Apellidos y Nombres' },
+                { field: 'NombreCompleto', displayName: 'Apellidos y Nombres' },
                 { field: 'TipoUsuario.DescripcionConcepto', displayName: 'Tipo Usuario' },
                 { field: 'Cargo.DescripcionConcepto', displayName: 'Cargo' },
                 { field: 'Area.DescripcionConcepto', displayName: 'Area' },
@@ -47,15 +46,6 @@
                 }
 
             ],
-             multiSelect : false,
-             modifierKeysToMultiSelect: false,
-             //onRegisterApi : function( gridApi ) {
-             //    context.gridApi = gridApi;
-             //    gridApi.selection.on.rowSelectionChanged(context, function (row) {
-             //        var msg = 'row selected ' + row.isSelected;
-             //        console.log(msg);
-             //    });
-             //}
         };
 
         //Eventos
@@ -131,14 +121,13 @@
             });
         }
 
-        context.buscarUsuario = function (NombrePers) {
-            //dataProvider.postData("Usuario/BuscarUsuarioNombre", { NombreUsuario: NombrePers }).success(function (respuesta) {
-            //    console.log(respuesta);
-            //    context.listUsuario = respuesta;
-            //}).error(function (error) {
-            //    //MostrarError();
-            //});
-            alert("terminar la busqueda por usuario y/o apellido o nombres");
+        context.buscarUsuario = function (usuario) {
+            //usuario.Personal.NombrePers = usuario
+            dataProvider.postData("Usuario/BuscarUsuarioNombre", { usuario }).success(function (respuesta) {
+                context.gridOptions.data = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
         }
 
         //Metodos
@@ -146,7 +135,6 @@
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
                 context.listUsuario = respuesta;
-                alert("Falta Terminar NombreCompleto en la Grilla");
             }).error(function (error) {
                 //MostrarError();
             });

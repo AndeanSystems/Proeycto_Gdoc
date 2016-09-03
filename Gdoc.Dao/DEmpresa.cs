@@ -56,6 +56,29 @@ namespace Gdoc.Dao
             }
         }
 
+        public Empresa EditarEmpresa(Empresa empresa)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var entidad = db.Empresas.Find(empresa.IDEmpresa);
+                    entidad.RazonSocial = empresa.RazonSocial;
+                    entidad.RucEmpresa = empresa.RucEmpresa;
+                    entidad.TelefonoEmpresa = empresa.TelefonoEmpresa;
+                    //empresa.EstadoEmpresa = empresa.EstadoEmpresa;
+                    empresa.CodigoUbigeo = empresa.CodigoUbigeo;
+                    db.SaveChanges();
+                }
+                return empresa;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
         public Empresa EliminarEmpresa(Empresa empresa)
         {
             try
@@ -63,7 +86,7 @@ namespace Gdoc.Dao
                 using (var db = new DataBaseContext())
                 {
                     var emp = db.Empresas.Find(empresa.IDEmpresa);
-                    emp.EstadoEmpresa = 2;
+                    emp.EstadoEmpresa = empresa.EstadoEmpresa;
                     db.SaveChanges();
                 }
                 return empresa;

@@ -54,12 +54,12 @@
                             <div class="form-group no-margin-bottom">
                                 <label class="col-sm-12">Ubigeo</label>
                                 <div class="col-sm-4">
-                                    <select class="form-control" ng-model="ctrl.codigodepartamento" ng-options="dep.CodigoDepartamento as dep.DescripcionUbicacion for dep in ctrl.listDepartamento" ng-change="ctrl.listPronvincia(ctrl.codigodepartamento)">
+                                    <select class="form-control" ng-model="ctrl.codigodepartamento" ng-options="dep.CodigoDepartamento as dep.DescripcionUbicacion for dep in ctrl.listDepartamento" ng-change="ctrl.obtenerProvincia(ctrl.codigodepartamento)">
                                         <option value="">Seleccione</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-4">
-                                    <select class="form-control" ng-model="ctrl.codigoprovincia" ng-options="dep.CodigoProvincia as dep.DescripcionUbicacion for dep in ctrl.listPronvincia" ng-change="ctrl.listDistrito(ctrl.codigodepartamento, ctrl.codigoprovincia)">
+                                    <select class="form-control" ng-model="ctrl.codigoprovincia" ng-options="dep.CodigoProvincia as dep.DescripcionUbicacion for dep in ctrl.listPronvincia" ng-change="ctrl.obtenerDistrito(ctrl.codigodepartamento, ctrl.codigoprovincia)">
                                         <option value="">Seleccione</option>
                                     </select>
                                 </div>

@@ -52,5 +52,18 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+
+        public Empresa EditarEmpresa(Empresa empresa)
+        {
+            try
+            {
+                return dEmpresa.EditarEmpresa(empresa);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -105,7 +105,10 @@ namespace Gdoc.Web.Controllers
             var listUsuario = new List<EUsuario>();
             using (var oUsuario = new NUsuario())
             {
-                listUsuario = oUsuario.ListarUsuario().Where(x => x.Personal.NombrePers==usuario.Personal.NombrePers).ToList();
+                if (!string.IsNullOrEmpty(usuario.NombreUsuario))
+                    listUsuario = oUsuario.ListarUsuario().Where(x => x.NombreUsuario.Contains(usuario.NombreUsuario.ToUpper())).ToList();
+                else
+                    listUsuario = oUsuario.ListarUsuario();
             }
 
             return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };

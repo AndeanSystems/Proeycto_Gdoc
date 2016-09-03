@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static Gdoc.Web.Util.Estados;
 
 namespace Gdoc.Web.Controllers
 {
@@ -36,8 +37,12 @@ namespace Gdoc.Web.Controllers
             using (var oEmpresa = new NEmpresa())
             {
                 empresa.FechaRegistro = System.DateTime.Now;
-                empresa.UsuarioRegistro = Session["NombreUsuario"].ToString(); 
-                var respuesta = oEmpresa.GrabarEmpresa(empresa);
+                empresa.UsuarioRegistro = Session["NombreUsuario"].ToString();
+                Empresa respuesta = null;
+                if (empresa.IDEmpresa > 0)
+                    respuesta = oEmpresa.EditarEmpresa(empresa);
+                else
+                    respuesta = oEmpresa.GrabarEmpresa(empresa);
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitoso";
             }
@@ -48,6 +53,7 @@ namespace Gdoc.Web.Controllers
         {
             using (var oEmpresa = new NEmpresa())
             {
+                empresa.EstadoEmpresa = EstadoEmpresa.Inactivo;
                 var respuesta = oEmpresa.EliminarEmpresa(empresa);
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitoso";

@@ -111,7 +111,8 @@ namespace Gdoc.Dao
 
                         },
                         RutaFoto = "http://lorempixel.com/50/50/people?6",
-                        RazoSocial=new Empresa{ RazonSocial=x.e.RazonSocial},
+                        NombreCompleto = string.Format("{0}, {1}", x.p.NombrePers, x.p.ApellidoPersonal),
+                        RazoSocial =new Empresa{ RazonSocial=x.e.RazonSocial},
                         Cargo = new Concepto { DescripcionConcepto = x.Cargo.DescripcionConcepto },
                         TipoUsuario = new Concepto { DescripcionConcepto = x.Tipo.DescripcionConcepto },
                         Area = new Concepto { DescripcionConcepto = x.Area.DescripcionConcepto },
