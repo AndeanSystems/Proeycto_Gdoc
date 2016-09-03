@@ -39,7 +39,7 @@ namespace Gdoc.Negocio
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
                         eUsuarioParticipante.TipoParticipante = 2;
                         eUsuarioParticipante.ReenvioOperacion = "S";
-                        eUsuarioParticipante.EstadoUsuarioParticipante = "1";
+                        eUsuarioParticipante.EstadoUsuarioParticipante = 1;
                     }
                     listEusuarioParticipante.Add(eUsuarioParticipante);
                 }
