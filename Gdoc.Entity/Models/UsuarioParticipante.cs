@@ -13,7 +13,7 @@ namespace Gdoc.Entity.Models
         public string AprobarOperacion { get; set; }
         public string EnviarNotificiacion { get; set; }
         public Nullable<System.DateTime> FechaNotificacion { get; set; }
-        public string EstadoUsuarioParticipante { get; set; }
+        public short EstadoUsuarioParticipante { get; set; }
         public string ConfirmacionLectura { get; set; }
         public string PostergacionLectura { get; set; }
         public string ReenvioOperacion { get; set; }

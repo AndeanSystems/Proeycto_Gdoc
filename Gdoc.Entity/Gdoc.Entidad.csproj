@@ -49,7 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\EAccesoSistema.cs" />
     <Compile Include="Extension\EGrupo.cs" />
+    <Compile Include="Extension\EMensajeAlerta.cs" />
     <Compile Include="Extension\EUsuario.cs" />
     <Compile Include="Extension\EUsuarioGrupo.cs" />
     <Compile Include="Models\AccesoSistema.cs" />

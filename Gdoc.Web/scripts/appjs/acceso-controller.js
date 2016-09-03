@@ -11,6 +11,7 @@
         var context = this;
 
         context.usuario = {};
+        context.accesosistema = {};
         context.listUsuario = [];
         context.listarAccesoSistema = [];
         context.gridAccesos = {
@@ -23,7 +24,7 @@
                 { field: 'ModuloPaginaUrl.ModuloSistema', displayName: 'Modulo de Sistema' },
                 { field: 'ModuloPaginaUrl.NombrePagina', displayName: 'Nombre de Pagina' },
                 { field: 'ModuloPaginaUrl.DireccionFisicaPagina', displayName: 'Direccion de la Pagina' },
-                { field: 'FechaModificacion', displayName: 'Fecha Actualizacion' },
+                { field: 'FechaModificacion', displayName: 'Fecha Actualizacion', type: 'date', cellFilter: 'toDateTime | date:"mediumDate"' },
                 { field: 'ModuloPaginaUrl.CodigoPaginaPadre', displayName: 'Pagina Origen' },
                 { field: 'EstadoAcceso', displayName: 'Estado' },
                 { name: 'Acciones', cellTemplate: '<i class="fa fa-pencil-square-o  " style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Permisos"></i>' }
@@ -41,13 +42,14 @@
         };
 
         //Eventos
-        context.buscarAccesoSistema = function (NombreUsuario) {
-            if (NombreUsuario == null) {
+        context.buscarAccesoSistema = function (usuario) {
+            if (usuario == null) {
                 alert("Ingrese el Nombre Usuario");
             }
             else {
-                dataProvider.postData("Acceso/ListarAccesoSistema", { NombreUsuario: NombreUsuario }).success(function (respuesta) {
+                dataProvider.postData("Acceso/ListarAccesoSistema", usuario).success(function (respuesta) {
                     console.log(respuesta);
+                    context.accesosistema = respuesta[0];
                     context.gridAccesos.data = respuesta;
                 }).error(function (error) {
                     //MostrarError();

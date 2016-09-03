@@ -31,4 +31,16 @@
         }
         //EMPRESA
     }
+
+
+})();
+(function () {
+    'use strict';
+    angular.module('app').filter('toDateTime', filter);
+    function filter() {
+        return function (jsonDate) {
+            var parser = jsonDate.replace(/\/Date\((-?\d+)\)\//, '$1');
+            return new Date(parseInt(parser)).toJSON();
+        };
+    }
 })();

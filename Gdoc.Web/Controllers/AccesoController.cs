@@ -21,7 +21,7 @@ namespace Gdoc.Web.Controllers
         [HttpGet]
         public JsonResult ListarAccesoSistema()
         {
-            var listAccesoSistema = new List<AccesoSistema>();
+            var listAccesoSistema = new List<EAccesoSistema>();
             using (var oAccesoSistema = new NAccesoSistema())
             {
                 listAccesoSistema = oAccesoSistema.ListarAccesoSistema();
@@ -30,13 +30,16 @@ namespace Gdoc.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult ListarAccesoSistema(AccesoSistema acceso)
+        public JsonResult ListarAccesoSistema(EAccesoSistema acceso)
         {
-            var listAccesoSistema = new List<AccesoSistema>();
+            var listAccesoSistema = new List<EAccesoSistema>();
             using (var oAccesoSistema = new NAccesoSistema())
             {
-                listAccesoSistema = oAccesoSistema.ListarAccesoSistema().Where(x=>x.Usuario.NombreUsuario==acceso.Usuario.NombreUsuario).ToList();
-            }
+                if (!string.IsNullOrEmpty(acceso.Usuario.NombreUsuario))
+                    listAccesoSistema = oAccesoSistema.ListarAccesoSistema().Where(x => x.Usuario.NombreUsuario.Contains(acceso.Usuario.NombreUsuario.ToUpper())).ToList();
+                else
+                    listAccesoSistema = oAccesoSistema.ListarAccesoSistema();
+                }
             return new JsonResult { Data = listAccesoSistema, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
 	}

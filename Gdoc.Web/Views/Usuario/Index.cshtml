@@ -20,19 +20,22 @@
                                 <input type="text" class="form-control" placeholder="Usuario" ng-model="ctrl.usuario.NombreUsuario">
                             </div>
 
-                            <div class="col-md-5">
-                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" ng-model="ctrl.usuario.NombreCompleto" placeholder="Nombre" disabled="true">
 
+                            </div>
                             <div class="col-md-2">
+
+                            </div>
+                            <div class="col-md-2">
+
                                 <button type="submit" name="search" id="search-btn" class="btn btn-default" ng-click="ctrl.buscarUsuario(ctrl.usuario)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
                                 <button class="btn btn-default" data-toggle="modal" data-target="#modal_contenido"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
+                               
                             </div>
+                            
                         </div>
-
-
                         <br>
-
-
                     </div>
                     <!--GRILLA USUARIO-->
                     <div class="table-responsive mailbox-messages">
@@ -70,7 +73,7 @@
                             </tbody>
                         </table>*@
                     </div>
-
+                    
 
                 </div>
 

@@ -6,20 +6,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Gdoc.Entity.Models;
 using Gdoc.Entity.Extension;
+
 namespace Gdoc.Negocio
 {
-    public class NAccesoSistema : IDisposable
+    public class NMensajeAlerta : IDisposable
     {
-        private DAccesoSistema dAccesoSistema = new DAccesoSistema();
+        private DMensajeAlerta dMensajeAlerta = new DMensajeAlerta();
         public void Dispose()
         {
-            dAccesoSistema = null;
+            dMensajeAlerta = null;
         }
-        public List<EAccesoSistema> ListarAccesoSistema()
+        public List<EMensajeAlerta> ListarMensajeAlerta()
         {
             try
             {
-                return dAccesoSistema.ListarAccesoSistema();
+                return dMensajeAlerta.ListarMensajeAlerta();
             }
             catch (Exception)
             {

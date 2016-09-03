@@ -17,18 +17,18 @@
                                 <h5 class="pull-right">Id Usuario</h5>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control" ng-model="ctrl.NombreUsuario" placeholder="Usuario">
+                                <input type="text" class="form-control" ng-model="ctrl.acceso.Usuario.NombreUsuario" placeholder="Usuario">
                             </div>
 
                             <div class="col-md-3">
-                                <input type="text" class="form-control" placeholder="Nombre" disabled="true">
+                                <input type="text" class="form-control" ng-model="ctrl.accesosistema.Persona.NombrePers" placeholder="Nombre" disabled="true">
 
                             </div>
                             <div class="col-md-2">
 
                             </div>
                             <div class="col-md-2">
-                                <button ng-click="ctrl.buscarAccesoSistema(ctrl.NombreUsuario)" type="submit" name="search" id="search-btn" class="btn btn-default"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
+                                <button ng-click="ctrl.buscarAccesoSistema(ctrl.acceso)" type="submit" name="search" id="search-btn" class="btn btn-default"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
                                 @*<button class="btn btn-default"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>*@
                                 <button class="btn btn-default" data-toggle="modal" data-target="#modal_contenido"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
                             </div>
