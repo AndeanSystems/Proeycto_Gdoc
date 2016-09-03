@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using static Gdoc.Web.Util.Estados;
 
 namespace Gdoc.Web.Controllers
 {
@@ -53,7 +52,7 @@ namespace Gdoc.Web.Controllers
         {
             using (var oEmpresa = new NEmpresa())
             {
-                empresa.EstadoEmpresa = EstadoEmpresa.Inactivo;
+                empresa.EstadoEmpresa = Gdoc.Web.Util.Estados.EstadoEmpresa.Inactivo;
                 var respuesta = oEmpresa.EliminarEmpresa(empresa);
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitoso";

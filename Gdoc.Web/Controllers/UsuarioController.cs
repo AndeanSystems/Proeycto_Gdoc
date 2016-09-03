@@ -38,7 +38,7 @@ namespace Gdoc.Web.Controllers
                     Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
                     Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
                     Session["CargoUsuario"] = UsuarioEncontrado.Personal.CodigoCargo;
-                    return RedirectToAction("Alertas", "Alertas");
+                    return RedirectToAction("Index", "Alertas");
                 }
                 else
                     return RedirectToAction("Index", "Home");

@@ -1,0 +1,139 @@
+﻿<section class="content-header">
+    <section class="content">
+        <!--comienso de cuerpo documento electrocnico-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary margin-top">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Parametros</h3>
+                        <button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div >
+                                    <form role="form" novalidate name="frmConcepto">
+                                        <div class="box-body no-padding">
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Empresa</label>
+                                                <select class="form-control" ng-model="ctrl.concepto.TipoConcepto" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoConceptoTitulo">
+                                                    <option value="">Seleccione</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Usuario</label>
+                                                <input type="text" class="form-control" placeholder="Codigo" ng-model="ctrl.concepto.CodiConcepto">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Plazo Documento Electronico</label>
+                                                <input type="text" class="form-control" placeholder="Descripcion" ng-model="ctrl.concepto.DescripcionConcepto">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Extension Plazo Documento Electronico</label>
+                                                <input type="text" class="form-control" placeholder="Abreviatura" ng-model="ctrl.concepto.DescripcionCorta">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Alerta Documento Electronico</label>
+                                                <input type="text" class="form-control" placeholder="Creado" disabled="true">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Ruta Imagenes</label>
+                                                <input type="text" class="form-control" placeholder="Texto2" ng-model="ctrl.concepto.TextoDos">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div><!-- /.col -->
+
+                            <div class="col-md-4">
+                                <div >
+
+                                    <form role="form">
+                                        <div class="box-body no-padding">
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Plazo Mesa Virtual</label>
+                                                <input type="text" class="form-control" placeholder="Valor1" ng-model="ctrl.concepto.ValorUno">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Extension Plazo Mesa Virtual</label>
+                                                <input type="text" class="form-control" placeholder="Valor2" ng-model="ctrl.concepto.ValorDos">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Alerta Mesa Virtual</label>
+                                                <input type="text" class="form-control" placeholder="Texto1" ng-model="ctrl.concepto.TextoUno">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Alerta Mail Laboral</label>
+                                                <input type="text" class="form-control" placeholder="Texto2" ng-model="ctrl.concepto.TextoDos">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Plazo Expira Firma</label>
+                                                <input type="text" class="form-control" placeholder="Texto2" ng-model="ctrl.concepto.TextoDos">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Ruta PDF</label>
+                                                <input type="text" class="form-control" placeholder="Texto2" ng-model="ctrl.concepto.TextoDos">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div>
+
+                                    <form role="form">
+                                        <div class="box-body no-padding">
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Alerta Mail Personal</label>
+                                                <input type="text" class="form-control" placeholder="Valor1" ng-model="ctrl.concepto.ValorUno">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Hora Actualiza Estado Operacion</label>
+                                                <input type="text" class="form-control" placeholder="Valor2" ng-model="ctrl.concepto.ValorDos">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Hora Cierre Laborales</label>
+                                                <input type="text" class="form-control" placeholder="Texto1" ng-model="ctrl.concepto.TextoUno">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Ruta Adjuntos</label>
+                                                <input type="text" class="form-control" placeholder="Texto2" ng-model="ctrl.concepto.TextoDos">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Ruta Externos</label>
+                                                <input type="text" class="form-control" placeholder="Texto2" ng-model="ctrl.concepto.TextoDos">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-footer">
+                        </div><!-- /.modal-content -->
+                    </div> 
+
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

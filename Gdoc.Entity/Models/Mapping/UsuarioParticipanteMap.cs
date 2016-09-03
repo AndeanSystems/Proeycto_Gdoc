@@ -24,9 +24,7 @@ namespace Gdoc.Entity.Models.Mapping
                 .HasMaxLength(1);
 
             this.Property(t => t.EstadoUsuarioParticipante)
-                .IsRequired()
-                .IsFixedLength()
-                .HasMaxLength(1);
+                .IsRequired();
 
             this.Property(t => t.ConfirmacionLectura)
                 .IsFixedLength()
