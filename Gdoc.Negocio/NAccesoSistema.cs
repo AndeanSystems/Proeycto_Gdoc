@@ -27,5 +27,17 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public AccesoSistema CambiarEstadoAcceso(AccesoSistema accesosistema)
+        {
+            try
+            {
+                return dAccesoSistema.CambiarEstadoAcceso(accesosistema);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

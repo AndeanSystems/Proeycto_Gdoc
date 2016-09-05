@@ -54,6 +54,31 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public Usuario EditarUsuario(Usuario usuario)
+        {
+            try
+            {
+                return dUsuario.EditarUsuario(usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public Usuario EliminarUsuario(Usuario usuario)
+        {
+            try
+            {
+                return dUsuario.EliminarUsuario(usuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
     }
 }

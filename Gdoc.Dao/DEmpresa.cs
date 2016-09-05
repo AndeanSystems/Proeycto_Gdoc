@@ -66,7 +66,6 @@ namespace Gdoc.Dao
                     entidad.RazonSocial = empresa.RazonSocial;
                     entidad.RucEmpresa = empresa.RucEmpresa;
                     entidad.TelefonoEmpresa = empresa.TelefonoEmpresa;
-                    //empresa.EstadoEmpresa = empresa.EstadoEmpresa;
                     empresa.CodigoUbigeo = empresa.CodigoUbigeo;
                     db.SaveChanges();
                 }

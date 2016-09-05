@@ -14,6 +14,10 @@ namespace Gdoc.Entity.Models
             this.UsuarioAutorizadors = new List<UsuarioAutorizador>();
             this.UsuarioGrupoes = new List<UsuarioGrupo>();
             this.UsuarioParticipantes = new List<UsuarioParticipante>();
+
+            this.Generals = new List<General>();
+
+            
         }
 
         public long IDUsuario { get; set; }
@@ -45,6 +49,9 @@ namespace Gdoc.Entity.Models
         public virtual ICollection<UsuarioAutorizador> UsuarioAutorizadors { get; set; }
         public virtual ICollection<UsuarioGrupo> UsuarioGrupoes { get; set; }
         public virtual ICollection<UsuarioParticipante> UsuarioParticipantes { get; set; }
+
+        //public virtual General General { get; set; }
+        public virtual ICollection<General> Generals { get; set; }
 
     }
 }

@@ -94,6 +94,7 @@ namespace Gdoc.Dao
                         IDPersonal = x.u.IDPersonal,
                         CodigoRol = x.u.CodigoRol,
                         CodigoTipoUsua = x.u.CodigoTipoUsua,
+                        ClaseUsuario=x.u.ClaseUsuario,
                         ExpiraClave = x.u.ExpiraClave,
                         ExpiraFirma = x.u.ExpiraFirma,
                         FechaExpiraClave = x.u.FechaExpiraClave,
@@ -137,6 +138,47 @@ namespace Gdoc.Dao
                     //db.SaveChanges();
                     //usuario.IDPersonal = usuario.Personal.IDPersonal; Faltar terminar quitar grabacion de tabla personal
                     db.Usuarios.Add(usuario);
+                    db.SaveChanges();
+                }
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public Usuario EditarUsuario(Usuario usuario)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var entidad = db.Usuarios.Find(usuario.IDUsuario);
+                    entidad.TerminalUsuario = usuario.TerminalUsuario;
+                    entidad.CodigoTipoUsua = usuario.CodigoTipoUsua;
+                    entidad.ClaseUsuario = usuario.ClaseUsuario;
+                    entidad.CodigoRol = usuario.CodigoRol;
+                    entidad.ExpiraFirma = usuario.ExpiraFirma;
+                    entidad.EstadoUsuario = usuario.EstadoUsuario;
+                    db.SaveChanges();
+                }
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public Usuario EliminarUsuario(Usuario usuario)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var usu = db.Usuarios.Find(usuario.IDUsuario);
+                    usu.EstadoUsuario = usuario.EstadoUsuario;
                     db.SaveChanges();
                 }
                 return usuario;

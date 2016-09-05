@@ -41,5 +41,29 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public Concepto EditarConcepto(Concepto concepto)
+        {
+            try
+            {
+                return dConcepto.EditarConcepto(concepto);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public Concepto EliminarConcepto(Concepto concepto)
+        {
+            try
+            {
+                return dConcepto.EliminarConcepto(concepto);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

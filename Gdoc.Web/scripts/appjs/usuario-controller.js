@@ -23,26 +23,54 @@
 
         var NombreCompleto = "Personal.NombrePers".concat(" Personal.ApellidoPersonal");
 
+        context.editarUsuario = function (rowIndex) {
+            context.usuario = context.gridOptions.data[rowIndex];
+            $("#modal_contenido").modal("show");
+        };
 
+        context.eliminarUsuario = function (rowIndex) {
+            var usuario = context.gridOptions.data[rowIndex];
+            dataProvider.postData("Usuario/EliminarUsuario", usuario).success(function (respuesta) {
+                console.log(usuario);
+                listarUsuario();
+            }).error(function (error) {
+                //MostrarError();
+            });
+        };
+
+        context.abrirAcceso = function (rowIndex) {
+            location.href = "/Acceso/Index";
+            //var usuario = context.gridOptions.data[rowIndex];
+            //dataProvider.postData("Acceso/ListarAccesoSistema", usuario).success(function (respuesta) {
+            //    console.log(usuario);
+            //    context.accesosistema = respuesta[0];
+            //    context.gridAccesos.data = respuesta;
+            //}).error(function (error) {
+            //    //MostrarError();
+            //});
+            //@Url.Action("Index", "Acceso")
+        };
 
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             //enableFiltering: true,
             data: [],
-
+            appScopeProvider: context,
             columnDefs: [
                 { field: 'NombreUsuario', displayName: 'ID Usuario' },
                 { field: 'NombreCompleto', displayName: 'Apellidos y Nombres' },
                 { field: 'TipoUsuario.DescripcionConcepto', displayName: 'Tipo Usuario' },
                 { field: 'Cargo.DescripcionConcepto', displayName: 'Cargo' },
-                { field: 'Area.DescripcionConcepto', displayName: 'Area' },
-                { field: 'Personal.EmailTrabrajo', displayName: 'Email Trabrajo' },
-                { field: 'Personal.TelefonoPersonal', displayName: 'Telefono Personal' },
-                { field: 'ClaseUsu.DescripcionConcepto', displayName: 'Clase Usuario' },
-                { name: 'Acciones', cellTemplate: '<i class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="modal" data-target="#modal_contenido" title="Editar"></i>'+
-                                                  '<i class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' +
-                                                  '<i class="glyphicon glyphicon-list-alt" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Accesos"></i> '
+                { field: 'Area.DescripcionConcepto', displayName: 'Área' },
+                { field: 'Personal.EmailTrabrajo', displayName: 'Email Trabajo' },
+                { field: 'EstadoUsuario', displayName: 'Estado' },
+                //{ field: 'Personal.TelefonoPersonal', displayName: 'Telefono Personal' },
+                //{ field: 'ClaseUsu.DescripcionConcepto', displayName: 'Clase Usuario' },
+                {
+                    name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.editarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                                  '<i ng-click="grid.appScope.eliminarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' +
+                                                  '<i ng-click="grid.appScope.abrirAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="glyphicon glyphicon-list-alt" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Accesos"></i> '
                 }
 
             ],

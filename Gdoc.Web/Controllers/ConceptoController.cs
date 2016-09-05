@@ -64,16 +64,37 @@ namespace Gdoc.Web.Controllers
         public JsonResult GrabarConcepto(Concepto concepto) {
             using (var oConcepto = new NConcepto())
             {
-                concepto.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
-                concepto.EditarRegistro = 1;//por terminar
                 concepto.UsuarioModifica = Session["NombreUsuario"].ToString();
-                concepto.FechaModifica=System.DateTime.Now;
-                var respuesta = oConcepto.GrabarConcepto(concepto);
+                concepto.FechaModifica = System.DateTime.Now;
+                //var respuesta = oConcepto.GrabarConcepto(concepto);
+                Concepto respuesta = null;
+                if (concepto.IDEmpresa > 0){
+                    respuesta = oConcepto.EditarConcepto(concepto);
+                }
+                else if (concepto.IDEmpresa < 1)
+                {
+                    concepto.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
+                    concepto.EditarRegistro = 1;//por terminar
+                    concepto.UsuarioModifica = Session["NombreUsuario"].ToString();
+                    concepto.FechaModifica = System.DateTime.Now;
+                    respuesta = oConcepto.GrabarConcepto(concepto);
+                }
+                    
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitoso";
             }
             return new JsonResult { Data = mensajeRespuesta };
         }
-
+        public JsonResult EliminarConcepto(Concepto concepto)
+        {
+            using (var oConcepto = new NConcepto())
+            {
+                concepto.EstadoConcepto = Gdoc.Web.Util.Estados.EstadoEmpresa.Inactivo;
+                var respuesta = oConcepto.EliminarConcepto(concepto);
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+            }
+            return new JsonResult { Data = mensajeRespuesta };
+        }
     }
 }

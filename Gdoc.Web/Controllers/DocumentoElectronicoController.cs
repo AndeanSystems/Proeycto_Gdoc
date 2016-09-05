@@ -21,7 +21,7 @@ namespace Gdoc.Web.Controllers
         public JsonResult Grabar(Operacion operacion,DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo) {
             try
             {
-                operacion.IDEmpresa = 1001;//Falta terminar
+                operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                 operacion.TituloOperacion = "03";
                 operacion.FechaEmision = DateTime.Now;
                 operacion.FechaCierre = DateTime.Now;

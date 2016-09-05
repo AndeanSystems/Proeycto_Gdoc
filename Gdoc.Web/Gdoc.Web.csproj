@@ -378,6 +378,7 @@
     <Content Include="scripts\appjs\concepto-controller.js" />
     <Content Include="scripts\appjs\documentoelectronico-controller.js" />
     <Content Include="scripts\appjs\empresa-controller.js" />
+    <Content Include="scripts\appjs\general-controller.js" />
     <Content Include="scripts\appjs\grupo-controller.js" />
     <Content Include="scripts\appjs\usuario-controller.js" />
     <Content Include="scripts\bootstrap.js" />
@@ -472,6 +473,7 @@
     <Content Include="Views\General\Index.cshtml" />
     <Content Include="Views\DocumentoElectronico\_CreateAndEdit.cshtml" />
     <Content Include="Views\DocumentoElectronico\_List.cshtml" />
+    <Content Include="Views\Acceso\_CreateAndEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

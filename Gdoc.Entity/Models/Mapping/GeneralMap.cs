@@ -29,11 +29,20 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.HoraActualizaEstadoOperacion).HasColumnName("HoraActualizaEstadoOperacion");
             this.Property(t => t.HoraCierreLabores).HasColumnName("HoraCierreLabores");
 
+            this.Property(t => t.PlazoExpiraFirma).HasColumnName("PlazoExpiraFirma");
+            this.Property(t => t.RutaGdocImagenes).HasColumnName("RutaGdocImagenes");
+            this.Property(t => t.RutaGdocPDF).HasColumnName("RutaGdocPDF");
+            this.Property(t => t.RutaGdocAdjuntos).HasColumnName("RutaGdocAdjuntos");
+            this.Property(t => t.RutaGdocExternos).HasColumnName("RutaGdocExternos");
+
             // Relationships
             this.HasRequired(t => t.Empresa)
                 .WithMany(t => t.Generals)
                 .HasForeignKey(d => d.IDEmpresa);
 
+            this.HasRequired(t => t.Usuario)
+                .WithMany(t => t.Generals)
+                .HasForeignKey(d => d.IDUsuario);
         }
     }
 }

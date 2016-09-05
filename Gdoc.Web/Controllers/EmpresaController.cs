@@ -47,7 +47,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = mensajeRespuesta };
         }
-
         public JsonResult EliminarEmpresa(Empresa empresa)
         {
             using (var oEmpresa = new NEmpresa())

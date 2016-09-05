@@ -12,7 +12,9 @@ namespace Gdoc.Web.Controllers
 {
     public class AccesoController : Controller
     {
-        //
+        #region "Variables"
+        MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
+        #endregion
         // GET: /Acceso/
         public ActionResult Index()
         {
@@ -36,11 +38,36 @@ namespace Gdoc.Web.Controllers
             using (var oAccesoSistema = new NAccesoSistema())
             {
                 if (!string.IsNullOrEmpty(acceso.Usuario.NombreUsuario))
-                    listAccesoSistema = oAccesoSistema.ListarAccesoSistema().Where(x => x.Usuario.NombreUsuario.Contains(acceso.Usuario.NombreUsuario.ToUpper())).ToList();
+                    listAccesoSistema = oAccesoSistema.ListarAccesoSistema().Where(x => x.Usuario.NombreUsuario.Contains(acceso.Usuario.NombreUsuario.ToUpper())).ToList();//por terminar
                 else
                     listAccesoSistema = oAccesoSistema.ListarAccesoSistema();
                 }
             return new JsonResult { Data = listAccesoSistema, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+        public JsonResult DesactivarAcceso(AccesoSistema accesosistema)
+        {
+            using (var oAccesosistema = new NAccesoSistema())
+            {
+
+                accesosistema.EstadoAcceso = Gdoc.Web.Util.Estados.EstadoAcceso.Inactivo;
+                var respuesta = oAccesosistema.CambiarEstadoAcceso(accesosistema);
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+            }
+            return new JsonResult { Data = mensajeRespuesta };
+        }
+
+        public JsonResult ActivarAcceso(AccesoSistema accesosistema)
+        {
+            using (var oAccesosistema = new NAccesoSistema())
+            {
+               
+                accesosistema.EstadoAcceso = Gdoc.Web.Util.Estados.EstadoAcceso.Activo;
+                var respuesta = oAccesosistema.CambiarEstadoAcceso(accesosistema);
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+            }
+            return new JsonResult { Data = mensajeRespuesta };
         }
 	}
 }

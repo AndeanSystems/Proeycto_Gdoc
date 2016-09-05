@@ -45,6 +45,7 @@
     <Compile Include="NDocumentoElectronicoOperacion.cs" />
     <Compile Include="NEmpresa.cs" />
     <Compile Include="NEUsuarioGrupo.cs" />
+    <Compile Include="NGeneral.cs" />
     <Compile Include="NGrupo.cs" />
     <Compile Include="NMensajeAlerta.cs" />
     <Compile Include="NOperacion.cs" />

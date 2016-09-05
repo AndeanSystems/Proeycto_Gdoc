@@ -18,7 +18,6 @@ namespace Gdoc.Dao
             {
                 using (var db = new DataBaseContext())
                 {
-                    var list = db.AccesoSistemas.ToList();
 
                     var list2 = (from usuario in db.Usuarios
                                  join acceso in db.AccesoSistemas
@@ -31,27 +30,42 @@ namespace Gdoc.Dao
                                  on usuario.IDPersonal equals persona.IDPersonal
                                  select new { usuario, acceso, modulo, persona }).ToList();
 
+                    var list3 = (from modulopagina in db.ModuloPaginaUrls
+                                 join acceso in db.AccesoSistemas
+                                 on modulopagina.IDModuloPagina equals acceso.IDModuloPagina
+
+                                 join usuario in db.Usuarios
+                                 on acceso.IDUsuario equals usuario.IDUsuario
+
+                                 select new { modulopagina, acceso, usuario }).ToList();
+
                     list2.ForEach(x => listAccesoSistema.Add(new EAccesoSistema
                     {
-                        ModuloPaginaUrl= new ModuloPaginaUrl
+                        IDAcceso=x.acceso.IDAcceso,
+                        IDUsuario=x.acceso.IDUsuario,
+                        IDModuloPagina=x.acceso.IDModuloPagina,
+                        IdeUsuarioRegistro=x.acceso.IdeUsuarioRegistro,
+                        ModuloPaginaUrl = new ModuloPaginaUrl
                         {
-                            ModuloSistema=x.modulo.ModuloSistema,
-                            NombrePagina=x.modulo.NombrePagina,
-                            DireccionFisicaPagina=x.modulo.DireccionFisicaPagina,
-                            CodigoPaginaPadre=x.modulo.CodigoPaginaPadre,
+                            ModuloSistema = x.modulo.ModuloSistema,
+                            NombrePagina = x.modulo.NombrePagina,
+                            DireccionFisicaPagina = x.modulo.DireccionFisicaPagina,
+                            CodigoPaginaPadre = x.modulo.CodigoPaginaPadre,
                         },
-                        
+
                         Usuario = new Usuario
                         {
-                            NombreUsuario=x.usuario.NombreUsuario,
+                            NombreUsuario = x.usuario.NombreUsuario,
 
                         },
-                        Persona = new Personal
-                        {
-                            NombrePers = string.Format("{0}, {1}", x.persona.NombrePers, x.persona.ApellidoPersonal),
-                        },
-                        FechaModificacion=x.acceso.FechaModificacion,
-                        EstadoAcceso= x.acceso.EstadoAcceso
+                        FechaModificacion = x.acceso.FechaModificacion,
+                        EstadoAcceso = x.acceso.EstadoAcceso
+
+                        
+                        //Persona = new Personal
+                        //{
+                        //    NombrePers = string.Format("{0}, {1}", x.persona.NombrePers, x.persona.ApellidoPersonal),
+                        //},
                         
                     }));
                 }
@@ -61,6 +75,23 @@ namespace Gdoc.Dao
                 throw;
             }
             return listAccesoSistema;
+        }
+        public AccesoSistema CambiarEstadoAcceso(AccesoSistema accesosistema)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var acceso = db.AccesoSistemas.Find(accesosistema.IDAcceso);
+                    acceso.EstadoAcceso = accesosistema.EstadoAcceso;
+                    db.SaveChanges();
+                }
+                return accesosistema;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

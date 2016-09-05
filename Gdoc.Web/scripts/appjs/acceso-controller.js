@@ -14,11 +14,40 @@
         context.accesosistema = {};
         context.listUsuario = [];
         context.listarAccesoSistema = [];
+
+        context.editarRoles = function (rowIndex) {
+            context.accesosistema = context.gridAccesos.data[rowIndex];
+            $("#modal_contenido").modal("show");
+        };
+
+        context.activarAcceso = function (rowIndex) {
+            var acceso = context.gridAccesos.data[rowIndex];
+
+            dataProvider.postData("Acceso/ActivarAcceso", acceso).success(function (respuesta) {
+                console.log(respuesta);
+                context.buscarAccesoSistema(acceso);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        };
+            
+        context.desactivarAcceso = function (rowIndex) {
+            var acceso = context.gridAccesos.data[rowIndex];
+
+            dataProvider.postData("Acceso/DesactivarAcceso", acceso).success(function (respuesta) {
+                console.log(respuesta);
+                context.buscarAccesoSistema(acceso);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        
+        };
         context.gridAccesos = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             //enableFiltering: true,
             data: [],
+            appScopeProvider: context,
 
             columnDefs: [
                 { field: 'ModuloPaginaUrl.ModuloSistema', displayName: 'Modulo de Sistema' },
@@ -27,7 +56,11 @@
                 { field: 'FechaModificacion', displayName: 'Fecha Actualizacion', type: 'date', cellFilter: 'toDateTime | date:"mediumDate"' },
                 { field: 'ModuloPaginaUrl.CodigoPaginaPadre', displayName: 'Pagina Origen' },
                 { field: 'EstadoAcceso', displayName: 'Estado' },
-                { name: 'Acciones', cellTemplate: '<i class="fa fa-pencil-square-o  " style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Permisos"></i>' }
+                {
+                    name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.activarAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-check" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Activar"></i> ' +
+                                                    '<i ng-click="grid.appScope.desactivarAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' +
+                                                    '<i ng-click="grid.appScope.editarRoles(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="glyphicon glyphicon-list-alt" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Roles"></i> '
+                }
 
             ],
             multiSelect: false,

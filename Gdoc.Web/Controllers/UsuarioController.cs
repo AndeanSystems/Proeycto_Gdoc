@@ -34,7 +34,7 @@ namespace Gdoc.Web.Controllers
 
                     //nombre = nombre.Replace(nombre[0], nombre_may[0]);
 
-                    Session["IDEmpresa"] = 1001; //Pendiente falta terminar
+                    Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
                     Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
                     Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
                     Session["CargoUsuario"] = UsuarioEncontrado.Personal.CodigoCargo;
@@ -86,19 +86,37 @@ namespace Gdoc.Web.Controllers
                 usuario.IntentoErradoClave = 3;
                 usuario.IntentoerradoFirma = 2;
                 usuario.CodigoConexion = "";
+
+                
                 usuario.UsuarioRegistro = Session["NombreUsuario"].ToString();
                 usuario.ExpiraClave = "1";//0=EXPIRA || 1=NO EXPIRA
                 //usuario.ExpiraFirma = "90";
                 usuario.FechaExpiraClave = System.DateTime.Now;
                 usuario.FechaExpiraFirma = System.DateTime.Now.AddDays(90);//falta terminar traer el valor de dias de experacion de firmas de la tabla general
 
-                var respuesta = oUsuario.GrabarUsuario(usuario);
+                //var respuesta = oUsuario.GrabarUsuario(usuario);
+                Usuario respuesta = null;
+                if (usuario.IDUsuario > 0)
+                    respuesta = oUsuario.EditarUsuario(usuario);
+                else
+                    respuesta = oUsuario.GrabarUsuario(usuario);
+
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitosa";
             }
             return new JsonResult { Data = mensajeRespuesta };
         }
-
+        public JsonResult EliminarUsuario(Usuario usuario)
+        {
+            using (var oUsuario = new NUsuario())
+            {
+                usuario.EstadoUsuario = Gdoc.Web.Util.Estados.EstadoEmpresa.Inactivo;
+                var respuesta = oUsuario.EliminarUsuario(usuario);
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+            }
+            return new JsonResult { Data = mensajeRespuesta };
+        }
         [HttpPost]
         public JsonResult BuscarUsuarioNombre(Usuario usuario)
         {
