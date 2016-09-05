@@ -13,6 +13,7 @@
         let TipoComunicacion = "022";
         var context = this;
         context.operacion = {};
+        context.DocumentoElectronicoOperacion = {};
         context.visible = "List";
         context.listaUsuarioGrupo = [];
 
@@ -53,6 +54,7 @@
         context.grabar = function () {
             console.log(context.operacion);
             let Operacion = context.operacion;
+            let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
             let listEUsuarioGrupo = [];
             for (var ind in context.usuarioDestinatarios) {
                 listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
@@ -60,8 +62,8 @@
             for(var ind in context.usuarioRemitentes){
                 listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
             }
-            console.log(listEUsuarioGrupo);
-            dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+            console.log(context.DocumentoElectronicoOperacion);
+            dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                 console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();

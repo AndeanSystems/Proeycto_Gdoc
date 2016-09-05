@@ -1,17 +1,16 @@
-﻿using System;
-using Gdoc.Entity.Models;
+﻿using Gdoc.Entity.Models;
+using System;
 
 namespace Gdoc.Dao
 {
-    public class DOperacion
+    public class DDocumentoElectronicoOperacion
     {
-        public short Grabar(Operacion operacion)
-        {
+        public Int32 Grabar(DocumentoElectronicoOperacion eDocumentoElectronicoOperacion) {
             try
             {
                 using (var db = new DataBaseContext())
                 {
-                    db.Operacions.Add(operacion);
+                    db.DocumentoElectronicoOperacions.Add(eDocumentoElectronicoOperacion);
                     db.SaveChanges();
                 }
                 return 1;

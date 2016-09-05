@@ -18,7 +18,7 @@ namespace Gdoc.Web.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult Grabar(Operacion operacion,List<EUsuarioGrupo> listEUsuarioGrupo) {
+        public JsonResult Grabar(Operacion operacion,DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo) {
             try
             {
                 operacion.IDEmpresa = 1001;//Falta terminar
@@ -36,7 +36,7 @@ namespace Gdoc.Web.Controllers
                 operacion.DescripcionOperacion = "Documento Electronico";
                 using (var oNOperacion = new NOperacion())
                 {
-                    var respuesta = oNOperacion.Grabar(operacion, listEUsuarioGrupo);
+                    var respuesta = oNOperacion.Grabar(operacion, eDocumentoElectronicoOperacion, listEUsuarioGrupo);
                 }
                 return new JsonResult { Data = null, MaxJsonLength = Int32.MaxValue };
             }

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="NAccesoSistema.cs" />
     <Compile Include="NConcepto.cs" />
+    <Compile Include="NDocumentoElectronicoOperacion.cs" />
     <Compile Include="NEmpresa.cs" />
     <Compile Include="NEUsuarioGrupo.cs" />
     <Compile Include="NGrupo.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="NOperacion.cs" />
     <Compile Include="NPersonal.cs" />
     <Compile Include="NUbigeo.cs" />
+    <Compile Include="NUsuarioGrupo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NUsuario.cs" />
   </ItemGroup>

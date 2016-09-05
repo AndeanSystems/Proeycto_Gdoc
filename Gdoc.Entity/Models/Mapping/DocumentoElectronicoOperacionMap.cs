@@ -12,7 +12,7 @@ namespace Gdoc.Entity.Models.Mapping
 
             // Properties
             this.Property(t => t.IDDoctoElectronicoOperacion)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             // Table & Column Mappings
             this.ToTable("DocumentoElectronicoOperacion");

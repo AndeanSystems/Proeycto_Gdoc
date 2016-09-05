@@ -470,6 +470,8 @@
     <Content Include="Views\Usuario\_CreateAndEdit.cshtml" />
     <Content Include="Views\Alertas\Index.cshtml" />
     <Content Include="Views\General\Index.cshtml" />
+    <Content Include="Views\DocumentoElectronico\_CreateAndEdit.cshtml" />
+    <Content Include="Views\DocumentoElectronico\_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

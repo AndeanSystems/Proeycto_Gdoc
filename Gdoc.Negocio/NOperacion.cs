@@ -14,6 +14,8 @@ namespace Gdoc.Negocio
         #region "Variable"
         protected DOperacion dOperacion = new DOperacion();
         protected DUsuarioParticipante dUsuarioParticipante = new DUsuarioParticipante();
+        protected DUsuarioGrupo dUsuarioGrupo = new DUsuarioGrupo();
+        protected DDocumentoElectronicoOperacion dDocumentoElectronicoOperacion = new DDocumentoElectronicoOperacion();
         protected string Usuario = "U";
         protected string Grupo = "G";
         #endregion
@@ -21,9 +23,10 @@ namespace Gdoc.Negocio
         {
             dOperacion = null;
             dUsuarioParticipante = null;
+            dUsuarioGrupo = null;
         }
 
-        public short Grabar(Operacion operacion, List<EUsuarioGrupo> listEUsuarioGrupo)
+        public short Grabar(Operacion operacion, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo)
         {
             try
             {
@@ -34,16 +37,32 @@ namespace Gdoc.Negocio
                 foreach (var participante in listEUsuarioGrupo)
                 {
                     var eUsuarioParticipante = new UsuarioParticipante();
-                    if (participante.Tipo.Equals(Usuario)) {
+                    if (participante.Tipo.Equals(Usuario))//Grabar solo Usuarios
+                    {
                         eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
                         eUsuarioParticipante.TipoParticipante = 2;
                         eUsuarioParticipante.ReenvioOperacion = "S";
                         eUsuarioParticipante.EstadoUsuarioParticipante = 1;
+                        listEusuarioParticipante.Add(eUsuarioParticipante);
                     }
-                    listEusuarioParticipante.Add(eUsuarioParticipante);
+                    else {
+                        //Buscar usuarios por grupo
+                        var eUsuarioGrupo = new UsuarioGrupo{ IDGrupo = participante.IDUsuarioGrupo};
+                        var listUsuarioGrupo = dUsuarioGrupo.listarUsuarioGrupo(eUsuarioGrupo);
+                        foreach (var usuario in listUsuarioGrupo)
+                        {
+                            eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
+                            eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
+                            eUsuarioParticipante.TipoParticipante = 2;
+                            eUsuarioParticipante.ReenvioOperacion = "S";
+                            eUsuarioParticipante.EstadoUsuarioParticipante = 1;
+                            dUsuarioParticipante.Grabar(listEusuarioParticipante);
+                        }
+                    }
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
+                dDocumentoElectronicoOperacion.Grabar(eDocumentoElectronicoOperacion);
                 return 1;
             }
             catch (Exception)

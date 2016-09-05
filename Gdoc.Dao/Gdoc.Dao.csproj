@@ -44,6 +44,7 @@
     <Compile Include="DAccesoSistema.cs" />
     <Compile Include="DataBaseContext.cs" />
     <Compile Include="DConcepto.cs" />
+    <Compile Include="DDocumentoElectronicoOperacion.cs" />
     <Compile Include="DEmpresa.cs" />
     <Compile Include="DEUsuarioGrupo.cs" />
     <Compile Include="DGrupo.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="DPersonal.cs" />
     <Compile Include="DUbigeo.cs" />
     <Compile Include="DUsuario.cs" />
+    <Compile Include="DUsuarioGrupo.cs" />
     <Compile Include="DUsuarioParticipante.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
