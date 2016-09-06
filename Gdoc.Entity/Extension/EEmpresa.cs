@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 namespace Gdoc.Entity.Extension
 {
     [NotMapped]
-    public class EGrupo:Grupo
+    public class EEmpresa:Empresa
     {
-        public int CantidadUsuarios { get; set; }
         public Concepto Estado { get; set; }
     }
 }

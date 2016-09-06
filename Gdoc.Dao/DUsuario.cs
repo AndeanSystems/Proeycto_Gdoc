@@ -10,7 +10,7 @@ namespace Gdoc.Dao
 {
     public class DUsuario 
     {
-        public Usuario ValidarLogin(Usuario usuario)
+        public EUsuario ValidarLogin(EUsuario usuario)
         {
             try
             {
@@ -20,17 +20,21 @@ namespace Gdoc.Dao
                                join persona in db.Personals
                                on usua.IDPersonal equals persona.IDPersonal
 
-                               join cargo in db.Conceptoes
-                               on persona.CodigoCargo equals cargo.CodiConcepto
+                               join tipousu in db.Conceptoes
+                               on usua.CodigoTipoUsua equals tipousu.CodiConcepto
 
                                where usua.NombreUsuario == usuario.NombreUsuario &&
-                                       usua.ClaveUsuario == usuario.ClaveUsuario 
-                                       //cargo.TipoConcepto.Equals("007")
-                               select new { usua,persona,cargo}).FirstOrDefault();
-                    return new Usuario() {
+                                       usua.ClaveUsuario == usuario.ClaveUsuario &&
+                                       tipousu.TipoConcepto.Equals("010")
+                               select new { usua, persona, tipousu }).FirstOrDefault();
+                    return new EUsuario()
+                    {
                          IDUsuario = usu.usua.IDUsuario,
                          NombreUsuario = usu.usua.NombreUsuario,
-                         Personal = usu.persona
+                         Personal = usu.persona,
+
+
+                         TipoUsuario = new Concepto { DescripcionConcepto = usu.tipousu.DescripcionConcepto }
                          
                     };
                 }
@@ -49,6 +53,7 @@ namespace Gdoc.Dao
             {
                 using (var db = new DataBaseContext())
                 {
+                    
                     var list4 = (from u in db.Usuarios
                                  join p in db.Personals
                                  on u.IDPersonal equals p.IDPersonal
@@ -65,16 +70,20 @@ namespace Gdoc.Dao
                                  join Clase in db.Conceptoes
                                  on u.ClaseUsuario equals Clase.CodiConcepto
 
+                                 join Estado in db.Conceptoes
+                                 on u.EstadoUsuario.ToString() equals  Estado.CodiConcepto
+
                                  join e in db.Empresas
                                  on p.IDEmpresa equals e.IDEmpresa
 
                                  where Cargo.TipoConcepto.Equals("007") &&
                                          Tipo.TipoConcepto.Equals("010") &&
                                          Area.TipoConcepto.Equals("013") &&
-                                         Clase.TipoConcepto.Equals("021")
+                                         Clase.TipoConcepto.Equals("021") &&
+                                         Estado.TipoConcepto.Equals("017")
 
 
-                                 select new { u, p, Cargo, Tipo, Area, Clase, e}).ToList();
+                                 select new { u, p, Cargo, Tipo, Area, Clase ,Estado, e}).ToList();
 
 
                     list4.ForEach(x => listUsuario.Add(new EUsuario
@@ -99,6 +108,7 @@ namespace Gdoc.Dao
                         ExpiraFirma = x.u.ExpiraFirma,
                         FechaExpiraClave = x.u.FechaExpiraClave,
                         FechaExpiraFirma = x.u.FechaExpiraFirma,
+                        ClaveUsuario=x.u.ClaveUsuario,
                         Personal = new Personal
                         {
                             IDPersonal = x.p.IDPersonal,
@@ -117,7 +127,8 @@ namespace Gdoc.Dao
                         Cargo = new Concepto { DescripcionConcepto = x.Cargo.DescripcionConcepto },
                         TipoUsuario = new Concepto { DescripcionConcepto = x.Tipo.DescripcionConcepto },
                         Area = new Concepto { DescripcionConcepto = x.Area.DescripcionConcepto },
-                        ClaseUsu = new Concepto { DescripcionConcepto = x.Clase.DescripcionConcepto }
+                        ClaseUsu = new Concepto { DescripcionConcepto = x.Clase.DescripcionConcepto },
+                        Estado = new Concepto { DescripcionConcepto = x.Estado.DescripcionConcepto }
 
                     }));
                 }
@@ -161,6 +172,8 @@ namespace Gdoc.Dao
                     entidad.CodigoRol = usuario.CodigoRol;
                     entidad.ExpiraFirma = usuario.ExpiraFirma;
                     entidad.EstadoUsuario = usuario.EstadoUsuario;
+                    entidad.ClaveUsuario = usuario.ClaveUsuario;
+                    entidad.FirmaElectronica = usuario.FirmaElectronica;
                     db.SaveChanges();
                 }
                 return usuario;

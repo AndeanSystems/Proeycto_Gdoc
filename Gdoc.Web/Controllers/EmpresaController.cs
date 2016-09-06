@@ -1,4 +1,5 @@
-﻿using Gdoc.Entity.Models;
+﻿using Gdoc.Entity.Extension;
+using Gdoc.Entity.Models;
 using Gdoc.Negocio;
 using Gdoc.Web.Util;
 using System;
@@ -23,7 +24,7 @@ namespace Gdoc.Web.Controllers
         [HttpGet]
         public JsonResult ListarEmpresa()
         {
-            var listEmpresa = new List<Empresa>();
+            var listEmpresa = new List<EEmpresa>();
             using (var oEmpresa = new NEmpresa())
             {
                 listEmpresa = oEmpresa.ListarEmpresa();

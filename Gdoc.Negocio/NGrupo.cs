@@ -39,5 +39,30 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public Grupo EditarGrupo(Grupo grupo)
+        {
+            try
+            {
+                return dGrupo.EditarGrupo(grupo);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public Grupo EliminarGrupo(Grupo grupo)
+        {
+            try
+            {
+                return dGrupo.EliminarGrupo(grupo);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

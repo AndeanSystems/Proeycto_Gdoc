@@ -37,13 +37,31 @@ namespace Gdoc.Web.Controllers
                 grupo.FechaModifica = System.DateTime.Now;
                 grupo.UsuarioModifica = Session["NombreUsuario"].ToString(); 
                 grupo.EstadoGrupo = 1;
-                var respuesta = oGrupo.GrabarGrupoUsuarios(grupo);
+
+                Grupo respuesta = null;
+                if (grupo.IDGrupo > 0)
+                    respuesta = oGrupo.EditarGrupo(grupo);
+                else
+                    respuesta = oGrupo.GrabarGrupoUsuarios(grupo);
+
+                //var respuesta = oGrupo.GrabarGrupoUsuarios(grupo);
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitosa";
             }
             //RedirectToAction("Index", "Grupo"); falta terminar redireccionar la pagina
             return new JsonResult { Data = mensajeRespuesta };
 
+        }
+        public JsonResult EliminarGrupo(Grupo grupo)
+        {
+            using (var oGrupo = new NGrupo())
+            {
+                grupo.EstadoGrupo = Gdoc.Web.Util.Estados.EstadoEmpresa.Inactivo;
+                var respuesta = oGrupo.EliminarGrupo(grupo);
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+            }
+            return new JsonResult { Data = mensajeRespuesta };
         }
         [HttpPost]
         public JsonResult BuscarGrupo(EGrupo grupo)

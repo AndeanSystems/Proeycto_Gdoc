@@ -13,7 +13,7 @@
         LlenarConcepto("999");
 
         var concepto = { TipoConcepto: "012" };
-        var acciones = '<i ng-click="grid.appScope.editarConcepto(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>';
+        context.acciones = '<i ng-click="grid.appScope.editarConcepto(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>';
 
         appService.listarConcepto(concepto).success(function (respuesta) {
             console.log(respuesta);
@@ -42,8 +42,8 @@
                         console.log(respuesta);
                         context.concepto = respuesta[0];
                         if (context.concepto.EditarRegistro == 0) {
-                            acciones = ' a';
-                            console.log(acciones);
+                            context.acciones = '<i>a</i>';//por terminar
+                            console.log(context.acciones);
                         }
                         context.gridOptions.data = respuesta;
                     }).error(function (error) {
@@ -55,7 +55,7 @@
                         console.log(respuesta);
                         context.concepto = respuesta[0];
                         if (context.concepto.EditarRegistro == 0) {
-                            acciones = ' a';
+                            context.acciones = ' a';
                             console.log(acciones);
                         }
                         context.gridOptions.data = respuesta;
@@ -93,7 +93,7 @@
              
                 {
                     name: 'Acciones',
-                    cellTemplate: acciones
+                    cellTemplate: context.acciones
                 }
                 //{ field: 'Empresa.DireccionEmpresa',displayName:'Direción Empresa' }
             ]

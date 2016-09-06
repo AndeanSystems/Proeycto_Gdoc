@@ -21,6 +21,14 @@
             $("#modal_contenido").modal("show");
         };
 
+        context.conformifad = function () {
+            $("#modal_conformidad").modal("show");
+        };
+
+        context.clave = function () {
+            $("#modal_clave").modal("show");
+        };
+
         context.eliminarEmpresa = function (rowIndex) {
             var empresa = context.gridOptions.data[rowIndex];
             dataProvider.postData("Empresa/EliminarEmpresa", empresa).success(function (respuesta) {
@@ -40,7 +48,7 @@
             columnDefs: [
                 { field: 'RucEmpresa', displayName: 'Ruc Empresa' },
                 { field: 'RazonSocial', displayName: 'Razon Social' },
-                { field: 'EstadoEmpresa', displayName: 'Estado' },
+                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
                 {
                     name: 'Acciones',
                     cellTemplate: '<i ng-click="grid.appScope.editarEmpresa(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +

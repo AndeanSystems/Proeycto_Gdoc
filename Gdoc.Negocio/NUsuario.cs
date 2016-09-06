@@ -17,7 +17,7 @@ namespace Gdoc.Negocio
             dUsuario = null;
         }
 
-        public Usuario ValidarLogin(Usuario usuario)
+        public EUsuario ValidarLogin(EUsuario usuario)
         {
             try
             {

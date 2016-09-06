@@ -19,21 +19,21 @@
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->
                 <li>
-                    <a href="@Url.Action("Alertas", "Alertas")">
+                    <a href="@Url.Action("Index", "Alertas")">
                         <i class="fa fa-home" data-placement="right" data-toggle="tooltip" title="Inicio"></i>
                     </a>
 
                 </li>
 
                 <li>
-                    <a href="@Url.Action("Index", "DocumentoElectronico")">
+                    <a href="@Url.Action("Index", "DocumentoDigital")">
                         <i class="fa fa-file-pdf-o" data-placement="right" data-toggle="tooltip" title="Documento Digital"></i>
                     </a>
 
                 </li>
                 <!-- Notifications: style can be found in dropdown.less -->
                 <li>
-                    <a href="@Url.Action("MesaVirtual", "Gestion")">
+                    <a href="@Url.Action("Index", "MesaVirtual")">
                         <i class="fa fa-folder" data-placement="right" data-toggle="tooltip" title="Mesa de Trabajo"></i>
 
                     </a>
@@ -41,7 +41,7 @@
                 </li>
                 <!-- Tasks: style can be found in dropdown.less -->
                 <li>
-                    <a href="@Url.Action("DocumentoElectronico", "Gestion")">
+                    <a href="@Url.Action("Index", "DocumentoElectronico")">
                         <i class="fa fa-file" data-placement="right" data-toggle="tooltip" title="Documento Electronico"></i>
 
                     </a>
@@ -81,10 +81,10 @@
                         <!-- Menu Body -->
                         <li class="user-body">
                             <div class="col-xs-6 text-center">
-                                <a href="#">Cambiar Contraseña</a>
+                                <a href="@Url.Action("CambiarContraseña", "Usuario")">Cambiar Contraseña</a>
                             </div>
                             <div class="col-xs-6 text-center">
-                                <a href="#">Cambiar Firma Electronica</a>
+                                <a href="@Url.Action("CambiarFirmaElectronica", "Usuario")">Cambiar Firma Electronica</a>
                             </div>
                             <div>
                             </div>

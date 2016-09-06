@@ -1,19 +1,19 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('app').controller('documentoelectronico_controller', documentoelectronico_controller);
-    documentoelectronico_controller.$inject = ['$location', 'app_factory', 'appService'];
+    angular.module('app').controller('documentodigital_controller', documentodigital_controller);
+    documentodigital_controller.$inject = ['$location', 'app_factory', 'appService'];
 
-    function documentoelectronico_controller($location, dataProvider, appService) {
+    function documentodigital_controller($location, dataProvider, appService) {
         /* jshint validthis:true */
         ///Variables
         let TipoDocumento = "012";
         let PrioridadAtencion = "005";
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
+
         var context = this;
         context.operacion = {};
-        context.DocumentoElectronicoOperacion = {};
         context.visible = "List";
         context.listaUsuarioGrupo = [];
 
@@ -27,12 +27,13 @@
         var usuario = {};
 
 
-
         LlenarConcepto(TipoDocumento);
-        LlenarConcepto(PrioridadAtencion);
         LlenarConcepto(TipoAcceso);
-        LlenarConcepto(TipoComunicacion);
-        
+        //LlenarConcepto(TipoDocumento);
+        //LlenarConcepto(PrioridadAtencion);
+        //LlenarConcepto(TipoAcceso);
+        //LlenarConcepto(TipoComunicacion);
+
         //context.gridOptions = {
         //    paginationPageSizes: [25, 50, 75],
         //    paginationPageSize: 25,
@@ -59,7 +60,7 @@
             for (var ind in context.usuarioDestinatarios) {
                 listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
             }
-            for(var ind in context.usuarioRemitentes){
+            for (var ind in context.usuarioRemitentes) {
                 listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
             }
             console.log(context.DocumentoElectronicoOperacion);
@@ -73,8 +74,6 @@
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
             if (context.visible != "List") {
-                //CKEDITOR.replace('editor1');
-                //$(".textarea").wysihtml5();
             }
         }
         ////

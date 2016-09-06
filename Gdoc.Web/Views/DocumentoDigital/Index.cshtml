@@ -1,0 +1,14 @@
+﻿<section class="content-header">
+    <section class="content" ng-controller="documentodigital_controller as ctrl" layout="column" ng-cloak>
+        <!--comienso de cuerpo documento electrocnico-->
+        <div class="row" ng-if="ctrl.visible == 'List'">
+            @Html.Partial("_List")
+        </div>
+        <div class="row" ng-if="ctrl.visible == 'CreateAndEdit'">
+            @Html.Partial("_CreateAndEdit")
+        </div>
+</section>
+</section>
+@section Scripts{
+    <script src="~/scripts/appjs/documentodigital-controller.js"></script>
+}

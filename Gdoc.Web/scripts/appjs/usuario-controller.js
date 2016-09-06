@@ -64,7 +64,7 @@
                 { field: 'Cargo.DescripcionConcepto', displayName: 'Cargo' },
                 { field: 'Area.DescripcionConcepto', displayName: 'Área' },
                 { field: 'Personal.EmailTrabrajo', displayName: 'Email Trabajo' },
-                { field: 'EstadoUsuario', displayName: 'Estado' },
+                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
                 //{ field: 'Personal.TelefonoPersonal', displayName: 'Telefono Personal' },
                 //{ field: 'ClaseUsu.DescripcionConcepto', displayName: 'Clase Usuario' },
                 {
@@ -83,11 +83,6 @@
             var personal = context.personal;
             var usuario = context.usuario;
 
-            var departamento, provincia, distrito;
-
-            //departamento = (context.codigodepartamento < 10) ? "0" + context.codigodepartamento : context.codigodepartamento.toString();
-            //provincia = (context.codigoprovincia < 10) ? "0" + context.codigoprovincia : context.codigoprovincia.toString();
-            //distrito = (context.codigodistrito < 10) ? "0" + context.codigodistrito : context.codigodistrito.toString();
             //GRABAR PERSONAL
             if (numeroboton == 1)
                 personal.EstadoPersonal = 0
@@ -163,6 +158,8 @@
         function listarUsuario() {
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
+                context.usuario = respuesta[0];
+                console.log(context.usuario);
                 context.listUsuario = respuesta;
             }).error(function (error) {
                 //MostrarError();

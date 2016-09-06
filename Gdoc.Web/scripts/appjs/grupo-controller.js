@@ -13,12 +13,19 @@
         context.grupo = {};
         context.listaUsuariosGrupo = [];
 
-        context.editarGrupo = function () {
-            alert("falta terminar editar registro de grupo en el modal para su modificacion")
+        context.editarGrupo = function (rowIndex) {
+            context.grupo = context.gridOptions.data[rowIndex];
+            $("#modal_contenido").modal("show");
         };
 
-        context.eliminarGrupo = function () {
-            alert("falta terminar elimnar registro de grupo cambiar estado a 2:inactivo")
+        context.eliminarGrupo = function (rowIndex) {
+            var grupo = context.gridOptions.data[rowIndex];
+            dataProvider.postData("Grupo/EliminarGrupo", grupo).success(function (respuesta) {
+                console.log(grupo);
+                listarGrupo();
+            }).error(function (error) {
+                //MostrarError();
+            });
         };
 
         context.gridOptions = {
@@ -31,12 +38,12 @@
                 { field: 'NombreGrupo', displayName: 'Grupo' },
                 { field: 'CantidadUsuarios', displayName: 'Participantes' },
                 { field: 'ComentarioGrupo', displayName: 'Comentario' },
-                { field: 'EstadoGrupo', displayName: 'Estado' },
+                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
 
                 {
                     name: 'Acciones',
-                    cellTemplate: '<i ng-click="grid.appScope.editarGrupo()" class="fa fa-pencil-square-o  " style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
-                                  '<i ng-click="grid.appScope.eliminarGrupo()" class="fa fa-times  " style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>'
+                    cellTemplate: '<i ng-click="grid.appScope.editarGrupo(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o  " style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                  '<i ng-click="grid.appScope.eliminarGrupo(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times  " style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>'
                 }
 
             ],
@@ -86,9 +93,17 @@
             //    //MostrarError();
             //});
         }
-        context.grabar = function () {
+        context.grabar = function (numeroboton) {
+
+            var grupo = context.grupo;
+
+            if (numeroboton == 1)
+                grupo.EstadoGrupo = 0
+            else if (numeroboton == 2)
+                grupo.EstadoGrupo = 1
+
             console.log(context.grupo);
-            dataProvider.postData("Grupo/GrabarGrupoUsuarios", context.grupo).success(function (respuesta) {
+            dataProvider.postData("Grupo/GrabarGrupoUsuarios", grupo).success(function (respuesta) {
                 console.log(respuesta);
                 listarGrupo();
                 context.grupo = {};

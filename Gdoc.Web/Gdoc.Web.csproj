@@ -152,6 +152,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fileinput.css" />
+    <Content Include="Content\fileinput.min.css" />
     <Content Include="Content\plugins\datatables\dataTables.bootstrap.css" />
     <Content Include="Content\plugins\datatables\dataTables.bootstrap.js" />
     <Content Include="Content\plugins\datatables\dataTables.bootstrap.min.js" />
@@ -337,6 +339,8 @@
     <Content Include="Content\plugins\datatables\jquery.dataTables.min.css" />
     <Content Include="Content\plugins\datatables\jquery.dataTables.min.js" />
     <Content Include="Content\plugins\datatables\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\plugins\file input\fileinput.js" />
+    <Content Include="Content\plugins\file input\fileinput.min.js" />
     <Content Include="Content\plugins\skins\_all-skins.min.css" />
     <Content Include="Content\ui-grid.css" />
     <Content Include="Content\ui-grid.min.css" />
@@ -376,8 +380,11 @@
     <Content Include="scripts\appjs\app-factory.js" />
     <Content Include="scripts\appjs\app-service.js" />
     <Content Include="scripts\appjs\concepto-controller.js" />
+    <Content Include="scripts\appjs\contrasena-controller.js" />
+    <Content Include="scripts\appjs\documentodigital-controller.js" />
     <Content Include="scripts\appjs\documentoelectronico-controller.js" />
     <Content Include="scripts\appjs\empresa-controller.js" />
+    <Content Include="scripts\appjs\firma-controller.js" />
     <Content Include="scripts\appjs\general-controller.js" />
     <Content Include="scripts\appjs\grupo-controller.js" />
     <Content Include="scripts\appjs\usuario-controller.js" />
@@ -419,12 +426,14 @@
     <Compile Include="Controllers\ComboUsuarioGrupoController.cs" />
     <Compile Include="Controllers\ConceptoController.cs" />
     <Compile Include="Controllers\ConfiguracionController.cs" />
+    <Compile Include="Controllers\DocumentoDigitalController.cs" />
     <Compile Include="Controllers\DocumentoElectronicoController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\GestionController.cs" />
     <Compile Include="Controllers\GrupoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MesaVirtualController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
     <Compile Include="Controllers\UbigeoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -474,6 +483,12 @@
     <Content Include="Views\DocumentoElectronico\_CreateAndEdit.cshtml" />
     <Content Include="Views\DocumentoElectronico\_List.cshtml" />
     <Content Include="Views\Acceso\_CreateAndEdit.cshtml" />
+    <Content Include="Views\Usuario\CambiarContraseña.cshtml" />
+    <Content Include="Views\DocumentoDigital\Index.cshtml" />
+    <Content Include="Views\MesaVirtual\Index.cshtml" />
+    <Content Include="Views\DocumentoDigital\_List.cshtml" />
+    <Content Include="Views\DocumentoDigital\_CreateAndEdit.cshtml" />
+    <Content Include="Views\Usuario\CambiarFirmaElectronica.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

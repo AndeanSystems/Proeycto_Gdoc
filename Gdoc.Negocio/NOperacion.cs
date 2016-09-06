@@ -41,7 +41,7 @@ namespace Gdoc.Negocio
                     {
                         eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                        eUsuarioParticipante.TipoParticipante = 2;
+                        eUsuarioParticipante.TipoParticipante = 2;//FALTA CORREGIR
                         eUsuarioParticipante.ReenvioOperacion = "S";
                         eUsuarioParticipante.EstadoUsuarioParticipante = 1;
                         listEusuarioParticipante.Add(eUsuarioParticipante);
@@ -54,7 +54,7 @@ namespace Gdoc.Negocio
                         {
                             eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
                             eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                            eUsuarioParticipante.TipoParticipante = 2;
+                            eUsuarioParticipante.TipoParticipante = 2;//FALTA CORREGIR
                             eUsuarioParticipante.ReenvioOperacion = "S";
                             eUsuarioParticipante.EstadoUsuarioParticipante = 1;
                             dUsuarioParticipante.Grabar(listEusuarioParticipante);

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gdoc.Entity.Models;
+using Gdoc.Entity.Extension;
 
 namespace Gdoc.Negocio
 {
@@ -15,7 +16,7 @@ namespace Gdoc.Negocio
         {
             dEmpresa = null;
         }
-        public List<Empresa> ListarEmpresa()
+        public List<EEmpresa> ListarEmpresa()
         {
             try
             {
