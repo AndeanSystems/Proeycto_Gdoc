@@ -415,6 +415,8 @@
     <Content Include="scripts\jquery-3.1.0.slim.min.js" />
     <Content Include="scripts\ui-grid.js" />
     <Content Include="scripts\ui-grid.min.js" />
+    <Content Include="Views\MesaVirtual\_CreatAndEdit.cshtml" />
+    <Content Include="Views\Usuario\CambiarContraseña.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -485,14 +487,12 @@
     <Content Include="Views\DocumentoElectronico\_CreateAndEdit.cshtml" />
     <Content Include="Views\DocumentoElectronico\_List.cshtml" />
     <Content Include="Views\Acceso\_CreateAndEdit.cshtml" />
-    <Content Include="Views\Usuario\CambiarContraseña.cshtml" />
     <Content Include="Views\DocumentoDigital\Index.cshtml" />
     <Content Include="Views\MesaVirtual\Index.cshtml" />
     <Content Include="Views\DocumentoDigital\_List.cshtml" />
     <Content Include="Views\DocumentoDigital\_CreateAndEdit.cshtml" />
     <Content Include="Views\Usuario\CambiarFirmaElectronica.cshtml" />
     <Content Include="Views\MesaVirtual\_List.cshtml" />
-    <Content Include="Views\MesaVirtual\_CreatAndEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
