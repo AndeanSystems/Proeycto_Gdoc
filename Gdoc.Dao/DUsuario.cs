@@ -45,7 +45,153 @@ namespace Gdoc.Dao
                 throw;
             }
         }
+        public EUsuario CantidadAlerta(EUsuario usuario)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var usu = (from usua in db.Usuarios
+                               join alerta in db.MensajeAlertas
+                               on usua.IDUsuario equals alerta.IDUsuario
 
+                               where usua.NombreUsuario == usuario.NombreUsuario &&
+                                        alerta.FechaAlerta.Value.Day == System.DateTime.Now.Day
+
+                               group new{usua,alerta} by new{
+                                usua.IDUsuario,
+                                usua.NombreUsuario
+                               }
+                               into grp select new {
+                                   Count =grp.Count(),
+                                   grp.Key.IDUsuario,
+                                   grp.Key.NombreUsuario
+                               }
+
+                               //select new { usua, alerta }
+                               ).FirstOrDefault();
+
+                    if (usu != null)
+                    {
+                        return new EUsuario()
+                        {
+                            IDUsuario = usu.IDUsuario,
+                            NombreUsuario = usu.NombreUsuario,
+                            CantidadAlerta = usu.Count,
+
+                        };
+                    }
+                    else return new EUsuario()
+                    {
+                        CantidadAlerta=0,
+                    };
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public EUsuario CantidadDocumentosRecibidos(EUsuario usuario)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var usu = (from usuparti in db.UsuarioParticipantes
+
+                               where usuparti.TipoParticipante =="03" &&
+                                     usuparti.TipoParticipante == "08" &&
+                                     usuparti.IDUsuario==usuario.IDUsuario &&
+
+                                      usuparti.FechaNotificacion.Value.Day == System.DateTime.Now.Day
+                               group new { usuparti } by new
+                               {
+                                   usuparti.IDUsuario,
+                               }
+                                   into grp
+                                   select new
+                                   {
+                                       Count = grp.Count(),
+                                       grp.Key.IDUsuario,
+                                   }
+
+                               //select new { usua, alerta }
+                               ).FirstOrDefault();
+
+                    if (usu != null)
+                    {
+                        return new EUsuario()
+                        {
+                            IDUsuario = usu.IDUsuario,
+                            CantidadDocumentosRecibidos = usu.Count,
+
+                        };
+                    }
+                    else return new EUsuario()
+                    {
+                        CantidadDocumentosRecibidos = 0,
+                    };
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public EUsuario CantidadMesaVirtual(EUsuario usuario)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var usu = (from usuparti in db.UsuarioParticipantes
+
+                               where usuparti.TipoParticipante == "02" &&
+                                     usuparti.IDUsuario == usuario.IDUsuario &&
+
+                                      usuparti.FechaNotificacion.Value.Day == System.DateTime.Now.Day
+
+                               group new { usuparti } by new
+                               {
+                                   usuparti.IDUsuario,
+                               }
+                                   into grp
+                                   select new
+                                   {
+                                       Count = grp.Count(),
+                                       grp.Key.IDUsuario,
+                                   }
+
+                               //select new { usua, alerta }
+                               ).FirstOrDefault();
+
+                    if (usu != null)
+                    {
+                        return new EUsuario()
+                        {
+                            IDUsuario = usu.IDUsuario,
+                            CantidadMesasVirtual = usu.Count,
+
+                        };
+                    }
+                    else return new EUsuario()
+                    {
+                        CantidadMesasVirtual = 0,
+                    };
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
         public List<EUsuario> ListarUsuario()
         {
             var listUsuario = new List<EUsuario>();
@@ -158,7 +304,6 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-
         public Usuario EditarUsuario(Usuario usuario)
         {
             try

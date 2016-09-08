@@ -14,8 +14,9 @@
 
         var context = this;
         context.operacion = {};
+        context.referencia = {};
         context.visible = "List";
-        context.listaUsuarioGrupo = [];
+        context.listaReferencia = [];
 
         //Crear Combo Auto Filters
         var pendingSearch, cancelSearch = angular.noop;
@@ -30,7 +31,7 @@
         LlenarConcepto(TipoDocumento);
         LlenarConcepto(TipoAcceso);
         //LlenarConcepto(TipoDocumento);
-        //LlenarConcepto(PrioridadAtencion);
+        LlenarConcepto(PrioridadAtencion);
         //LlenarConcepto(TipoAcceso);
         //LlenarConcepto(TipoComunicacion);
 
@@ -52,19 +53,35 @@
         //    ]
         //};
         //Eventos
+        context.agregarreferencia = function (referencia) {
+            if (context.referencia.DescripcionIndice == undefined)
+                alert("Ingrese Referencia");
+            else {
+                context.listaReferencia.push(context.referencia);
+                console.log(context.listaReferencia);
+                context.referencia = {};
+            }
+        }
+
+        context.eliminarreferencia = function (referencia) {
+            console.log(referencia);
+            context.listaReferencia.splice(referencia, 1);//POR TERMINAR
+            //context.referencia = {};
+        }
+
         context.grabar = function () {
             console.log(context.operacion);
             let Operacion = context.operacion;
-            let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
-            let listEUsuarioGrupo = [];
-            for (var ind in context.usuarioDestinatarios) {
-                listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
-            }
-            for (var ind in context.usuarioRemitentes) {
-                listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
-            }
+            //let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
+            //let listEUsuarioGrupo = [];
+            //for (var ind in context.usuarioDestinatarios) {
+            //    listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
+            //}
+            //for (var ind in context.usuarioRemitentes) {
+            //    listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
+            //}
             console.log(context.DocumentoElectronicoOperacion);
-            dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+            dataProvider.postData("DocumentoDigital/Grabar", { Operacion: Operacion}).success(function (respuesta) {
                 console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();

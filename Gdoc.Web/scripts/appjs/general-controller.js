@@ -26,7 +26,6 @@
 
         //Metodos
         context.obtenerParametros = function (idempresa) {
-            console.log(idempresa);
             dataProvider.postData("General/ListarGeneralParametros", { IDEmpresa: idempresa }).success(function (respuesta) {
                 console.log(respuesta);
                 context.general = respuesta[0];

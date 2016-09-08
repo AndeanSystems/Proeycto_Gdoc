@@ -64,7 +64,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
-                        <li class="user-header">
+                        <li class="user-header" style=" background:#A20012!important">
                             <img src="~/resources/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                             <p>
                                 @Html.Raw(Session["NombreCompleto"].ToString()) - @Html.Raw(Session["CargoUsuario"].ToString())
@@ -81,10 +81,10 @@
                         <!-- Menu Body -->
                         <li class="user-body">
                             <div class="col-xs-6 text-center">
-                                <a href="@Url.Action("CambiarContraseña", "Usuario")">Cambiar Contraseña</a>
+                                <a  href="@Url.Action("CambiarContraseña", "Usuario")">Cambiar Contraseña</a>
                             </div>
                             <div class="col-xs-6 text-center">
-                                <a href="@Url.Action("CambiarFirmaElectronica", "Usuario")">Cambiar Firma Electronica</a>
+                                <a  href="@Url.Action("CambiarFirmaElectronica", "Usuario")">Cambiar Firma Electronica</a>
                             </div>
                             <div>
                             </div>
@@ -92,12 +92,13 @@
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
+                            
                             <div class="text-center">
                                 <strong>Copyright &copy; 2015 <a href="#">AndeanSystems</a>.</strong>
                             </div>
 
-                            <div class="pull-right" >
-                                <a href="@Url.Action("Index", "Home")" class="btn btn-default btn-flat">Salir</a>
+                            <div class="text-center" >
+                                <a style="color:#ffffff" href="@Url.Action("Index", "Home")" class="btn btn-default btn-flat">Salir</a>
                             </div>
                         </li>
                     </ul>

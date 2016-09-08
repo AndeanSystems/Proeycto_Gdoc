@@ -26,7 +26,7 @@ namespace Gdoc.Web.Controllers
             using (var oConcepto = new NConcepto())
             {
                 //falta terminar
-                listConcepto = oConcepto.ListarConcepto().OrderBy(x => x.CodiConcepto).ToList();
+                listConcepto = oConcepto.ListarConcepto().Where(x=>x.EstadoConcepto==1).OrderBy(x => x.CodiConcepto).ToList();
     
             }
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
@@ -37,7 +37,7 @@ namespace Gdoc.Web.Controllers
             var listConcepto = new List<Concepto>();
             using (var oConcepto = new NConcepto())
             {
-                listConcepto = oConcepto.ListarConcepto().Where(x => x.TipoConcepto == concepto.TipoConcepto).OrderBy(x => x.DescripcionConcepto).ToList();
+                listConcepto = oConcepto.ListarConcepto().Where(x => x.TipoConcepto == concepto.TipoConcepto && x.EstadoConcepto==1).OrderBy(x => x.DescripcionConcepto).ToList();
                 //listConceptoRetorno.ForEach(x => listConcepto.Add(x));
             }
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };

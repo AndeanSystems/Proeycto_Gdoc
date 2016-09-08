@@ -14,5 +14,8 @@ namespace Gdoc.Entity.Extension
         public Empresa RazoSocial { get; set; }
         public string RutaFoto { get; set; }
         public string NombreCompleto { get; set; }
+        public int CantidadAlerta { get; set; }
+        public int CantidadDocumentosRecibidos { get; set; }
+        public int CantidadMesasVirtual { get; set; }
     }
 }

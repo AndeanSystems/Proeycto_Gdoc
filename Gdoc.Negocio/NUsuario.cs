@@ -29,7 +29,43 @@ namespace Gdoc.Negocio
                 throw ex;
             }
         }
+        public EUsuario CantidadAlerta(EUsuario usuario)
+        {
+            try
+            {
+                return dUsuario.CantidadAlerta(usuario);
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
+
+        public EUsuario CantidadDocumentosRecibidos(EUsuario usuario)
+        {
+            try
+            {
+                return dUsuario.CantidadDocumentosRecibidos(usuario);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public EUsuario CantidadMesaVirtual(EUsuario usuario)
+        {
+            try
+            {
+                return dUsuario.CantidadMesaVirtual(usuario);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public List<EUsuario> ListarUsuario()
         {
             try

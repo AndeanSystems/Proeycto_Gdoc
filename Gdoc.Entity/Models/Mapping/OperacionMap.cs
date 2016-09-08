@@ -14,7 +14,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.IDOperacion)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            this.Property(t => t.CodigoTipoOperacion)
+            this.Property(t => t.TipoOperacion)
                 .HasMaxLength(5);
 
             this.Property(t => t.NumeroOperacion)
@@ -51,7 +51,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.ToTable("Operacion");
             this.Property(t => t.IDOperacion).HasColumnName("IDOperacion");
             this.Property(t => t.IDEmpresa).HasColumnName("IDEmpresa");
-            this.Property(t => t.CodigoTipoOperacion).HasColumnName("CodigoTipoOperacion");
+            this.Property(t => t.TipoOperacion).HasColumnName("TipoOperacion");
             this.Property(t => t.FechaEmision).HasColumnName("FechaEmision");
             this.Property(t => t.NumeroOperacion).HasColumnName("NumeroOperacion");
             this.Property(t => t.TituloOperacion).HasColumnName("TituloOperacion");
@@ -66,13 +66,14 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.DocumentoAdjunto).HasColumnName("DocumentoAdjunto");
             this.Property(t => t.TipoComunicacion).HasColumnName("TipoComunicacion");
             this.Property(t => t.NotificacionOperacion).HasColumnName("NotificacionOperacion");
-
             this.Property(t => t.TipoDocumento).HasColumnName("TipoDocumento");
 
-            // Relationships
-            this.HasRequired(t => t.Empresa)
-                .WithMany(t => t.Operacions)
-                .HasForeignKey(d => d.IDEmpresa);
+
+            //falta terminar se de habilitar la llave foranea OPERACION EMPRESA
+            //// Relationships
+            //this.HasRequired(t => t.Empresa)
+            //    .WithMany(t => t.Operacions)
+            //    .HasForeignKey(d => d.IDEmpresa);
 
         }
     }

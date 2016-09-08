@@ -36,7 +36,7 @@
             </li>
             <li class="  treeview">
                 <a href="#">
-                    <i class="fa fa-cogs"></i><span>Mantenimiento</span> <i class="fa fa-angle-left pull-right"></i>
+                    <i class="fa fa-pencil"></i><span>Mantenimiento</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
                     <li class="active"><a href="@Url.Action("Index", "Usuario")"><i class="fa fa-check"></i>Usuarios</a></li>
@@ -57,8 +57,8 @@
 
             <li>
                 <a href="@Url.Action("Index", "Home")">
-                    <i class="fa fa-power-off" ></i>Cerrar Sesión
-                </a>
+                    <i class="fa fa-power-off" ></i><span>Cerrar Sesión</span> <i class="fa fa-angle-left pull-right"></i>
+</a>
             </li>
             
 
@@ -75,19 +75,19 @@
             <li>
                 <a href="@Url.Action("Index", "Alertas")">
                     <i class="fa fa-calendar"></i><span>Alertas Recibidas</span>
-                    <small class="label pull-right bg-red">3</small>
+                    <small class="label pull-right bg-red">@Html.Raw(Session["CantidadAlerta"].ToString())</small>
                 </a>
             </li>
             <li>
                 <a href="@Url.Action("DocumentosRecibidos", "Alertas")">
                     <i class="fa fa-envelope"></i><span>Documentos Recibidos</span>
-                    <small class="label pull-right bg-yellow">12</small>
+                    <small class="label pull-right bg-yellow">@Html.Raw(Session["CantidadDocumentosRecibidos"].ToString())</small>
                 </a>
             </li>
             <li>
                 <a href="@Url.Action("MesaTrabajoVirtual", "Alertas")">
                     <i class="fa fa-users"></i><span>Mesas de Trabajo Virtual</span>
-                    <small class="label pull-right bg-yellow">12</small>
+                    <small class="label pull-right bg-orange">@Html.Raw(Session["CantidadMesaVirtual"].ToString())</small>
                 </a>
             </li>
 

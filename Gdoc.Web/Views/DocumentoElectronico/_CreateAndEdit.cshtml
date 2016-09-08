@@ -1,48 +1,60 @@
 ﻿<br />
 <br />
 <br />
-<br />
 <div class="col-md-4">
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Opciones del Documento</h3>
+            <h3 class="box-title">Datos del Documento</h3>
             <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
 
         </div><!-- /.box-header -->
         <!-- form start -->
         <form role="form">
             <div class="box-body">
-                <div class="form-group no-margin-bottom">
-                    <label style="display:block;">Tipo de Accesso</label>
-                    <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
-                        <md-radio-button style="display:inline-block;margin-right:2em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso | limitTo:2">{{ta.DescripcionConcepto}} </md-radio-button>
-                    </md-radio-group>
-                </div>
+                
 
                 <div class="form-group no-margin-bottom">
-                    <label>Tipo de Documento</label>
+                    <label>Tipo de Documento (*)</label>
                     <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
                         <option value="">Seleccione</option>
                     </select>
                 </div>
 
                 <div class="form-group no-margin-bottom">
-                    <label>Tipo de Comunicacion</label>
+                    <label>Tipo de Comunicacion (*)</label>
                     <select class="form-control" ng-model="ctrl.operacion.TipoComunicacion" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoComunicacion">
                         <option value="">Seleccione</option>
                     </select>
                 </div>
 
                 <div class="form-group no-margin-bottom">
-                    <label>Plzo de Confirmación</label>
-                    <input type="text" class="form-control" placeholder="12/08/2015">
+                    <label style="display:block;">Tipo de Accesso (*)</label>
+                    <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
+                        <md-radio-button style="display:inline-block;margin-right:2em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso | limitTo:2">{{ta.DescripcionConcepto}} </md-radio-button>
+                    </md-radio-group>
                 </div>
 
                 <div class="form-group no-margin-bottom">
-                    <label>Prioridad de Atención</label>
+                    <label>Prioridad de Atención (*)</label>
                     <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion ">
                         <option value="">Seleccione</option>
                     </select>
+                </div>
+
+                <div class="form-group no-margin-bottom">
+                    <label>Plazo de Confirmación</label>
+                    @Html.TextBox("StudentName", System.DateTime.Now.AddDays(5) , new { @class = "form-control", disabled = "true" }) <!--FALTA TERMINAR PASAR PARAMETRO DE TABLA GENERAL-->
+                    @*<input type="text" class="form-control" disabled="true" placeholder="12/05/08">*@
+                </div>
+
+                <div class="form-group no-margin-bottom">
+                    <label>Fecha de Envio</label>
+                    <input type="text" class="form-control" disabled="true" placeholder="12/05/08">
+                </div>
+
+                <div class="form-group no-margin-bottom">
+                    <label>Fecha de Creación</label>
+                    <input type="text" class="form-control" disabled="true" placeholder="12/05/08"  >
                 </div>
 
                 <div class="form-group no-margin-bottom">
@@ -56,15 +68,37 @@
 <div class="col-md-8">
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Contenido del Documento</h3>
-            <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
-            <button class="btn btn-default pull-right" ng-click="ctrl.grabar()"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+            <h3 class="box-title">Documento Electronico</h3>
+            <button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
+            <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
         </div><!-- /.box-header -->
         <div class="row">
             <div class="col-md-12">
+
                 <div class="form-group">
-                    <label class="col-sm-2">Remitente</label>
-                    <div class="col-sm-10">
+                    <label class="col-sm-12">Titulo (*)</label>
+                    <div class="col-sm-12">
+                        <input type="text" ng-model="ctrl.operacion.TituloOperacion" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-12">Asunto (*)</label>
+                    <div class="col-sm-12">
+                        <input type="text" ng-model="ctrl.operacion.DescripcionOperacion" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-12">Documento Adjunto</label>
+                    <div class="col-sm-12">
+                        <input type="file" ng-model="ctrl.operacion.DocumentoAdjunto" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-12">Remitente(*)</label>
+                    <div style="font-size:12px" class="col-sm-12">
                         <md-content class="autocomplete" layout="column">
                             <md-contact-chips ng-model="ctrl.usuarioRemitentes"
                                                 md-contacts="ctrl.querySearch($query)"
@@ -78,27 +112,35 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2">Destinatario</label>
-                    <div class="col-sm-10">
-                        <md-content class="autocomplete" layout="column">
+                    <label class="col-sm-12">Destinatario(*)</label>
+                    <div style="font-size:12px" class="col-sm-12">
+                        <md-content style="font-size:12px"  class="autocomplete" layout="column">
                             <md-contact-chips ng-model="ctrl.usuarioDestinatarios"
-                                                md-contacts="ctrl.querySearch($query)"
-                                                md-contact-name="Nombre"
-                                                md-highlight-flags="i"
-                                                filter-selected="ctrl.filterSelected"
-                                                placeholder="Destinatario">
+                                              md-contacts="ctrl.querySearch($query)"
+                                              md-contact-name="Nombre"
+                                              md-highlight-flags="i"
+                                              filter-selected="ctrl.filterSelected"
+                                              placeholder="Destinatario">
                             </md-contact-chips>
                         </md-content>
                     </div><!-- /.form-group -->
                 </div>
+
+                <div class="form-group">
+                    <br>
+                    <div class="form-group">
+                        <label class="col-sm-12">Contenido (*)</label>
+                        <div class="col-sm-12">
+                            <textarea id="editor1" name="editor1" style="resize:none" rows="7" cols="80" class="form-control" ng-model="ctrl.DocumentoElectronicoOperacion.Memo">
+                                Editor de texto
+                            </textarea>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <br>
-            <textarea id="editor1" name="editor1" rows="10" cols="80" class="form-control" ng-model="ctrl.DocumentoElectronicoOperacion.Memo">
-                Editor de texto
-            </textarea>
-        </div>
+        
     </div>
 </div>

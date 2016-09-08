@@ -20,7 +20,7 @@ namespace Gdoc.Entity.Models
 
         public long IDOperacion { get; set; }
         public int IDEmpresa { get; set; }
-        public string CodigoTipoOperacion { get; set; }
+        public string TipoOperacion { get; set; }
         public Nullable<System.DateTime> FechaEmision { get; set; }
         public string NumeroOperacion { get; set; }
         public string TituloOperacion { get; set; }

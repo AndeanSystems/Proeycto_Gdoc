@@ -9,7 +9,7 @@ namespace Gdoc.Entity.Models
         public long IDUsuario { get; set; }
         public long IDOperacion { get; set; }
         public string TipoOperacion { get; set; }
-        public Nullable<short> TipoParticipante { get; set; }
+        public string TipoParticipante { get; set; }
         public string AprobarOperacion { get; set; }
         public string EnviarNotificiacion { get; set; }
         public Nullable<System.DateTime> FechaNotificacion { get; set; }

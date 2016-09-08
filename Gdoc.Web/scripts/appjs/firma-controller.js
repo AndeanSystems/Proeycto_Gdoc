@@ -13,6 +13,15 @@
         context.usuario = {};
 
         //Eventos
+        context.pasar = function () {
+            dataProvider.postData("GrabarUsuario", usuario).success(function (respuesta) {
+                console.log(respuesta);
+                context.usuario = {};
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+
         context.grabar = function () {
             console.log(context.usuario);
 
@@ -26,7 +35,7 @@
                 alert("grabo");
 
                 context.usuario.FirmaElectronica = usuario.FirmaElectronicaNueva
-                dataProvider.postData("GrabarUsuario", usuario).success(function (respuesta) {
+                dataProvider.getData("GrabarUsuario", usuario).success(function (respuesta) {
                     console.log(respuesta);
                     context.usuario = {};
                 }).error(function (error) {

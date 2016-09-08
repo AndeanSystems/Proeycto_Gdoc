@@ -33,19 +33,32 @@ namespace Gdoc.Web.Controllers
             using (var NUsuario = new NUsuario())
             {
                 var UsuarioEncontrado = NUsuario.ValidarLogin(usuario);
+                var CantidadAlerta = NUsuario.CantidadAlerta(UsuarioEncontrado);
+                var CantidadDocumentosRecibidos = NUsuario.CantidadDocumentosRecibidos(UsuarioEncontrado);
+                var CantidadMesaVirtual = NUsuario.CantidadMesaVirtual(UsuarioEncontrado);
+
                 if (UsuarioEncontrado != null)
                 {
-                    //string nombre = UsuarioEncontrado.Personal.NombrePers;
-                    //string nombre_may = UsuarioEncontrado.Personal.NombrePers.ToUpper();
-
-                    //nombre=nombre.ToLower();
-
-                    //nombre = nombre.Replace(nombre[0], nombre_may[0]);
-
                     Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
                     Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
                     Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
                     Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);
+                        
+                    if (CantidadAlerta != null)
+                        Session["CantidadAlerta"] = CantidadAlerta.CantidadAlerta; 
+                    else
+                        Session["CantidadAlerta"] = 0; 
+                    //---
+                    if (CantidadDocumentosRecibidos != null)
+                        Session["CantidadDocumentosRecibidos"] = CantidadDocumentosRecibidos.CantidadDocumentosRecibidos;
+                    else
+                        Session["CantidadDocumentosRecibidos"] = 0;
+                    //---
+                    if (CantidadMesaVirtual != null)
+                        Session["CantidadMesaVirtual"] = CantidadMesaVirtual.CantidadMesasVirtual;
+                    else
+                        Session["CantidadMesaVirtual"] = 0; 
+                    
                     return RedirectToAction("Index", "Alertas");
                 }
                 else
@@ -84,9 +97,9 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult GrabarUsuario(Usuario usuario)
         {
+            //CopiarFirma("","","");
             using (var oUsuario = new NUsuario())
             {
-               //var respuesta = oUsuario.GrabarUsuario(usuario);
                 Usuario respuesta = null;
                 if (usuario.IDUsuario > 0){
                     usuario.FechaModifica = System.DateTime.Now;
@@ -152,6 +165,7 @@ namespace Gdoc.Web.Controllers
 
             return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+
         #region "Metodos"
         public string FormatoNombre(string nombre)
         {
@@ -162,6 +176,25 @@ namespace Gdoc.Web.Controllers
 
             nombre_orig = nombre_orig.Replace(nombre_orig[0], nombre_may[0]);
             return nombre_orig;
+        }
+
+        public void CopiarFirma(string file,string ruta,string rutafin)
+        {
+            file = "firma.jpg";
+            ruta = @"C:\Users\ANDEAN\Desktop\firmas";
+            rutafin = @"C:\Users\ANDEAN\Desktop\firmas\destino";
+
+            string sourceFile = System.IO.Path.Combine(ruta, file);
+            string destFile = System.IO.Path.Combine(rutafin, file);
+
+            if (!System.IO.Directory.Exists(rutafin))
+            {
+                System.IO.Directory.CreateDirectory(rutafin);
+            }
+
+            System.IO.File.Copy(sourceFile, destFile, true);
+
+            
         }
         #endregion
     }

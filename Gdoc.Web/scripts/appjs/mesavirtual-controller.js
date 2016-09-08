@@ -1,19 +1,20 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('app').controller('documentoelectronico_controller', documentoelectronico_controller);
-    documentoelectronico_controller.$inject = ['$location', 'app_factory', 'appService'];
+    angular.module('app').controller('mesavirtual_controller', mesavirtual_controller);
+    mesavirtual_controller.$inject = ['$location', 'app_factory', 'appService'];
 
-    function documentoelectronico_controller($location, dataProvider, appService) {
+    function mesavirtual_controller($location, dataProvider, appService) {
         /* jshint validthis:true */
         ///Variables
         let TipoDocumento = "012";
         let PrioridadAtencion = "005";
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
+        let TipoMesaVirtual = "011";
+
         var context = this;
         context.operacion = {};
-        context.DocumentoElectronicoOperacion = {};
         context.visible = "List";
         context.listaUsuarioGrupo = [];
 
@@ -27,12 +28,14 @@
         var usuario = {};
 
 
-
         LlenarConcepto(TipoDocumento);
-        LlenarConcepto(PrioridadAtencion);
         LlenarConcepto(TipoAcceso);
-        LlenarConcepto(TipoComunicacion);
-        
+        LlenarConcepto(TipoMesaVirtual);
+        //LlenarConcepto(TipoDocumento);
+        LlenarConcepto(PrioridadAtencion);
+        //LlenarConcepto(TipoAcceso);
+        //LlenarConcepto(TipoComunicacion);
+
         //context.gridOptions = {
         //    paginationPageSizes: [25, 50, 75],
         //    paginationPageSize: 25,
@@ -51,7 +54,7 @@
         //    ]
         //};
         //Eventos
-        context.grabar = function (numeroboton) {
+        context.grabar = function () {
             console.log(context.operacion);
             let Operacion = context.operacion;
             let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
@@ -59,13 +62,9 @@
             for (var ind in context.usuarioDestinatarios) {
                 listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
             }
-            for(var ind in context.usuarioRemitentes){
+            for (var ind in context.usuarioRemitentes) {
                 listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
             }
-            if (numeroboton == 1)
-                Operacion.EstadoOperacion = 0
-            else if (numeroboton == 2)
-                Operacion.EstadoOperacion = 1
             console.log(context.DocumentoElectronicoOperacion);
             dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                 console.log(respuesta);
@@ -77,8 +76,6 @@
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
             if (context.visible != "List") {
-                //CKEDITOR.replace('editor1');
-                //$(".textarea").wysihtml5();
             }
         }
         ////
@@ -107,6 +104,8 @@
                     context.listTipoAcceso = respuesta;
                 else if (concepto.TipoConcepto == TipoComunicacion)
                     context.listTipoComunicacion = respuesta;
+                else if (concepto.TipoConcepto == TipoMesaVirtual)
+                    context.listTipoMesaVirtual = respuesta;
             });
         }
     }

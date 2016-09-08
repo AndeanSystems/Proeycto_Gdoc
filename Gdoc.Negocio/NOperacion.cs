@@ -33,6 +33,12 @@ namespace Gdoc.Negocio
 
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 dOperacion.Grabar(operacion);
+
+
+                eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
+
+                dDocumentoElectronicoOperacion.Grabar(eDocumentoElectronicoOperacion);
+
                 //Falta Terminar
                 foreach (var participante in listEUsuarioGrupo)
                 {
@@ -41,7 +47,8 @@ namespace Gdoc.Negocio
                     {
                         eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                        eUsuarioParticipante.TipoParticipante = 2;//FALTA CORREGIR
+                        eUsuarioParticipante.TipoOperacion = "03";
+                        eUsuarioParticipante.TipoParticipante = "03";//FALTA CORREGIR
                         eUsuarioParticipante.ReenvioOperacion = "S";
                         eUsuarioParticipante.EstadoUsuarioParticipante = 1;
                         listEusuarioParticipante.Add(eUsuarioParticipante);
@@ -54,7 +61,7 @@ namespace Gdoc.Negocio
                         {
                             eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
                             eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                            eUsuarioParticipante.TipoParticipante = 2;//FALTA CORREGIR
+                            eUsuarioParticipante.TipoParticipante = "03";//FALTA CORREGIR
                             eUsuarioParticipante.ReenvioOperacion = "S";
                             eUsuarioParticipante.EstadoUsuarioParticipante = 1;
                             dUsuarioParticipante.Grabar(listEusuarioParticipante);
@@ -62,7 +69,6 @@ namespace Gdoc.Negocio
                     }
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
-                dDocumentoElectronicoOperacion.Grabar(eDocumentoElectronicoOperacion);
                 return 1;
             }
             catch (Exception)

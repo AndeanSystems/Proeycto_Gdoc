@@ -387,6 +387,7 @@
     <Content Include="scripts\appjs\firma-controller.js" />
     <Content Include="scripts\appjs\general-controller.js" />
     <Content Include="scripts\appjs\grupo-controller.js" />
+    <Content Include="scripts\appjs\mesavirtual-controller.js" />
     <Content Include="scripts\appjs\usuario-controller.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -441,6 +442,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Constantes.cs" />
     <Compile Include="Util\Estados.cs" />
     <Compile Include="Util\MensajeConfirmacion.cs" />
   </ItemGroup>
@@ -489,6 +491,8 @@
     <Content Include="Views\DocumentoDigital\_List.cshtml" />
     <Content Include="Views\DocumentoDigital\_CreateAndEdit.cshtml" />
     <Content Include="Views\Usuario\CambiarFirmaElectronica.cshtml" />
+    <Content Include="Views\MesaVirtual\_List.cshtml" />
+    <Content Include="Views\MesaVirtual\_CreatAndEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

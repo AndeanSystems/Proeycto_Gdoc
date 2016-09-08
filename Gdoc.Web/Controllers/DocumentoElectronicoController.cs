@@ -1,6 +1,7 @@
 ﻿using Gdoc.Entity.Extension;
 using Gdoc.Entity.Models;
 using Gdoc.Negocio;
+using Gdoc.Web.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,9 @@ namespace Gdoc.Web.Controllers
         public JsonResult Grabar(Operacion operacion,DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo) {
             try
             {
+                //FALTA TERMINAR QUITAR VALORES EN DURO
                 operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
-                operacion.TituloOperacion = "03";
+                operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
                 operacion.FechaEmision = DateTime.Now;
                 operacion.FechaCierre = DateTime.Now;
                 operacion.FechaVigente = DateTime.Now;
@@ -31,9 +33,9 @@ namespace Gdoc.Web.Controllers
                 operacion.NumeroOperacion = DateTime.Now.Ticks.ToString();
                 operacion.NotificacionOperacion = "S";
                 operacion.DocumentoAdjunto = "N";
-                operacion.EstadoOperacion = "0";
-                operacion.TituloOperacion = "Documento Electronico";
-                operacion.DescripcionOperacion = "Documento Electronico";
+                //operacion.EstadoOperacion = "0";
+
+                //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 using (var oNOperacion = new NOperacion())
                 {
                     var respuesta = oNOperacion.Grabar(operacion, eDocumentoElectronicoOperacion, listEUsuarioGrupo);
