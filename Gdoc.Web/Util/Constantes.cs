@@ -16,9 +16,13 @@ namespace Gdoc.Web.Util
 
         public struct TipoParticipante
         {
-            public const string Emisor = "04";
-            public const string Remitente = "06";
-            public const string Destinatario = "03";
+            public const string ColaboradorMV = "02";
+            public const string DestinatarioDE = "03";
+            public const string EmisorDE = "04";
+            public const string OrganizadorMV = "05";
+            public const string RemitenteDE = "06";
+            public const string EmisorDD = "07";
+            public const string DestinatarioDD = "08";
         }
     }
 }

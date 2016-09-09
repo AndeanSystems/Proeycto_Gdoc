@@ -12,7 +12,7 @@ namespace Gdoc.Entity.Models.Mapping
 
             // Properties
             this.Property(t => t.IDDoctoDigitalOperacion)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             this.Property(t => t.DerivarDocto)
                 .IsFixedLength()
@@ -24,9 +24,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.RutaFisica)
                 .HasMaxLength(300);
 
-            this.Property(t => t.DoctoExterno)
-                .HasMaxLength(10);
-
             this.Property(t => t.NombreFisico)
                 .HasMaxLength(300);
 
@@ -36,19 +33,18 @@ namespace Gdoc.Entity.Models.Mapping
             // Table & Column Mappings
             this.ToTable("DocumentoDigitalOperacion");
             this.Property(t => t.IDDoctoDigitalOperacion).HasColumnName("IDDoctoDigitalOperacion");
-            this.Property(t => t.CodigoOperacion).HasColumnName("CodigoOperacion");
+            this.Property(t => t.IDOperacion).HasColumnName("IDOperacion");
             this.Property(t => t.DerivarDocto).HasColumnName("DerivarDocto");
             this.Property(t => t.NombreOriginal).HasColumnName("NombreOriginal");
             this.Property(t => t.RutaFisica).HasColumnName("RutaFisica");
             this.Property(t => t.TamanoDocto).HasColumnName("TamanoDocto");
-            this.Property(t => t.DoctoExterno).HasColumnName("DoctoExterno");
             this.Property(t => t.NombreFisico).HasColumnName("NombreFisico");
             this.Property(t => t.Comentario).HasColumnName("Comentario");
 
             // Relationships
             this.HasRequired(t => t.Operacion)
                 .WithMany(t => t.DocumentoDigitalOperacions)
-                .HasForeignKey(d => d.CodigoOperacion);
+                .HasForeignKey(d => d.IDOperacion);
 
         }
     }

@@ -102,8 +102,8 @@ namespace Gdoc.Dao
                 {
                     var usu = (from usuparti in db.UsuarioParticipantes
 
-                               where usuparti.TipoParticipante =="03" &&
-                                     usuparti.TipoParticipante == "08" &&
+                               where (usuparti.TipoParticipante =="03" ||
+                                     usuparti.TipoParticipante == "08") &&
                                      usuparti.IDUsuario==usuario.IDUsuario &&
 
                                       usuparti.FechaNotificacion.Value.Day == System.DateTime.Now.Day

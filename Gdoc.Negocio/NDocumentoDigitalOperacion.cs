@@ -16,7 +16,7 @@ namespace Gdoc.Negocio
         {
             dDocumentoDigitalOperacion = null;
         }
-        public DocumentoDigitalOperacion GrabarDocumentoDigitalOperacion(DocumentoDigitalOperacion documentodigitaloperacion)
+        public Int32 GrabarDocumentoDigitalOperacion(DocumentoDigitalOperacion documentodigitaloperacion)
         {
             try
             {

@@ -11,16 +11,16 @@ namespace Gdoc.Dao
 {
     public class DIndexacionDocumento
     {
-        public IndexacionDocumento GrabarIndexacion(IndexacionDocumento indexacion)
+        public short GrabarIndexacion(List<IndexacionDocumento> listIndexacion)
         {
             try
             {
                 using (var db = new DataBaseContext())
                 {
-                    db.IndexacionDocumentoes.Add(indexacion);
+                    db.IndexacionDocumentoes.AddRange(listIndexacion);
                     db.SaveChanges();
                 }
-                return indexacion;
+                return 1;
             }
             catch (Exception ex)
             {

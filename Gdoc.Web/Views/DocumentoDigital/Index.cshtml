@@ -7,6 +7,9 @@
         <div class="row" ng-if="ctrl.visible == 'CreateAndEdit'">
             @Html.Partial("_CreateAndEdit")
         </div>
+        <div class="row" ng-if="ctrl.visible == 'Preview'">
+            @Html.Partial("_Preview")
+        </div>
 </section>
 </section>
 @section Scripts{

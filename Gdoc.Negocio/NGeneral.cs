@@ -49,5 +49,17 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public General CargaParametros(int IDEmpresa)
+        {
+            try
+            {
+                return dGeneral.CargaParametros(IDEmpresa);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

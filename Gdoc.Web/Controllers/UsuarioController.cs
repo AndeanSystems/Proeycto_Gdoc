@@ -37,28 +37,49 @@ namespace Gdoc.Web.Controllers
                 var CantidadDocumentosRecibidos = NUsuario.CantidadDocumentosRecibidos(UsuarioEncontrado);
                 var CantidadMesaVirtual = NUsuario.CantidadMesaVirtual(UsuarioEncontrado);
 
+                
+
                 if (UsuarioEncontrado != null)
                 {
                     Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
                     Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
                     Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
                     Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);
-                        
-                    if (CantidadAlerta != null)
-                        Session["CantidadAlerta"] = CantidadAlerta.CantidadAlerta; 
-                    else
-                        Session["CantidadAlerta"] = 0; 
+                      
+                    //CONTADORES
+                    if (CantidadAlerta != null) Session["CantidadAlerta"] = CantidadAlerta.CantidadAlerta; 
+                    else Session["CantidadAlerta"] = 0; 
                     //---
-                    if (CantidadDocumentosRecibidos != null)
-                        Session["CantidadDocumentosRecibidos"] = CantidadDocumentosRecibidos.CantidadDocumentosRecibidos;
-                    else
-                        Session["CantidadDocumentosRecibidos"] = 0;
+                    if (CantidadDocumentosRecibidos != null) Session["CantidadDocumentosRecibidos"] = CantidadDocumentosRecibidos.CantidadDocumentosRecibidos;
+                    else Session["CantidadDocumentosRecibidos"] = 0;
                     //---
-                    if (CantidadMesaVirtual != null)
-                        Session["CantidadMesaVirtual"] = CantidadMesaVirtual.CantidadMesasVirtual;
-                    else
-                        Session["CantidadMesaVirtual"] = 0; 
-                    
+                    if (CantidadMesaVirtual != null) Session["CantidadMesaVirtual"] = CantidadMesaVirtual.CantidadMesasVirtual;
+                    else Session["CantidadMesaVirtual"] = 0; 
+                    //--
+
+                    //PARAMETROS GENERALES
+                    using (var NGeneral = new NGeneral())
+                    {
+                        var CargarParametros = NGeneral.CargaParametros(Convert.ToInt32(Session["IDEmpresa"]));
+
+                        Session["PlazoDoctoElectronico"] = CargarParametros.PlazoDoctoElectronico;
+                        Session["ExtensionPlazoDoctoElectronico"] = CargarParametros.ExtensionPlazoDoctoElectronico;
+                        Session["AlertaDoctoElectronico"] = CargarParametros.AlertaDoctoElectronico;
+                        Session["PlazoMesaVirtual"] = CargarParametros.PlazoMesaVirtual;
+                        Session["ExtensionPlazoMesaVirtual"] = CargarParametros.ExtensionPlazoMesaVirtual;
+                        Session["AlertaMesaVirtual"] = CargarParametros.AlertaMesaVirtual;
+                        Session["AlertaMailLaboral"] = CargarParametros.AlertaMailLaboral;
+                        Session["AlertaMailPersonal"] = CargarParametros.AlertaMailPersonal;
+                        Session["HoraActualizaEstadoOperacion"] = CargarParametros.HoraActualizaEstadoOperacion;
+                        Session["HoraCierreLabores"] = CargarParametros.HoraCierreLabores;
+                        Session["PlazoExpiraFirma"] = CargarParametros.PlazoExpiraFirma;
+                        Session["RutaGdocImagenes"] = CargarParametros.RutaGdocImagenes;
+                        Session["RutaGdocPDF"] = CargarParametros.RutaGdocPDF;
+                        Session["RutaGdocAdjuntos"] = CargarParametros.RutaGdocAdjuntos;
+                        Session["RutaGdocExternos"] = CargarParametros.RutaGdocExternos;
+
+                    }
+
                     return RedirectToAction("Index", "Alertas");
                 }
                 else

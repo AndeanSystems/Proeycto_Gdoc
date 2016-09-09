@@ -15,5 +15,11 @@
             public const short Activo = 1;
             public const short Inactivo = 2;
         }
+        public struct EstadoOperacion
+        {
+            public const short Creado = 0;
+            public const short Activo = 1;
+            public const short Inactivo = 2;
+        }
     }
 }

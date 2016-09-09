@@ -9,7 +9,7 @@ namespace Gdoc.Dao
 {
     public class DDocumentoDigitalOperacion
     {
-        public DocumentoDigitalOperacion GrabarDocumentoDigitalOperacion(DocumentoDigitalOperacion documentodigitaloperacion)
+        public Int32 GrabarDocumentoDigitalOperacion(DocumentoDigitalOperacion documentodigitaloperacion)
         {
             try
             {
@@ -18,7 +18,7 @@ namespace Gdoc.Dao
                     db.DocumentoDigitalOperacions.Add(documentodigitaloperacion);
                     db.SaveChanges();
                 }
-                return documentodigitaloperacion;
+                return 1;
             }
             catch (Exception ex)
             {

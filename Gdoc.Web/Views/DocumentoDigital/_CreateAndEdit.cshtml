@@ -6,14 +6,14 @@
         <div class="col-md-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Opciones del Documento</h3>
-                    <button class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_preview"><i class="fa fa-file-pdf-o" data-placement="top" data-toggle="tooltip" title="Preview"></i></button>
+                    <h3 class="box-title">Datos del Documento</h3>
+                    <a target="_blank" ><button class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_preview"><i class="fa fa-file-pdf-o" data-placement="top" data-toggle="tooltip" title="Preview"></i></button></a>
                     <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
                 </div><!-- /.box-header -->
                 <form role="form">
                     <div class="box-body">
-                        <div class="form-group">
-                            <label class="col-sm-12">Tipo Documento</label>
+                        <div class="form-group margin-bottom">
+                            <label class="col-sm-12">Tipo Documento (*)</label>
                             <div class="col-sm-12">
                                 <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
                                     <option value="">Seleccione</option>
@@ -21,24 +21,32 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-12">Derivación </label>
-                            <md-radio-group ng-model="ctrl.operacion.Derivacion">
-                                <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="0" class="standard" >Si</md-radio-button>
-                                <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="1" class="standard" >No</md-radio-button>
+                        <div class="form-group no-margin">
+                            <label class="col-sm-4 ">Derivación (*)</label>
+                            <md-radio-group ng-model="ctrl.DocumentoDigitaloOperacion.DerivarDocto">
+                                <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="S">Si</md-radio-button>
+                                <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="N">No</md-radio-button>
 
                             </md-radio-group>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-12">Tipo de Accesso </label>
+                        <div class="form-group no-margin">
+                            <label class="col-sm-4">Tipo de Accesso (*)</label>
                             <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
                                 <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso | limitTo:2">{{ta.DescripcionConcepto}} </md-radio-button>
                             </md-radio-group>
                         </div>
 
+                        <div class="form-group no-margin">
+                            <label class="col-sm-4">Documento Interno (*)</label>
+                            <md-radio-group ng-model="ctrl.operacion.TipoComunicacion">
+                                <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="1">Si</md-radio-button>
+                                <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="2">No</md-radio-button>
+                            </md-radio-group>
+                        </div>
+
                         <div class="form-group ">
-                            <label class="col-md-12">Prioridad de Atención</label>
+                            <label class="col-md-12">Prioridad de Atención (*)</label>
                             <div class="col-sm-12">
                                 <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion ">
                                     <option value="">Seleccione</option>
@@ -48,130 +56,134 @@
 
                         <div class="form-group">
                             <label class="col-sm-12">Elegir Archivo</label>
-                            <div class="col-sm-12">
-                                <input type="file" ng-model="ctrl.operacion.DocumentoAdjunto" class="form-control">
-                            </div>
-                        </div>
-
-
-                    </div>
-                </form>
-            </div>
-
-            <div class="box box-primary">
-                <form role="form">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <div class="col-sm-11">
-                                <input type="text" class="form-control" placeholder="Nueva Referencia" ng-model="ctrl.referencia.DescripcionIndice">
-                            </div>
-                            <div class="col-sm-1">
-                                <span class="input-group-btn">
-                                    <button type="submit" name="search" id="search-btn" class="btn btn-flat" ng-click="ctrl.agregarreferencia(ctrl.referencia.DescripcionIndice)"><i class="fa fa-plus-circle" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="table-responsive mailbox-messages">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                    <th>Referencia</th>
-                                    <th>Acciones</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="item in ctrl.listaReferencia">
-                                            <td class="mailbox-date">{{item.DescripcionIndice}}</td>
-                                            <td>
-                                                <i class="fa fa-times  " data-placement="top" data-toggle="tooltip" title="Borrar" ng-click="ctrl.eliminarreferencia(ctrl.listaReferencia.indexof(1))"></i>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            </div>
-
-        <div class="col-md-6">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Contenido del Documento</h3>
-                    <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
-                    <button class="btn btn-default pull-right" ng-click="ctrl.grabar()"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
-                </div><!-- /.box-header -->
-                <form role="form">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label class="col-sm-12">Destinatario</label>
-                            <div class="col-sm-12">
-                                <md-content class="autocomplete" layout="column">
-                                    <md-contact-chips ng-model="ctrl.usuarioDestinatarios"
-                                                        md-contacts="ctrl.querySearch($query)"
-                                                        md-contact-name="Nombre"
-                                                        md-highlight-flags="i"
-                                                        filter-selected="ctrl.filterSelected"
-                                                        placeholder="Destinatario">
-                                    </md-contact-chips>
-                                </md-content>
+                            <div class="col-md-12"> 
+                                <input type="file" ng-model="ctrl.DocumentoDigitaloOperacion.NombreOriginal" data-show-upload="false">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-12">Titulo </label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control">
+                            <label class="col-sm-12">Referencia de Indexación</label>
+                            <div class="col-md-12">
                             </div>
                         </div>
+                           
+                        <form role="form">
+                            <div class="form-group">
+                                <div class="col-sm-11">
+                                    <input type="text" class="form-control" placeholder="Nueva Referencia" ng-model="ctrl.referencia.DescripcionIndice">
+                                </div>
+                                <div class="col-sm-1">
+                                    <span class="input-group-btn">
+                                        <button type="submit" name="search" id="search-btn" class="btn btn-flat" ng-click="ctrl.agregarreferencia(ctrl.referencia.DescripcionIndice)"><i class="fa fa-plus-circle" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="table-responsive mailbox-messages">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                        <th>Referencia</th>
+                                        <th>Acciones</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in ctrl.listaReferencia">
+                                                <td class="mailbox-date">{{item.DescripcionIndice}}</td>
+                                                <td>
+                                                    <i class="fa fa-times  " data-placement="top" data-toggle="tooltip" title="Borrar" ng-click="ctrl.eliminarreferencia(ctrl.listaReferencia.indexof(1))"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
 
-                        <div class="form-group">
-                            <label class="col-sm-12">Asunto </label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control">
+                        </div>
+                    </form>
+                </div>
+
+                </div>
+
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Documento Digital</h3>
+                        <button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
+                        <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+                    </div><!-- /.box-header -->
+                    <form role="form">
+                        <div class="box-body">
+
+                            <div class="form-group">
+                                <label class="col-sm-12">Titulo (*)</label>
+                                <div class="col-sm-12">
+                                    <input type="text" ng-model="ctrl.operacion.TituloOperacion" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-12">Asunto (*)</label>
+                                <div class="col-sm-12">
+                                    <input type="text" ng-model="ctrl.operacion.DescripcionOperacion" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-12">Destinatario (*)</label>
+                                <div class="col-sm-12">
+                                    <md-content class="autocomplete" layout="column">
+                                        <md-contact-chips ng-model="ctrl.usuarioDestinatarios"
+                                                          md-contacts="ctrl.querySearch($query)"
+                                                          md-contact-name="Nombre"
+                                                          md-highlight-flags="i"
+                                                          filter-selected="ctrl.filterSelected"
+                                                          placeholder="Destinatario">
+                                        </md-contact-chips>
+                                    </md-content>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-12">Fecha de Emisión</label>
+                                <div class="col-sm-12">
+                                    <input type="text" disabled="true" class="form-control date" placeholder="12/08/2015">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-12">Fecha de Recepcion:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" disabled="true" class="form-control date" placeholder="12/08/2015">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-12">Comentario</label>
+                                <div class="col-sm-12">
+                                    <textarea style="resize:none" class="form-control" ng-model="ctrl.DocumentoDigitaloOperacion.Comentario"></textarea>
+                                </div>
                             </div>
                         </div>
+                    </form>
+                </div>
+                </div><!--fin  col-->
+        </div><!-- fin row-->
 
-                        <div class="form-group">
-                            <label class="col-sm-12">Fecha de Emisión</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control date" placeholder="12/08/2015">
-                            </div>
-                        </div>
+    
 
-                        <div class="form-group">
-                            <label class="col-sm-12">Fecha de Recepcion:</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control date" placeholder="12/08/2015">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-12">Comentario</label>
-                            <div class="col-sm-12">
-                                <textarea style="resize:none" class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </form> 
-            </div>
-            </div><!--fin  col-->
-    </div><!-- fin row-->
-
-<!--modal preview pdf-->
-<div class="modal fade" id="modal_preview">
-    <div class="modal-dialog modal-lg" style="width:90%;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Vista previa</h4>
-            </div>
-            <div class="modal-body">
-                <center>
-                    <object data="img/DE0002-2015-FPC-GPD.pdf" type="application/pdf" width="90%" height="500px"></object>
-                </center>
+    <!--modal preview pdf-->
+    <div class="modal fade" id="modal_preview">
+        <div class="modal-dialog modal-lg" style="width:90%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Vista previa</h4>
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <object id="pre" data="resources/pdf/DE0002-2015-FPC-GPD.pdf" type="application/pdf" width="90%" height="500px"></object>
+                    </center>
+                </div>
             </div>
         </div>
     </div>
-</div>

@@ -16,6 +16,7 @@
         context.DocumentoElectronicoOperacion = {};
         context.visible = "List";
         context.listaUsuarioGrupo = [];
+        context.Mensaje="¿Esta Seguro de enviar el Documento Electronico?"
 
         //Crear Combo Auto Filters
         var pendingSearch, cancelSearch = angular.noop;

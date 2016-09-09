@@ -16,6 +16,7 @@ namespace Gdoc.Entity.Models
             this.MesaVirtualComentarios = new List<MesaVirtualComentario>();
             this.UsuarioAutorizadors = new List<UsuarioAutorizador>();
             this.UsuarioParticipantes = new List<UsuarioParticipante>();
+
         }
 
         public long IDOperacion { get; set; }
@@ -25,7 +26,7 @@ namespace Gdoc.Entity.Models
         public string NumeroOperacion { get; set; }
         public string TituloOperacion { get; set; }
         public string AccesoOperacion { get; set; }
-        public string EstadoOperacion { get; set; }
+        public int EstadoOperacion { get; set; }
         public string DescripcionOperacion { get; set; }
         public string PrioridadOperacion { get; set; }
         public Nullable<System.DateTime> FechaCierre { get; set; }

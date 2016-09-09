@@ -98,5 +98,44 @@ namespace Gdoc.Dao
                 throw;
             }
         }
+
+        public General CargaParametros(int IDEmpresa)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var usu = (from gen in db.Generals
+                               where gen.IDEmpresa == IDEmpresa
+                               select new { gen }).FirstOrDefault();
+                    return new General()
+                    {
+                        IDUsuario = usu.gen.IDUsuario,
+                        PlazoDoctoElectronico= usu.gen.PlazoDoctoElectronico,
+                        ExtensionPlazoDoctoElectronico= usu.gen.ExtensionPlazoDoctoElectronico,
+                        AlertaDoctoElectronico= usu.gen.AlertaDoctoElectronico,
+                        PlazoMesaVirtual= usu.gen.PlazoMesaVirtual,
+                        ExtensionPlazoMesaVirtual= usu.gen.ExtensionPlazoMesaVirtual,
+                        AlertaMesaVirtual= usu.gen.AlertaMesaVirtual,
+                        AlertaMailLaboral= usu.gen.AlertaMailLaboral,
+                        AlertaMailPersonal= usu.gen.AlertaMailPersonal,
+                        HoraActualizaEstadoOperacion= usu.gen.HoraActualizaEstadoOperacion,
+                        HoraCierreLabores= usu.gen.HoraCierreLabores,
+                        PlazoExpiraFirma= usu.gen.PlazoExpiraFirma,
+                        RutaGdocImagenes= usu.gen.RutaGdocImagenes,
+                        RutaGdocPDF= usu.gen.RutaGdocPDF,
+                        RutaGdocAdjuntos = usu.gen.RutaGdocAdjuntos,
+                        RutaGdocExternos= usu.gen.RutaGdocExternos,
+
+
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -27,9 +27,7 @@ namespace Gdoc.Entity.Models.Mapping
                 .IsFixedLength()
                 .HasMaxLength(2);
 
-            this.Property(t => t.EstadoOperacion)
-                .IsFixedLength()
-                .HasMaxLength(1);
+            this.Property(t => t.EstadoOperacion);
 
             this.Property(t => t.PrioridadOperacion)
                 .IsFixedLength()
@@ -69,7 +67,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.TipoDocumento).HasColumnName("TipoDocumento");
 
 
-            //falta terminar se de habilitar la llave foranea OPERACION EMPRESA
+            //falta terminar se de habilitar la llave foranea OPERACION EMPRESA - DAVID REVISAR
             //// Relationships
             //this.HasRequired(t => t.Empresa)
             //    .WithMany(t => t.Operacions)

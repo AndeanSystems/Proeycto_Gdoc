@@ -11,17 +11,18 @@
         let PrioridadAtencion = "005";
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
-
         var context = this;
         context.operacion = {};
+        context.DocumentoDigitaloOperacion = {};
+        context.IndexacionDocumento = [];
         context.referencia = {};
         context.visible = "List";
         context.listaReferencia = [];
+        context.listaUsuarioGrupo = [];
 
         //Crear Combo Auto Filters
         var pendingSearch, cancelSearch = angular.noop;
         var cachedQuery, lastSearch;
-        context.usuarioRemitentes = [];
         context.usuarioDestinatarios = [];
         context.filterSelected = true;
         context.querySearch = querySearch;
@@ -30,28 +31,38 @@
 
         LlenarConcepto(TipoDocumento);
         LlenarConcepto(TipoAcceso);
-        //LlenarConcepto(TipoDocumento);
         LlenarConcepto(PrioridadAtencion);
-        //LlenarConcepto(TipoAcceso);
         //LlenarConcepto(TipoComunicacion);
 
-        //context.gridOptions = {
-        //    paginationPageSizes: [25, 50, 75],
-        //    paginationPageSize: 25,
-        //    enableFiltering: true,
-        //    data: [],
-        //    columnDefs: [
-        //        { field: 'CodiConcepto', displayName: 'Codigo' },
-        //        { field: 'DescripcionConcepto', displayName: 'Descripcion' },
-        //        { field: 'DescripcionCorta', displayName: 'Abreviatura' },
-        //        { field: 'ValorUno', displayName: 'Valor1' },
-        //        { field: 'ValorDos', displayName: 'Valor2' },
-        //        { field: 'TextoUno', displayName: 'Texto1' },
-        //        { field: 'TextoDos', displayName: 'Texto2' },
-        //        { field: 'EstadoConcepto', displayName: 'Estado' },
-        //        { field: 'Empresa.DireccionEmpresa', displayName: 'Direción Empresa' }
-        //    ]
-        //};
+        //COMIENZO
+        context.operacion = {
+            AccesoOperacion : '1'
+        };
+        context.DocumentoDigitaloOperacion = {
+            DerivarDocto: 'S',
+            DoctoExterno: 'S'
+        }
+        context.gridOptions = {
+            paginationPageSizes: [25, 50, 75],
+            paginationPageSize: 25,
+            //enableFiltering: true,//FILTRO
+            data: [],
+            appScopeProvider: context,
+            columnDefs: [
+                { field: 'NumeroOperacion', displayName: 'Nº Documento' },
+                { field: 'TipoDoc.DescripcionConcepto', displayName: 'Tipo de Documento' },
+                { field: 'DescripcionOperacion', displayName: '	Asunto' },
+                { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'FechaVigente', displayName: '	Fecha Recepción', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
+                {
+                    name: 'Acciones',
+                    cellTemplate: '<i style="padding: 4px;font-size: 1.4em;" class="fa fa-eye" data-placement="top" data-toggle="tooltip" title="Ver"></i>' +
+                                '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="top" data-toggle="tooltip" title="" data-original-title="Borrar"></i>'
+                }
+            ]
+        };
         //Eventos
         context.agregarreferencia = function (referencia) {
             if (context.referencia.DescripcionIndice == undefined)
@@ -69,28 +80,64 @@
             //context.referencia = {};
         }
 
-        context.grabar = function () {
+        context.grabar = function (numeroboton) {
+
             console.log(context.operacion);
             let Operacion = context.operacion;
-            //let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
-            //let listEUsuarioGrupo = [];
-            //for (var ind in context.usuarioDestinatarios) {
-            //    listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
-            //}
-            //for (var ind in context.usuarioRemitentes) {
-            //    listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
-            //}
-            console.log(context.DocumentoElectronicoOperacion);
-            dataProvider.postData("DocumentoDigital/Grabar", { Operacion: Operacion}).success(function (respuesta) {
+            let DocumentoDigitalOperacion = context.DocumentoDigitaloOperacion;
+            let listIndexacionDocumento = context.listaReferencia;
+
+            let listEUsuarioGrupo = [];
+            for (var ind in context.usuarioDestinatarios) {
+                listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
+            }
+
+            if (numeroboton == 1)
+                Operacion.EstadoOperacion = 0
+            else if (numeroboton == 2)
+                Operacion.EstadoOperacion = 1
+            console.log(listIndexacionDocumento);
+            console.log(listEUsuarioGrupo);
+            dataProvider.postData("DocumentoDigital/Grabar", { Operacion: Operacion, documentoDigitalOperacion: DocumentoDigitalOperacion, listEUsuarioGrupo: listEUsuarioGrupo, listIndexacion: listIndexacionDocumento }).success(function (respuesta) {
                 console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();
             });
+            //-----
+            limpiarFormulario();
         }
 
+        context.editarOperacion = function (rowIndex) {
+            context.operacion = context.gridOptions.data[rowIndex];
+            context.DocumentoDigitaloOperacion = context.operacion.DocumentoDigitalOperacion;
+            //context.codigodepartamento = parseInt(context.empresa.CodigoUbigeo.substring(0, 2));
+            context.operacion.AccesoOperacion = context.operacion.AccesoOperacion.substring(0,1)
+            console.log(context.operacion);
+            console.log(context.DocumentoDigitaloOperacion);
+            context.CambiarVentana('CreateAndEdit');
+        };
+
+        context.eliminarOperacion = function (rowIndex) {
+            var empresa = context.gridOptions.data[rowIndex];
+            dataProvider.postData("DocumentoDigital/EliminarOperacion", empresa).success(function (respuesta) {
+                console.log(respuesta);
+                listarOperacion();
+            }).error(function (error) {
+                //MostrarError();
+            });
+        };
+
         context.CambiarVentana = function (mostrarVentana) {
+            limpiarFormulario();
             context.visible = mostrarVentana;
             if (context.visible != "List") {
+                context.operacion = {
+                    AccesoOperacion: '1',
+                    TipoComunicacion: '1'
+                };
+                context.DocumentoDigitaloOperacion = {
+                    DerivarDocto: 'S'
+                };
             }
         }
         ////
@@ -121,5 +168,23 @@
                     context.listTipoComunicacion = respuesta;
             });
         }
+
+        function listarOperacion() {
+            dataProvider.getData("DocumentoDigital/ListarOperacion").success(function (respuesta) {
+                context.gridOptions.data = respuesta;
+                context.listEmpresa = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+
+        function limpiarFormulario() {
+            context.operacion = {};
+            context.usuarioDestinatarios = [];
+            context.DocumentoDigitaloOperacion = {};
+            context.referencia = {};
+            context.listaReferencia = [];
+        }
+        listarOperacion();
     }
 })();

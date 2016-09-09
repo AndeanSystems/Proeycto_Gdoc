@@ -493,6 +493,7 @@
     <Content Include="Views\DocumentoDigital\_CreateAndEdit.cshtml" />
     <Content Include="Views\Usuario\CambiarFirmaElectronica.cshtml" />
     <Content Include="Views\MesaVirtual\_List.cshtml" />
+    <Content Include="Views\DocumentoDigital\_Preview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
