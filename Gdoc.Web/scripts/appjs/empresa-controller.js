@@ -46,11 +46,13 @@
             data: [],
             appScopeProvider : context,
             columnDefs: [
-                { field: 'RucEmpresa', displayName: 'Ruc Empresa' },
-                { field: 'RazonSocial', displayName: 'Razon Social' },
-                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
+                { field: 'RucEmpresa', width: '10%', displayName: 'Ruc Empresa' },
+                { field: 'RazonSocial', width: '60%', displayName: 'Razon Social' },
+                { field: 'Estado.DescripcionConcepto', width: '10%', displayName: 'Estado' },
+                { field: 'FechaRegistro', width: '10%', displayName: 'Fecha de Registro', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
                 {
                     name: 'Acciones',
+                    width: '10%',
                     cellTemplate: '<i ng-click="grid.appScope.editarEmpresa(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
                                   '<i ng-click="grid.appScope.eliminarEmpresa(grid.renderContainers.body.visibleRowCache.indexOf(row))"class="fa fa-times"  style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>'
                 }

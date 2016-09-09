@@ -22,10 +22,13 @@
         context.registrarConcepto = function () {
             context.concepto = {};
             $("#modal_contenido").modal("show");
+            context.concepto.EstadoConcepto = '0';
         };
 
         context.editarConcepto = function (rowIndex) {
             context.concepto = context.gridOptions.data[rowIndex];
+            console.log(context.concepto);
+            context.concepto.EstadoConcepto = context.concepto.EstadoConcepto.toString();
             if (context.concepto.EditarRegistro == 0)
                 alert("El concepto no se puede editar");
             else
@@ -41,10 +44,11 @@
                     dataProvider.postData("Concepto/BuscarConceptoEstado", { CodiConcepto: CodiConcepto }).success(function (respuesta) {
                         console.log(respuesta);
                         context.concepto = respuesta[0];
-                        if (context.concepto.EditarRegistro == 0) {
-                            context.acciones = '<i>a</i>';//por terminar
-                            console.log(context.acciones);
-                        }
+
+                        //if (context.concepto.EditarRegistro == 0) {
+                        //    context.acciones = '<i>a</i>';//por terminar
+                        //    console.log(context.acciones);
+                        //}
                         context.gridOptions.data = respuesta;
                     }).error(function (error) {
                         //MostrarError();
@@ -54,10 +58,10 @@
                     dataProvider.postData("Concepto/BuscarConceptoEstado", { CodiConcepto: CodiConcepto, EstadoConcepto: EstadoConcepto }).success(function (respuesta) {
                         console.log(respuesta);
                         context.concepto = respuesta[0];
-                        if (context.concepto.EditarRegistro == 0) {
-                            context.acciones = ' a';
-                            console.log(acciones);
-                        }
+                        //if (context.concepto.EditarRegistro == 0) {
+                        //    context.acciones = ' a';
+                        //    console.log(context.acciones);
+                        //}
                         context.gridOptions.data = respuesta;
                     }).error(function (error) {
                         //MostrarError();
@@ -99,13 +103,13 @@
             ]
         };
         //Eventos
-        context.grabar = function (numeroboton) {
+        context.grabar = function () {
             var concepto = context.concepto;
 
-            if (numeroboton == 1)
-                concepto.EstadoConcepto = 0
-            else if (numeroboton == 2)
-                concepto.EstadoConcepto = 1
+            //if (numeroboton == 1)
+            //    concepto.EstadoConcepto = 0
+            //else if (numeroboton == 2)
+            //    concepto.EstadoConcepto = 1
 
             console.log(context.concepto);
             dataProvider.postData("Concepto/GrabarConcepto", context.concepto).success(function (respuesta) {

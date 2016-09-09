@@ -22,15 +22,16 @@ namespace Gdoc.Entity.Models
         public Nullable<System.DateTime> FechaNacimiento { get; set; }
         public string TelefonoPersonal { get; set; }
         public string AnexoPersonal { get; set; }
-        public string EstadoPersonal { get; set; }
+        public int EstadoPersonal { get; set; }
         public string CodigoArea { get; set; }
         public string CodigoCargo { get; set; }
         public string ClasePersonal { get; set; }
-        public string NumeroDNI { get; set; }
+        public string NumeroIdentificacion { get; set; }
         public string DireccionPersonal { get; set; }
         public string CodigoUbigeo { get; set; }
         public string CelularPersonalUno { get; set; }
         public string CelularPersonalDos { get; set; }
+        public string TipoIdentificacion { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual Sede Sede { get; set; }
         public virtual Ubigeo Ubigeo { get; set; }

@@ -74,6 +74,7 @@ namespace Gdoc.Dao
                     entidad.TextoDos = concepto.TextoDos;
                     entidad.UsuarioModifica = concepto.UsuarioModifica;
                     entidad.FechaModifica = concepto.FechaModifica;
+                    entidad.EstadoConcepto = concepto.EstadoConcepto;
                     db.SaveChanges();
                 }
                 return concepto;

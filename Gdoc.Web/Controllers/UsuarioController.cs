@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Gdoc.Entity.Extension;
+using Gdoc.Web.ActiveDirectory;
+using System.Configuration;
 
 namespace Gdoc.Web.Controllers
 {
@@ -14,8 +16,27 @@ namespace Gdoc.Web.Controllers
     {
         #region "Variables"
         MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
+        ADFunctions ADFunctions = new ADFunctions();
         #endregion
         // GET: Usuario
+
+        //bool FnValidarAD()
+        //{
+        //    if (ADFunctions.FnValidarUsuario(ConfigurationManager.AppSettings.Get("Dominio"), Session["NombreUsuario"].ToString(), Session["ClaveUsuario"].ToString(), ConfigurationManager.AppSettings.Get("UrlLDAP")))
+        //    {
+        //        Session.Add("sAMAccountName", Session["NombreUsuario"].ToString());
+        //        //Guardamos el usuario y la clave AD en una sesión:
+        //        EUsuario _eUsuario = new EUsuario();
+        //        _eUsuario.NombreUsuario = Session["NombreUsuario"].ToString();
+        //        _eUsuario.ClaveUsuario = Session["ClaveUsuario"].ToString();
+        //        Session["CredencialesAD"] = _eUsuario;
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
         public ActionResult Index()
         {
             return View();
@@ -43,9 +64,15 @@ namespace Gdoc.Web.Controllers
                 {
                     Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
                     Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
+                    Session["ClaveUsuario"] = UsuarioEncontrado.ClaveUsuario;
                     Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
                     Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);
-                      
+
+
+                    //if (FnValidarAD() == true)
+                    //{
+                    //    var sr = 1;
+                    //}
                     //CONTADORES
                     if (CantidadAlerta != null) Session["CantidadAlerta"] = CantidadAlerta.CantidadAlerta; 
                     else Session["CantidadAlerta"] = 0; 
@@ -175,6 +202,25 @@ namespace Gdoc.Web.Controllers
 
             return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
         }
+        [HttpPost]
+        public JsonResult BuscarUsuarioPersonal(Usuario usuario, Personal personal)
+        {
+            var listUsuario = new List<EUsuario>();
+            using (var oUsuario = new NUsuario())
+            {
+                if (!string.IsNullOrEmpty(usuario.NombreUsuario))
+                    listUsuario = oUsuario.ListarUsuario().Where(x => x.NombreUsuario==usuario.NombreUsuario.ToUpper() 
+                        //||
+                        //                                        x.Personal.NumeroIdentificacion == usuario.Personal.NumeroIdentificacion ||
+                        //                                        x.Personal.TipoIdentificacion == usuario.Personal.TipoIdentificacion ||
+                        //                                        x.Personal.EstadoPersonal==1
+                                                                ).ToList();
+                else
+                    listUsuario = oUsuario.ListarUsuario();
+            }
+
+            return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
+        }
         [HttpGet]
         public JsonResult BuscarUsuarioNombreClave()
         {
@@ -186,6 +232,7 @@ namespace Gdoc.Web.Controllers
 
             return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+
 
         #region "Metodos"
         public string FormatoNombre(string nombre)

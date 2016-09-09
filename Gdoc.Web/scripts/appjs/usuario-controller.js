@@ -16,16 +16,32 @@
         LlenarConcepto("021");
         LlenarConcepto("009");
         LlenarConcepto("015");
+        LlenarConcepto("024");
 
         context.personal = {};
         context.usuario = {};
         context.listDepartamento = [];
 
-        var NombreCompleto = "Personal.NombrePers".concat(" Personal.ApellidoPersonal");
+        context.usuario.ExpiraFirma=0;
+
+        //var NombreCompleto = "Personal.NombrePers".concat(" Personal.ApellidoPersonal");
 
         context.editarUsuario = function (rowIndex) {
             context.usuario = context.gridOptions.data[rowIndex];
+            console.log(context.usuario);
+            console.log(context.usuario.Personal.NombrePers);
             $("#modal_contenido").modal("show");
+        };
+
+        context.buscarUsuarioPersonal = function (user,documento,idetificacion) {
+            
+            dataProvider.postData("Usuario/BuscarUsuarioPersonal", { NombreUsuario: user }, { NumeroIdentificacion: documento }, { TipoIdentificacion: idetificacion }).success(function (respuesta) {
+                console.log(respuesta);
+                context.usuario = respuesta[0];
+                console.log(context.usuario)
+            }).error(function (error) {
+                //MostrarError();
+            });
         };
 
         context.eliminarUsuario = function (rowIndex) {
@@ -147,7 +163,7 @@
         context.buscarUsuario = function (usuario) {
             //usuario.Personal.NombrePers = usuario
             dataProvider.postData("Usuario/BuscarUsuarioNombre", usuario).success(function (respuesta) {
-                context.usuario = respuesta[0];
+                //context.usuario = respuesta[0];
                 context.gridOptions.data = respuesta;
             }).error(function (error) {
                 //MostrarError();
@@ -158,7 +174,7 @@
         function listarUsuario() {
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
-                context.usuario = respuesta[0];
+                //context.usuario = respuesta[0];
                 console.log(context.usuario);
                 context.listUsuario = respuesta;
             }).error(function (error) {
@@ -189,6 +205,8 @@
                     context.listTipoRol = respuesta;
                 else if (concepto.TipoConcepto == "015")
                     context.listTipoPersonal = respuesta;
+                else if (concepto.TipoConcepto == "024")
+                    context.listTipoIdentificacion = respuesta;
             });
         }
         //Carga

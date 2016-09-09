@@ -29,5 +29,29 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public Personal EditarPersonal(Personal personal)
+        {
+            try
+            {
+                return dPersonal.EditarPersonal(personal);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public List<Personal> ListarPersonal()
+        {
+            try
+            {
+                return dPersonal.ListarPersonal();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

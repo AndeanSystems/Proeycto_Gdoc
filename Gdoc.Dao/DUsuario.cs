@@ -31,6 +31,7 @@ namespace Gdoc.Dao
                     {
                          IDUsuario = usu.usua.IDUsuario,
                          NombreUsuario = usu.usua.NombreUsuario,
+                         ClaveUsuario=usu.usua.ClaveUsuario,
                          Personal = usu.persona,
 
 
@@ -265,6 +266,8 @@ namespace Gdoc.Dao
                             ApellidoPersonal = x.p.ApellidoPersonal,
                             EmailTrabrajo = x.p.EmailTrabrajo,
                             TelefonoPersonal = x.p.TelefonoPersonal,
+                            TipoIdentificacion=x.p.TipoIdentificacion,
+                            NumeroIdentificacion=x.p.NumeroIdentificacion,
 
                         },
                         RutaFoto = "http://lorempixel.com/50/50/people?6",

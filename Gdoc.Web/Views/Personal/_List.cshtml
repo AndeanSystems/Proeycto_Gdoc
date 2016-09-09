@@ -1,0 +1,77 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary margin-top">
+            <div class="box-header with-border">
+                <h3 class="box-title">Personal</h3>
+            </div>
+            <div class="box-body no-padding">
+
+                <div class="row">
+                    <br>
+
+                    <div class="col-md-2">
+                        <h5 class="pull-right">Nombre</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="Nombre" ng-model="ctrl.usuario.NombreUsuario">
+                    </div>
+
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" ng-model="ctrl.usuario.NombreCompleto" placeholder="Nombre" disabled="true">
+
+                    </div>
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-2">
+
+                        <button type="submit" name="search" id="search-btn" class="btn btn-default" ng-click="ctrl.buscarUsuario(ctrl.usuario)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
+                        <button class="btn btn-default" data-toggle="modal" data-target="#modal_contenido"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
+
+                    </div>
+
+                </div>
+                <br>
+            </div>
+            <!--GRILLA USUARIO-->
+            <div class="table-responsive mailbox-messages">
+                <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination></div>
+                @*<table class="table table-hover table-striped">
+                        <thead>
+                        <th>Id Usuario<i class="fa fa-sort"></i></th>
+                        <th>Nombre y Apellido<i class="fa fa-sort"></i></th>
+                        <th>Empresa<i class="fa fa-sort"></i></th>
+                        <th>Tipo Usuario<i class="fa fa-sort"></i></th>
+                        <th>Cargo<i class="fa fa-sort"></i></th>
+                        <th>Area<i class="fa fa-sort"></i></th>
+                        <th>Email Laboral<i class="fa fa-sort"></i></th>
+                        <th>Telefono<i class="fa fa-sort"></i></th>
+                        <th>Clase de Usuario<i class="fa fa-sort"></i></th>
+
+                        <th>Acciones</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ctrl.listUsuario">
+                                <td class="mailbox-date">{{item.IDUsuario}}</td>
+                                <td class="mailbox-subject">{{item.Personal.NombrePers + ' ' + item.Personal.ApellidoPersonal}}</td>
+                                <td class="mailbox-subject">{{item.Personal.IDEmpresa}}</td>
+                                <td class="mailbox-subject">{{item.TipoUsuario.DescripcionConcepto}}</td>
+                                <td class="mailbox-subject">{{item.Cargo.DescripcionConcepto}}</td>
+                                <td class="mailbox-subject">{{item.Area.DescripcionConcepto}}</td>
+                                <td class="mailbox-subject">{{item.Personal.EmailTrabrajo}}</td>
+                                <td class="mailbox-subject">{{item.Personal.TelefonoPersonal}}</td>
+                                <td class="mailbox-subject">{{item.ClaseUsu.DescripcionConcepto}}</td>
+                                <td>
+                                    <i class="fa fa-pencil-square-o  " data-placement="top" data-toggle="tooltip" title="Editar"></i>
+                                    <i class="fa fa-times  " data-placement="top" data-toggle="tooltip" title="Borrar"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>*@
+            </div>
+
+
+        </div>
+
+    </div>
+</div>

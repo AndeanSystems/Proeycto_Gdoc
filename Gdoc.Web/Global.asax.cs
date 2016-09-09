@@ -7,6 +7,8 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Web.Http;
+using System.Web.Security;
+using System.Security.Principal;
 
 namespace Gdoc.Web
 {

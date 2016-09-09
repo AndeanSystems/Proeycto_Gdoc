@@ -74,6 +74,14 @@ namespace Gdoc.Web.Controllers
                 else if (concepto.IDEmpresa < 1)
                 {
                     concepto.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
+                    if(concepto.TipoConcepto.Equals("001")||concepto.TipoConcepto.Equals("002") ||concepto.TipoConcepto.Equals("011") || concepto.TipoConcepto.Equals("013")
+                        || concepto.TipoConcepto.Equals("015") || concepto.TipoConcepto.Equals("016")||concepto.TipoConcepto.Equals("017") || concepto.TipoConcepto.Equals("018")
+                        || concepto.TipoConcepto.Equals("019") || concepto.TipoConcepto.Equals("020") || concepto.TipoConcepto.Equals("021") || concepto.TipoConcepto.Equals("022")
+                        || concepto.TipoConcepto.Equals("023"))
+                    {
+                        concepto.EditarRegistro = 0;
+                    }
+                    
                     concepto.EditarRegistro = 1;//por terminar
                     concepto.UsuarioModifica = Session["NombreUsuario"].ToString();
                     concepto.FechaModifica = System.DateTime.Now;

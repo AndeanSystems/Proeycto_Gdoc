@@ -40,7 +40,12 @@
 
                                     <div class="form-group no-margin-bottom">
                                         <label>Estado</label>
-                                        <input type="text" class="form-control" placeholder="Creado" disabled="true" >
+                                        <select class="form-control" ng-model="ctrl.concepto.EstadoConcepto">
+                                            <option value="">Seleccione</option>
+                                            <option selected="selected" value="0">CREADO</option>
+                                            <option value="1">ACTIVO</option>
+                                            <option value="2">INACTIVO</option>
+                                        </select>
                                     </div>
                                 </div>
                             </form>
@@ -51,8 +56,8 @@
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Contenido del Concepto</h3>
-                                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
-                                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+                                @*<button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>*@
+                                <button class="btn btn-default pull-right" ng-click="ctrl.grabar()"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
                             </div><!-- /.box-header -->
 
                             <form role="form">

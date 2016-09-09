@@ -88,6 +88,7 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -388,6 +389,7 @@
     <Content Include="scripts\appjs\general-controller.js" />
     <Content Include="scripts\appjs\grupo-controller.js" />
     <Content Include="scripts\appjs\mesavirtual-controller.js" />
+    <Content Include="scripts\appjs\personal-controller.js" />
     <Content Include="scripts\appjs\usuario-controller.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -420,6 +422,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveDirectory\ADFunctions.cs" />
+    <Compile Include="ActiveDirectory\eUsuarioActiveDirec.cs" />
+    <Compile Include="ActiveDirectory\LdapAuthentication.cs" />
     <Compile Include="api\ConceptoController.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -494,6 +499,9 @@
     <Content Include="Views\Usuario\CambiarFirmaElectronica.cshtml" />
     <Content Include="Views\MesaVirtual\_List.cshtml" />
     <Content Include="Views\DocumentoDigital\_Preview.cshtml" />
+    <Content Include="Views\Personal\Index.cshtml" />
+    <Content Include="Views\Personal\_CreateAndEdit.cshtml" />
+    <Content Include="Views\Personal\_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -520,7 +528,6 @@
     <Folder Include="Content\plugins\sparkline\" />
     <Folder Include="Models\" />
     <Folder Include="Views\ComboUsuarioGrupo\" />
-    <Folder Include="Views\Personal\" />
     <Folder Include="Views\Ubigeo\" />
   </ItemGroup>
   <ItemGroup>

@@ -38,10 +38,6 @@ namespace Gdoc.Entity.Models.Mapping
                 .IsFixedLength()
                 .HasMaxLength(10);
 
-            this.Property(t => t.EstadoPersonal)
-                .IsFixedLength()
-                .HasMaxLength(1);
-
             this.Property(t => t.CodigoArea)
                 .HasMaxLength(5);
 
@@ -51,8 +47,8 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.ClasePersonal)
                 .HasMaxLength(5);
 
-            this.Property(t => t.NumeroDNI)
-                .HasMaxLength(8);
+            this.Property(t => t.NumeroIdentificacion)
+                .HasMaxLength(12);
 
             this.Property(t => t.DireccionPersonal)
                 .HasMaxLength(100);
@@ -87,11 +83,12 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.CodigoArea).HasColumnName("CodigoArea");
             this.Property(t => t.CodigoCargo).HasColumnName("CodigoCargo");
             this.Property(t => t.ClasePersonal).HasColumnName("ClasePersonal");
-            this.Property(t => t.NumeroDNI).HasColumnName("NumeroDNI");
+            this.Property(t => t.NumeroIdentificacion).HasColumnName("NumeroIdentificacion");
             this.Property(t => t.DireccionPersonal).HasColumnName("DireccionPersonal");
             this.Property(t => t.CodigoUbigeo).HasColumnName("CodigoUbigeo");
             this.Property(t => t.CelularPersonalUno).HasColumnName("CelularPersonalUno");
             this.Property(t => t.CelularPersonalDos).HasColumnName("CelularPersonalDos");
+            this.Property(t => t.TipoIdentificacion).HasColumnName("TipoIdentificacion");
 
             // Relationships
             this.HasOptional(t => t.Empresa)
