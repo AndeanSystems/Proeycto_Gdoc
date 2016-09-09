@@ -7,7 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Gdoc.Entity.Extension;
-
+using System.IO;
+using System.Drawing;
 
 namespace Gdoc.Web.Controllers
 {

@@ -57,7 +57,9 @@
                         <div class="form-group">
                             <label class="col-sm-12">Elegir Archivo</label>
                             <div class="col-md-12"> 
-                                <input type="file" ng-model="ctrl.DocumentoDigitaloOperacion.NombreOriginal" data-show-upload="false">
+                                <input type="file" data-show-upload="false" id="input_file" ng-model="ctrl.fileUpload" ng-change="ctrl.ObtenerImagen(this)">
+                                <input type="hidden" ng-model="ctrl.DocumentoDigitaloOperacion.NombreOriginal" />
+                                <input type="hidden" ng-model="ctrl.DocumentoDigitaloOperacion.RutaFisica" />
                             </div>
                         </div>
 

@@ -79,7 +79,9 @@
             context.listaReferencia.splice(referencia, 1);//POR TERMINAR
             //context.referencia = {};
         }
-
+        context.ObtenerImagen = function (element) {
+            console.log(element);
+        }
         context.grabar = function (numeroboton) {
 
             console.log(context.operacion);
@@ -98,13 +100,21 @@
                 Operacion.EstadoOperacion = 1
             console.log(listIndexacionDocumento);
             console.log(listEUsuarioGrupo);
-            dataProvider.postData("DocumentoDigital/Grabar", { Operacion: Operacion, documentoDigitalOperacion: DocumentoDigitalOperacion, listEUsuarioGrupo: listEUsuarioGrupo, listIndexacion: listIndexacionDocumento }).success(function (respuesta) {
-                console.log(respuesta);
-            }).error(function (error) {
-                //MostrarError();
-            });
-            //-----
-            limpiarFormulario();
+            var files = document.getElementById("input_file").files[0];
+            var reader = new FileReader();
+            reader.onloadend = function (e) {
+                //console.log(e);
+                context.DocumentoDigitaloOperacion.RutaFisica = e.target.result;
+                context.DocumentoDigitaloOperacion.NombreOriginal = files.name;
+                dataProvider.postData("DocumentoDigital/Grabar", {Operacion: Operacion, documentoDigitalOperacion: DocumentoDigitalOperacion, listEUsuarioGrupo: listEUsuarioGrupo, listIndexacion: listIndexacionDocumento }).success(function (respuesta) {
+                //    console.log(respuesta);
+                }).error(function (error) {
+                //    //MostrarError();
+                });
+                ////-----
+                limpiarFormulario();
+            }
+            reader.readAsBinaryString(files);
         }
 
         context.editarOperacion = function (rowIndex) {

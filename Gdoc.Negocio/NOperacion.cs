@@ -3,6 +3,8 @@ using Gdoc.Entity.Extension;
 using Gdoc.Entity.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,10 +96,16 @@ namespace Gdoc.Negocio
                 documentoDigitalOperacion.IDOperacion = operacion.IDOperacion;
 
                 //documentoDigitalOperacion.NombreOriginal = "EN DURO";//FALTA
-                documentoDigitalOperacion.RutaFisica = "EN DURO";//FALTA
-                documentoDigitalOperacion.TamanoDocto = 0;//FALTA
+                //documentoDigitalOperacion.RutaFisica = "EN DURO";//FALTA
+                //documentoDigitalOperacion.TamanoDocto = 0;//FALTA
                 documentoDigitalOperacion.NombreFisico = "EN DURO";//FALTA
-
+                byte[] imageBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoDigitalOperacion.RutaFisica);
+                documentoDigitalOperacion.RutaFisica = @"C:\p\gdocApp\image1.jpeg";
+                documentoDigitalOperacion.TamanoDocto = imageBytes.Length;
+                using (MemoryStream stream = new MemoryStream(imageBytes))
+                {
+                    Image.FromStream(stream).Save(documentoDigitalOperacion.RutaFisica, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
 
                 dDocumentoDigitalOperacion.GrabarDocumentoDigitalOperacion(documentoDigitalOperacion);
 
