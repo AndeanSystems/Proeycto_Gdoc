@@ -23,7 +23,7 @@ namespace Gdoc.Web.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult Grabar(Operacion operacion, DocumentoDigitalOperacion documentoDigitalOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, List<IndexacionDocumento> listIndexacion)
+        public JsonResult Grabar(Operacion operacion, List<DocumentoDigitalOperacion> listDocumentoDigitalOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, List<IndexacionDocumento> listIndexacion)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Gdoc.Web.Controllers
 
                 using (var oOperacion = new NOperacion())
                 {
-                    var respuesta = oOperacion.GrabarDocumentoDigital(operacion, documentoDigitalOperacion, listEUsuarioGrupo, listIndexacion);
+                    var respuesta = oOperacion.GrabarDocumentoDigital(operacion, listDocumentoDigitalOperacion, listEUsuarioGrupo, listIndexacion);
                     mensajeRespuesta.Exitoso = true;
                     mensajeRespuesta.Mensaje = "Grabación Exitoso";
                 }

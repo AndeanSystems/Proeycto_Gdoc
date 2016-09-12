@@ -16,17 +16,5 @@ namespace Gdoc.Negocio
         {
             dDocumentoDigitalOperacion = null;
         }
-        public Int32 GrabarDocumentoDigitalOperacion(DocumentoDigitalOperacion documentodigitaloperacion)
-        {
-            try
-            {
-                return dDocumentoDigitalOperacion.GrabarDocumentoDigitalOperacion(documentodigitaloperacion);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
     }
 }

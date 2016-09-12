@@ -11,76 +11,70 @@
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Datos de la Empresa</h3>
-                                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><i class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar y Activar"></i></button>
-                                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+                                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)" ng-disabled="frmEmpresa.$invalid"><i class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar y Activar"></i></button>
+                                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)" ng-disabled="frmEmpresa.$invalid"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
                                 @*<button class="btn btn-default pull-right" ng-click="ctrl.conformifad()"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="conformidad"></i></button>*@
                                 @*<button class="btn btn-default pull-right" ng-click="ctrl.clave()"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="clave"></i></button>*@
                             </div>
-
-                            @*<div class="form-group no-margin-bottom">
-                                <label class="col-sm-12">Id Empresa</label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" placeholder="Id Empresa" ng-model="ctrl.empresa.IDEmpresa">
+                            <form name="frmEmpresa" novalidate>
+                                <div class="form-group no-margin-bottom">
+                                    <label class="col-sm-12">Ruc Empresa <span class="text-danger">(*)</span></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" placeholder="Ruc Empresa" ng-model="ctrl.empresa.RucEmpresa" required>
+                                    </div>
                                 </div>
 
-                            </div>*@
+                                <div class="form-group no-margin-bottom">
+                                    <label class="col-sm-12">Razon Social <span class="text-danger">(*)</span></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" placeholder="Razon Social" ng-model="ctrl.empresa.RazonSocial" required>
+                                    </div>
+                                </div>
 
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-12">Ruc Empresa</label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" placeholder="Ruc Empresa" ng-model="ctrl.empresa.RucEmpresa">
+                                <div class="form-group no-margin-bottom">
+                                    <label class="col-sm-12">Direccion</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" placeholder="Direccion" ng-model="ctrl.empresa.DireccionEmpresa">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-12">Razon Social</label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" placeholder="Razon Social" ng-model="ctrl.empresa.RazonSocial">
+                                <div class="form-group no-margin-bottom">
+                                    <label class="col-sm-12">Telefono</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" placeholder="Telefono" ng-model="ctrl.empresa.TelefonoEmpresa">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-12">Direccion</label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" placeholder="Direccion" ng-model="ctrl.empresa.DireccionEmpresa">
+                                <div class="form-group no-margin-bottom">
+                                    <label class="col-sm-12">Ubigeo <span class="text-danger">(*)</span> </label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" ng-model="ctrl.codigodepartamento" ng-options="dep.CodigoDepartamento as dep.DescripcionUbicacion for dep in ctrl.listDepartamento" ng-change="ctrl.obtenerProvincia(ctrl.codigodepartamento)" required>
+                                            <option value="">Seleccione</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" ng-model="ctrl.codigoprovincia" ng-options="dep.CodigoProvincia as dep.DescripcionUbicacion for dep in ctrl.listPronvincia" ng-change="ctrl.obtenerDistrito(ctrl.codigodepartamento, ctrl.codigoprovincia)" required>
+                                            <option value="">Seleccione</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" ng-model="ctrl.codigodistrito" ng-options="dep.CodigoDistrito as dep.DescripcionUbicacion for dep in ctrl.listDistrito" required>
+                                            <option value="">Seleccione</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-12">Telefono</label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" placeholder="Telefono" ng-model="ctrl.empresa.TelefonoEmpresa">
+                                <div class="form-group no-margin-bottom">
+                                    <label class="col-sm-12">Estado</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" value="0" class="form-control" placeholder="Creado" disabled="true" ng-model="ctrl.empresa.EstadoEmpresa">
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-12">Ubigeo</label>
-                                <div class="col-sm-4">
-                                    <select class="form-control" ng-model="ctrl.codigodepartamento" ng-options="dep.CodigoDepartamento as dep.DescripcionUbicacion for dep in ctrl.listDepartamento" ng-change="ctrl.obtenerProvincia(ctrl.codigodepartamento)">
-                                        <option value="">Seleccione</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
-                                    <select class="form-control" ng-model="ctrl.codigoprovincia" ng-options="dep.CodigoProvincia as dep.DescripcionUbicacion for dep in ctrl.listPronvincia" ng-change="ctrl.obtenerDistrito(ctrl.codigodepartamento, ctrl.codigoprovincia)">
-                                        <option value="">Seleccione</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
-                                    <select class="form-control" ng-model="ctrl.codigodistrito" ng-options="dep.CodigoDistrito as dep.DescripcionUbicacion for dep in ctrl.listDistrito" >
-                                        <option value="">Seleccione</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group no-margin-bottom">
-                                <label class="col-sm-12">Estado</label>
-                                <div class="col-sm-12">
-                                    <input type="text" value="0" class="form-control" placeholder="Creado" disabled="true" ng-model="ctrl.empresa.EstadoEmpresa">
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div><!-- /.col -->
 
                     <div class="modal-footer">
+                        <span class="text-danger">(*) Campos obligatorios..</span>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->

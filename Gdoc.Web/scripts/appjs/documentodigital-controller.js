@@ -1,4 +1,22 @@
-﻿(function () {
+﻿//Leer Archivos de de fisico a binario
+var archivosSelecionados = [];
+function ReadFileToBinary(control) {
+    for (var i = 0, f; f = control.files[i]; i++) {
+        let Name = f.name;Size = f.size;Type = f.type;
+        var reader = new FileReader();
+        reader.onloadend = function (e) {
+            archivosSelecionados.push({
+                NombreArchivo: Name,
+                TamanoArchivo: Size,
+                TipoArchivo: Type,
+                RutaBinaria: e.target.result
+                });
+        }
+        reader.readAsBinaryString(f);
+    }
+}
+//Angular JS
+(function () {
     'use strict';
 
     angular.module('app').controller('documentodigital_controller', documentodigital_controller);
@@ -100,21 +118,20 @@
                 Operacion.EstadoOperacion = 1
             console.log(listIndexacionDocumento);
             console.log(listEUsuarioGrupo);
-            var files = document.getElementById("input_file").files[0];
-            var reader = new FileReader();
-            reader.onloadend = function (e) {
-                //console.log(e);
-                context.DocumentoDigitaloOperacion.RutaFisica = e.target.result;
-                context.DocumentoDigitaloOperacion.NombreOriginal = files.name;
-                dataProvider.postData("DocumentoDigital/Grabar", {Operacion: Operacion, documentoDigitalOperacion: DocumentoDigitalOperacion, listEUsuarioGrupo: listEUsuarioGrupo, listIndexacion: listIndexacionDocumento }).success(function (respuesta) {
-                //    console.log(respuesta);
-                }).error(function (error) {
-                //    //MostrarError();
+            let listDocumentoDigitaloOperacion = [];
+            for (var index in archivosSelecionados) {
+                listDocumentoDigitaloOperacion.push({
+                    RutaFisica: archivosSelecionados[index].RutaBinaria,
+                    NombreOriginal: archivosSelecionados[index].NombreArchivo,
+                    TamanoDcto: archivosSelecionados[index].TamanoArchivo,
                 });
-                ////-----
-                limpiarFormulario();
             }
-            reader.readAsBinaryString(files);
+            dataProvider.postData("DocumentoDigital/Grabar", { Operacion: Operacion, listDocumentoDigitalOperacion: listDocumentoDigitaloOperacion, listEUsuarioGrupo: listEUsuarioGrupo, listIndexacion: listIndexacionDocumento }).success(function (respuesta) {
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
+            limpiarFormulario();           
         }
 
         context.editarOperacion = function (rowIndex) {

@@ -20,6 +20,7 @@ namespace Gdoc.Negocio
         protected DDocumentoElectronicoOperacion dDocumentoElectronicoOperacion = new DDocumentoElectronicoOperacion();
         protected DDocumentoDigitalOperacion dDocumentoDigitalOperacion = new DDocumentoDigitalOperacion();
         protected DIndexacionDocumento dIndexacionDocumento = new DIndexacionDocumento();
+        protected DGeneral dGeneral = new DGeneral();
 
         
         protected string Usuario = "U";
@@ -30,6 +31,7 @@ namespace Gdoc.Negocio
             dOperacion = null;
             dUsuarioParticipante = null;
             dUsuarioGrupo = null;
+            dGeneral = null;
         }
 
         public short Grabar(Operacion operacion, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo)
@@ -83,31 +85,34 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public short GrabarDocumentoDigital(Operacion operacion, DocumentoDigitalOperacion documentoDigitalOperacion, List<EUsuarioGrupo> listEUsuarioGrupo,List<IndexacionDocumento> listIndexacion)
+        public short GrabarDocumentoDigital(Operacion operacion, List<DocumentoDigitalOperacion> listDocumentoDigitalOperacion, List<EUsuarioGrupo> listEUsuarioGrupo,List<IndexacionDocumento> listIndexacion)
         {
             try
             {
 
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 var listEindexacionDocumento = new List<IndexacionDocumento>();
-
+                //Grabar Operacion
                 dOperacion.Grabar(operacion);
 
-                documentoDigitalOperacion.IDOperacion = operacion.IDOperacion;
-
-                //documentoDigitalOperacion.NombreOriginal = "EN DURO";//FALTA
-                //documentoDigitalOperacion.RutaFisica = "EN DURO";//FALTA
-                //documentoDigitalOperacion.TamanoDocto = 0;//FALTA
-                documentoDigitalOperacion.NombreFisico = "EN DURO";//FALTA
-                byte[] imageBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoDigitalOperacion.RutaFisica);
-                documentoDigitalOperacion.RutaFisica = @"C:\p\gdocApp\image1.jpeg";
-                documentoDigitalOperacion.TamanoDocto = imageBytes.Length;
-                using (MemoryStream stream = new MemoryStream(imageBytes))
-                {
-                    Image.FromStream(stream).Save(documentoDigitalOperacion.RutaFisica, System.Drawing.Imaging.ImageFormat.Jpeg);
+                //Traer las ruta de la tabla general
+                var eGeneral = dGeneral.CargaParametros(operacion.IDEmpresa);
+                if (!Directory.Exists(eGeneral.RutaGdocAdjuntos)) {
+                    Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
                 }
-
-                dDocumentoDigitalOperacion.GrabarDocumentoDigitalOperacion(documentoDigitalOperacion);
+                foreach (var documentoOperacion in listDocumentoDigitalOperacion)
+                {
+                    byte[] imageBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoOperacion.RutaFisica);
+                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoOperacion.NombreOriginal);
+                    documentoOperacion.IDOperacion = operacion.IDOperacion;
+                    documentoOperacion.NombreFisico = string.Empty;
+                    using (MemoryStream stream = new MemoryStream(imageBytes))
+                    {
+                        Image.FromStream(stream).Save(documentoOperacion.RutaFisica, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    }
+                }
+                //Grabar documentoDigitalOperacion
+                dDocumentoDigitalOperacion.GrabarDocumentoDigitalOperacion(listDocumentoDigitalOperacion);
 
                 //Falta Terminar
                 foreach (var participante in listEUsuarioGrupo)

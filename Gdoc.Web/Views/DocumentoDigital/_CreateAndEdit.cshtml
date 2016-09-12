@@ -7,7 +7,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Datos del Documento</h3>
-                    <a target="_blank" ><button class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_preview"><i class="fa fa-file-pdf-o" data-placement="top" data-toggle="tooltip" title="Preview"></i></button></a>
+                    <a href="resources/pdf/DE0002-2015-FPC-GPD.pdf" target="_blank" class="btn btn-default pull-right"><i class="fa fa-file-pdf-o" data-placement="top" data-toggle="tooltip" title="Preview"></i></a>
                     <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
                 </div><!-- /.box-header -->
                 <form role="form">
@@ -57,9 +57,7 @@
                         <div class="form-group">
                             <label class="col-sm-12">Elegir Archivo</label>
                             <div class="col-md-12"> 
-                                <input type="file" data-show-upload="false" id="input_file" ng-model="ctrl.fileUpload" ng-change="ctrl.ObtenerImagen(this)">
-                                <input type="hidden" ng-model="ctrl.DocumentoDigitaloOperacion.NombreOriginal" />
-                                <input type="hidden" ng-model="ctrl.DocumentoDigitaloOperacion.RutaFisica" />
+                                <input type="file" id="input_file" onchange="ReadFileToBinary(this)" multiple>
                             </div>
                         </div>
 
@@ -170,22 +168,3 @@
                 </div>
                 </div><!--fin  col-->
         </div><!-- fin row-->
-
-    
-
-    <!--modal preview pdf-->
-    <div class="modal fade" id="modal_preview">
-        <div class="modal-dialog modal-lg" style="width:90%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Vista previa</h4>
-                </div>
-                <div class="modal-body">
-                    <center>
-                        <object id="pre" data="resources/pdf/DE0002-2015-FPC-GPD.pdf" type="application/pdf" width="90%" height="500px"></object>
-                    </center>
-                </div>
-            </div>
-        </div>
-    </div>

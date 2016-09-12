@@ -9,13 +9,13 @@ namespace Gdoc.Dao
 {
     public class DDocumentoDigitalOperacion
     {
-        public Int32 GrabarDocumentoDigitalOperacion(DocumentoDigitalOperacion documentodigitaloperacion)
+        public Int32 GrabarDocumentoDigitalOperacion(List<DocumentoDigitalOperacion> listDocumentodigitaloperacion)
         {
             try
             {
                 using (var db = new DataBaseContext())
                 {
-                    db.DocumentoDigitalOperacions.Add(documentodigitaloperacion);
+                    db.DocumentoDigitalOperacions.AddRange(listDocumentodigitaloperacion);
                     db.SaveChanges();
                 }
                 return 1;
