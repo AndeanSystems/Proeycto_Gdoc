@@ -233,7 +233,6 @@ namespace Gdoc.Web.Controllers
             return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
 
-
         #region "Metodos"
         public string FormatoNombre(string nombre)
         {

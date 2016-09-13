@@ -18,11 +18,15 @@
             context.codigoprovincia = parseInt(context.empresa.CodigoUbigeo.substring(2, 4));
             context.obtenerDistrito(context.codigodepartamento, context.codigoprovincia);
             context.codigodistrito = parseInt(context.empresa.CodigoUbigeo.substring(4, 6));
+
+            context.empresa.EstadoEmpresa = context.empresa.EstadoEmpresa.toString();
             $("#modal_contenido").modal("show");
         };
 
         context.conformifad = function () {
-            $("#modal_conformidad").modal("show");
+            //$("#modal_conformidad").modal("show");
+            $("#modal_prueba2").modal("show");
+            
         };
 
         context.clave = function () {
@@ -53,15 +57,15 @@
                 {
                     name: 'Acciones',
                     width: '10%',
-                    cellTemplate: '<i ng-click="grid.appScope.editarEmpresa(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
-                                  '<i ng-click="grid.appScope.eliminarEmpresa(grid.renderContainers.body.visibleRowCache.indexOf(row))"class="fa fa-times"  style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>'
+                    cellTemplate: '<i ng-click="grid.appScope.editarEmpresa(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' 
+                                 // '<i ng-click="grid.appScope.eliminarEmpresa(grid.renderContainers.body.visibleRowCache.indexOf(row))"class="fa fa-times"  style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>'
                 }
 
             ],
 
         };
 
-        context.grabar = function (numeroboton) {
+        context.grabar = function () {
             console.log(context.empresa);
             var empresa = context.empresa;
             var departamento, provincia, distrito;
@@ -70,10 +74,11 @@
             provincia = (context.codigoprovincia < 10) ? "0" + context.codigoprovincia : context.codigoprovincia.toString();
             distrito = (context.codigodistrito < 10) ? "0" + context.codigodistrito : context.codigodistrito.toString();
 
-            if (numeroboton == 1)
-                empresa.EstadoEmpresa = 0
-            else if(numeroboton == 2)
-                empresa.EstadoEmpresa = 1
+            //if (numeroboton == 1)
+            //    empresa.EstadoEmpresa = 0
+            //else if(numeroboton == 2)
+            //empresa.EstadoEmpresa = 1
+
             empresa.CodigoUbigeo = (departamento + provincia + distrito);
             console.log(empresa);
             dataProvider.postData("Empresa/GrabarEmpresa", empresa).success(function (respuesta) {

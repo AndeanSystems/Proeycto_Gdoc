@@ -17,5 +17,6 @@ namespace Gdoc.Entity.Models
         public Nullable<System.DateTime> FechaRegistro { get; set; }
         public int EstadoAdjunto { get; set; }
         public virtual ICollection<DocumentoAdjunto> DocumentoAdjuntoes { get; set; }
+        public string TipoArchivo { get; set; }
     }
 }

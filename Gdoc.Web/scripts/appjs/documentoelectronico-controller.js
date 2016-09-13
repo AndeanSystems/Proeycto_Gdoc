@@ -11,12 +11,14 @@
         let PrioridadAtencion = "005";
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
+        let UsuarioRemitente = "06";
+        let UsuarioDestinatario = "03";
         var context = this;
         context.operacion = {};
         context.DocumentoElectronicoOperacion = {};
         context.visible = "List";
         context.listaUsuarioGrupo = [];
-        context.Mensaje="¿Esta Seguro de enviar el Documento Electronico?"
+
 
         //Crear Combo Auto Filters
         var pendingSearch, cancelSearch = angular.noop;
@@ -33,6 +35,14 @@
         LlenarConcepto(PrioridadAtencion);
         LlenarConcepto(TipoAcceso);
         LlenarConcepto(TipoComunicacion);
+        
+        context.operacion = {
+            TipoDocumento: '02',
+            TipoComunicacion: '1',
+            PrioridadOperacion: '02',
+            AccesoOperacion: '2'
+        };
+
         
         //context.gridOptions = {
         //    paginationPageSizes: [25, 50, 75],
@@ -57,16 +67,34 @@
             let Operacion = context.operacion;
             let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
             let listEUsuarioGrupo = [];
-            for (var ind in context.usuarioDestinatarios) {
-                listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
-            }
-            for(var ind in context.usuarioRemitentes){
+            let listERemitente = [];
+            let listEDestinatario = [];
+
+
+            for (var ind in context.usuarioRemitentes) {
+                context.usuarioRemitentes[ind].TipoParticipante = UsuarioRemitente;
                 listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
             }
+            for (var ind in context.usuarioDestinatarios) {
+                context.usuarioDestinatarios[ind].TipoParticipante = UsuarioDestinatario;
+                listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
+            }
+
+            //for (var ind in context.usuarioRemitentes) {
+            //    listERemitente.push(context.usuarioRemitentes[ind]);
+            //}
+            //for (var ind in context.usuarioDestinatarios) {
+            //    listEDestinatario.push(context.usuarioDestinatarios[ind]);
+            //}
             if (numeroboton == 1)
                 Operacion.EstadoOperacion = 0
             else if (numeroboton == 2)
                 Operacion.EstadoOperacion = 1
+
+            console.log(listERemitente);
+
+            console.log(listEUsuarioGrupo);
+
             console.log(context.DocumentoElectronicoOperacion);
             dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                 console.log(respuesta);

@@ -2,13 +2,14 @@
 var archivosSelecionados = [];
 function ReadFileToBinary(control) {
     for (var i = 0, f; f = control.files[i]; i++) {
-        let Name = f.name;Size = f.size;Type = f.type;
+        let files = f;
         var reader = new FileReader();
         reader.onloadend = function (e) {
+            console.log(files);
             archivosSelecionados.push({
-                NombreArchivo: Name,
-                TamanoArchivo: Size,
-                TipoArchivo: Type,
+                NombreArchivo: files.name,
+                TamanoArchivo: files.size,
+                TipoArchivo: files.type,
                 RutaBinaria: e.target.result
                 });
         }
@@ -54,7 +55,7 @@ function ReadFileToBinary(control) {
 
         //COMIENZO
         context.operacion = {
-            AccesoOperacion : '1'
+            AccesoOperacion : '2'
         };
         context.DocumentoDigitaloOperacion = {
             DerivarDocto: 'S',
@@ -92,10 +93,8 @@ function ReadFileToBinary(control) {
             }
         }
 
-        context.eliminarreferencia = function (referencia) {
-            console.log(referencia);
-            context.listaReferencia.splice(referencia, 1);//POR TERMINAR
-            //context.referencia = {};
+        context.eliminarreferencia = function (indexReferencia) {
+            context.listaReferencia.splice(indexReferencia,1);
         }
         context.ObtenerImagen = function (element) {
             console.log(element);
@@ -116,21 +115,30 @@ function ReadFileToBinary(control) {
                 Operacion.EstadoOperacion = 0
             else if (numeroboton == 2)
                 Operacion.EstadoOperacion = 1
+
             console.log(listIndexacionDocumento);
             console.log(listEUsuarioGrupo);
             let listDocumentoDigitaloOperacion = [];
+
+            console.log(archivosSelecionados);
             for (var index in archivosSelecionados) {
                 listDocumentoDigitaloOperacion.push({
                     RutaFisica: archivosSelecionados[index].RutaBinaria,
                     NombreOriginal: archivosSelecionados[index].NombreArchivo,
-                    TamanoDcto: archivosSelecionados[index].TamanoArchivo,
+                    TamanoDocto: archivosSelecionados[index].TamanoArchivo,
+                    TipoArchivo: archivosSelecionados[index].TipoArchivo,
+                    Comentario: context.DocumentoDigitaloOperacion.Comentario,
                 });
+                console.log(listDocumentoDigitaloOperacion);
             }
+            
+            console.log(listDocumentoDigitaloOperacion);
             dataProvider.postData("DocumentoDigital/Grabar", { Operacion: Operacion, listDocumentoDigitalOperacion: listDocumentoDigitaloOperacion, listEUsuarioGrupo: listEUsuarioGrupo, listIndexacion: listIndexacionDocumento }).success(function (respuesta) {
                 console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();
             });
+            listDocumentoDigitaloOperacion = {};
             limpiarFormulario();           
         }
 
@@ -159,7 +167,7 @@ function ReadFileToBinary(control) {
             context.visible = mostrarVentana;
             if (context.visible != "List") {
                 context.operacion = {
-                    AccesoOperacion: '1',
+                    AccesoOperacion: '2',
                     TipoComunicacion: '1'
                 };
                 context.DocumentoDigitaloOperacion = {

@@ -1,4 +1,22 @@
-﻿(function () {
+﻿//Leer Archivos de de fisico a binario
+var archivosSelecionados = [];
+function ReadFileToBinary(control) {
+    for (var i = 0, f; f = control.files[i]; i++) {
+        let Name = f.name; Size = f.size; Type = f.type;
+        var reader = new FileReader();
+        reader.onloadend = function (e) {
+            archivosSelecionados.push({
+                NombreArchivo: Name,
+                TamanoArchivo: Size,
+                TipoArchivo: Type,
+                RutaBinaria: e.target.result
+            });
+        }
+        reader.readAsBinaryString(f);
+    }
+}
+//Angular JS
+(function () {
     'use strict';
 
     angular.module('app').controller('firma_controller', firma_controller);

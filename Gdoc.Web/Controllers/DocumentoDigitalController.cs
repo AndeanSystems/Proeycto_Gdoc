@@ -44,7 +44,7 @@ namespace Gdoc.Web.Controllers
                 {
                     var respuesta = oOperacion.GrabarDocumentoDigital(operacion, listDocumentoDigitalOperacion, listEUsuarioGrupo, listIndexacion);
                     mensajeRespuesta.Exitoso = true;
-                    mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                    mensajeRespuesta.Mensaje = "Grabación Exitosa";
                 }
                 return new JsonResult { Data = mensajeRespuesta };
             }
@@ -70,7 +70,7 @@ namespace Gdoc.Web.Controllers
                 operacion.EstadoOperacion = Estados.EstadoOperacion.Inactivo;
                 var respuesta = oOperacion.EliminarOperacion(operacion);
                 mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                mensajeRespuesta.Mensaje = "Grabación Exitosa";
             }
             return new JsonResult { Data = mensajeRespuesta };
         }

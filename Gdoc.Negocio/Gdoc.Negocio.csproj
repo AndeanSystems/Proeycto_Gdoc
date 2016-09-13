@@ -55,8 +55,10 @@
     <Compile Include="NPersonal.cs" />
     <Compile Include="NUbigeo.cs" />
     <Compile Include="NUsuarioGrupo.cs" />
+    <Compile Include="NUsuarioParticipante.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NUsuario.cs" />
+    <Compile Include="Utils\Constantes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gdoc.Dao\Gdoc.Dao.csproj">

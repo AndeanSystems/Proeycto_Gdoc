@@ -21,6 +21,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.TamanoArchivo).HasColumnName("TamanoArchivo");
             this.Property(t => t.FechaRegistro).HasColumnName("FechaRegistro");
             this.Property(t => t.EstadoAdjunto).HasColumnName("EstadoAdjunto");
+            this.Property(t => t.TipoArchivo).HasColumnName("TipoArchivo");
 
             // Relationships
             //this.HasOptional(t => t.DocumentoAdjunto)

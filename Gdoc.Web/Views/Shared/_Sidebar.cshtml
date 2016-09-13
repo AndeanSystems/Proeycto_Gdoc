@@ -50,18 +50,23 @@
                     <i class="fa fa-cogs"></i><span>Configuracion</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li class ="active"><a href="@Url.Action("Index", "Concepto")"><i class="fa fa-check"></i>Concepto</a></liclass>
+                    <li class ="active"><a href="@Url.Action("Index", "Concepto")"><i class="fa fa-check"></i>Concepto</a></li>
                     <li><a href="@Url.Action("Index", "Empresa")"><i class="fa fa-check"></i>Empresa</a></li>
                     <li><a href="@Url.Action("Index", "General")"><i class="fa fa-check"></i>Parámetros</a></li>
                 </ul>
             </li>
 
-            <li>
+            @*<li>
                 <a href="@Url.Action("Index", "Home")">
                     <i class="fa fa-power-off" ></i><span>Cerrar Sesión</span> <i class="fa fa-angle-left pull-right"></i>
-</a>
+                </a>
+            </li>*@
+
+            <li>
+                <a data-toggle="modal" data-target="#modal_cerrarsesion">
+                    <i class="fa fa-power-off"></i><span>Cerrar Sesión</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
             </li>
-            
 
             
         </ul>

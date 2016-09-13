@@ -36,7 +36,7 @@
                                                     <div class="col-md-12">
                                                         <label class="control-label">Nueva Firma Electronica</label>
                                                         <input type="text" class="form-control" ng-model="ctrl.usuario.FirmaElectronicaNueva">
-                                                        <input type="file" class="file" data-show-upload="false" id="aa" >
+                                                        <input type="file" class="file" data-show-upload="false" id="input_file" onchange="ReadFileToBinary(this)" multiple>
                                                     </div>
                                                 </div>
                                             </div>

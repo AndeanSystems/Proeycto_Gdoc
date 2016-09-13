@@ -1,6 +1,7 @@
 ﻿using Gdoc.Dao;
 using Gdoc.Entity.Extension;
 using Gdoc.Entity.Models;
+using Gdoc.Negocio.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -25,6 +26,8 @@ namespace Gdoc.Negocio
         
         protected string Usuario = "U";
         protected string Grupo = "G";
+        protected string ArchivoImagen = "image";
+        protected string ArchivoTXT = "text/plain";
         #endregion
         public void Dispose()
         {
@@ -34,32 +37,34 @@ namespace Gdoc.Negocio
             dGeneral = null;
         }
 
-        public short Grabar(Operacion operacion, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo)
+        public short Grabar(Operacion operacion, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, List<EUsuarioGrupo> listEDestinatario = null)
         {
             try
             {
-
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 dOperacion.Grabar(operacion);
-
+                //var lista = dUsuarioParticipante.ListarUsuarioParticipante();
 
                 eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
-
                 dDocumentoElectronicoOperacion.Grabar(eDocumentoElectronicoOperacion);
-
                 //Falta Terminar
                 foreach (var participante in listEUsuarioGrupo)
                 {
+
                     var eUsuarioParticipante = new UsuarioParticipante();
                     if (participante.Tipo.Equals(Usuario))//Grabar solo Usuarios
                     {
+                        
                         eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                        eUsuarioParticipante.TipoOperacion = "03";
-                        eUsuarioParticipante.TipoParticipante = "03";//FALTA CORREGIR
+                        eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                        eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
                         eUsuarioParticipante.ReenvioOperacion = "S";
                         eUsuarioParticipante.EstadoUsuarioParticipante = 1;
                         listEusuarioParticipante.Add(eUsuarioParticipante);
+                        if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
+                            listEusuarioParticipante.Add(eUsuarioParticipante);
+                        
                     }
                     else {
                         //Buscar usuarios por grupo
@@ -67,12 +72,15 @@ namespace Gdoc.Negocio
                         var listUsuarioGrupo = dUsuarioGrupo.listarUsuarioGrupo(eUsuarioGrupo);
                         foreach (var usuario in listUsuarioGrupo)
                         {
+                            eUsuarioParticipante = new UsuarioParticipante();
                             eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
                             eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                            eUsuarioParticipante.TipoParticipante = "03";//FALTA CORREGIR
+                            eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                            eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
                             eUsuarioParticipante.ReenvioOperacion = "S";
                             eUsuarioParticipante.EstadoUsuarioParticipante = 1;
-                            dUsuarioParticipante.Grabar(listEusuarioParticipante);
+                            if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
+                                listEusuarioParticipante.Add(eUsuarioParticipante);
                         }
                     }
                 }
@@ -102,13 +110,26 @@ namespace Gdoc.Negocio
                 }
                 foreach (var documentoOperacion in listDocumentoDigitalOperacion)
                 {
-                    byte[] imageBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoOperacion.RutaFisica);
+                    byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoOperacion.RutaFisica);
                     documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoOperacion.NombreOriginal);
                     documentoOperacion.IDOperacion = operacion.IDOperacion;
                     documentoOperacion.NombreFisico = string.Empty;
-                    using (MemoryStream stream = new MemoryStream(imageBytes))
+                    documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;
+                    documentoOperacion.Comentario = documentoOperacion.Comentario;
+                    if (string.IsNullOrEmpty(documentoOperacion.TipoArchivo) || !documentoOperacion.TipoArchivo.Contains(ArchivoTXT))
                     {
-                        Image.FromStream(stream).Save(documentoOperacion.RutaFisica, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        File.WriteAllBytes(documentoOperacion.RutaFisica, fileBytes);
+                    }
+                    else if (documentoOperacion.TipoArchivo.Contains(ArchivoTXT))
+                    {
+                        File.WriteAllText(documentoOperacion.RutaFisica, Encoding.UTF8.GetString(fileBytes));
+                    }
+                    else
+                    {
+                        using (MemoryStream stream = new MemoryStream(fileBytes))
+                        {
+                            Image.FromStream(stream).Save(documentoOperacion.RutaFisica, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        }
                     }
                 }
                 //Grabar documentoDigitalOperacion
@@ -189,7 +210,6 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-
         public Operacion EliminarOperacion(Operacion operacion)
         {
             try
@@ -202,6 +222,7 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+
 
     }
 }

@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('app').controller('usuario_controller', usuario_controller);
-    usuario_controller.$inject = ['$location', 'app_factory', 'appService'];
+    usuario_controller.$inject = ['$location', 'app_factory', 'appService', '$timeout', '$q', '$log'];
 
-    function usuario_controller($location, dataProvider, appService) {
+    function usuario_controller($location, dataProvider, appService, $timeout, $q, $log) {
         /* jshint validthis:true */
         ///Variables
         
@@ -23,7 +23,80 @@
         context.listDepartamento = [];
 
         context.usuario.ExpiraFirma=0;
+        //AUTOCOMPLETE //FALTA CORREGIR ERROR EN selectedItemChange
+        context.simulateQuery = false;
+        context.isDisabled = false;
 
+        context.allStates = [];
+
+        // list of `state` value/display objects
+        context.repos = loadAll();
+        context.querySearch = querySearch;
+        context.selectedItemChange = selectedItemChange;
+        context.searchTextChange = searchTextChange;
+            
+        function querySearch(query) {
+            var results = query ? context.repos.filter(createFilterFor(query)) : context.repos,
+                deferred;
+            if (context.simulateQuery) {
+                deferred = $q.defer();
+                $timeout(function () { deferred.resolve(results); }, Math.random() * 1000, false);
+                return deferred.promise;
+            } else {
+                return results;
+            }
+        }
+
+        function searchTextChange(text) {
+            context.usuario.NombreUsuario = text;
+            context.usuario.NombreCompleto = text.NombreCompleto;
+        }
+
+        function selectedItemChange(item) {
+            if (item != undefined) {
+                context.usuario.NombreUsuario = item.NombreUsuario;
+                context.usuario.NombreCompleto = item.NombreCompleto;
+            }
+        }
+
+        /**
+         * Build `states` list of key/value pairs
+         */
+        function loadAll() {
+            dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
+                context.repos = respuesta;
+                console.log(respuesta);
+
+                return context.repos.map(function (repo) {
+                    //return {
+                    //    value: state.toLowerCase(),
+                    //    display: state
+                    //};
+
+                    repo.value = repo.NombreUsuario.toLowerCase();
+
+                    console.log(repo.value);
+                    return repo.value;
+                });
+            }).error(function (error) {
+                //MostrarError();
+            });
+
+            
+        }
+
+        /**
+         * Create filter function for a query string
+         */
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+
+            return function filterFn(state) {
+                return (state.value.indexOf(lowercaseQuery) === 0);
+            };
+
+        }
+        //FIN AUTOCOMPLETE
         //var NombreCompleto = "Personal.NombrePers".concat(" Personal.ApellidoPersonal");
 
         context.editarUsuario = function (rowIndex) {
@@ -164,6 +237,8 @@
             //usuario.Personal.NombrePers = usuario
             dataProvider.postData("Usuario/BuscarUsuarioNombre", usuario).success(function (respuesta) {
                 //context.usuario = respuesta[0];
+                console.log(usuario)
+                console.log(respuesta);
                 context.gridOptions.data = respuesta;
             }).error(function (error) {
                 //MostrarError();
@@ -171,11 +246,11 @@
         }
 
         //Metodos
+        
         function listarUsuario() {
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
                 //context.usuario = respuesta[0];
-                console.log(context.usuario);
                 context.listUsuario = respuesta;
             }).error(function (error) {
                 //MostrarError();

@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('app').controller('acceso_controller', acceso_controller);
-    acceso_controller.$inject = ['$location', 'app_factory', 'appService'];
+    acceso_controller.$inject = ['$location', 'app_factory', 'appService', '$timeout', '$q', '$log'];
 
-    function acceso_controller($location, dataProvider, appService) {
+    function acceso_controller($location, dataProvider, appService, $timeout, $q, $log) {
         /* jshint validthis:true */
         ///Variables
 
@@ -14,7 +14,85 @@
         context.accesosistema = {};
         context.listUsuario = [];
         context.listarAccesoSistema = [];
+        //AUTOCOMPLETE //FALTA CORREGIR ERROR EN selectedItemChange
+        context.simulateQuery = false;
+        context.isDisabled = false;
 
+        context.allStates = [];
+
+        // list of `state` value/display objects
+        context.repos = loadAll();
+        context.querySearch = querySearch;
+        context.selectedItemChange = selectedItemChange;
+        context.searchTextChange = searchTextChange;
+
+        function querySearch(query) {
+            var results = query ? context.repos.filter(createFilterFor(query)) : context.repos,
+                deferred;
+            if (context.simulateQuery) {
+                deferred = $q.defer();
+                $timeout(function () { deferred.resolve(results); }, Math.random() * 1000, false);
+                return deferred.promise;
+            } else {
+                return results;
+            }
+        }
+
+        function searchTextChange(text) {
+            $log.info('Text changed to ' + text);
+            context.usuario.NombreUsuario = text;
+            context.usuario.NombreCompleto = text.NombreCompleto;
+        }
+
+        function selectedItemChange(item) {
+            $log.info('Item changed to ' + JSON.stringify(item));
+            console.log(item);
+            if (item == 'undefined') {
+                context.usuario.NombreUsuario = '';
+            } else {
+                context.usuario.NombreUsuario = item.NombreUsuario;
+            }
+            context.usuario.Personal.NombrePers = item.Personal.NombrePers;
+        }
+
+        /**
+         * Build `states` list of key/value pairs
+         */
+        function loadAll() {
+            dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
+                context.repos = respuesta;
+                console.log(respuesta);
+
+                return context.repos.map(function (repo) {
+                    //return {
+                    //    value: state.toLowerCase(),
+                    //    display: state
+                    //};
+
+                    repo.value = repo.NombreUsuario.toLowerCase();
+
+                    console.log(repo.value);
+                    return repo.value;
+                });
+            }).error(function (error) {
+                //MostrarError();
+            });
+
+
+        }
+
+        /**
+         * Create filter function for a query string
+         */
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+
+            return function filterFn(state) {
+                return (state.value.indexOf(lowercaseQuery) === 0);
+            };
+
+        }
+        //FIN AUTOCOMPLETE
         context.editarRoles = function (rowIndex) {
             context.accesosistema = context.gridAccesos.data[rowIndex];
             $("#modal_contenido").modal("show");
