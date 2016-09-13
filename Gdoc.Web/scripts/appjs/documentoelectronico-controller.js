@@ -44,70 +44,97 @@
         };
 
         
-        //context.gridOptions = {
-        //    paginationPageSizes: [25, 50, 75],
-        //    paginationPageSize: 25,
-        //    enableFiltering: true,
-        //    data: [],
-        //    columnDefs: [
-        //        { field: 'CodiConcepto', displayName: 'Codigo' },
-        //        { field: 'DescripcionConcepto', displayName: 'Descripcion' },
-        //        { field: 'DescripcionCorta', displayName: 'Abreviatura' },
-        //        { field: 'ValorUno', displayName: 'Valor1' },
-        //        { field: 'ValorDos', displayName: 'Valor2' },
-        //        { field: 'TextoUno', displayName: 'Texto1' },
-        //        { field: 'TextoDos', displayName: 'Texto2' },
-        //        { field: 'EstadoConcepto', displayName: 'Estado' },
-        //        { field: 'Empresa.DireccionEmpresa', displayName: 'Direción Empresa' }
-        //    ]
-        //};
+        context.gridOptions = {
+            paginationPageSizes: [25, 50, 75],
+            paginationPageSize: 25,
+            //enableFiltering: true,
+            data: [],
+            appScopeProvider: context,
+            columnDefs: [
+                { field: 'NumeroOperacion', displayName: 'Nº Documento' },
+                { field: 'TipoDoc.DescripcionConcepto', displayName: 'Tipo de Documento' },
+                { field: 'DescripcionOperacion', displayName: '	Asunto' },
+                { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'FechaVigente', displayName: '	Fecha Recepción', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
+                {
+                    name: 'Acciones',
+                    cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="top" data-toggle="tooltip" title="" data-original-title="Borrar"></i>'
+                }
+            ]
+        };
         //Eventos
         context.grabar = function (numeroboton) {
-            console.log(context.operacion);
-            let Operacion = context.operacion;
-            let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
-            let listEUsuarioGrupo = [];
-            let listERemitente = [];
-            let listEDestinatario = [];
-
-
-            for (var ind in context.usuarioRemitentes) {
-                context.usuarioRemitentes[ind].TipoParticipante = UsuarioRemitente;
-                listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
+            if (context.usuarioRemitentes == undefined || context.usuarioRemitentes == "") {
+                swal({
+                    title: "Falta Remitentes",
+                    text: "Agregue a los remitente",
+                    type: "warning",
+                    //confirmButtonColor: "#DD6B55",
+                    closeOnConfirm: false,
+                });
+                return;
             }
-            for (var ind in context.usuarioDestinatarios) {
-                context.usuarioDestinatarios[ind].TipoParticipante = UsuarioDestinatario;
-                listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
+            if (context.usuarioDestinatarios == undefined || context.usuarioDestinatarios == "") {
+                swal({
+                    title: "Falta los Destinatarios",
+                    text: "Agregue a los destinatarios",
+                    type: "warning",
+                    //confirmButtonColor: "#DD6B55",
+                    closeOnConfirm: false,
+                });
+                return;
             }
+            swal({
+                title: "¿Seguro que deseas continuar?",
+                text: "No podrás deshacer este paso...",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false
+            },
+            function () {
+                console.log(context.operacion);
+                let Operacion = context.operacion;
+                let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
+                let listEUsuarioGrupo = [];
+                let listERemitente = [];
+                let listEDestinatario = [];
 
-            //for (var ind in context.usuarioRemitentes) {
-            //    listERemitente.push(context.usuarioRemitentes[ind]);
-            //}
-            //for (var ind in context.usuarioDestinatarios) {
-            //    listEDestinatario.push(context.usuarioDestinatarios[ind]);
-            //}
-            if (numeroboton == 1)
-                Operacion.EstadoOperacion = 0
-            else if (numeroboton == 2)
-                Operacion.EstadoOperacion = 1
+                for (var ind in context.usuarioRemitentes) {
+                    context.usuarioRemitentes[ind].TipoParticipante = UsuarioRemitente;
+                    listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
+                }
+                for (var ind in context.usuarioDestinatarios) {
+                    context.usuarioDestinatarios[ind].TipoParticipante = UsuarioDestinatario;
+                    listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
+                }
+                if (numeroboton == 1)
+                    Operacion.EstadoOperacion = 0
+                else if (numeroboton == 2)
+                    Operacion.EstadoOperacion = 1
 
-            console.log(listERemitente);
+                console.log(listERemitente);
 
-            console.log(listEUsuarioGrupo);
+                console.log(listEUsuarioGrupo);
 
-            console.log(context.DocumentoElectronicoOperacion);
-            dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
-                console.log(respuesta);
-            }).error(function (error) {
-                //MostrarError();
+                console.log(context.DocumentoElectronicoOperacion);
+                dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+                    console.log(respuesta);
+                }).error(function (error) {
+                    //MostrarError();
+                });
+                swal("¡Bien!", "Documento Electronico Guardado y Enviado Correctamente", "success");
             });
         }
 
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
             if (context.visible != "List") {
-                //CKEDITOR.replace('editor1');
-                //$(".textarea").wysihtml5();
+                
             }
         }
         ////
@@ -138,5 +165,15 @@
                     context.listTipoComunicacion = respuesta;
             });
         }
+
+        function listarOperacion() {
+            dataProvider.getData("DocumentoElectronico/ListarOperacion").success(function (respuesta) {
+                context.gridOptions.data = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+
+        listarOperacion();
     }
 })();

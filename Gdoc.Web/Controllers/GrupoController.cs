@@ -30,19 +30,42 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listGrupo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        public JsonResult GrabarGrupoUsuarios(Grupo grupo)
+        public JsonResult GrabarGrupoUsuarios(Grupo grupo, List<EUsuarioGrupo> listUsuarioGrupo)
         {
             using (var oGrupo = new NGrupo())
             {
+                var listEusuarioGrupo = new List<UsuarioGrupo>();
+                var oUsuarioGrupo = new NUsuarioGrupo();
+
                 grupo.FechaModifica = System.DateTime.Now;
-                grupo.UsuarioModifica = Session["NombreUsuario"].ToString(); 
+                grupo.UsuarioModifica = Session["NombreUsuario"].ToString();
                 grupo.EstadoGrupo = 1;
 
-                Grupo respuesta = null;
+                //Grupo respuesta = null;
+                Grupo respuesta2;
+                short respuesta = 1;
+
                 if (grupo.IDGrupo > 0)
-                    respuesta = oGrupo.EditarGrupo(grupo);
+                    respuesta2 = oGrupo.EditarGrupo(grupo);
                 else
                     respuesta = oGrupo.GrabarGrupoUsuarios(grupo);
+
+                foreach (var participante in listUsuarioGrupo)
+                {
+                    var eUsuarioGrupo = new UsuarioGrupo();
+
+                    eUsuarioGrupo.IDUsuario = participante.IDUsuarioGrupo;
+                    eUsuarioGrupo.IDGrupo = grupo.IDGrupo;
+                    eUsuarioGrupo.UsuarioRegistro = Session["NombreUsuario"].ToString();
+                    eUsuarioGrupo.FechaRegistro = System.DateTime.Now;
+                    eUsuarioGrupo.EstadoUsuarioGrupo = 1;
+                    listEusuarioGrupo.Add(eUsuarioGrupo);
+
+                }
+
+                oUsuarioGrupo.GrabarUsuarioGrupo(listEusuarioGrupo);
+
+
 
                 //var respuesta = oGrupo.GrabarGrupoUsuarios(grupo);
                 mensajeRespuesta.Exitoso = true;
@@ -74,5 +97,5 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-	}
+    }
 }

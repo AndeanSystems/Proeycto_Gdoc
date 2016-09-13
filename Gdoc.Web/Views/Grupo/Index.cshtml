@@ -1,73 +1,12 @@
 ﻿<!-- Content Header (Page header) -->
 <section class="content-header">
-    <section class="content" ng-controller="grupo_controller as ctrl" ng-cloak>
-        <!--comienso de cuerpo documento electrocnico-->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box box-primary margin-top">
-                    <div class="box-header with-border">
-                        <div class="col-md-10">
-                            <h3 class="box-title">Grupos</h3>
-                        </div>
-                            <button class="btn btn-default" style="right" data-toggle="modal" data-target="#modal_contenido"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
-                    <div class="box-body no-padding">
-
-                        @*<div class="row">
-                            <br>
-
-                            <div class="col-md-2">
-                                <h5 class="pull-right">Grupo</h5>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" placeholder="Buscar Grupo" ng-model="ctrl.nombregrupo">
-                            </div>
-
-                            <div class="col-md-2">
-                                <button type="submit" name="search" id="btnbuscar" class="btn btn-default" ng-click="ctrl.buscarGrupo(ctrl.nombregrupo)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
-                                <button class="btn btn-default" data-toggle="modal" data-target="#modal_contenido"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
-                            </div>
-                        </div>*@
-
-                        <br>
-
-                    </div>
-
-                    <div class="table-responsive mailbox-messages">
-                        <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination></div>
-                        @*<table class="table table-hover table-striped">
-                            <thead>
-                            <th>Grupo<i class="fa fa-sort"></i></th>
-                            <th>Participante(s)<i class="fa fa-sort"></i></th>
-                            <th>Estado<i class="fa fa-sort"></i></th>
-                            <th>Comentario<i class="fa fa-sort"></i></th>
-                            <th>Acciones<i class="fa fa-sort"></i></th>
-
-
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="item in ctrl.listGrupo">
-                                    <td class="mailbox-date">{{item.NombreGrupo}}</td>
-                                    <td class="mailbox-subject">falta</td>
-                                    <td class="mailbox-subject">{{item.EstadoGrupo}}</td>
-                                    <td class="mailbox-subject">{{item.ComentarioGrupo}}</td>
-                                    <td>
-                                        <i class="fa fa-pencil-square-o  " data-placement="top" data-toggle="tooltip" title="Editar"></i>
-                                        <i class="fa fa-times  " data-placement="top" data-toggle="tooltip" title="Borrar"></i>
-                                        <i class="fa fa-eye  " data-placement="top" data-toggle="tooltip" title="" data-original-title="Ver"></i>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>*@
-                    </div>
-
-
-                </div>
-
-            </div>
+    <section class="content" ng-controller="grupo_controller as ctrl" layout="column" ng-cloak>
+        <div class="row" ng-if="ctrl.visible == 'List'">
+            @Html.Partial("_List")
         </div>
-
-        @Html.Partial("_CreateAnEdit")
-
+        <div class="row" ng-if="ctrl.visible == 'CreateAndEdit'">
+            @Html.Partial("_CreateAnEdit")
+        </div>
     </section>
 </section>
 @section Scripts{

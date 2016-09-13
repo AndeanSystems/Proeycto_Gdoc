@@ -6,16 +6,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Gdoc.Entity.Models;
 using Gdoc.Entity.Extension;
+using System.IO;
+using System.Drawing;
 
 namespace Gdoc.Negocio
 {
     public class NUsuario : IDisposable
     {
+        #region "Variable"
         private DUsuario dUsuario = new DUsuario();
+        protected DGeneral dGeneral = new DGeneral();
+
+        protected string ArchivoImagen = "image";
+        protected string ArchivoTXT = "text/plain";
         public void Dispose()
         {
             dUsuario = null;
         }
+        #endregion
 
         public EUsuario ValidarLogin(EUsuario usuario)
         {
@@ -114,7 +122,45 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public short MoverFirma(List<EFirma> listFirmas)
+        {
+            try
+            {
+                var eGeneral = dGeneral.CargaParametros(1001);
+                if (!Directory.Exists(eGeneral.RutaGdocAdjuntos))
+                {
+                    Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
+                }
+                foreach (var documentoOperacion in listFirmas)
+                {
+                    byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoOperacion.RutaFisica);
+                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocImagenes, documentoOperacion.NombreOriginal);
 
+                    documentoOperacion.NombreFisico = string.Empty;
+                    documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;
+                    if (string.IsNullOrEmpty(documentoOperacion.TipoArchivo) || !documentoOperacion.TipoArchivo.Contains(ArchivoTXT))
+                    {
+                        File.WriteAllBytes(documentoOperacion.RutaFisica, fileBytes);
+                    }
+                    else if (documentoOperacion.TipoArchivo.Contains(ArchivoTXT))
+                    {
+                        File.WriteAllText(documentoOperacion.RutaFisica, Encoding.UTF8.GetString(fileBytes));
+                    }
+                    else
+                    {
+                        using (MemoryStream stream = new MemoryStream(fileBytes))
+                        {
+                            Image.FromStream(stream).Save(documentoOperacion.RutaFisica, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        }
+                    }
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
 
+                throw;
+            }
+        }
     }
 }

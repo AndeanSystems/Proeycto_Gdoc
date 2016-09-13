@@ -12,5 +12,6 @@ namespace Gdoc.Entity.Extension
     public class EAccesoSistema:AccesoSistema
     {
         public Personal Persona { get; set; }
+        public string NombreCompleto { get; set; }
     }
 }

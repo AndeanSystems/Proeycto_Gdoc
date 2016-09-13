@@ -32,13 +32,13 @@ namespace Gdoc.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult ListarAccesoSistema(EAccesoSistema acceso)
+        public JsonResult ListarAccesoSistema(EUsuario usuario)
         {
             var listAccesoSistema = new List<EAccesoSistema>();
             using (var oAccesoSistema = new NAccesoSistema())
             {
-                if (!string.IsNullOrEmpty(acceso.Usuario.NombreUsuario))
-                    listAccesoSistema = oAccesoSistema.ListarAccesoSistema().Where(x => x.Usuario.NombreUsuario.Contains(acceso.Usuario.NombreUsuario.ToUpper())).ToList();//por terminar
+                if (!string.IsNullOrEmpty(usuario.NombreUsuario))
+                    listAccesoSistema = oAccesoSistema.ListarAccesoSistema().Where(x => x.Usuario.NombreUsuario.Contains(usuario.NombreUsuario.ToUpper())).ToList();//por terminar
                 else
                     listAccesoSistema = oAccesoSistema.ListarAccesoSistema();
                 }

@@ -59,7 +59,7 @@ namespace Gdoc.Web.Controllers
             var listOperacion = new List<EOperacion>();
             using (var oOperacion = new NOperacion())
             {
-                listOperacion = oOperacion.ListarOperacion().Where(x =>x.TipoOperacion==Constantes.TipoOperacion.DocumentoDigital).ToList();
+                listOperacion = oOperacion.ListarOperacionDigital().Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital).ToList();
             }
             return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

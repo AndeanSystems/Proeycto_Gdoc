@@ -10,6 +10,8 @@
         var context = this;
         context.empresa = {};
         
+        //comienzo
+        context.empresa.EstadoEmpresa = '0';
         //Eventos
         context.editarEmpresa = function (rowIndex) {
             context.empresa = context.gridOptions.data[rowIndex];
@@ -66,29 +68,43 @@
         };
 
         context.grabar = function () {
-            console.log(context.empresa);
-            var empresa = context.empresa;
-            var departamento, provincia, distrito;
+            swal({
+                title: "¿Seguro que deseas continuar?",
+                text: "No podrás deshacer este paso...",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false
+            },
+            function () {
+                console.log(context.empresa);
+                var empresa = context.empresa;
+                var departamento, provincia, distrito;
 
-            departamento = (context.codigodepartamento < 10) ? "0" + context.codigodepartamento : context.codigodepartamento.toString();
-            provincia = (context.codigoprovincia < 10) ? "0" + context.codigoprovincia : context.codigoprovincia.toString();
-            distrito = (context.codigodistrito < 10) ? "0" + context.codigodistrito : context.codigodistrito.toString();
+                departamento = (context.codigodepartamento < 10) ? "0" + context.codigodepartamento : context.codigodepartamento.toString();
+                provincia = (context.codigoprovincia < 10) ? "0" + context.codigoprovincia : context.codigoprovincia.toString();
+                distrito = (context.codigodistrito < 10) ? "0" + context.codigodistrito : context.codigodistrito.toString();
 
-            //if (numeroboton == 1)
-            //    empresa.EstadoEmpresa = 0
-            //else if(numeroboton == 2)
-            //empresa.EstadoEmpresa = 1
+                //if (numeroboton == 1)
+                //    empresa.EstadoEmpresa = 0
+                //else if(numeroboton == 2)
+                //empresa.EstadoEmpresa = 1
 
-            empresa.CodigoUbigeo = (departamento + provincia + distrito);
-            console.log(empresa);
-            dataProvider.postData("Empresa/GrabarEmpresa", empresa).success(function (respuesta) {
-                console.log(respuesta);
-                listarEmpresa();
-                context.empresa = {};
-                $("#modal_contenido").modal("hide");
-            }).error(function (error) {
-                //MostrarError();
+                empresa.CodigoUbigeo = (departamento + provincia + distrito);
+                console.log(empresa);
+                dataProvider.postData("Empresa/GrabarEmpresa", empresa).success(function (respuesta) {
+                    console.log(respuesta);
+                    listarEmpresa();
+                    context.empresa = {};
+                    $("#modal_contenido").modal("hide");
+                }).error(function (error) {
+                    //MostrarError();
+                });
+                swal("¡Bien!", "Empresa Registrada Correctamente", "success");
             });
+            
         }
 
         //Metodos

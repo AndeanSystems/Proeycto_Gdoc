@@ -26,5 +26,18 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public short GrabarUsuarioGrupo(List<UsuarioGrupo> eUsuarioGrupo)
+        {
+            try
+            {
+                dUsuarioGrupo.GrabarUsuarioGrupo(eUsuarioGrupo);
+                return 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

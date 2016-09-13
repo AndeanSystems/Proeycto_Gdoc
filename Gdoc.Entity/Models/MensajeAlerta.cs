@@ -7,7 +7,6 @@ namespace Gdoc.Entity.Models
     {
         public long IDMensajeAlerta { get; set; }
         public Nullable<long> IDOperacion { get; set; }
-        public string CodigoTipoOperacion { get; set; }
         public Nullable<System.DateTime> FechaAlerta { get; set; }
         public Nullable<int> TipoAlerta { get; set; }
         public string CodigoEvento { get; set; }

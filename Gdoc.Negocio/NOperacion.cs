@@ -60,8 +60,8 @@ namespace Gdoc.Negocio
                         eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
                         eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
                         eUsuarioParticipante.ReenvioOperacion = "S";
-                        eUsuarioParticipante.EstadoUsuarioParticipante = 1;
-                        listEusuarioParticipante.Add(eUsuarioParticipante);
+                        eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
+                        //listEusuarioParticipante.Add(eUsuarioParticipante);
                         if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
                             listEusuarioParticipante.Add(eUsuarioParticipante);
                         
@@ -78,7 +78,7 @@ namespace Gdoc.Negocio
                             eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
                             eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
                             eUsuarioParticipante.ReenvioOperacion = "S";
-                            eUsuarioParticipante.EstadoUsuarioParticipante = 1;
+                            eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                             if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
                                 listEusuarioParticipante.Add(eUsuarioParticipante);
                         }
@@ -97,7 +97,6 @@ namespace Gdoc.Negocio
         {
             try
             {
-
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 var listEindexacionDocumento = new List<IndexacionDocumento>();
                 //Grabar Operacion
@@ -143,11 +142,11 @@ namespace Gdoc.Negocio
                     {
                         eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                        eUsuarioParticipante.TipoOperacion = "02";
-                        eUsuarioParticipante.TipoParticipante = "08";
-                        eUsuarioParticipante.FechaNotificacion = System.DateTime.Now;
+                        eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoDigital;
+                        eUsuarioParticipante.TipoParticipante = operacion.TipoOperacion;
+                        eUsuarioParticipante.FechaNotificacion = DateAgregarLaborales(5, System.DateTime.Now);
                         eUsuarioParticipante.ReenvioOperacion = "S";//FALTA
-                        eUsuarioParticipante.EstadoUsuarioParticipante = 1;//FALTA
+                        eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                         listEusuarioParticipante.Add(eUsuarioParticipante);
                     }
                     else
@@ -157,12 +156,15 @@ namespace Gdoc.Negocio
                         var listUsuarioGrupo = dUsuarioGrupo.listarUsuarioGrupo(eUsuarioGrupo);
                         foreach (var usuario in listUsuarioGrupo)
                         {
+                            eUsuarioParticipante = new UsuarioParticipante();
                             eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
                             eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                            eUsuarioParticipante.TipoParticipante = "08";//FALTA CORREGIR
+                            eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoDigital;
+                            eUsuarioParticipante.TipoParticipante = operacion.TipoOperacion;
+                            eUsuarioParticipante.FechaNotificacion = DateAgregarLaborales(5, System.DateTime.Now);
                             eUsuarioParticipante.ReenvioOperacion = "S";//FALTA
-                            eUsuarioParticipante.EstadoUsuarioParticipante = 1;//FALTA
-                            dUsuarioParticipante.Grabar(listEusuarioParticipante);
+                            eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
+                            listEusuarioParticipante.Add(eUsuarioParticipante);
                         }
                     }
                 }
@@ -186,11 +188,23 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public List<EOperacion> ListarOperacion()
+        public List<EOperacion> ListarOperacionDigital()
         {
             try
             {
-                return dOperacion.ListarOperacion();
+                return dOperacion.ListarOperacionDigital();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public List<EOperacion> ListarOperacionElectronico()
+        {
+            try
+            {
+                return dOperacion.ListarOperacionElectronico();
             }
             catch (Exception)
             {
@@ -223,6 +237,21 @@ namespace Gdoc.Negocio
             }
         }
 
+        #region Metodos
+        protected DateTime DateAgregarLaborales(Int32 add, DateTime FechaInicial)
+        {
+            if (FechaInicial.DayOfWeek == DayOfWeek.Saturday) { FechaInicial = FechaInicial.AddDays(2); }
+            if (FechaInicial.DayOfWeek == DayOfWeek.Sunday) { FechaInicial = FechaInicial.AddDays(1); }
+            Int32 weeks = add / 5;
+            add += weeks * 2;
+            if (FechaInicial.DayOfWeek > FechaInicial.AddDays(add).DayOfWeek) 
+                add += 2; 
+           
+            if (FechaInicial.AddDays(add).DayOfWeek == DayOfWeek.Saturday) 
+                add += 2; 
 
+            return FechaInicial.AddDays(add);
+        }
+        #endregion
     }
 }

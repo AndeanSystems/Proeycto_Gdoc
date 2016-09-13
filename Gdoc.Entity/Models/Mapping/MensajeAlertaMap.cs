@@ -11,9 +11,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasKey(t => t.IDMensajeAlerta);
 
             // Properties
-            this.Property(t => t.CodigoTipoOperacion)
-                .HasMaxLength(5);
-
             this.Property(t => t.CodigoEvento)
                 .HasMaxLength(50);
 
@@ -21,7 +18,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.ToTable("MensajeAlerta");
             this.Property(t => t.IDMensajeAlerta).HasColumnName("IDMensajeAlerta");
             this.Property(t => t.IDOperacion).HasColumnName("IDOperacion");
-            this.Property(t => t.CodigoTipoOperacion).HasColumnName("CodigoTipoOperacion");
             this.Property(t => t.FechaAlerta).HasColumnName("FechaAlerta");
             this.Property(t => t.TipoAlerta).HasColumnName("TipoAlerta");
             this.Property(t => t.CodigoEvento).HasColumnName("CodigoEvento");

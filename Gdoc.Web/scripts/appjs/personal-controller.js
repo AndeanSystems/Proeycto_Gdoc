@@ -19,12 +19,8 @@
         LlenarConcepto("024");
 
         context.personal = {};
-        context.usuario = {};
         context.listDepartamento = [];
 
-        context.usuario.ExpiraFirma = 0;
-
-        //var NombreCompleto = "Personal.NombrePers".concat(" Personal.ApellidoPersonal");
 
         context.editarPersonal = function (rowIndex) {
             context.personal = context.gridOptions.data[rowIndex];
@@ -34,17 +30,6 @@
             context.obtenerDistrito(context.codigodepartamento, context.codigoprovincia);
             context.codigodistrito = parseInt(context.personal.CodigoUbigeo.substring(4, 6));
             $("#modal_contenido").modal("show");
-        };
-
-        context.buscarUsuarioPersonal = function (user, documento, idetificacion) {
-
-            dataProvider.postData("Usuario/BuscarUsuarioPersonal", { NombreUsuario: user }, { NumeroIdentificacion: documento }, { TipoIdentificacion: idetificacion }).success(function (respuesta) {
-                console.log(respuesta);
-                context.usuario = respuesta[0];
-                console.log(context.usuario)
-            }).error(function (error) {
-                //MostrarError();
-            });
         };
 
         context.eliminarUsuario = function (rowIndex) {
@@ -105,17 +90,24 @@
             });
         }
 
-
-        context.buscarUsuario = function (usuario) {
-            //usuario.Personal.NombrePers = usuario
-            dataProvider.postData("Usuario/BuscarUsuarioNombre", usuario).success(function (respuesta) {
+        context.buscarPersonal = function (personal) {
+            var personal = context.personal;
+            dataProvider.postData("Personal/BuscarPersonalNombre", personal).success(function (respuesta) {
                 //context.usuario = respuesta[0];
+                console.log(personal);
                 context.gridOptions.data = respuesta;
             }).error(function (error) {
                 //MostrarError();
             });
         }
 
+        context.nuevoPersonal = function () {
+            context.personal = {};
+            context.codigodepartamento = {};
+            context.codigodistrito = {};
+            context.codigoprovincia = {};
+            $("#modal_contenido").modal("show");
+        }
         //Metodos
         context.obtenerProvincia = function (CodigoDepartamento) {
             console.log(CodigoDepartamento);

@@ -43,6 +43,16 @@ namespace Gdoc.Web.Controllers
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
         [HttpPost]
+        public JsonResult ListarConceptoEditables(Concepto concepto)
+        {
+            var listConcepto = new List<Concepto>();
+            using (var oConcepto = new NConcepto())
+            {
+                listConcepto = oConcepto.ListarConcepto().Where(x => x.TipoConcepto == concepto.TipoConcepto && x.EstadoConcepto == 1 && x.EditarRegistro==1).OrderBy(x => x.DescripcionConcepto).ToList();
+            }
+            return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+        [HttpPost]
         public JsonResult BuscarConceptoEstado(Concepto concepto)
         {
             var listConcepto = new List<Concepto>();

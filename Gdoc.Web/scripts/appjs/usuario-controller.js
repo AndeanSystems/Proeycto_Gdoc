@@ -23,13 +23,12 @@
         context.listDepartamento = [];
 
         context.usuario.ExpiraFirma=0;
-        //AUTOCOMPLETE //FALTA CORREGIR ERROR EN selectedItemChange
+        //AUTOCOMPLETE //
         context.simulateQuery = false;
         context.isDisabled = false;
 
         context.allStates = [];
 
-        // list of `state` value/display objects
         context.repos = loadAll();
         context.querySearch = querySearch;
         context.selectedItemChange = selectedItemChange;
@@ -59,22 +58,12 @@
             }
         }
 
-        /**
-         * Build `states` list of key/value pairs
-         */
         function loadAll() {
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
                 context.repos = respuesta;
                 console.log(respuesta);
-
                 return context.repos.map(function (repo) {
-                    //return {
-                    //    value: state.toLowerCase(),
-                    //    display: state
-                    //};
-
                     repo.value = repo.NombreUsuario.toLowerCase();
-
                     console.log(repo.value);
                     return repo.value;
                 });
@@ -85,9 +74,6 @@
             
         }
 
-        /**
-         * Create filter function for a query string
-         */
         function createFilterFor(query) {
             var lowercaseQuery = angular.lowercase(query);
 
@@ -97,7 +83,6 @@
 
         }
         //FIN AUTOCOMPLETE
-        //var NombreCompleto = "Personal.NombrePers".concat(" Personal.ApellidoPersonal");
 
         context.editarUsuario = function (rowIndex) {
             context.usuario = context.gridOptions.data[rowIndex];
@@ -167,51 +152,86 @@
 
         //Eventos
         context.grabar = function (numeroboton) {
-            console.log(context.personal);
+            swal({
+                title: "¿Seguro que deseas continuar?",
+                text: "No podrás deshacer este paso...",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false
+            },
 
-            var personal = context.personal;
-            var usuario = context.usuario;
+            function () {
+                //swal({
+                //    title: "Confirmacion de Credencial!",
+                //    text: "Ingrese su clave de Usuario",
+                //    type: "input",
+                //    showCancelButton: true,
+                //    closeOnConfirm: false,
+                //    animation: "slide-from-top",
+                //    inputPlaceholder: "Write something"
+                //},
+                //function (inputValue) {
+                //    if (inputValue === false) return false;
+                //    if (inputValue === "") {
+                //        swal.showInputError("Por favor Digite su clave de Usuario");
+                //        return false;
+                //    }
+                //    if (inputValue != "hola") {
+                //        swal.showInputError("Clave Incorrecta");
+                //        return false;
+                //    }
+                //});
+                console.log(context.personal);
 
-            //GRABAR PERSONAL
-            if (numeroboton == 1)
-                personal.EstadoPersonal = 0
-            else if (numeroboton == 2)
-                personal.EstadoPersonal = 1
-            //personal.CodigoUbigeo = (departamento + provincia + distrito);
+                var personal = context.personal;
+                var usuario = context.usuario;
 
-            personal.IDEmpresa=1001 //POR TERMINAR
+                //GRABAR PERSONAL
+                if (numeroboton == 1)
+                    personal.EstadoPersonal = 0
+                else if (numeroboton == 2)
+                    personal.EstadoPersonal = 1
+                //personal.CodigoUbigeo = (departamento + provincia + distrito);
 
-            //dataProvider.postData("Personal/GrabarPersonal", personal).success(function (respuesta) {
-            //    console.log(respuesta);
-            //    //listarUsuario();
-            //    //$("#modal_contenido").modal("hide");
-            //}).error(function (error) {
-            //    //MostrarError();
-            //});
-            //GRABAR USUARIO
-            //usuario.NombreUsuario = personal.NombrePers.substr(0,1) + personal.ApellidoPersonal;
-            //usuario.ClaveUsuario = 123;
+                personal.IDEmpresa = 1001 //POR TERMINAR
 
-            //usuario.IDPersonal = personal.IDPersonal;
+                //dataProvider.postData("Personal/GrabarPersonal", personal).success(function (respuesta) {
+                //    console.log(respuesta);
+                //    //listarUsuario();
+                //    //$("#modal_contenido").modal("hide");
+                //}).error(function (error) {
+                //    //MostrarError();
+                //});
+                //GRABAR USUARIO
+                //usuario.NombreUsuario = personal.NombrePers.substr(0,1) + personal.ApellidoPersonal;
+                //usuario.ClaveUsuario = 123;
 
-            if (numeroboton == 1)
-                usuario.EstadoUsuario = 0
-            else if (numeroboton == 2)
-                usuario.EstadoUsuario = 1
-            
-            //Aqui se llena la entidad usuario, y tambien personal. Asignandole la propiedad de usuario.personal con la (Entidad) Personal
-            //usuario.Personal = personal;
-            dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
-                console.log(respuesta);
-                listarUsuario();
-                context.personal = {};
-                context.usuario = {};
-                context.listDepartamento = [];
-                context.listPronvincia = [];
-                context.listDistrito = [];
-                $("#modal_contenido").modal("hide");
-            }).error(function (error) {
-                //MostrarError();
+                //usuario.IDPersonal = personal.IDPersonal;
+
+                if (numeroboton == 1)
+                    usuario.EstadoUsuario = 0
+                else if (numeroboton == 2)
+                    usuario.EstadoUsuario = 1
+
+                //Aqui se llena la entidad usuario, y tambien personal. Asignandole la propiedad de usuario.personal con la (Entidad) Personal
+                //usuario.Personal = personal;
+                dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
+                    console.log(respuesta);
+                    listarUsuario();
+                    context.personal = {};
+                    context.usuario = {};
+                    context.listDepartamento = [];
+                    context.listPronvincia = [];
+                    context.listDistrito = [];
+                    $("#modal_contenido").modal("hide");
+                }).error(function (error) {
+                    //MostrarError();
+                });
+
+                swal("¡Bien!", "Usuario Registrado Correctamente", "success");
             });
         }
 

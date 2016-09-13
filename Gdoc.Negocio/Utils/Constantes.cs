@@ -24,5 +24,11 @@ namespace Gdoc.Negocio.Utils
             public const string EmisorDD = "07";
             public const string DestinatarioDD = "08";
         }
+        public struct EstadoParticipante
+        {
+            public const short Creado = 0;
+            public const short Activo = 1;
+            public const short Inactivo = 2;
+        }
     }
 }

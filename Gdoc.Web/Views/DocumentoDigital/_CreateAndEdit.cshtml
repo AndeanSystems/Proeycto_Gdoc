@@ -1,7 +1,7 @@
 ﻿<br />
 <br />
 <br />
-        
+<form role="form" name="frmDatos" novalidate>
     <div class="row">
         <div class="col-md-6">
             <div class="box box-primary">
@@ -13,17 +13,17 @@
                 <form role="form">
                     <div class="box-body">
                         <div class="form-group margin-bottom">
-                            <label class="col-sm-12">Tipo Documento (*)</label>
+                            <label class="col-sm-12">Tipo Documento <span class="text-danger">(*)</span></label>
                             <div class="col-sm-12">
-                                <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
+                                <select style="margin-bottom: 15px;" class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group no-margin">
-                            <label class="col-sm-4 ">Derivación (*)</label>
-                            <md-radio-group ng-model="ctrl.DocumentoDigitaloOperacion.DerivarDocto">
+                            <label class="col-sm-4 ">Derivación <span class="text-danger">(*)</span></label>
+                            <md-radio-group ng-model="ctrl.DocumentoDigitaloOperacion.DerivarDocto" required>
                                 <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="S">Si</md-radio-button>
                                 <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="N">No</md-radio-button>
 
@@ -31,24 +31,24 @@
                         </div>
 
                         <div class="form-group no-margin">
-                            <label class="col-sm-4">Tipo de Accesso (*)</label>
-                            <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
+                            <label class="col-sm-4">Tipo de Accesso <span class="text-danger">(*)</span></label>
+                            <md-radio-group ng-model="ctrl.operacion.AccesoOperacion" required>
                                 <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso">{{ta.DescripcionConcepto}} </md-radio-button>
                             </md-radio-group>
                         </div>
 
                         <div class="form-group no-margin">
-                            <label class="col-sm-4">Documento Interno (*)</label>
-                            <md-radio-group ng-model="ctrl.operacion.TipoComunicacion">
+                            <label class="col-sm-4">Documento Interno <span class="text-danger">(*)</span></label>
+                            <md-radio-group ng-model="ctrl.operacion.TipoComunicacion" required>
                                 <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="1">Si</md-radio-button>
                                 <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="2">No</md-radio-button>
                             </md-radio-group>
                         </div>
 
                         <div class="form-group ">
-                            <label class="col-md-12">Prioridad de Atención (*)</label>
+                            <label class="col-md-12">Prioridad de Atención <span class="text-danger">(*)</span></label>
                             <div class="col-sm-12">
-                                <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion ">
+                                <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion " required>
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -56,7 +56,7 @@
 
                         <div class="form-group">
                             <label class="col-sm-12">Elegir Archivo</label>
-                            <div class="col-md-12"> 
+                            <div class="col-md-12">
                                 <input type="file" id="input_file" onchange="ReadFileToBinary(this)" multiple>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                             <div class="col-md-12">
                             </div>
                         </div>
-                           
+
                         <form role="form">
                             <div class="form-group">
                                 <div class="col-sm-11">
@@ -98,73 +98,74 @@
                             </div>
                         </form>
 
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
 
-                </div>
+        </div>
 
-            <div class="col-md-6">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Documento Digital</h3>
-                        <button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
-                        <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
-                    </div><!-- /.box-header -->
-                    <form role="form">
-                        <div class="box-body">
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Documento Digital</h3>
+                    <button class="btn btn-default pull-right" ng-disabled="frmDatos.$invalid" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
+                    <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+                </div><!-- /.box-header -->
+                <form role="form">
+                    <div class="box-body">
 
-                            <div class="form-group">
-                                <label class="col-sm-12">Titulo (*)</label>
-                                <div class="col-sm-12">
-                                    <input type="text" ng-model="ctrl.operacion.TituloOperacion" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-12">Asunto (*)</label>
-                                <div class="col-sm-12">
-                                    <input type="text" ng-model="ctrl.operacion.DescripcionOperacion" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-12">Destinatario (*)</label>
-                                <div class="col-sm-12">
-                                    <md-content class="autocomplete" layout="column">
-                                        <md-contact-chips ng-model="ctrl.usuarioDestinatarios"
-                                                          md-contacts="ctrl.querySearch($query)"
-                                                          md-contact-name="Nombre"
-                                                          md-highlight-flags="i"
-                                                          filter-selected="ctrl.filterSelected"
-                                                          placeholder="Destinatario">
-                                        </md-contact-chips>
-                                    </md-content>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-12">Fecha de Emisión</label>
-                                <div class="col-sm-12">
-                                    <input type="text" disabled="true" class="form-control date" placeholder="12/08/2015">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-12">Fecha de Recepcion:</label>
-                                <div class="col-sm-12">
-                                    <input type="text" disabled="true" class="form-control date" placeholder="12/08/2015">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-12">Comentario</label>
-                                <div class="col-sm-12">
-                                    <textarea style="resize:none" class="form-control" ng-model="ctrl.DocumentoDigitaloOperacion.Comentario"></textarea>
-                                </div>
+                        <div class="form-group">
+                            <label class="col-sm-12">Titulo <span class="text-danger">(*)</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" ng-model="ctrl.operacion.TituloOperacion" class="form-control" required>
                             </div>
                         </div>
-                    </form>
-                </div>
-                </div><!--fin  col-->
-        </div><!-- fin row-->
+
+                        <div class="form-group">
+                            <label class="col-sm-12">Asunto <span class="text-danger">(*)</span></label>
+                            <div class="col-sm-12">
+                                <input type="text" ng-model="ctrl.operacion.DescripcionOperacion" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-12">Destinatario <span class="text-danger">(*)</span></label>
+                            <div class="col-sm-12">
+                                <md-content class="autocomplete" layout="column">
+                                    <md-contact-chips ng-model="ctrl.usuarioDestinatarios"
+                                                      md-contacts="ctrl.querySearch($query)"
+                                                      md-contact-name="Nombre"
+                                                      md-highlight-flags="i"
+                                                      filter-selected="ctrl.filterSelected"
+                                                      placeholder="Destinatario">
+                                    </md-contact-chips>
+                                </md-content>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-12">Fecha de Emisión</label>
+                            <div class="col-sm-12">
+                                <input type="text" disabled="true" class="form-control date" placeholder="12/08/2015">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-12">Fecha de Recepcion:</label>
+                            <div class="col-sm-12">
+                                <input type="text" disabled="true" class="form-control date" placeholder="12/08/2015">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-12">Comentario</label>
+                            <div class="col-sm-12">
+                                <textarea style="resize:none" class="form-control" ng-model="ctrl.DocumentoDigitaloOperacion.Comentario"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</form>

@@ -14,7 +14,7 @@
         context.accesosistema = {};
         context.listUsuario = [];
         context.listarAccesoSistema = [];
-        //AUTOCOMPLETE //FALTA CORREGIR ERROR EN selectedItemChange
+        //AUTOCOMPLETE //
         context.simulateQuery = false;
         context.isDisabled = false;
 
@@ -45,14 +45,10 @@
         }
 
         function selectedItemChange(item) {
-            $log.info('Item changed to ' + JSON.stringify(item));
-            console.log(item);
-            if (item == 'undefined') {
-                context.usuario.NombreUsuario = '';
-            } else {
+            if (item != undefined) {
                 context.usuario.NombreUsuario = item.NombreUsuario;
+                context.usuario.NombreCompleto = item.NombreCompleto;
             }
-            context.usuario.Personal.NombrePers = item.Personal.NombrePers;
         }
 
         /**
@@ -154,18 +150,19 @@
 
         //Eventos
         context.buscarAccesoSistema = function (usuario) {
-            if (usuario == null) {
-                alert("Ingrese el Nombre Usuario");
-            }
-            else {
+            //if (usuario == null) {
+            //    alert("Ingrese el Nombre Usuario");
+            //}
+            //else {
+            console.log(usuario);
                 dataProvider.postData("Acceso/ListarAccesoSistema", usuario).success(function (respuesta) {
                     console.log(respuesta);
-                    context.accesosistema = respuesta[0];
+                    //context.accesosistema = respuesta[0];
                     context.gridAccesos.data = respuesta;
                 }).error(function (error) {
                     //MostrarError();
                 });
-            }
+            //}
 
             
 

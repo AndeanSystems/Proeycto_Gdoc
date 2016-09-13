@@ -343,6 +343,9 @@
     <Content Include="Content\plugins\file input\fileinput.js" />
     <Content Include="Content\plugins\file input\fileinput.min.js" />
     <Content Include="Content\plugins\skins\_all-skins.min.css" />
+    <Content Include="Content\plugins\sweetalert\sweetalert-dev.js" />
+    <Content Include="Content\plugins\sweetalert\sweetalert.css" />
+    <Content Include="Content\plugins\sweetalert\sweetalert.min.js" />
     <Content Include="Content\ui-grid.css" />
     <Content Include="Content\ui-grid.min.css" />
     <Content Include="Content\ui-grid.svg" />
@@ -417,6 +420,9 @@
     <Content Include="scripts\jquery-3.1.0.slim.min.js" />
     <Content Include="scripts\ui-grid.js" />
     <Content Include="scripts\ui-grid.min.js" />
+    <Content Include="Views\Grupo\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Views\MesaVirtual\_CreatAndEdit.cshtml" />
     <Content Include="Views\Usuario\CambiarContraseña.cshtml" />
     <Content Include="Web.config" />
@@ -482,7 +488,6 @@
     <Content Include="Views\Acceso\Index.cshtml" />
     <Content Include="Views\Empresa\Index.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
-    <Content Include="Views\Grupo\Index.cshtml" />
     <Content Include="Views\DocumentoElectronico\Index.cshtml" />
     <Content Include="Views\Empresa\_CreateAndEdit.cshtml" />
     <Content Include="Views\Grupo\_CreateAnEdit.cshtml" />
@@ -502,6 +507,7 @@
     <Content Include="Views\Personal\Index.cshtml" />
     <Content Include="Views\Personal\_CreateAndEdit.cshtml" />
     <Content Include="Views\Personal\_List.cshtml" />
+    <Content Include="Views\Grupo\_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

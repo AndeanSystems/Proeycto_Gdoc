@@ -30,16 +30,16 @@ namespace Gdoc.Dao
                                 join usuarioparticipante in db.UsuarioParticipantes
                                 on operacion.IDOperacion equals usuarioparticipante.IDOperacion
 
-                                
 
-                                join tipooperacion in db.Conceptoes
-                                on mensajealerta.CodigoTipoOperacion equals tipooperacion.CodiConcepto
+
+                                 join tipooperacion in db.Conceptoes
+                                 on operacion.TipoOperacion equals tipooperacion.CodiConcepto
 
                                 join tipodocumento in db.Conceptoes
                                 on operacion.TipoDocumento equals tipodocumento.CodiConcepto
 
-                                where tipooperacion.TipoConcepto.Equals("003") &&
-                                       tipodocumento.TipoConcepto.Equals("012")
+                                where tipodocumento.TipoConcepto.Equals("012")
+                                      && tipooperacion.TipoConcepto.Equals("003") 
 
                                 select new { mensajealerta, usuarioparticipante, tipooperacion, tipodocumento,usuario,operacion }).ToList();
 
@@ -47,16 +47,15 @@ namespace Gdoc.Dao
                     {
                         IDMensajeAlerta = x.mensajealerta.IDMensajeAlerta,
                         IDOperacion = x.mensajealerta.IDOperacion,
-                        CodigoTipoOperacion = x.mensajealerta.CodigoTipoOperacion,
                         FechaAlerta = x.mensajealerta.FechaAlerta,
                         TipoAlerta = x.mensajealerta.TipoAlerta,
                         CodigoEvento = x.mensajealerta.CodigoEvento,
                         EstadoMensajeAlerta = x.mensajealerta.EstadoMensajeAlerta,
                         IDUsuario = x.mensajealerta.IDUsuario,
 
-                        TipoOperacion = new Concepto 
-                        { 
-                            DescripcionConcepto=x.tipooperacion.DescripcionConcepto,
+                        TipoOperacion = new Concepto
+                        {
+                            DescripcionConcepto = x.tipooperacion.DescripcionConcepto,
                         },
                         TipoDocumento=new Concepto
                         {

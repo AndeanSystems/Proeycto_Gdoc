@@ -48,5 +48,14 @@ namespace Gdoc.Web.Controllers
                 throw;
             }
         }
+        public JsonResult ListarOperacion()
+        {
+            var listDocumentoElectronico = new List<EOperacion>();
+            using (var oOperacion = new NOperacion())
+            {
+                listDocumentoElectronico = oOperacion.ListarOperacionElectronico().Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico).ToList();
+            }
+            return new JsonResult { Data = listDocumentoElectronico, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
 	}
 }

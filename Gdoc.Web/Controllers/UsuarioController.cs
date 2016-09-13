@@ -9,12 +9,16 @@ using System.Web.Mvc;
 using Gdoc.Entity.Extension;
 using Gdoc.Web.ActiveDirectory;
 using System.Configuration;
+using System.Text;
+using System.Drawing;
+using System.IO;
 
 namespace Gdoc.Web.Controllers
 {
     public class UsuarioController : Controller
     {
         #region "Variables"
+
         MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
         ADFunctions ADFunctions = new ADFunctions();
         #endregion
@@ -231,6 +235,25 @@ namespace Gdoc.Web.Controllers
             }
 
             return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+
+        public JsonResult MoverFirma(List<EFirma> listFirmas)
+        {
+            try
+            {
+                using (var oUsuario = new NUsuario())
+                {
+                    var respuesta = oUsuario.MoverFirma(listFirmas);
+                }
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                return new JsonResult { Data = mensajeRespuesta };
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         #region "Metodos"

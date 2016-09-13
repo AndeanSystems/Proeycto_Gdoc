@@ -47,5 +47,19 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = mensajeRespuesta };
         }
+        [HttpPost]
+        public JsonResult BuscarPersonalNombre(Personal personal)
+        {
+            var listUsuario = new List<Personal>();
+            using (var oPersonal = new NPersonal())
+            {
+                if (!string.IsNullOrEmpty(personal.NombrePers))
+                    listUsuario = oPersonal.ListarPersonal().Where(x => x.NombrePers.Contains(personal.NombrePers.ToUpper())).ToList();
+                else
+                    listUsuario = oPersonal.ListarPersonal();
+            }
+
+            return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
+        }
 	}
 }

@@ -30,6 +30,7 @@ function ReadFileToBinary(control) {
         let PrioridadAtencion = "005";
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
+        let UsuarioDestinatario = "08";
         var context = this;
         context.operacion = {};
         context.DocumentoDigitaloOperacion = {};
@@ -55,12 +56,10 @@ function ReadFileToBinary(control) {
 
         //COMIENZO
         context.operacion = {
-            AccesoOperacion : '2'
+            TipoDocumento: '02',
+            PrioridadOperacion: '02',
+            AccesoOperacion: '2'
         };
-        context.DocumentoDigitaloOperacion = {
-            DerivarDocto: 'S',
-            DoctoExterno: 'S'
-        }
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -100,46 +99,60 @@ function ReadFileToBinary(control) {
             console.log(element);
         }
         context.grabar = function (numeroboton) {
+            swal({
+                title: "¿Seguro que deseas continuar?",
+                text: "No podrás deshacer este paso...",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false
+            },
+            function () {
+                console.log(context.operacion);
+                let Operacion = context.operacion;
+                let DocumentoDigitalOperacion = context.DocumentoDigitaloOperacion;
+                let listIndexacionDocumento = context.listaReferencia;
 
-            console.log(context.operacion);
-            let Operacion = context.operacion;
-            let DocumentoDigitalOperacion = context.DocumentoDigitaloOperacion;
-            let listIndexacionDocumento = context.listaReferencia;
+                let listEUsuarioGrupo = [];
+                for (var ind in context.usuarioDestinatarios) {
+                    context.usuarioDestinatarios[ind].TipoParticipante = UsuarioDestinatario;
+                    listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
+                }
 
-            let listEUsuarioGrupo = [];
-            for (var ind in context.usuarioDestinatarios) {
-                listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
-            }
+                if (numeroboton == 1)
+                    Operacion.EstadoOperacion = 0
+                else if (numeroboton == 2)
+                    Operacion.EstadoOperacion = 1
 
-            if (numeroboton == 1)
-                Operacion.EstadoOperacion = 0
-            else if (numeroboton == 2)
-                Operacion.EstadoOperacion = 1
+                console.log(listIndexacionDocumento);
+                console.log(listEUsuarioGrupo);
+                let listDocumentoDigitaloOperacion = [];
 
-            console.log(listIndexacionDocumento);
-            console.log(listEUsuarioGrupo);
-            let listDocumentoDigitaloOperacion = [];
+                console.log(archivosSelecionados);
+                for (var index in archivosSelecionados) {
+                    listDocumentoDigitaloOperacion.push({
+                        RutaFisica: archivosSelecionados[index].RutaBinaria,
+                        NombreOriginal: archivosSelecionados[index].NombreArchivo,
+                        TamanoDocto: archivosSelecionados[index].TamanoArchivo,
+                        TipoArchivo: archivosSelecionados[index].TipoArchivo,
+                        Comentario: context.DocumentoDigitaloOperacion.Comentario,
+                    });
+                    console.log(listDocumentoDigitaloOperacion);
+                }
 
-            console.log(archivosSelecionados);
-            for (var index in archivosSelecionados) {
-                listDocumentoDigitaloOperacion.push({
-                    RutaFisica: archivosSelecionados[index].RutaBinaria,
-                    NombreOriginal: archivosSelecionados[index].NombreArchivo,
-                    TamanoDocto: archivosSelecionados[index].TamanoArchivo,
-                    TipoArchivo: archivosSelecionados[index].TipoArchivo,
-                    Comentario: context.DocumentoDigitaloOperacion.Comentario,
-                });
                 console.log(listDocumentoDigitaloOperacion);
-            }
-            
-            console.log(listDocumentoDigitaloOperacion);
-            dataProvider.postData("DocumentoDigital/Grabar", { Operacion: Operacion, listDocumentoDigitalOperacion: listDocumentoDigitaloOperacion, listEUsuarioGrupo: listEUsuarioGrupo, listIndexacion: listIndexacionDocumento }).success(function (respuesta) {
-                console.log(respuesta);
-            }).error(function (error) {
-                //MostrarError();
+                dataProvider.postData("DocumentoDigital/Grabar", { Operacion: Operacion, listDocumentoDigitalOperacion: listDocumentoDigitaloOperacion, listEUsuarioGrupo: listEUsuarioGrupo, listIndexacion: listIndexacionDocumento }).success(function (respuesta) {
+                    console.log(respuesta);
+                }).error(function (error) {
+                    //MostrarError();
+                });
+                swal("¡Bien!", "Documento Digital Guardado y Enviado Correctamente", "success");
+                listDocumentoDigitaloOperacion = {};
+                limpiarFormulario();
             });
-            listDocumentoDigitaloOperacion = {};
-            limpiarFormulario();           
+                      
         }
 
         context.editarOperacion = function (rowIndex) {
@@ -167,7 +180,9 @@ function ReadFileToBinary(control) {
             context.visible = mostrarVentana;
             if (context.visible != "List") {
                 context.operacion = {
+                    TipoDocumento: '02',
                     AccesoOperacion: '2',
+                    PrioridadOperacion: '02',
                     TipoComunicacion: '1'
                 };
                 context.DocumentoDigitaloOperacion = {
@@ -207,7 +222,6 @@ function ReadFileToBinary(control) {
         function listarOperacion() {
             dataProvider.getData("DocumentoDigital/ListarOperacion").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
-                context.listEmpresa = respuesta;
             }).error(function (error) {
                 //MostrarError();
             });

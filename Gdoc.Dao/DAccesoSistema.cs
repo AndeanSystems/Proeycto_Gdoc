@@ -59,7 +59,8 @@ namespace Gdoc.Dao
 
                         },
                         FechaModificacion = x.acceso.FechaModificacion,
-                        EstadoAcceso = x.acceso.EstadoAcceso
+                        EstadoAcceso = x.acceso.EstadoAcceso,
+                        NombreCompleto = string.Format("{0}, {1}", x.persona.NombrePers, x.persona.ApellidoPersonal),
 
                         
                         //Persona = new Personal

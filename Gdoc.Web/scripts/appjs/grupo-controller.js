@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('app').controller('grupo_controller', grupo_controller);
-    grupo_controller.$inject = ['$location', 'app_factory'];
+    grupo_controller.$inject = ['$location', 'app_factory', 'appService'];
 
-    function grupo_controller($location, dataProvider) {
+    function grupo_controller($location, dataProvider, appService) {
         /* jshint validthis:true */
         ///Variables
         var context = this;
@@ -12,6 +12,18 @@
         context.listUsuario = [];
         context.grupo = {};
         context.listaUsuariosGrupo = [];
+        context.listaUsuarioGrupo = [];
+        context.participantesGrupo = [];
+        context.visible = "List";
+
+        //Crear Combo Auto Filters
+        var pendingSearch, cancelSearch = angular.noop;
+        var cachedQuery, lastSearch;
+        context.usuarioDestinatarios = [];
+        context.filterSelected = true;
+        context.querySearch = querySearch;
+        var usuario = {};
+
 
         context.editarGrupo = function (rowIndex) {
             context.grupo = context.gridOptions.data[rowIndex];
@@ -58,6 +70,11 @@
             //}
         };
 
+        context.CambiarVentana = function (mostrarVentana) {
+            context.visible = mostrarVentana;
+            if (context.visible != "List") {
+            }
+        }
         //context.listausuariosgrupo = [];
         //context.Usuario = {};
 
@@ -97,13 +114,18 @@
 
             var grupo = context.grupo;
 
+            let listEUsuarioGrupo = [];
+            for (var ind in context.participantesGrupo) {
+                listEUsuarioGrupo.push(context.participantesGrupo[ind]);
+            }
+
             if (numeroboton == 1)
                 grupo.EstadoGrupo = 0
             else if (numeroboton == 2)
                 grupo.EstadoGrupo = 1
 
             console.log(context.grupo);
-            dataProvider.postData("Grupo/GrabarGrupoUsuarios", grupo).success(function (respuesta) {
+            dataProvider.postData("Grupo/GrabarGrupoUsuarios", { grupo: grupo, listUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                 console.log(respuesta);
                 listarGrupo();
                 context.grupo = {};
@@ -114,6 +136,20 @@
         }
 
         //Metodos
+        function listarUsuarioGrupoAutoComplete(Nombre) {
+            var UsuarioGrupo = { Nombre: Nombre };
+            appService.buscarUsuarioGrupoAutoComplete(UsuarioGrupo).success(function (respuesta) {
+                //context.listaUsuario = respuesta;
+                context.listaUsuarioGrupo = respuesta;
+            });
+        }
+
+        function querySearch(criteria) {
+            listarUsuarioGrupoAutoComplete(criteria);
+            cachedQuery = cachedQuery || criteria;
+            return cachedQuery ? context.listaUsuarioGrupo : [];
+        }
+
         function listarGrupo() {
             dataProvider.getData("Grupo/ListarGrupo").success(function (respuesta) {
                 context.gridOptions.data = respuesta;

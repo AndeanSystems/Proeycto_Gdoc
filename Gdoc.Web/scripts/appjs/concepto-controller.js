@@ -12,12 +12,12 @@
 
         LlenarConcepto("999");
 
-        var concepto = { TipoConcepto: "012" };
+        //var concepto = { TipoConcepto: "012" };
         context.acciones = '<i ng-click="grid.appScope.editarConcepto(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>';
 
-        appService.listarConcepto(concepto).success(function (respuesta) {
-            console.log(respuesta);
-        });
+        //appService.listarConcepto(concepto).success(function (respuesta) {
+        //    console.log(respuesta);
+        //});
 
         context.registrarConcepto = function () {
             context.concepto = {};
@@ -29,8 +29,14 @@
             context.concepto = context.gridOptions.data[rowIndex];
             console.log(context.concepto);
             context.concepto.EstadoConcepto = context.concepto.EstadoConcepto.toString();
-            if (context.concepto.EditarRegistro == 0)
-                alert("El concepto no se puede editar");
+            if (context.concepto.EditarRegistro == 0){
+                swal({   title: "Lo Sentimos",   
+                    text: "El concepto no se puede editar",
+                    type: "info",
+                    //confirmButtonColor: "#DD6B55",
+                    closeOnConfirm: false,
+                });
+            }
             else
                 $("#modal_contenido").modal("show");
         };
@@ -44,7 +50,6 @@
                     dataProvider.postData("Concepto/BuscarConceptoEstado", { CodiConcepto: CodiConcepto }).success(function (respuesta) {
                         console.log(respuesta);
                         context.concepto = respuesta[0];
-
                         //if (context.concepto.EditarRegistro == 0) {
                         //    context.acciones = '<i>a</i>';//por terminar
                         //    console.log(context.acciones);
@@ -94,7 +99,6 @@
                 { field: 'TextoUno', width: '8%', displayName: 'Texto1' },
                 { field: 'TextoDos', width: '8%', displayName: 'Texto2' },
                 { field: 'EstadoConcepto', displayName: 'Estado' },
-             
                 {
                     name: 'Acciones',
                     cellTemplate: context.acciones
@@ -104,30 +108,46 @@
         };
         //Eventos
         context.grabar = function () {
-            var concepto = context.concepto;
+            swal({
+                title: "¿Seguro que deseas continuar?",
+                text: "No podrás deshacer este paso...",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false
+            },
+            function () {
+                var concepto = context.concepto;
 
-            //if (numeroboton == 1)
-            //    concepto.EstadoConcepto = 0
-            //else if (numeroboton == 2)
-            //    concepto.EstadoConcepto = 1
+                //if (numeroboton == 1)
+                //    concepto.EstadoConcepto = 0
+                //else if (numeroboton == 2)
+                //    concepto.EstadoConcepto = 1
 
-            console.log(context.concepto);
-            dataProvider.postData("Concepto/GrabarConcepto", context.concepto).success(function (respuesta) {
-                console.log(respuesta);
-                //listarConcepto();
-                context.concepto = {};
-                $("#modal_contenido").modal("hide");
-            }).error(function (error) {
-                //MostrarError();
+                console.log(context.concepto);
+                dataProvider.postData("Concepto/GrabarConcepto", context.concepto).success(function (respuesta) {
+                    console.log(respuesta);
+                    //listarConcepto();
+                    context.concepto = {};
+                    $("#modal_conformidad").modal("hide");
+                    $("#modal_contenido").modal("hide");
+                }).error(function (error) {
+                    //MostrarError();
+                });
+                swal("¡Bien!", "Concepto Registrado Correctamente", "success");
             });
+            
         }
-
-        
 
         //Metodos
         function listarConcepto() {
-            dataProvider.getData("Concepto/ListarConcepto").success(function (respuesta) {
-                context.gridOptions.data = respuesta;
+            //context.concepto.TipoConcepto == "999";
+            var concepto = { TipoConcepto: "999" };
+            dataProvider.postData("Concepto/ListarConceptoEditables", concepto).success(function (respuesta) {
+                context.listTipoConceptoEditable = respuesta;
+                console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();
             });
@@ -140,6 +160,6 @@
             });
         }
         //Carga
-        //listarConcepto();
+        listarConcepto();
     }
 })();

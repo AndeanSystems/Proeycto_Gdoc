@@ -21,5 +21,21 @@ namespace Gdoc.Dao
                 throw;
             }
         }
+        public short GrabarUsuarioGrupo(List<UsuarioGrupo> listUsuarioGrupo)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    db.UsuarioGrupoes.AddRange(listUsuarioGrupo);
+                    db.SaveChanges();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
