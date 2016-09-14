@@ -99,6 +99,26 @@ function ReadFileToBinary(control) {
             console.log(element);
         }
         context.grabar = function (numeroboton) {
+            if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
+                swal({
+                    title: "Advertencia",
+                    text: "Debe seleccionar por lo menos un archivo",
+                    type: "warning",
+                    //confirmButtonColor: "#DD6B55",
+                    closeOnConfirm: false,
+                });
+                return;
+            }
+            if (context.usuarioDestinatarios == undefined || context.usuarioDestinatarios == "") {
+                swal({
+                    title: "Falta los Destinatarios",
+                    text: "Agregue a los destinatarios",
+                    type: "warning",
+                    //confirmButtonColor: "#DD6B55",
+                    closeOnConfirm: false,
+                });
+                return;
+            }
             swal({
                 title: "¿Seguro que deseas continuar?",
                 text: "No podrás deshacer este paso...",
@@ -141,7 +161,6 @@ function ReadFileToBinary(control) {
                     });
                     console.log(listDocumentoDigitaloOperacion);
                 }
-
                 console.log(listDocumentoDigitaloOperacion);
                 dataProvider.postData("DocumentoDigital/Grabar", { Operacion: Operacion, listDocumentoDigitalOperacion: listDocumentoDigitaloOperacion, listEUsuarioGrupo: listEUsuarioGrupo, listIndexacion: listIndexacionDocumento }).success(function (respuesta) {
                     console.log(respuesta);

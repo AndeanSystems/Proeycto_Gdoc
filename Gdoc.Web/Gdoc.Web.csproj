@@ -383,6 +383,7 @@
     <Content Include="scripts\appjs\alerta-controller.js" />
     <Content Include="scripts\appjs\app-factory.js" />
     <Content Include="scripts\appjs\app-service.js" />
+    <Content Include="scripts\appjs\busqueda-controller.js" />
     <Content Include="scripts\appjs\concepto-controller.js" />
     <Content Include="scripts\appjs\contrasena-controller.js" />
     <Content Include="scripts\appjs\documentodigital-controller.js" />
@@ -437,9 +438,9 @@
     <Compile Include="Controllers\AccesoController.cs" />
     <Compile Include="Controllers\AdministracionController.cs" />
     <Compile Include="Controllers\AlertasController.cs" />
+    <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\ComboUsuarioGrupoController.cs" />
     <Compile Include="Controllers\ConceptoController.cs" />
-    <Compile Include="Controllers\ConfiguracionController.cs" />
     <Compile Include="Controllers\DocumentoDigitalController.cs" />
     <Compile Include="Controllers\DocumentoElectronicoController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
@@ -467,10 +468,6 @@
     <Content Include="Views\Alertas\Alertas.cshtml" />
     <Content Include="Views\Alertas\DocumentosRecibidos.cshtml" />
     <Content Include="Views\Alertas\MesaTrabajoVirtual.cshtml" />
-    <Content Include="Views\Configuracion\Acceso.cshtml" />
-    <Content Include="Views\Configuracion\Concepto.cshtml" />
-    <Content Include="Views\Configuracion\Grupos.cshtml" />
-    <Content Include="Views\Configuracion\Usuarios.cshtml" />
     <Content Include="Views\Gestion\DocumentoDigital.cshtml" />
     <Content Include="Views\Gestion\DocumentoElectronico.cshtml" />
     <Content Include="Views\Gestion\MesaVirtual.cshtml" />
@@ -508,6 +505,7 @@
     <Content Include="Views\Personal\_CreateAndEdit.cshtml" />
     <Content Include="Views\Personal\_List.cshtml" />
     <Content Include="Views\Grupo\_List.cshtml" />
+    <Content Include="Views\Busqueda\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

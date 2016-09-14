@@ -36,6 +36,14 @@
         //LlenarConcepto(TipoAcceso);
         //LlenarConcepto(TipoComunicacion);
 
+        //COMIENZO
+        context.operacion = {
+            //TipoDocumento: '02',
+            PrioridadOperacion: '02',
+            AccesoOperacion: '2',
+            NotificacionOperacion: '0'
+        };
+
         //context.gridOptions = {
         //    paginationPageSizes: [25, 50, 75],
         //    paginationPageSize: 25,
