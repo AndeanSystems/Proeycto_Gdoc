@@ -1,4 +1,21 @@
 ﻿<!-- Left side column. contains the logo and sidebar -->
+<script type="text/javascript">
+    function cerrarSesion(){
+        swal({
+            title: "¿Seguro que desea Cerrar Sesion?",
+            text: "No podrás deshacer este paso...",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Aceptar",
+            closeOnConfirm: false
+        },
+        function () {
+            @Url.Action("Index", "Home");
+        });
+    }
+</script>
 <aside class="main-sidebar navbar-fixed-top">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar" style="height: auto; background-color: #A20012;">
@@ -64,10 +81,11 @@
 
             <li>
                 <a data-toggle="modal" data-target="#modal_cerrarsesion">
-                    <i class="fa fa-power-off"></i><span>Cerrar Sesión</span> <i class="fa fa-angle-left pull-right"></i>
+                <i class="fa fa-power-off"></i><span>Cerrar Sesión</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
+               
             </li>
-
+            
             
         </ul>
     </section>
