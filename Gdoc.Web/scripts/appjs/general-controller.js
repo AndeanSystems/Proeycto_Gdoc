@@ -12,9 +12,7 @@
 
         //Eventos
         context.editar= function () {
-            var general = context.general;
-
-           
+            var general = context.general;           
             console.log(general);
             dataProvider.postData("General/EditarGeneralParametros", general).success(function (respuesta) {
                 console.log(respuesta);
@@ -29,6 +27,8 @@
             dataProvider.postData("General/ListarGeneralParametros", { IDEmpresa: idempresa }).success(function (respuesta) {
                 console.log(respuesta);
                 context.general = respuesta[0];
+                context.general.HoraActualizaEstadoOperacion = appService.setFormatDate(context.general.HoraActualizaEstadoOperacion);
+                context.general.HoraCierreLabores = appService.setFormatDate(context.general.HoraCierreLabores);
             }).error(function (error) {
                 //MostrarError();
             });

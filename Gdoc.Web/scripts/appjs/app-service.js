@@ -31,6 +31,10 @@
         },
         this.listarDistritos = function (ubigeo) {
             return dataProvider.postData("Usuario/ListarDistritos", ubigeo);
+        },
+        //Utilitario
+        this.setFormatDate = function (date) {
+            return  new Date(parseInt(date.substr(6)));
         }
         //EMPRESA
     }
