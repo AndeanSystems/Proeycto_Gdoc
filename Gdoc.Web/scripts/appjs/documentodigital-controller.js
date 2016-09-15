@@ -252,6 +252,11 @@ function ReadFileToBinary(control) {
             context.DocumentoDigitaloOperacion = {};
             context.referencia = {};
             context.listaReferencia = [];
+            context.operacion = {
+                TipoDocumento: '02',
+                PrioridadOperacion: '02',
+                AccesoOperacion: '2'
+            };
         }
         listarOperacion();
     }

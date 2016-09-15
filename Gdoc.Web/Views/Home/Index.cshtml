@@ -30,21 +30,21 @@
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
-@using (Html.BeginForm("Login","Usuario",FormMethod.Post))
-{
-        <div class="login-logo">
-            <img width="360" height="80" src="~/resources/img/logo.png" /> 
-        </div>
+        @using (Html.BeginForm("Login", "Usuario", FormMethod.Post))
+        {
+            <div class="login-logo">
+                <img width="360" height="80" src="~/resources/img/logo.png" />
+            </div>
         <!-- /.login-logo -->
-        <div class="login-box-body">
-            <p class="login-box-msg">Inicio sesión</p>
-           
+            <div class="login-box-body">
+                <p class="login-box-msg">Inicio sesión</p>
+
                 <div class="form-group has-feedback">
                     @Html.EditorFor(x => x.NombreUsuario, new { htmlAttributes = new { @class = "form-control", @autofocus = true, @required = true } })
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    @Html.EditorFor(x => x.ClaveUsuario, new { htmlAttributes = new { @type = "password",@class = "form-control", @autofocus = true , @required = true} })
+                    @Html.EditorFor(x => x.ClaveUsuario, new { htmlAttributes = new { @type = "password", @class = "form-control", @autofocus = true, @required = true } })
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <div class="row">
@@ -61,12 +61,11 @@
                     </div>
                     <!-- /.col -->
                 </div>
-
-            @*<a href="#">Recuperar Contraseña</a><br>
-            <a href="#" class="text-center">Registrar Nuevo Miembro</a>*@
-        </div>
+                @*<a href="#">Recuperar Contraseña</a><br>
+                    <a href="#" class="text-center">Registrar Nuevo Miembro</a>*@
+            </div>
         <!-- /.login-box-body -->
-         }
+        }
     </div>
     <!-- /.login-box -->
     <!-- jQuery 2.2.3 -->

@@ -1,4 +1,22 @@
-﻿(function () {
+﻿//Leer Archivos de de fisico a binario
+var archivosSelecionados = [];
+function ReadFileToBinary(control) {
+    for (var i = 0, f; f = control.files[i]; i++) {
+        let files = f;
+        var reader = new FileReader();
+        reader.onloadend = function (e) {
+            console.log(files);
+            archivosSelecionados.push({
+                NombreArchivo: files.name,
+                TamanoArchivo: files.size,
+                TipoArchivo: files.type,
+                RutaBinaria: e.target.result
+            });
+        }
+        reader.readAsBinaryString(f);
+    }
+}
+(function () {
     'use strict';
 
     angular.module('app').controller('documentoelectronico_controller', documentoelectronico_controller);
@@ -19,7 +37,7 @@
         context.visible = "List";
         context.listaUsuarioGrupo = [];
 
-
+        //
         //Crear Combo Auto Filters
         var pendingSearch, cancelSearch = angular.noop;
         var cachedQuery, lastSearch;
@@ -117,17 +135,29 @@
                 else if (numeroboton == 2)
                     Operacion.EstadoOperacion = 1
 
+                let listDocumentosAdjuntos = [];
+
+                for (var index in archivosSelecionados) {
+                    listDocumentosAdjuntos.push({
+                        RutaArchivo: archivosSelecionados[index].RutaBinaria,
+                        NombreOriginal: archivosSelecionados[index].NombreArchivo,
+                        TamanoArchivo: archivosSelecionados[index].TamanoArchivo,
+                        TipoArchivo: archivosSelecionados[index].TipoArchivo,
+                    });
+                    console.log(listDocumentosAdjuntos);
+                }
                 console.log(listERemitente);
 
                 console.log(listEUsuarioGrupo);
 
                 console.log(context.DocumentoElectronicoOperacion);
-                dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+                dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, listDocumentosAdjuntos: listDocumentosAdjuntos, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                     console.log(respuesta);
                 }).error(function (error) {
                     //MostrarError();
                 });
                 swal("¡Bien!", "Documento Electronico Guardado y Enviado Correctamente", "success");
+                limpiarFormulario();
             });
         }
 
@@ -138,17 +168,33 @@
             }
         }
         ////
+        function limpiarFormulario() {
+            context.operacion = {};
+            context.DocumentoElectronicoOperacion = {};
+            context.usuarioRemitentes = [];
+            context.usuarioDestinatarios = [];
+            context.operacion = {
+                TipoDocumento: '02',
+                TipoComunicacion: '1',
+                PrioridadOperacion: '02',
+                AccesoOperacion: '2'
+            }
+            document.getElementById("input_file").value = "";
+        }
         function listarUsuarioGrupoAutoComplete(Nombre) {
             var UsuarioGrupo = { Nombre: Nombre };
             appService.buscarUsuarioGrupoAutoComplete(UsuarioGrupo).success(function (respuesta) {
                 //context.listaUsuario = respuesta;
+                //console.log(respuesta);
                 context.listaUsuarioGrupo = respuesta;
             });
         }
 
         function querySearch(criteria) {
+
             listarUsuarioGrupoAutoComplete(criteria);
             cachedQuery = cachedQuery || criteria;
+            console.log(context.listaUsuarioGrupo);
             return cachedQuery ? context.listaUsuarioGrupo : [];
         }
 
@@ -175,5 +221,6 @@
         }
 
         listarOperacion();
+        //context.usuarioDestinatarios=
     }
 })();

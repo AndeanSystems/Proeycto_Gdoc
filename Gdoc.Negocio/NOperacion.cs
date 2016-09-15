@@ -20,9 +20,10 @@ namespace Gdoc.Negocio
         protected DUsuarioGrupo dUsuarioGrupo = new DUsuarioGrupo();
         protected DDocumentoElectronicoOperacion dDocumentoElectronicoOperacion = new DDocumentoElectronicoOperacion();
         protected DDocumentoDigitalOperacion dDocumentoDigitalOperacion = new DDocumentoDigitalOperacion();
+        protected DAdjunto dAdjunto = new DAdjunto();
         protected DIndexacionDocumento dIndexacionDocumento = new DIndexacionDocumento();
         protected DGeneral dGeneral = new DGeneral();
-
+        protected DLogOperacion dLogOperacion = new DLogOperacion();
         
         protected string Usuario = "U";
         protected string Grupo = "G";
@@ -35,15 +36,49 @@ namespace Gdoc.Negocio
             dUsuarioParticipante = null;
             dUsuarioGrupo = null;
             dGeneral = null;
+            dAdjunto = null;
         }
 
-        public short Grabar(Operacion operacion, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, List<EUsuarioGrupo> listEDestinatario = null)
+        public short Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, List<EUsuarioGrupo> listEDestinatario = null)
         {
             try
             {
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 dOperacion.Grabar(operacion);
                 //var lista = dUsuarioParticipante.ListarUsuarioParticipante();
+
+                var eGeneral = dGeneral.CargaParametros(operacion.IDEmpresa);
+                if (!Directory.Exists(eGeneral.RutaGdocAdjuntos))
+                {
+                    Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
+                }
+                foreach (var documentoAdjunto in listDocumentosAdjuntos)
+                {
+                    byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoAdjunto.RutaArchivo);
+                    documentoAdjunto.IDUsuario = 21;
+                    documentoAdjunto.NombreOriginal = documentoAdjunto.NombreOriginal;
+                    documentoAdjunto.RutaArchivo = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoAdjunto.NombreOriginal);
+                    documentoAdjunto.TamanoArchivo = documentoAdjunto.TamanoArchivo;
+                    documentoAdjunto.FechaRegistro = System.DateTime.Now;
+                    documentoAdjunto.EstadoAdjunto = 1;
+                    if (string.IsNullOrEmpty(documentoAdjunto.TipoArchivo) || !documentoAdjunto.TipoArchivo.Contains(ArchivoTXT))
+                    {
+                        File.WriteAllBytes(documentoAdjunto.RutaArchivo, fileBytes);
+                    }
+                    else if (documentoAdjunto.TipoArchivo.Contains(ArchivoTXT))
+                    {
+                        File.WriteAllText(documentoAdjunto.RutaArchivo, Encoding.UTF8.GetString(fileBytes));
+                    }
+                    else
+                    {
+                        using (MemoryStream stream = new MemoryStream(fileBytes))
+                        {
+                            Image.FromStream(stream).Save(documentoAdjunto.RutaArchivo, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        }
+                    }
+                }
+                //Grabar Adjunto
+                //dAdjunto.GrabarAdjunto(listDocumentosAdjuntos);
 
                 eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 dDocumentoElectronicoOperacion.Grabar(eDocumentoElectronicoOperacion);
@@ -99,6 +134,7 @@ namespace Gdoc.Negocio
             {
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 var listEindexacionDocumento = new List<IndexacionDocumento>();
+                //var logoperacion = new LogOperacion();
                 //Grabar Operacion
                 dOperacion.Grabar(operacion);
 
@@ -131,10 +167,11 @@ namespace Gdoc.Negocio
                         }
                     }
                 }
+
+
                 //Grabar documentoDigitalOperacion
                 dDocumentoDigitalOperacion.GrabarDocumentoDigitalOperacion(listDocumentoDigitalOperacion);
 
-                //Falta Terminar
                 foreach (var participante in listEUsuarioGrupo)
                 {
                     var eUsuarioParticipante = new UsuarioParticipante();
@@ -168,7 +205,10 @@ namespace Gdoc.Negocio
                         }
                     }
                 }
-                //--
+                dUsuarioParticipante.Grabar(listEusuarioParticipante);
+
+
+                //grabar referencias
                 foreach (var referencia in listIndexacion)
                 {
                     var eIndexacionDocumento = new IndexacionDocumento();
@@ -178,13 +218,76 @@ namespace Gdoc.Negocio
                     eIndexacionDocumento.IDOperacion = operacion.IDOperacion;
                     listEindexacionDocumento.Add(eIndexacionDocumento);
                 }
-                dUsuarioParticipante.Grabar(listEusuarioParticipante);
                 dIndexacionDocumento.GrabarIndexacion(listEindexacionDocumento);
+
+                //log operacion
+                //logoperacion.FechaEvento = System.DateTime.Now;
+                //logoperacion.CodigoTipoOperacion = "";
+                //logoperacion.CodigoOperacion = operacion.IDOperacion;
+                //logoperacion.CodigoEvento = "";
+                //logoperacion.IDUsuario = 0;
+                //logoperacion.CodigoConexion = "";
+                //logoperacion.TerminalConexion = "";
+                
                 return 1;
             }
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+        public short GrabarMesaVirtual(Operacion operacion, List<EUsuarioGrupo> listEUsuarioGrupo)
+        {
+            try
+            {
+                var listEusuarioParticipante = new List<UsuarioParticipante>();
+                dOperacion.Grabar(operacion);
+
+                //Falta Terminar
+                foreach (var participante in listEUsuarioGrupo)
+                {
+
+                    var eUsuarioParticipante = new UsuarioParticipante();
+                    if (participante.Tipo.Equals(Usuario))//Grabar solo Usuarios
+                    {
+
+                        eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
+                        eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
+                        eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                        eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                        eUsuarioParticipante.ReenvioOperacion = "S";
+                        eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
+                        //listEusuarioParticipante.Add(eUsuarioParticipante);
+                        if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
+                            listEusuarioParticipante.Add(eUsuarioParticipante);
+
+                    }
+                    else
+                    {
+                        //Buscar usuarios por grupo
+                        var eUsuarioGrupo = new UsuarioGrupo { IDGrupo = participante.IDUsuarioGrupo };
+                        var listUsuarioGrupo = dUsuarioGrupo.listarUsuarioGrupo(eUsuarioGrupo);
+                        foreach (var usuario in listUsuarioGrupo)
+                        {
+                            eUsuarioParticipante = new UsuarioParticipante();
+                            eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
+                            eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
+                            eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                            eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                            eUsuarioParticipante.ReenvioOperacion = "S";
+                            eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
+                            if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
+                                listEusuarioParticipante.Add(eUsuarioParticipante);
+                        }
+                    }
+                }
+                dUsuarioParticipante.Grabar(listEusuarioParticipante);
+                return 1;
+            }
+            catch (Exception)
+            {
+                
                 throw;
             }
         }

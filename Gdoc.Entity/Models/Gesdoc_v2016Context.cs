@@ -39,7 +39,7 @@ namespace Gdoc.Entity.Models
         public DbSet<UsuarioAutorizador> UsuarioAutorizadors { get; set; }
         public DbSet<UsuarioGrupo> UsuarioGrupoes { get; set; }
         public DbSet<UsuarioParticipante> UsuarioParticipantes { get; set; }
-
+        public DbSet<Adjunto> Adjuntoes { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccesoSistemaMap());
@@ -66,6 +66,7 @@ namespace Gdoc.Entity.Models
             modelBuilder.Configurations.Add(new UsuarioAutorizadorMap());
             modelBuilder.Configurations.Add(new UsuarioGrupoMap());
             modelBuilder.Configurations.Add(new UsuarioParticipanteMap());
+            modelBuilder.Configurations.Add(new AdjuntoMap());
         }
     }
 }

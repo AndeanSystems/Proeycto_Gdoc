@@ -8,7 +8,7 @@ namespace Gdoc.Entity.Models.Mapping
         public DocumentoAdjuntoMap()
         {
             // Primary Key
-            this.HasKey(t => t.IDDoctoAdjunto);
+            this.HasKey(t => t.IDDocumentoAdjunto);
 
             // Properties
             this.Property(t => t.TipoDoctoAdjunto)
@@ -17,11 +17,11 @@ namespace Gdoc.Entity.Models.Mapping
 
             // Table & Column Mappings
             this.ToTable("DocumentoAdjunto");
-            this.Property(t => t.IDDoctoAdjunto).HasColumnName("IDDoctoAdjunto");
+            this.Property(t => t.IDDocumentoAdjunto).HasColumnName("IDDocumentoAdjunto");
             this.Property(t => t.IDOperacion).HasColumnName("IDOperacion");
-            this.Property(t => t.CodigoDoctoAdjunto).HasColumnName("CodigoDoctoAdjunto");
+            this.Property(t => t.IDAdjunto).HasColumnName("IDAdjunto");
+            this.Property(t => t.IDComentarioMesavirtual).HasColumnName("IDComentarioMesavirtual");
             this.Property(t => t.TipoDoctoAdjunto).HasColumnName("TipoDoctoAdjunto");
-            this.Property(t => t.CodigoComentarioMesa).HasColumnName("CodigoComentarioMesa");
             this.Property(t => t.EstadoDoctoAdjunto).HasColumnName("EstadoDoctoAdjunto");
 
             // Relationships
@@ -29,9 +29,9 @@ namespace Gdoc.Entity.Models.Mapping
                 .WithMany(t => t.DocumentoAdjuntoes)
                 .HasForeignKey(d => d.IDOperacion);
 
-            //this.HasOptional(t => t.Adjuntoes)
-            //    .WithMany(t => t.DocumentoAdjuntoes)
-            //    .HasForeignKey(d => d.IDAdjunto);
+            this.HasOptional(t => t.Adjunto)
+                .WithMany(t => t.DocumentoAdjuntoes)
+                .HasForeignKey(d => d.IDAdjunto);
 
         }
     }

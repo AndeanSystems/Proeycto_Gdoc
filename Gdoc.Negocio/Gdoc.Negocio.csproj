@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NAccesoSistema.cs" />
+    <Compile Include="NAdjunto.cs" />
     <Compile Include="NConcepto.cs" />
     <Compile Include="NDocumentoDigitalOperacion.cs" />
     <Compile Include="NDocumentoElectronicoOperacion.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="NGeneral.cs" />
     <Compile Include="NGrupo.cs" />
     <Compile Include="NIndexacionDocumento.cs" />
+    <Compile Include="NLogOperacion.cs" />
     <Compile Include="NMensajeAlerta.cs" />
     <Compile Include="NOperacion.cs" />
     <Compile Include="NPersonal.cs" />

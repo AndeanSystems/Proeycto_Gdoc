@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAccesoSistema.cs" />
+    <Compile Include="DAdjunto.cs" />
     <Compile Include="DataBaseContext.cs" />
     <Compile Include="DConcepto.cs" />
     <Compile Include="DDocumentoDigitalOperacion.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="DGeneral.cs" />
     <Compile Include="DGrupo.cs" />
     <Compile Include="DIndexacionDocumento.cs" />
+    <Compile Include="DLogOperacion.cs" />
     <Compile Include="DMensajeAlerta.cs" />
     <Compile Include="DOperacion.cs" />
     <Compile Include="DPersonal.cs" />

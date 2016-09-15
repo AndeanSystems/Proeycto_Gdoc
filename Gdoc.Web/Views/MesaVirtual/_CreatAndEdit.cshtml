@@ -62,8 +62,8 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Mesa Virtual</h3>
-                <button class="btn btn-default pull-right"><i class="fa fa-users" data-placement="top" data-toggle="tooltip" title="Compartir"></i></button>
-                <button class="btn btn-default pull-right"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><i class="fa fa-users" data-placement="top" data-toggle="tooltip" title="Compartir"></i></button>
+                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
             </div>
 
             <div class="box-body">
@@ -93,7 +93,7 @@
                     <label class="col-sm-12">Invitados <span class="text-danger">(*)</span></label>
                     <div class="col-sm-12">
                         <md-content class="autocomplete" layout="column">
-                            <md-contact-chips ng-model="ctrl.usuarioDestinatarios"
+                            <md-contact-chips ng-model="ctrl.usuarioInvitados"
                                                 md-contacts="ctrl.querySearch($query)"
                                                 md-contact-name="Nombre"
                                                 md-highlight-flags="i"
@@ -108,7 +108,8 @@
                     <label class="col-sm-12">Fecha de Apertura </label>
                     <div class="col-sm-12">
                         <div class="input-group date">
-                            <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            @*<input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>*@
+                            <md-datepicker ng-model="user.submissionDate"></md-datepicker>
                         </div>
                     </div>
                 </div>

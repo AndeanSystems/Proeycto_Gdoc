@@ -13,6 +13,7 @@
         let TipoComunicacion = "022";
         let TipoMesaVirtual = "011";
 
+        let UsuarioInvitado = "02";
         var context = this;
         context.operacion = {};
         context.visible = "List";
@@ -21,8 +22,7 @@
         //Crear Combo Auto Filters
         var pendingSearch, cancelSearch = angular.noop;
         var cachedQuery, lastSearch;
-        context.usuarioRemitentes = [];
-        context.usuarioDestinatarios = [];
+        context.usuarioInvitados = [];
         context.filterSelected = true;
         context.querySearch = querySearch;
         var usuario = {};
@@ -62,19 +62,26 @@
         //    ]
         //};
         //Eventos
-        context.grabar = function () {
+        context.grabar = function (numeroboton) {
             console.log(context.operacion);
             let Operacion = context.operacion;
-            let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
             let listEUsuarioGrupo = [];
-            for (var ind in context.usuarioDestinatarios) {
-                listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
+
+            //for (var ind in context.usuarioRemitentes) {
+            //    context.usuarioRemitentes[ind].TipoParticipante = UsuarioRemitente;
+            //    listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
+            //}
+            for (var ind in context.usuarioInvitados) {
+                context.usuarioInvitados[ind].TipoParticipante = UsuarioInvitado;
+                listEUsuarioGrupo.push(context.usuarioInvitados[ind]);
             }
-            for (var ind in context.usuarioRemitentes) {
-                listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
-            }
+            if (numeroboton == 1)
+                Operacion.EstadoOperacion = 0
+            else if (numeroboton == 2)
+                Operacion.EstadoOperacion = 1
+
             console.log(context.DocumentoElectronicoOperacion);
-            dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+            dataProvider.postData("MesaVirtual/Grabar", { Operacion: Operacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                 console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();

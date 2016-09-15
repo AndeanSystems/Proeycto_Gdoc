@@ -24,9 +24,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.TipoArchivo).HasColumnName("TipoArchivo");
 
             // Relationships
-            //this.HasOptional(t => t.DocumentoAdjunto)
-            //    .WithMany(t => t.Adjuntoes)
-            //    .HasForeignKey(d => d.IDAdjunto);
+
 
         }
     }
