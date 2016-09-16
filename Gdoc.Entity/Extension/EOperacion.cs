@@ -12,6 +12,8 @@ namespace Gdoc.Entity.Extension
     public class EOperacion:Operacion
     {
         public DocumentoDigitalOperacion DocumentoDigitalOperacion { get; set; }
+        public DocumentoElectronicoOperacion DocumentoElectronicoOperacion { get; set; }
+        public Usuario Usuario { get; set; }
         public UsuarioParticipante UsuarioParticipante { get; set; }
         public Concepto TipoDoc { get; set; }
         public Concepto Estado { get; set; }

@@ -38,11 +38,11 @@ namespace Gdoc.Dao
 
                     var list2 = (from operacion in db.Operacions
 
-                                 join documentodigital in db.DocumentoDigitalOperacions
-                                 on operacion.IDOperacion equals documentodigital.IDOperacion
+                                 //join documentodigital in db.DocumentoDigitalOperacions
+                                 //on operacion.IDOperacion equals documentodigital.IDOperacion
 
-                                 join usuariopart in db.UsuarioParticipantes
-                                 on operacion.IDOperacion equals usuariopart.IDOperacion
+                                 //join usuariopart in db.UsuarioParticipantes
+                                 //on operacion.IDOperacion equals usuariopart.IDOperacion
 
                                  join tipodocumento in db.Conceptoes
                                  on operacion.TipoDocumento equals tipodocumento.CodiConcepto
@@ -53,7 +53,7 @@ namespace Gdoc.Dao
                                  where tipodocumento.TipoConcepto.Equals("012") &&
                                         estado.TipoConcepto.Equals("001")
 
-                                 select new { operacion, tipodocumento, documentodigital, usuariopart, estado }).ToList();
+                                 select new { operacion, tipodocumento, /*documentodigital, usuariopart,*/ estado }).ToList();
 
                     list2.ForEach(x => listOperacion.Add(new EOperacion
                     {
@@ -76,9 +76,9 @@ namespace Gdoc.Dao
                         NotificacionOperacion = x.operacion.NotificacionOperacion,
                         TipoDocumento = x.operacion.TipoDocumento,
 
-                        DocumentoDigitalOperacion=new DocumentoDigitalOperacion{
-                            Comentario=x.documentodigital.Comentario,
-                        },
+                        //DocumentoDigitalOperacion=new DocumentoDigitalOperacion{
+                        //    Comentario=x.documentodigital.Comentario,
+                        //},
 
 
                         TipoDoc = new Concepto { DescripcionConcepto=x.tipodocumento.DescripcionConcepto},
@@ -109,8 +109,11 @@ namespace Gdoc.Dao
                                  join documentoelectronico in db.DocumentoElectronicoOperacions
                                  on operacion.IDOperacion equals documentoelectronico.IDOperacion
 
-                                 join usuariopart in db.UsuarioParticipantes
-                                 on operacion.IDOperacion equals usuariopart.IDOperacion
+                                 //join usuariopart in db.UsuarioParticipantes
+                                 //on operacion.IDOperacion equals usuariopart.IDOperacion
+
+                                 //join usuario in db.Usuarios
+                                 //on usuariopart.IDUsuario equals usuario.IDUsuario
 
                                  join tipodocumento in db.Conceptoes
                                  on operacion.TipoDocumento equals tipodocumento.CodiConcepto
@@ -121,7 +124,7 @@ namespace Gdoc.Dao
                                  where tipodocumento.TipoConcepto.Equals("012") &&
                                         estado.TipoConcepto.Equals("001")
 
-                                 select new { operacion, tipodocumento, documentoelectronico, usuariopart, estado }).ToList();
+                                 select new { operacion, tipodocumento, documentoelectronico, /*usuariopart,*/ estado /*,usuario*/ }).ToList();
 
                     list2.ForEach(x => listOperacion.Add(new EOperacion
                     {
@@ -144,12 +147,21 @@ namespace Gdoc.Dao
                         NotificacionOperacion = x.operacion.NotificacionOperacion,
                         TipoDocumento = x.operacion.TipoDocumento,
 
-                        DocumentoDigitalOperacion = new DocumentoDigitalOperacion
+                        DocumentoElectronicoOperacion = new DocumentoElectronicoOperacion
                         {
-                            Comentario = x.documentoelectronico.Memo,
+                            Memo = x.documentoelectronico.Memo,
                         },
+                        
+                        //UsuarioParticipante = new UsuarioParticipante
+                        //{
+                        //    IDUsuarioParticipante=x.usuariopart.IDUsuarioParticipante,
+                        //    IDUsuario=x.usuariopart.IDUsuario,
+                        //    TipoParticipante=x.usuariopart.TipoParticipante,
+                        //},
 
-
+                        //Usuario=new Usuario{
+                        //    NombreUsuario=x.usuario.NombreUsuario,
+                        //},
                         TipoDoc = new Concepto { DescripcionConcepto = x.tipodocumento.DescripcionConcepto },
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
                     }));

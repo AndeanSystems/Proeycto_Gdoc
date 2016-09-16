@@ -1,7 +1,13 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('app').controller('mesavirtual_controller', mesavirtual_controller);
+    angular.module('app').controller('mesavirtual_controller', mesavirtual_controller)
+
+    .config(function ($mdDateLocaleProvider) {
+        $mdDateLocaleProvider.formatDate = function (date) {
+            return moment(date).format('DD/MM/YYYY');
+        };
+    });
     mesavirtual_controller.$inject = ['$location', 'app_factory', 'appService'];
 
     function mesavirtual_controller($location, dataProvider, appService) {
@@ -13,6 +19,7 @@
         let TipoComunicacion = "022";
         let TipoMesaVirtual = "011";
 
+        let UsuarioOrganizado = "05";
         let UsuarioInvitado = "02";
         var context = this;
         context.operacion = {};
@@ -23,6 +30,7 @@
         var pendingSearch, cancelSearch = angular.noop;
         var cachedQuery, lastSearch;
         context.usuarioInvitados = [];
+        context.usuarioOrganizador = [];
         context.filterSelected = true;
         context.querySearch = querySearch;
         var usuario = {};
@@ -31,10 +39,8 @@
         LlenarConcepto(TipoDocumento);
         LlenarConcepto(TipoAcceso);
         LlenarConcepto(TipoMesaVirtual);
-        //LlenarConcepto(TipoDocumento);
         LlenarConcepto(PrioridadAtencion);
-        //LlenarConcepto(TipoAcceso);
-        //LlenarConcepto(TipoComunicacion);
+
 
         //COMIENZO
         context.operacion = {
@@ -67,10 +73,10 @@
             let Operacion = context.operacion;
             let listEUsuarioGrupo = [];
 
-            //for (var ind in context.usuarioRemitentes) {
-            //    context.usuarioRemitentes[ind].TipoParticipante = UsuarioRemitente;
-            //    listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
-            //}
+            for (var ind in context.usuarioOrganizador) {
+                context.usuarioOrganizador[ind].TipoParticipante = UsuarioOrganizado;
+                listEUsuarioGrupo.push(context.usuarioOrganizador[ind]);
+            }
             for (var ind in context.usuarioInvitados) {
                 context.usuarioInvitados[ind].TipoParticipante = UsuarioInvitado;
                 listEUsuarioGrupo.push(context.usuarioInvitados[ind]);

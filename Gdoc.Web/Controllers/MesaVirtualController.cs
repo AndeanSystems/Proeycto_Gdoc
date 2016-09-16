@@ -26,8 +26,8 @@ namespace Gdoc.Web.Controllers
                 //FALTA TERMINAR QUITAR VALORES EN DURO
                 operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                 operacion.TipoOperacion = Constantes.TipoOperacion.MesaVirtual;
-                operacion.FechaEmision = DateTime.Now;
-                operacion.FechaCierre = DateTime.Now;
+                //operacion.FechaEmision = DateTime.Now;
+                //operacion.FechaCierre = DateTime.Now;
                 operacion.FechaVigente = DateTime.Now;
                 operacion.FechaEnvio = DateTime.Now;
                 operacion.FechaRegistro = DateTime.Now;

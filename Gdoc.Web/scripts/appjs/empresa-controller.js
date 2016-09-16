@@ -126,7 +126,14 @@
                 //MostrarError();
             });
         }
-
+        
+        context.CambiarVentana = function () {
+            context.empresa = {};
+            context.codigodepartamento = {};
+            context.codigoprovincia = {};
+            context.codigodistrito = {};
+            $("#modal_contenido").modal("show");
+        }
         function listarEmpresa() {
             dataProvider.getData("Empresa/ListarEmpresa").success(function (respuesta) {
                 context.gridOptions.data = respuesta;

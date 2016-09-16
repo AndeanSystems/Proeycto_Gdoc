@@ -68,6 +68,7 @@ namespace Gdoc.Web.Controllers
                 {
                     Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
                     Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
+                    Session["IDUsuario"] = UsuarioEncontrado.IDUsuario;
                     Session["ClaveUsuario"] = UsuarioEncontrado.ClaveUsuario;
                     Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
                     Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);

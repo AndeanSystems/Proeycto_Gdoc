@@ -11,9 +11,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasKey(t => t.IDLogOperacion);
 
             // Properties
-            this.Property(t => t.CodigoTipoOperacion)
-                .IsRequired()
-                .HasMaxLength(50);
 
             this.Property(t => t.CodigoEvento)
                 .IsRequired()
@@ -31,8 +28,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.ToTable("LogOperacion");
             this.Property(t => t.IDLogOperacion).HasColumnName("IDLogOperacion");
             this.Property(t => t.FechaEvento).HasColumnName("FechaEvento");
-            this.Property(t => t.CodigoTipoOperacion).HasColumnName("CodigoTipoOperacion");
-            this.Property(t => t.CodigoOperacion).HasColumnName("CodigoOperacion");
+            this.Property(t => t.IDOperacion).HasColumnName("IDOperacion");
             this.Property(t => t.CodigoEvento).HasColumnName("CodigoEvento");
             this.Property(t => t.IDUsuario).HasColumnName("IDUsuario");
             this.Property(t => t.CodigoConexion).HasColumnName("CodigoConexion");
@@ -41,7 +37,7 @@ namespace Gdoc.Entity.Models.Mapping
             // Relationships
             this.HasRequired(t => t.Operacion)
                 .WithMany(t => t.LogOperacions)
-                .HasForeignKey(d => d.CodigoOperacion);
+                .HasForeignKey(d => d.IDOperacion);
             this.HasRequired(t => t.Usuario)
                 .WithMany(t => t.LogOperacions)
                 .HasForeignKey(d => d.IDUsuario);

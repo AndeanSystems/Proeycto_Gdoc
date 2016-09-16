@@ -4,7 +4,7 @@
         swal({
             title: "¿Seguro que desea Cerrar Sesion?",
             text: "No podrás deshacer este paso...",
-            type: "warning",
+            //type: "error",
             showCancelButton: true,
             cancelButtonText: "Cancelar",
             confirmButtonColor: "#DD6B55",
@@ -12,7 +12,7 @@
             closeOnConfirm: false
         },
         function () {
-            @Url.Action("Index", "Home");
+            location.href = "/Home/Index";
         });
     }
 </script>
@@ -80,7 +80,8 @@
             </li>*@
 
             <li>
-                <a data-toggle="modal" data-target="#modal_cerrarsesion">
+                @*<a data-toggle="modal" data-target="#modal_cerrarsesion">*@
+                <a onclick="cerrarSesion()">
                 <i class="fa fa-power-off"></i><span>Cerrar Sesión</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                

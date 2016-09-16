@@ -32,8 +32,8 @@
             if (context.concepto.EditarRegistro == 0){
                 swal({   title: "Lo Sentimos",   
                     text: "El concepto no se puede editar",
-                    type: "info",
-                    //confirmButtonColor: "#DD6B55",
+                    //type: "info",
+                    confirmButtonColor: "#DD6B55",
                     closeOnConfirm: false,
                 });
             }
@@ -43,7 +43,13 @@
 
         context.buscarConcepto = function (CodiConcepto, EstadoConcepto) {
             if (CodiConcepto == null) {
-                alert("Seleccione el tipo de concepto para la consulta");
+                swal({
+                    title: "Advertencia",
+                    text: "Seleccione el tipo de concepto para la consultar",
+                    //type: "info",
+                    confirmButtonColor: "#DD6B55",
+                    closeOnConfirm: false,
+                });
             }
             else {
                 if (EstadoConcepto == null) {

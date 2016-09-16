@@ -39,7 +39,7 @@ namespace Gdoc.Negocio
             dAdjunto = null;
         }
 
-        public short Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, List<EUsuarioGrupo> listEDestinatario = null)
+        public short Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo,Int64 IDusuario, List<EUsuarioGrupo> listEDestinatario = null )
         {
             try
             {
@@ -55,9 +55,10 @@ namespace Gdoc.Negocio
                 foreach (var documentoAdjunto in listDocumentosAdjuntos)
                 {
                     byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoAdjunto.RutaArchivo);
-                    documentoAdjunto.IDUsuario = 21;
+                    documentoAdjunto.IDUsuario = IDusuario;
                     documentoAdjunto.NombreOriginal = documentoAdjunto.NombreOriginal;
-                    documentoAdjunto.RutaArchivo = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoAdjunto.NombreOriginal);
+                    //documentoAdjunto.RutaArchivo = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoAdjunto.NombreOriginal);
+                    documentoAdjunto.RutaArchivo = string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, documentoAdjunto.NombreOriginal);
                     documentoAdjunto.TamanoArchivo = documentoAdjunto.TamanoArchivo;
                     documentoAdjunto.FechaRegistro = System.DateTime.Now;
                     documentoAdjunto.EstadoAdjunto = 1;
@@ -120,6 +121,11 @@ namespace Gdoc.Negocio
                     }
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
+
+                //GRABA log operacion
+                GrabarLogOperacion("011", operacion, IDusuario);
+                GrabarLogOperacion("017", operacion, IDusuario);
+
                 return 1;
             }
             catch (Exception)
@@ -128,13 +134,12 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public short GrabarDocumentoDigital(Operacion operacion, List<DocumentoDigitalOperacion> listDocumentoDigitalOperacion, List<EUsuarioGrupo> listEUsuarioGrupo,List<IndexacionDocumento> listIndexacion)
+        public short GrabarDocumentoDigital(Operacion operacion, List<DocumentoDigitalOperacion> listDocumentoDigitalOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, List<IndexacionDocumento> listIndexacion, Int64 IDusuario)
         {
             try
             {
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 var listEindexacionDocumento = new List<IndexacionDocumento>();
-                //var logoperacion = new LogOperacion();
                 //Grabar Operacion
                 dOperacion.Grabar(operacion);
 
@@ -220,15 +225,9 @@ namespace Gdoc.Negocio
                 }
                 dIndexacionDocumento.GrabarIndexacion(listEindexacionDocumento);
 
-                //log operacion
-                //logoperacion.FechaEvento = System.DateTime.Now;
-                //logoperacion.CodigoTipoOperacion = "";
-                //logoperacion.CodigoOperacion = operacion.IDOperacion;
-                //logoperacion.CodigoEvento = "";
-                //logoperacion.IDUsuario = 0;
-                //logoperacion.CodigoConexion = "";
-                //logoperacion.TerminalConexion = "";
-                
+                //GRABA log operacion
+                GrabarLogOperacion("001",operacion, IDusuario);
+                GrabarLogOperacion("007",operacion, IDusuario);
                 return 1;
             }
             catch (Exception)
@@ -354,6 +353,29 @@ namespace Gdoc.Negocio
                 add += 2; 
 
             return FechaInicial.AddDays(add);
+        }
+
+        protected void GrabarLogOperacion(string codigoevento, Operacion operacion, Int64 IDusuario)
+        {
+            try
+            {
+                var logoperacion = new LogOperacion();
+
+                logoperacion.FechaEvento = System.DateTime.Now;
+                logoperacion.IDOperacion = operacion.IDOperacion;
+                logoperacion.CodigoEvento = codigoevento;
+                logoperacion.IDUsuario = IDusuario;
+                logoperacion.CodigoConexion = "";
+                logoperacion.TerminalConexion = "";
+
+                dLogOperacion.GrabarLogOperacion(logoperacion);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
         #endregion
     }

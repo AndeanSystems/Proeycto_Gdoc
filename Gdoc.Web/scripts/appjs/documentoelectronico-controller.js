@@ -84,6 +84,16 @@ function ReadFileToBinary(control) {
         };
         //Eventos
         context.grabar = function (numeroboton) {
+            if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
+                swal({
+                    title: "Advertencia",
+                    text: "Debe seleccionar por lo menos un archivo",
+                    type: "warning",
+                    //confirmButtonColor: "#DD6B55",
+                    closeOnConfirm: false,
+                });
+                return;
+            }
             if (context.usuarioRemitentes == undefined || context.usuarioRemitentes == "") {
                 swal({
                     title: "Falta Remitentes",
@@ -161,10 +171,22 @@ function ReadFileToBinary(control) {
             });
         }
 
+        context.editarOperacion = function (rowIndex) {
+           
+            context.operacion = context.gridOptions.data[rowIndex];
+            context.DocumentoElectronicoOperacion = context.operacion.DocumentoElectronicoOperacion;
+            context.operacion.TipoComunicacion = context.operacion.TipoComunicacion.substring(0, 1);
+            //context.codigodepartamento = parseInt(context.empresa.CodigoUbigeo.substring(0, 2));
+            context.operacion.AccesoOperacion = context.operacion.AccesoOperacion.substring(0, 1)
+            console.log(context.operacion);
+            console.log(context.DocumentoElectronicoOperacion);
+            context.CambiarVentana('CreateAndEdit');
+        };
+
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
-            if (context.visible != "List") {
-                
+            if (context.visible == "List") {
+                limpiarFormulario();
             }
         }
         ////

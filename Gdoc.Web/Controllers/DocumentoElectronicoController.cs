@@ -38,7 +38,8 @@ namespace Gdoc.Web.Controllers
                 //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 using (var oNOperacion = new NOperacion())
                 {
-                    var respuesta = oNOperacion.Grabar(operacion,listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, null);
+                    Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
+                    var respuesta = oNOperacion.Grabar(operacion,listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario, null);
                 }
                 return new JsonResult { Data = null, MaxJsonLength = Int32.MaxValue };
             }

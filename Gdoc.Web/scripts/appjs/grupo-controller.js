@@ -27,7 +27,6 @@
 
         context.editarGrupo = function (rowIndex) {
             context.grupo = context.gridOptions.data[rowIndex];
-            $("#modal_contenido").modal("show");
         };
 
         context.eliminarGrupo = function (rowIndex) {

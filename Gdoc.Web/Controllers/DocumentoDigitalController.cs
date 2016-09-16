@@ -42,7 +42,8 @@ namespace Gdoc.Web.Controllers
 
                 using (var oOperacion = new NOperacion())
                 {
-                    var respuesta = oOperacion.GrabarDocumentoDigital(operacion, listDocumentoDigitalOperacion, listEUsuarioGrupo, listIndexacion);
+                    Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
+                    var respuesta = oOperacion.GrabarDocumentoDigital(operacion, listDocumentoDigitalOperacion, listEUsuarioGrupo, listIndexacion, IDusuario);
                     mensajeRespuesta.Exitoso = true;
                     mensajeRespuesta.Mensaje = "Grabación Exitosa";
                 }

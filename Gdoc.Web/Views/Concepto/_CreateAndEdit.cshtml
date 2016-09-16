@@ -60,7 +60,7 @@
                                     <h3 class="box-title">Contenido del Concepto</h3>
                                     @*<button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>*@
                                     @*<button class="btn btn-default pull-right" ng-click="ctrl.grabar()"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>*@
-                                    <button class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_conformidad" ng-disabled="frmConcepto.$invalid"><i class="fa fa-floppy-o" data-placement="top" title="Guardar"></i></button>
+                                    <button class="btn btn-default pull-right" ng-click="ctrl.grabar()" ng-disabled="frmConcepto.$invalid"><i class="fa fa-floppy-o" data-placement="top" title="Guardar"></i></button>
                                 </div><!-- /.box-header -->
 
                                 <form role="form">
@@ -99,26 +99,3 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_conformidad">
-    <div class="modal-dialog">
-        <br />
-        <br />
-        <br />
-        <br />
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">Mensaje de Conformidad</h4>
-            </div>
-            <div class="modal-body">
-                <p>¿Esta seguro de Continuar?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.grabar()">Si</button>
-            </div>
-        </div>
-    </div>
-</div>
