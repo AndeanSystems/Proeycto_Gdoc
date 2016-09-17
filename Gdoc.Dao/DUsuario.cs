@@ -32,9 +32,8 @@ namespace Gdoc.Dao
                          IDUsuario = usu.usua.IDUsuario,
                          NombreUsuario = usu.usua.NombreUsuario,
                          ClaveUsuario=usu.usua.ClaveUsuario,
+                         RutaAvatar = usu.usua.RutaAvatar,
                          Personal = usu.persona,
-
-
                          TipoUsuario = new Concepto { DescripcionConcepto = usu.tipousu.DescripcionConcepto }
                          
                     };
@@ -270,7 +269,6 @@ namespace Gdoc.Dao
                             NumeroIdentificacion=x.p.NumeroIdentificacion,
 
                         },
-                        RutaFoto = "http://lorempixel.com/50/50/people?6",
                         NombreCompleto = string.Format("{0}, {1}", x.p.NombrePers, x.p.ApellidoPersonal),
                         RazoSocial =new Empresa{ RazonSocial=x.e.RazonSocial},
                         Cargo = new Concepto { DescripcionConcepto = x.Cargo.DescripcionConcepto },
@@ -347,6 +345,25 @@ namespace Gdoc.Dao
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+
+        public short GrabarUsuarioAvatar(Usuario eUsuario)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var query = db.Usuarios.Find(eUsuario.IDUsuario);
+                    query.RutaAvatar = eUsuario.RutaAvatar;
+                    db.SaveChanges();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
             }
         }
     }

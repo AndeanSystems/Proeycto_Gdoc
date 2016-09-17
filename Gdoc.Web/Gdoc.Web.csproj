@@ -353,11 +353,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="resources\img\fepcmac.jpg" />
-    <Content Include="resources\img\avatar.jpg" />
     <Content Include="resources\img\fepcmac1.png" />
     <Content Include="resources\img\fepcmac1_mini.png" />
+    <Content Include="resources\img\incognito.png" />
     <Content Include="resources\img\logo.png" />
-    <Content Include="resources\img\user2-160x160.jpg" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
     <Content Include="scripts\ai.0.22.19-build00125.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

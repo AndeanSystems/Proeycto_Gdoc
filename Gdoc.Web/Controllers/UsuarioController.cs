@@ -72,7 +72,7 @@ namespace Gdoc.Web.Controllers
                     Session["ClaveUsuario"] = UsuarioEncontrado.ClaveUsuario;
                     Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
                     Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);
-
+                    Session["RutaAvatar"] = string.IsNullOrEmpty(UsuarioEncontrado.RutaAvatar) ? "/resources/img/incognito.png" : UsuarioEncontrado.RutaAvatar.Replace("~",string.Empty);
 
                     //if (FnValidarAD() == true)
                     //{
@@ -255,6 +255,24 @@ namespace Gdoc.Web.Controllers
 
                 throw;
             }
+        }
+
+        public JsonResult GrabarUsuarioAvatar(Usuario eUsuario) {
+            using (var nUsuario = new NUsuario())
+            {
+                byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(eUsuario.RutaAvatar);
+                using (MemoryStream stream = new MemoryStream(fileBytes))
+                {
+                    eUsuario.RutaAvatar = string.Format("{0}_{1}.png", "~/resources/img/", eUsuario.IDUsuario);
+                    if (System.IO.File.Exists(eUsuario.RutaAvatar))
+                        System.IO.File.Delete(eUsuario.RutaAvatar);
+                    Image.FromStream(stream).Save(@Server.MapPath(eUsuario.RutaAvatar), System.Drawing.Imaging.ImageFormat.Png);
+                }
+                nUsuario.GrabarUsuarioAvatar(eUsuario);
+            }
+            mensajeRespuesta.Exitoso = true;
+            mensajeRespuesta.Mensaje = "OK";
+            return new JsonResult { Data = mensajeRespuesta };
         }
 
         #region "Metodos"
