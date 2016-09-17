@@ -38,6 +38,8 @@ function ReadFileToBinary(control) {
         let UsuarioInvitado = "02";
         var context = this;
         context.operacion = {};
+        context.operacion.FechaVigente = new Date();
+        context.operacion.FechaCierre = new Date();
         context.visible = "CreateAndEdit";
         context.listaUsuarioGrupo = [];
 
