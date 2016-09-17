@@ -27,8 +27,6 @@
         context.simulateQuery = false;
         context.isDisabled = false;
 
-        context.allStates = [];
-
         context.repos = loadAll();
         context.querySearch = querySearch;
         context.selectedItemChange = selectedItemChange;

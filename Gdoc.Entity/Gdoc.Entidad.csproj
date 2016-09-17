@@ -54,6 +54,7 @@
     <Compile Include="Extension\EFirma.cs" />
     <Compile Include="Extension\EGrupo.cs" />
     <Compile Include="Extension\EMensajeAlerta.cs" />
+    <Compile Include="Extension\EModuloPaginaUrl.cs" />
     <Compile Include="Extension\EOperacion.cs" />
     <Compile Include="Extension\EUsuario.cs" />
     <Compile Include="Extension\EUsuarioGrupo.cs" />
