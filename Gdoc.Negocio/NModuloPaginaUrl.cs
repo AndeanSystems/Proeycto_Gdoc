@@ -14,6 +14,7 @@ namespace Gdoc.Negocio
         #region "Variable"
         protected DModuloPaginaUrl dModuloPaginaUrl = new DModuloPaginaUrl();
         #endregion
+
         public List<EModuloPaginaUrl> ObtenerPaginaModuloUrl(Usuario eUsuario) {
             try
             {
