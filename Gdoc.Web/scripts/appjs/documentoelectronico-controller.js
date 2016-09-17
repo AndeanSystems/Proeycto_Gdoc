@@ -163,6 +163,7 @@ function ReadFileToBinary(control) {
             context.visible = mostrarVentana;
             if (context.visible == "List") {
                 limpiarFormulario();
+                listarOperacion();
             } else {
                 
             }
@@ -226,7 +227,6 @@ function ReadFileToBinary(control) {
             });
         }
 
-        listarOperacion();
         obtenerUsuarioSession();
         //context.usuarioDestinatarios=
     }
