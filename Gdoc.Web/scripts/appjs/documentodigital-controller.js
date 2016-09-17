@@ -33,6 +33,8 @@ function ReadFileToBinary(control) {
         let UsuarioDestinatario = "08";
         var context = this;
         context.operacion = {};
+        context.operacion.FechaEmision = new Date();
+        context.operacion.FechaCierre = new Date();
         context.DocumentoDigitaloOperacion = {};
         context.IndexacionDocumento = [];
         context.referencia = {};
