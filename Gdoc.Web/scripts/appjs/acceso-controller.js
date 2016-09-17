@@ -18,14 +18,11 @@
         context.simulateQuery = false;
         context.isDisabled = false;
 
-        context.allStates = [];
-
-        // list of `state` value/display objects
         context.repos = loadAll();
         context.querySearch = querySearch;
         context.selectedItemChange = selectedItemChange;
         context.searchTextChange = searchTextChange;
-
+            
         function querySearch(query) {
             var results = query ? context.repos.filter(createFilterFor(query)) : context.repos,
                 deferred;
@@ -39,7 +36,6 @@
         }
 
         function searchTextChange(text) {
-            $log.info('Text changed to ' + text);
             context.usuario.NombreUsuario = text;
             context.usuario.NombreCompleto = text.NombreCompleto;
         }
@@ -48,12 +44,9 @@
             if (item != undefined) {
                 context.usuario.NombreUsuario = item.NombreUsuario;
                 context.usuario.NombreCompleto = item.NombreCompleto;
+                context.usuario.IDUsuario = item.IDUsuario;
             }
         }
-
-        /**
-         * Build `states` list of key/value pairs
-         */
         function loadAll() {
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
                 context.repos = respuesta;
@@ -66,8 +59,6 @@
                     //};
 
                     repo.value = repo.NombreUsuario.toLowerCase();
-
-                    console.log(repo.value);
                     return repo.value;
                 });
             }).error(function (error) {
@@ -77,9 +68,6 @@
 
         }
 
-        /**
-         * Create filter function for a query string
-         */
         function createFilterFor(query) {
             var lowercaseQuery = angular.lowercase(query);
 
@@ -109,7 +97,6 @@
             var acceso = context.gridAccesos.data[rowIndex];
 
             dataProvider.postData("Acceso/DesactivarAcceso", acceso).success(function (respuesta) {
-                console.log(respuesta);
                 context.buscarAccesoSistema(acceso);
             }).error(function (error) {
                 //MostrarError();
@@ -124,12 +111,11 @@
             appScopeProvider: context,
 
             columnDefs: [
-                { field: 'ModuloPaginaUrl.ModuloSistema', displayName: 'Modulo de Sistema' },
-                { field: 'ModuloPaginaUrl.NombrePagina', displayName: 'Nombre de Pagina' },
-                { field: 'ModuloPaginaUrl.DireccionFisicaPagina', displayName: 'Direccion de la Pagina' },
-                { field: 'FechaModificacion', displayName: 'Fecha Actualizacion', type: 'date', cellFilter: 'toDateTime | date:"mediumDate"' },
-                { field: 'ModuloPaginaUrl.CodigoPaginaPadre', displayName: 'Pagina Origen' },
-                { field: 'EstadoAcceso', displayName: 'Estado' },
+                { field: 'ModuloSistema', displayName: 'Modulo de Sistema' },
+                { field: 'NombrePagina', displayName: 'Nombre de Pagina' },
+                { field: 'DireccionFisicaPagina', displayName: 'Direccion de la Pagina' },
+                { field: 'CodigoPaginaPadre', displayName: 'Pagina Origen' },
+                { field: 'Asignacion', displayName: 'Asignacion' },
                 {
                     name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.activarAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-check" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Activar"></i> ' +
                                                     '<i ng-click="grid.appScope.desactivarAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' +
@@ -154,9 +140,7 @@
             //    alert("Ingrese el Nombre Usuario");
             //}
             //else {
-            console.log(usuario);
-                dataProvider.postData("Acceso/ListarAccesoSistema", usuario).success(function (respuesta) {
-                    console.log(respuesta);
+            dataProvider.postData("ModuloPaginaUrl/ListarModuloPaginaUrl", usuario).success(function (respuesta) {
                     //context.accesosistema = respuesta[0];
                     context.gridAccesos.data = respuesta;
                 }).error(function (error) {

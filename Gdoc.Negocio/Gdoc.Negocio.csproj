@@ -53,6 +53,7 @@
     <Compile Include="NIndexacionDocumento.cs" />
     <Compile Include="NLogOperacion.cs" />
     <Compile Include="NMensajeAlerta.cs" />
+    <Compile Include="NModuloPaginaUrl.cs" />
     <Compile Include="NOperacion.cs" />
     <Compile Include="NPersonal.cs" />
     <Compile Include="NUbigeo.cs" />
