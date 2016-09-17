@@ -202,7 +202,8 @@ function ReadFileToBinary(control) {
         context.CambiarVentana = function (mostrarVentana) {
             limpiarFormulario();
             context.visible = mostrarVentana;
-            if (context.visible != "List") {
+            if (context.visible == "List") {
+                listarOperacion();
             }
         }
         ////

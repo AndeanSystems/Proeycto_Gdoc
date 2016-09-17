@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Gdoc.Negocio.Utils;
 
 namespace Gdoc.Web.Controllers
 {
@@ -27,7 +28,7 @@ namespace Gdoc.Web.Controllers
             {
                 //FALTA TERMINAR QUITAR VALORES EN DURO
                 operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
-                operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                operacion.TipoOperacion = Gdoc.Web.Util.Constantes.TipoOperacion.DocumentoElectronico;
 
                 if (operacion.EstadoOperacion == 1)
                 {
@@ -72,8 +73,8 @@ namespace Gdoc.Web.Controllers
             using (var oOperacion = new NOperacion())
             {
                 listDocumentoElectronico = oOperacion.ListarOperacionElectronico(new UsuarioParticipante {
-                    IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString*()(,
-                }).Where(x => x.TipoOperacion == Constants.TipoOperacion.DocumentoElectronico).ToList();
+                    IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
+                }).Where(x => x.TipoOperacion == Gdoc.Web.Util.Constantes.TipoOperacion.DocumentoElectronico).ToList();
             }
             return new JsonResult { Data = listDocumentoElectronico, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

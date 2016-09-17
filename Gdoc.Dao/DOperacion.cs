@@ -102,10 +102,13 @@ namespace Gdoc.Dao
             {
                 using (var db = new DataBaseContext())
                 {
-                    var query1 = db.UsuarioParticipantes.Include("Operacion").Include("DocumentoElectronicoOperacion").Include("DocumentoAdjunto").Include("Adjunto").ToList(x=)).ToList();
-                    var list = db.Operacions.ToList();
+                    //var query1 = db.UsuarioParticipantes.Include("Operacion")
+                    //                .Where(x=>x.IDUsuario == eUsuarioParticipante.IDUsuario).ToList();
+                    //var operacionsert = db.Operacions.ToList();
 
-                    var list2 = (from operacion in db.Operacions
+                    //var list = db.Operacions.ToList();
+
+                    var list = (from operacion in db.Operacions
 
                                  join documentoelectronico in db.DocumentoElectronicoOperacions
                                  on operacion.IDOperacion equals documentoelectronico.IDOperacion
@@ -123,11 +126,12 @@ namespace Gdoc.Dao
                                  on operacion.EstadoOperacion.ToString() equals estado.CodiConcepto
 
                                  where tipodocumento.TipoConcepto.Equals("012") &&
-                                        estado.TipoConcepto.Equals("001")
-
+                                        estado.TipoConcepto.Equals("001") &&
+                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) > 0)
+                                        
                                  select new { operacion, tipodocumento, documentoelectronico, /*usuariopart,*/ estado /*,usuario*/ }).ToList();
 
-                    list2.ForEach(x => listOperacion.Add(new EOperacion
+                    list.ForEach(x => listOperacion.Add(new EOperacion
                     {
                         IDOperacion = x.operacion.IDOperacion,
                         IDEmpresa = x.operacion.IDEmpresa,
