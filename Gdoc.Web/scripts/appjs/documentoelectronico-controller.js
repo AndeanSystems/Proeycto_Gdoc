@@ -164,7 +164,7 @@ function ReadFileToBinary(control) {
             if (context.visible == "List") {
                 limpiarFormulario();
             } else {
-                obtenerUsuarioSession();
+                
             }
         }
         ////
@@ -227,6 +227,7 @@ function ReadFileToBinary(control) {
         }
 
         listarOperacion();
+        obtenerUsuarioSession();
         //context.usuarioDestinatarios=
     }
 })();
