@@ -14,10 +14,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.DescripcionIndice)
                 .HasMaxLength(100);
 
-            this.Property(t => t.EstadoIndice)
-                .IsFixedLength()
-                .HasMaxLength(1);
-
             this.Property(t => t.CodigoTipoOperacion)
                 .HasMaxLength(5);
 

@@ -16,7 +16,6 @@ namespace Gdoc.Entity.Models
             this.MesaVirtualComentarios = new List<MesaVirtualComentario>();
             this.UsuarioAutorizadors = new List<UsuarioAutorizador>();
             this.UsuarioParticipantes = new List<UsuarioParticipante>();
-
         }
 
         public long IDOperacion { get; set; }
@@ -26,7 +25,7 @@ namespace Gdoc.Entity.Models
         public string NumeroOperacion { get; set; }
         public string TituloOperacion { get; set; }
         public string AccesoOperacion { get; set; }
-        public int EstadoOperacion { get; set; }
+        public Nullable<int> EstadoOperacion { get; set; }
         public string DescripcionOperacion { get; set; }
         public string PrioridadOperacion { get; set; }
         public Nullable<System.DateTime> FechaCierre { get; set; }
@@ -36,16 +35,15 @@ namespace Gdoc.Entity.Models
         public string DocumentoAdjunto { get; set; }
         public string TipoComunicacion { get; set; }
         public string NotificacionOperacion { get; set; }
+        public string TipoDocumento { get; set; }
         public virtual ICollection<DocumentoAdjunto> DocumentoAdjuntoes { get; set; }
         public virtual ICollection<DocumentoDigitalOperacion> DocumentoDigitalOperacions { get; set; }
         public virtual ICollection<DocumentoElectronicoOperacion> DocumentoElectronicoOperacions { get; set; }
-        public virtual Empresa Empresa { get; set; }
         public virtual ICollection<IndexacionDocumento> IndexacionDocumentoes { get; set; }
         public virtual ICollection<LogOperacion> LogOperacions { get; set; }
         public virtual ICollection<MensajeAlerta> MensajeAlertas { get; set; }
         public virtual ICollection<MesaVirtualComentario> MesaVirtualComentarios { get; set; }
         public virtual ICollection<UsuarioAutorizador> UsuarioAutorizadors { get; set; }
         public virtual ICollection<UsuarioParticipante> UsuarioParticipantes { get; set; }
-        public string TipoDocumento { get; set; }
     }
 }

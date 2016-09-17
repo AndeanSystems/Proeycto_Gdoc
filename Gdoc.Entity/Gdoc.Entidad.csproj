@@ -60,6 +60,7 @@
     <Compile Include="Models\AccesoSistema.cs" />
     <Compile Include="Models\Adjunto.cs" />
     <Compile Include="Models\CentroCosto.cs" />
+    <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\Concepto.cs" />
     <Compile Include="Models\DocumentoAdjunto.cs" />
     <Compile Include="Models\DocumentoDigitalOperacion.cs" />

@@ -11,7 +11,6 @@ namespace Gdoc.Entity.Models
             this.Conceptoes = new List<Concepto>();
             this.Folios = new List<Folio>();
             this.Generals = new List<General>();
-            this.Operacions = new List<Operacion>();
             this.Personals = new List<Personal>();
             this.Sedes = new List<Sede>();
         }
@@ -29,7 +28,6 @@ namespace Gdoc.Entity.Models
         public virtual ICollection<Concepto> Conceptoes { get; set; }
         public virtual ICollection<Folio> Folios { get; set; }
         public virtual ICollection<General> Generals { get; set; }
-        public virtual ICollection<Operacion> Operacions { get; set; }
         public virtual ICollection<Personal> Personals { get; set; }
         public virtual ICollection<Sede> Sedes { get; set; }
     }

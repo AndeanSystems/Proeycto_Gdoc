@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace Gdoc.Entity.Models
 {
     public partial class DocumentoElectronicoOperacion

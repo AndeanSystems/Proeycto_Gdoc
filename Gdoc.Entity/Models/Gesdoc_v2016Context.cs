@@ -1,4 +1,5 @@
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using Gdoc.Entity.Models.Mapping;
 
 namespace Gdoc.Entity.Models
@@ -16,6 +17,7 @@ namespace Gdoc.Entity.Models
         }
 
         public DbSet<AccesoSistema> AccesoSistemas { get; set; }
+        public DbSet<Adjunto> Adjuntoes { get; set; }
         public DbSet<CentroCosto> CentroCostoes { get; set; }
         public DbSet<Concepto> Conceptoes { get; set; }
         public DbSet<DocumentoAdjunto> DocumentoAdjuntoes { get; set; }
@@ -39,10 +41,11 @@ namespace Gdoc.Entity.Models
         public DbSet<UsuarioAutorizador> UsuarioAutorizadors { get; set; }
         public DbSet<UsuarioGrupo> UsuarioGrupoes { get; set; }
         public DbSet<UsuarioParticipante> UsuarioParticipantes { get; set; }
-        public DbSet<Adjunto> Adjuntoes { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AccesoSistemaMap());
+            modelBuilder.Configurations.Add(new AdjuntoMap());
             modelBuilder.Configurations.Add(new CentroCostoMap());
             modelBuilder.Configurations.Add(new ConceptoMap());
             modelBuilder.Configurations.Add(new DocumentoAdjuntoMap());
@@ -66,7 +69,6 @@ namespace Gdoc.Entity.Models
             modelBuilder.Configurations.Add(new UsuarioAutorizadorMap());
             modelBuilder.Configurations.Add(new UsuarioGrupoMap());
             modelBuilder.Configurations.Add(new UsuarioParticipanteMap());
-            modelBuilder.Configurations.Add(new AdjuntoMap());
         }
     }
 }

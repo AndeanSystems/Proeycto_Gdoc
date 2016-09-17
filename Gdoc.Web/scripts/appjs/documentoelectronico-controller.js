@@ -1,5 +1,6 @@
 ﻿//Leer Archivos de de fisico a binario
 var archivosSelecionados = [];
+let TipoMensaje = "warning";
 function ReadFileToBinary(control) {
     for (var i = 0, f; f = control.files[i]; i++) {
         let files = f;
@@ -37,6 +38,13 @@ function ReadFileToBinary(control) {
         context.visible = "List";
         context.listaUsuarioGrupo = [];
 
+        //Variable de autocomplete
+        let Operacion = context.operacion;
+        let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
+        let listEUsuarioGrupo = [];
+        let listERemitente = [];
+        let listEDestinatario = [];
+        let listDocumentosAdjuntos = [];
         //
         //Crear Combo Auto Filters
         var pendingSearch, cancelSearch = angular.noop;
@@ -84,91 +92,57 @@ function ReadFileToBinary(control) {
         };
         //Eventos
         context.grabar = function (numeroboton) {
+            let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
             if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
-                swal({
-                    title: "Advertencia",
-                    text: "Debe seleccionar por lo menos un archivo",
-                    type: "warning",
-                    //confirmButtonColor: "#DD6B55",
-                    closeOnConfirm: false,
-                });
-                return;
+                return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
             }
             if (context.usuarioRemitentes == undefined || context.usuarioRemitentes == "") {
-                swal({
-                    title: "Falta Remitentes",
-                    text: "Agregue a los remitente",
-                    type: "warning",
-                    //confirmButtonColor: "#DD6B55",
-                    closeOnConfirm: false,
-                });
-                return;
+                return appService.mostrarAlerta("Falta los Remitentes", "Agregue a los Remitentes", "warning");
             }
             if (context.usuarioDestinatarios == undefined || context.usuarioDestinatarios == "") {
-                swal({
-                    title: "Falta los Destinatarios",
-                    text: "Agregue a los destinatarios",
-                    type: "warning",
-                    //confirmButtonColor: "#DD6B55",
-                    closeOnConfirm: false,
-                });
-                return;
+                return appService.mostrarAlerta("Falta los Destinatarios", "Agregue a los destinatarios", "warning");
             }
-            swal({
-                title: "¿Seguro que deseas continuar?",
-                text: "No podrás deshacer este paso...",
-                type: "warning",
-                showCancelButton: true,
-                cancelButtonText: "Cancelar",
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Aceptar",
-                closeOnConfirm: false
-            },
-            function () {
-                console.log(context.operacion);
-                let Operacion = context.operacion;
-                let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
-                let listEUsuarioGrupo = [];
-                let listERemitente = [];
-                let listEDestinatario = [];
-
-                for (var ind in context.usuarioRemitentes) {
-                    context.usuarioRemitentes[ind].TipoParticipante = UsuarioRemitente;
-                    listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
+            let usuarioRemitenteEnSession = false;
+            for (var ind in context.usuarioRemitentes) {
+                if (context.usuarioRemitentes[ind].IDUsuarioGrupo == usuarioRemitenteLogueado)
+                    usuarioRemitenteEnSession = true;
+                context.usuarioRemitentes[ind].TipoParticipante = UsuarioRemitente;
+                listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
+            }
+            for (var ind in context.usuarioDestinatarios) {
+                context.usuarioDestinatarios[ind].TipoParticipante = UsuarioDestinatario;
+                listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
+            }
+            if (numeroboton == 1)
+                Operacion.EstadoOperacion = 0
+            else if (numeroboton == 2) {
+                if (!usuarioRemitenteEnSession) {
+                    return appService.mostrarAlerta("Advertencia", "El usuario no es remitente", "warning");
                 }
-                for (var ind in context.usuarioDestinatarios) {
-                    context.usuarioDestinatarios[ind].TipoParticipante = UsuarioDestinatario;
-                    listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
-                }
-                if (numeroboton == 1)
-                    Operacion.EstadoOperacion = 0
-                else if (numeroboton == 2)
-                    Operacion.EstadoOperacion = 1
+                Operacion.EstadoOperacion = 1
+            }
+            for (var index in archivosSelecionados) {
+                listDocumentosAdjuntos.push({
+                    RutaArchivo: archivosSelecionados[index].RutaBinaria,
+                    NombreOriginal: archivosSelecionados[index].NombreArchivo,
+                    TamanoArchivo: archivosSelecionados[index].TamanoArchivo,
+                    TipoArchivo: archivosSelecionados[index].TipoArchivo,
+                });
+                console.log(listDocumentosAdjuntos);
+            }
 
-                let listDocumentosAdjuntos = [];
-
-                for (var index in archivosSelecionados) {
-                    listDocumentosAdjuntos.push({
-                        RutaArchivo: archivosSelecionados[index].RutaBinaria,
-                        NombreOriginal: archivosSelecionados[index].NombreArchivo,
-                        TamanoArchivo: archivosSelecionados[index].TamanoArchivo,
-                        TipoArchivo: archivosSelecionados[index].TipoArchivo,
-                    });
-                    console.log(listDocumentosAdjuntos);
-                }
-                console.log(listERemitente);
-
-                console.log(listEUsuarioGrupo);
-
-                console.log(context.DocumentoElectronicoOperacion);
+            function enviarFomularioOK() {
                 dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, listDocumentosAdjuntos: listDocumentosAdjuntos, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
-                    console.log(respuesta);
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
                 }).error(function (error) {
+                    console.log(error);
                     //MostrarError();
                 });
-                swal("¡Bien!", "Documento Electronico Guardado y Enviado Correctamente", "success");
                 limpiarFormulario();
-            });
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
         }
 
         context.editarOperacion = function (rowIndex) {
@@ -182,11 +156,12 @@ function ReadFileToBinary(control) {
             console.log(context.DocumentoElectronicoOperacion);
             context.CambiarVentana('CreateAndEdit');
         };
-
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
             if (context.visible == "List") {
                 limpiarFormulario();
+            } else {
+                obtenerUsuarioSession();
             }
         }
         ////
@@ -201,6 +176,7 @@ function ReadFileToBinary(control) {
                 PrioridadOperacion: '02',
                 AccesoOperacion: '2'
             }
+            archivosSelecionados = [];
             document.getElementById("input_file").value = "";
         }
         function listarUsuarioGrupoAutoComplete(Nombre) {
@@ -211,7 +187,12 @@ function ReadFileToBinary(control) {
                 context.listaUsuarioGrupo = respuesta;
             });
         }
-
+        function obtenerUsuarioSession() {
+            var usuarioGrupo = { IDUsuarioGrupo: appService.obtenerUsuarioId() };
+            appService.buscarUsuarioGrupoAutoComplete(usuarioGrupo).success(function (respuesta) {
+                context.usuarioRemitentes = respuesta;
+            });
+        }
         function querySearch(criteria) {
 
             listarUsuarioGrupoAutoComplete(criteria);

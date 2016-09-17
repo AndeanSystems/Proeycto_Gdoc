@@ -65,6 +65,10 @@ namespace Gdoc.Entity.Models.Mapping
                 .IsFixedLength()
                 .HasMaxLength(15);
 
+            this.Property(t => t.TipoIdentificacion)
+                .IsFixedLength()
+                .HasMaxLength(1);
+
             // Table & Column Mappings
             this.ToTable("Personal");
             this.Property(t => t.IDPersonal).HasColumnName("IDPersonal");

@@ -11,9 +11,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasKey(t => t.IDDoctoDigitalOperacion);
 
             // Properties
-            this.Property(t => t.IDDoctoDigitalOperacion)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
             this.Property(t => t.DerivarDocto)
                 .IsFixedLength()
                 .HasMaxLength(2);
@@ -28,6 +25,9 @@ namespace Gdoc.Entity.Models.Mapping
                 .HasMaxLength(300);
 
             this.Property(t => t.Comentario)
+                .HasMaxLength(300);
+
+            this.Property(t => t.TipoArchivo)
                 .HasMaxLength(300);
 
             // Table & Column Mappings

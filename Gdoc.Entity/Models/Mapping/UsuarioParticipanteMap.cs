@@ -15,6 +15,10 @@ namespace Gdoc.Entity.Models.Mapping
                 .IsFixedLength()
                 .HasMaxLength(2);
 
+            this.Property(t => t.TipoParticipante)
+                .IsFixedLength()
+                .HasMaxLength(2);
+
             this.Property(t => t.AprobarOperacion)
                 .IsFixedLength()
                 .HasMaxLength(1);
@@ -22,9 +26,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.EnviarNotificiacion)
                 .IsFixedLength()
                 .HasMaxLength(1);
-
-            this.Property(t => t.EstadoUsuarioParticipante)
-                .IsRequired();
 
             this.Property(t => t.ConfirmacionLectura)
                 .IsFixedLength()

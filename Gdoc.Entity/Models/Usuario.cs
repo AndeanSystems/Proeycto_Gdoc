@@ -8,16 +8,14 @@ namespace Gdoc.Entity.Models
         public Usuario()
         {
             this.AccesoSistemas = new List<AccesoSistema>();
+            this.Adjuntoes = new List<Adjunto>();
+            this.Generals = new List<General>();
             this.LogOperacions = new List<LogOperacion>();
             this.MensajeAlertas = new List<MensajeAlerta>();
             this.MesaVirtualComentarios = new List<MesaVirtualComentario>();
             this.UsuarioAutorizadors = new List<UsuarioAutorizador>();
             this.UsuarioGrupoes = new List<UsuarioGrupo>();
             this.UsuarioParticipantes = new List<UsuarioParticipante>();
-
-            this.Generals = new List<General>();
-
-            
         }
 
         public long IDUsuario { get; set; }
@@ -42,6 +40,8 @@ namespace Gdoc.Entity.Models
         public Nullable<System.DateTime> FechaExpiraClave { get; set; }
         public Nullable<System.DateTime> FechaExpiraFirma { get; set; }
         public virtual ICollection<AccesoSistema> AccesoSistemas { get; set; }
+        public virtual ICollection<Adjunto> Adjuntoes { get; set; }
+        public virtual ICollection<General> Generals { get; set; }
         public virtual ICollection<LogOperacion> LogOperacions { get; set; }
         public virtual ICollection<MensajeAlerta> MensajeAlertas { get; set; }
         public virtual ICollection<MesaVirtualComentario> MesaVirtualComentarios { get; set; }
@@ -49,9 +49,5 @@ namespace Gdoc.Entity.Models
         public virtual ICollection<UsuarioAutorizador> UsuarioAutorizadors { get; set; }
         public virtual ICollection<UsuarioGrupo> UsuarioGrupoes { get; set; }
         public virtual ICollection<UsuarioParticipante> UsuarioParticipantes { get; set; }
-
-        //public virtual General General { get; set; }
-        public virtual ICollection<General> Generals { get; set; }
-
     }
 }

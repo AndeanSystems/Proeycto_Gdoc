@@ -11,9 +11,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasKey(t => t.IDOperacion);
 
             // Properties
-            this.Property(t => t.IDOperacion)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
             this.Property(t => t.TipoOperacion)
                 .HasMaxLength(5);
 
@@ -26,8 +23,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.AccesoOperacion)
                 .IsFixedLength()
                 .HasMaxLength(2);
-
-            this.Property(t => t.EstadoOperacion);
 
             this.Property(t => t.PrioridadOperacion)
                 .IsFixedLength()
@@ -44,6 +39,9 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.NotificacionOperacion)
                 .IsFixedLength()
                 .HasMaxLength(1);
+
+            this.Property(t => t.TipoDocumento)
+                .HasMaxLength(5);
 
             // Table & Column Mappings
             this.ToTable("Operacion");
@@ -65,14 +63,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.TipoComunicacion).HasColumnName("TipoComunicacion");
             this.Property(t => t.NotificacionOperacion).HasColumnName("NotificacionOperacion");
             this.Property(t => t.TipoDocumento).HasColumnName("TipoDocumento");
-
-
-            //falta terminar se de habilitar la llave foranea OPERACION EMPRESA - DAVID REVISAR
-            //// Relationships
-            //this.HasRequired(t => t.Empresa)
-            //    .WithMany(t => t.Operacions)
-            //    .HasForeignKey(d => d.IDEmpresa);
-
         }
     }
 }

@@ -35,6 +35,34 @@
         //Utilitario
         this.setFormatDate = function (date) {
             return  new Date(parseInt(date.substr(6)));
+        },
+        this.mostrarAlerta = function (title, text, type) {
+            swal({
+                title: title,
+                text: text,
+                type: type,
+                //confirmButtonColor: "#DD6B55",
+                closeOnConfirm: false,
+            });
+            return;
+        },
+        this.confirmarEnvio = function (title, text, type,metodoOK,metodoCancel) {
+            swal({
+                title: title,
+                text: text,
+                type: type,
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false
+            },
+            function () {
+                metodoOK();
+            });
+        },
+        this.obtenerUsuarioId = function () {
+            return parseInt(document.getElementById("IDUsuario").value);
         }
         //EMPRESA
     }

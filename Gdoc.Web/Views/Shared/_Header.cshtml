@@ -1,5 +1,6 @@
 ﻿
     <!-- Header Navbar: style can be found in header.less -->
+<input type="hidden" value="@Html.Raw(Session["IDUsuario"].ToString())" id="IDUsuario"/>
     <nav class="navbar navbar-fixed-top" role="navigation">
         <a href="@Url.Action("Alertas", "Alertas")" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->

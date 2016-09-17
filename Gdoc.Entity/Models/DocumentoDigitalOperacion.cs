@@ -13,7 +13,7 @@ namespace Gdoc.Entity.Models
         public Nullable<int> TamanoDocto { get; set; }
         public string NombreFisico { get; set; }
         public string Comentario { get; set; }
-        public virtual Operacion Operacion { get; set; }
         public string TipoArchivo { get; set; }
+        public virtual Operacion Operacion { get; set; }
     }
 }

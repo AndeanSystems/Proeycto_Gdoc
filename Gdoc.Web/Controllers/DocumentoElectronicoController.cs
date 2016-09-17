@@ -12,6 +12,9 @@ namespace Gdoc.Web.Controllers
 {
     public class DocumentoElectronicoController : Controller
     {
+        #region "Variables"
+        private MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
+        #endregion
         //
         // GET: /DocumentoElectronico/
         public ActionResult Index()
@@ -41,12 +44,15 @@ namespace Gdoc.Web.Controllers
                     Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                     var respuesta = oNOperacion.Grabar(operacion,listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario, null);
                 }
-                return new JsonResult { Data = null, MaxJsonLength = Int32.MaxValue };
+                mensajeRespuesta.Mensaje = "Operación realizado correctamente";
+                mensajeRespuesta.Exitoso = true;
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception ex)
             {
-
-                throw;
+                mensajeRespuesta.Mensaje = "Operación no realizado correctamente";
+                mensajeRespuesta.Exitoso = false;
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
         }
         public JsonResult ListarOperacion()

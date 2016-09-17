@@ -17,11 +17,11 @@ namespace Gdoc.Entity.Models.Mapping
             // Table & Column Mappings
             this.ToTable("AccesoSistema");
             this.Property(t => t.IDAcceso).HasColumnName("IDAcceso");
+            this.Property(t => t.IDUsuario).HasColumnName("IDUsuario");
+            this.Property(t => t.IDModuloPagina).HasColumnName("IDModuloPagina");
             this.Property(t => t.IdeUsuarioRegistro).HasColumnName("IdeUsuarioRegistro");
             this.Property(t => t.FechaModificacion).HasColumnName("FechaModificacion");
             this.Property(t => t.EstadoAcceso).HasColumnName("EstadoAcceso");
-            this.Property(t => t.IDUsuario).HasColumnName("IDUsuario");
-            this.Property(t => t.IDModuloPagina).HasColumnName("IDModuloPagina");
 
             // Relationships
             this.HasOptional(t => t.Usuario)

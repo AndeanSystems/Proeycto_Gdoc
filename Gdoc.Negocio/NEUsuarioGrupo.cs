@@ -19,7 +19,10 @@ namespace Gdoc.Negocio
         {
             try
             {
-                return dEUsuarioGrupo.ObtenerUsuarioGrupo(eUsuarioGrupo);
+                if (eUsuarioGrupo.IDUsuarioGrupo == 0)
+                    return dEUsuarioGrupo.ObtenerUsuarioGrupo(eUsuarioGrupo);
+                else
+                    return dEUsuarioGrupo.ObtenerUsuario(eUsuarioGrupo);
             }
             catch (Exception ex)
             {

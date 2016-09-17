@@ -100,16 +100,16 @@
             }
         }
         ////
-        function listarUsuarioGrupoAutoComplete(Nombre) {
-            var UsuarioGrupo = { Nombre: Nombre };
+        function listarUsuarioGrupoAutoComplete(Nombre, tipo) {
+            var UsuarioGrupo = { Nombre: Nombre, Tipo: tipo };
             appService.buscarUsuarioGrupoAutoComplete(UsuarioGrupo).success(function (respuesta) {
                 //context.listaUsuario = respuesta;
                 context.listaUsuarioGrupo = respuesta;
             });
         }
 
-        function querySearch(criteria) {
-            listarUsuarioGrupoAutoComplete(criteria);
+        function querySearch(criteria, tipo) {
+            listarUsuarioGrupoAutoComplete(criteria, tipo);
             cachedQuery = cachedQuery || criteria;
             return cachedQuery ? context.listaUsuarioGrupo : [];
         }

@@ -11,6 +11,17 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasKey(t => t.IDAdjunto);
 
             // Properties
+            this.Property(t => t.NombreOriginal)
+                .HasMaxLength(200);
+
+            this.Property(t => t.RutaArchivo)
+                .HasMaxLength(200);
+
+            this.Property(t => t.TamanoArchivo)
+                .HasMaxLength(200);
+
+            this.Property(t => t.TipoArchivo)
+                .HasMaxLength(300);
 
             // Table & Column Mappings
             this.ToTable("Adjunto");
@@ -24,7 +35,9 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.TipoArchivo).HasColumnName("TipoArchivo");
 
             // Relationships
-
+            this.HasOptional(t => t.Usuario)
+                .WithMany(t => t.Adjuntoes)
+                .HasForeignKey(d => d.IDUsuario);
 
         }
     }

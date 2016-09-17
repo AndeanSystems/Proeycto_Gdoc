@@ -11,9 +11,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasKey(t => t.IDEmpresa);
 
             // Properties
-            this.Property(t => t.IDEmpresa)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
             this.Property(t => t.RazonSocial)
                 .IsRequired()
                 .HasMaxLength(100);

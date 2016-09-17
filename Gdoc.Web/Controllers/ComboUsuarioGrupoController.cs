@@ -4,6 +4,7 @@ using Gdoc.Web.Util;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace Gdoc.Web.Controllers
 {
@@ -19,7 +20,10 @@ namespace Gdoc.Web.Controllers
             {
                 using (var oNEUsuarioGrupo = new NEUsuarioGrupo())
                 {
-                    retornoEUsuarioGrupo = oNEUsuarioGrupo.ObtenerUsuarioGrupo(eUsuarioGrupo);
+                    if (string.IsNullOrEmpty(eUsuarioGrupo.Tipo))
+                        retornoEUsuarioGrupo = oNEUsuarioGrupo.ObtenerUsuarioGrupo(eUsuarioGrupo);
+                    else
+                        retornoEUsuarioGrupo = oNEUsuarioGrupo.ObtenerUsuarioGrupo(eUsuarioGrupo).Where(x => x.Tipo == eUsuarioGrupo.Tipo).ToList();
                 }
                 return new JsonResult { Data = retornoEUsuarioGrupo, MaxJsonLength = Int32.MaxValue };
             }

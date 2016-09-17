@@ -11,7 +11,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasKey(t => t.IDLogOperacion);
 
             // Properties
-
             this.Property(t => t.CodigoEvento)
                 .IsRequired()
                 .IsFixedLength()

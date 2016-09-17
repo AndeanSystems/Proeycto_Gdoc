@@ -22,7 +22,7 @@ namespace Gdoc.Entity.Models
         public Nullable<System.DateTime> FechaNacimiento { get; set; }
         public string TelefonoPersonal { get; set; }
         public string AnexoPersonal { get; set; }
-        public int EstadoPersonal { get; set; }
+        public Nullable<int> EstadoPersonal { get; set; }
         public string CodigoArea { get; set; }
         public string CodigoCargo { get; set; }
         public string ClasePersonal { get; set; }

@@ -18,6 +18,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.ToTable("General");
             this.Property(t => t.IDCodigoParametro).HasColumnName("IDCodigoParametro");
             this.Property(t => t.IDEmpresa).HasColumnName("IDEmpresa");
+            this.Property(t => t.IDUsuario).HasColumnName("IDUsuario");
             this.Property(t => t.PlazoDoctoElectronico).HasColumnName("PlazoDoctoElectronico");
             this.Property(t => t.ExtensionPlazoDoctoElectronico).HasColumnName("ExtensionPlazoDoctoElectronico");
             this.Property(t => t.AlertaDoctoElectronico).HasColumnName("AlertaDoctoElectronico");
@@ -28,7 +29,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.AlertaMailPersonal).HasColumnName("AlertaMailPersonal");
             this.Property(t => t.HoraActualizaEstadoOperacion).HasColumnName("HoraActualizaEstadoOperacion");
             this.Property(t => t.HoraCierreLabores).HasColumnName("HoraCierreLabores");
-
             this.Property(t => t.PlazoExpiraFirma).HasColumnName("PlazoExpiraFirma");
             this.Property(t => t.RutaGdocImagenes).HasColumnName("RutaGdocImagenes");
             this.Property(t => t.RutaGdocPDF).HasColumnName("RutaGdocPDF");
@@ -39,10 +39,10 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasRequired(t => t.Empresa)
                 .WithMany(t => t.Generals)
                 .HasForeignKey(d => d.IDEmpresa);
-
-            this.HasRequired(t => t.Usuario)
+            this.HasOptional(t => t.Usuario)
                 .WithMany(t => t.Generals)
                 .HasForeignKey(d => d.IDUsuario);
+
         }
     }
 }

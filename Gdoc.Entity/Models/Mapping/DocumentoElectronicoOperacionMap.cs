@@ -11,9 +11,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasKey(t => t.IDDoctoElectronicoOperacion);
 
             // Properties
-            this.Property(t => t.IDDoctoElectronicoOperacion)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
             // Table & Column Mappings
             this.ToTable("DocumentoElectronicoOperacion");
             this.Property(t => t.IDDoctoElectronicoOperacion).HasColumnName("IDDoctoElectronicoOperacion");

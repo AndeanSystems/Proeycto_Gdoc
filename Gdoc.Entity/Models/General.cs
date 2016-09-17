@@ -18,12 +18,12 @@ namespace Gdoc.Entity.Models
         public Nullable<int> AlertaMailPersonal { get; set; }
         public Nullable<System.DateTime> HoraActualizaEstadoOperacion { get; set; }
         public Nullable<System.DateTime> HoraCierreLabores { get; set; }
-        public virtual Empresa Empresa { get; set; }
-        public virtual Usuario Usuario { get; set; }
         public Nullable<int> PlazoExpiraFirma { get; set; }
         public string RutaGdocImagenes { get; set; }
         public string RutaGdocPDF { get; set; }
         public string RutaGdocAdjuntos { get; set; }
         public string RutaGdocExternos { get; set; }
+        public virtual Empresa Empresa { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

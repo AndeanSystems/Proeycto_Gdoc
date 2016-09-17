@@ -79,7 +79,7 @@ namespace Gdoc.Negocio
                     }
                 }
                 //Grabar Adjunto
-                //dAdjunto.GrabarAdjunto(listDocumentosAdjuntos);
+                dAdjunto.GrabarAdjunto(listDocumentosAdjuntos);
 
                 eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 dDocumentoElectronicoOperacion.Grabar(eDocumentoElectronicoOperacion);
@@ -219,7 +219,7 @@ namespace Gdoc.Negocio
                     var eIndexacionDocumento = new IndexacionDocumento();
 
                     eIndexacionDocumento.DescripcionIndice = referencia.DescripcionIndice;
-                    eIndexacionDocumento.EstadoIndice="1";
+                    eIndexacionDocumento.EstadoIndice=1;
                     eIndexacionDocumento.IDOperacion = operacion.IDOperacion;
                     listEindexacionDocumento.Add(eIndexacionDocumento);
                 }
