@@ -36,7 +36,7 @@ function ReadFileToBinary(control) {
         context.DocumentoDigitaloOperacion = {};
         context.IndexacionDocumento = [];
         context.referencia = {};
-        context.visible = "List";
+        context.visible = "CreateAndEdit";
         context.listaReferencia = [];
         context.listaUsuarioGrupo = [];
 
@@ -57,8 +57,12 @@ function ReadFileToBinary(control) {
         //COMIENZO
         context.operacion = {
             TipoDocumento: '02',
+            AccesoOperacion: '2',
             PrioridadOperacion: '02',
-            AccesoOperacion: '2'
+            TipoComunicacion: '1'
+        };
+        context.DocumentoDigitaloOperacion = {
+            DerivarDocto: 'S'
         };
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
@@ -157,7 +161,6 @@ function ReadFileToBinary(control) {
                         NombreOriginal: archivosSelecionados[index].NombreArchivo,
                         TamanoDocto: archivosSelecionados[index].TamanoArchivo,
                         TipoArchivo: archivosSelecionados[index].TipoArchivo,
-                        Comentario: context.DocumentoDigitaloOperacion.Comentario,
                     });
                     console.log(listDocumentoDigitaloOperacion);
                 }
@@ -198,15 +201,6 @@ function ReadFileToBinary(control) {
             limpiarFormulario();
             context.visible = mostrarVentana;
             if (context.visible != "List") {
-                context.operacion = {
-                    TipoDocumento: '02',
-                    AccesoOperacion: '2',
-                    PrioridadOperacion: '02',
-                    TipoComunicacion: '1'
-                };
-                context.DocumentoDigitaloOperacion = {
-                    DerivarDocto: 'S'
-                };
             }
         }
         ////
@@ -254,8 +248,12 @@ function ReadFileToBinary(control) {
             context.listaReferencia = [];
             context.operacion = {
                 TipoDocumento: '02',
+                AccesoOperacion: '2',
                 PrioridadOperacion: '02',
-                AccesoOperacion: '2'
+                TipoComunicacion: '1'
+            };
+            context.DocumentoDigitaloOperacion = {
+                DerivarDocto: 'S'
             };
         }
         listarOperacion();

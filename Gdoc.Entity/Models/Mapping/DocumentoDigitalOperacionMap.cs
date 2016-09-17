@@ -24,9 +24,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.NombreFisico)
                 .HasMaxLength(300);
 
-            this.Property(t => t.Comentario)
-                .HasMaxLength(300);
-
             this.Property(t => t.TipoArchivo)
                 .HasMaxLength(300);
 
@@ -39,7 +36,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.RutaFisica).HasColumnName("RutaFisica");
             this.Property(t => t.TamanoDocto).HasColumnName("TamanoDocto");
             this.Property(t => t.NombreFisico).HasColumnName("NombreFisico");
-            this.Property(t => t.Comentario).HasColumnName("Comentario");
             this.Property(t => t.TipoArchivo).HasColumnName("TipoArchivo");
 
             // Relationships

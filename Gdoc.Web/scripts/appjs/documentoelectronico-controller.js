@@ -35,11 +35,11 @@ function ReadFileToBinary(control) {
         var context = this;
         context.operacion = {};
         context.DocumentoElectronicoOperacion = {};
-        context.visible = "List";
+        context.visible = "CreateAndEdit";
         context.listaUsuarioGrupo = [];
 
         //Variable de autocomplete
-        let Operacion = context.operacion;
+        var Operacion = {};
         let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
         let listEUsuarioGrupo = [];
         let listERemitente = [];
@@ -92,6 +92,7 @@ function ReadFileToBinary(control) {
         };
         //Eventos
         context.grabar = function (numeroboton) {
+            Operacion = context.operacion;
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
             if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
                 return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
@@ -113,13 +114,14 @@ function ReadFileToBinary(control) {
                 context.usuarioDestinatarios[ind].TipoParticipante = UsuarioDestinatario;
                 listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
             }
-            if (numeroboton == 1)
-                Operacion.EstadoOperacion = 0
+            if (numeroboton == 1){
+                Operacion.EstadoOperacion = 0;
+            }
             else if (numeroboton == 2) {
                 if (!usuarioRemitenteEnSession) {
                     return appService.mostrarAlerta("Advertencia", "El usuario no es remitente", "warning");
                 }
-                Operacion.EstadoOperacion = 1
+                Operacion.EstadoOperacion = 1;
             }
             for (var index in archivosSelecionados) {
                 listDocumentosAdjuntos.push({
@@ -133,6 +135,7 @@ function ReadFileToBinary(control) {
 
             function enviarFomularioOK() {
                 dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, listDocumentosAdjuntos: listDocumentosAdjuntos, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+                    console.log(Operacion);
                     if (respuesta.Exitoso)
                         TipoMensaje = "success";
                     appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);

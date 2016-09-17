@@ -155,7 +155,6 @@ namespace Gdoc.Negocio
                     documentoOperacion.IDOperacion = operacion.IDOperacion;
                     documentoOperacion.NombreFisico = string.Empty;
                     documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;
-                    documentoOperacion.Comentario = documentoOperacion.Comentario;
                     if (string.IsNullOrEmpty(documentoOperacion.TipoArchivo) || !documentoOperacion.TipoArchivo.Contains(ArchivoTXT))
                     {
                         File.WriteAllBytes(documentoOperacion.RutaFisica, fileBytes);
@@ -214,16 +213,20 @@ namespace Gdoc.Negocio
 
 
                 //grabar referencias
-                foreach (var referencia in listIndexacion)
+                if (listIndexacion!=null)
                 {
-                    var eIndexacionDocumento = new IndexacionDocumento();
+                    foreach (var referencia in listIndexacion)
+                    {
+                        var eIndexacionDocumento = new IndexacionDocumento();
 
-                    eIndexacionDocumento.DescripcionIndice = referencia.DescripcionIndice;
-                    eIndexacionDocumento.EstadoIndice=1;
-                    eIndexacionDocumento.IDOperacion = operacion.IDOperacion;
-                    listEindexacionDocumento.Add(eIndexacionDocumento);
+                        eIndexacionDocumento.DescripcionIndice = referencia.DescripcionIndice;
+                        eIndexacionDocumento.EstadoIndice = 1;
+                        eIndexacionDocumento.IDOperacion = operacion.IDOperacion;
+                        listEindexacionDocumento.Add(eIndexacionDocumento);
+                    }
+                    dIndexacionDocumento.GrabarIndexacion(listEindexacionDocumento);
                 }
-                dIndexacionDocumento.GrabarIndexacion(listEindexacionDocumento);
+                
 
                 //GRABA log operacion
                 GrabarLogOperacion("001",operacion, IDusuario);
@@ -307,6 +310,18 @@ namespace Gdoc.Negocio
             try
             {
                 return dOperacion.ListarOperacionElectronico();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public List<EOperacion> ListarMesaVirtual()
+        {
+            try
+            {
+                return dOperacion.ListarMesaVirtual();
             }
             catch (Exception)
             {

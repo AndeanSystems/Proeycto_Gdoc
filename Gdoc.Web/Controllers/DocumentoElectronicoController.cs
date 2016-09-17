@@ -28,15 +28,26 @@ namespace Gdoc.Web.Controllers
                 //FALTA TERMINAR QUITAR VALORES EN DURO
                 operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                 operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
-                operacion.FechaEmision = DateTime.Now;
-                operacion.FechaCierre = DateTime.Now;
-                operacion.FechaVigente = DateTime.Now;
-                operacion.FechaEnvio = DateTime.Now;
-                operacion.FechaRegistro = DateTime.Now;
+
+                if (operacion.EstadoOperacion == 1)
+                {
+                    if (operacion.FechaRegistro == null)
+                    {
+                        operacion.FechaRegistro = DateTime.Now;
+                        operacion.FechaEmision = DateTime.Now;
+                    }
+                    operacion.FechaEnvio = DateTime.Now;
+                    operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
+                }
+                else
+                {
+                    operacion.FechaRegistro = DateTime.Now;
+                    operacion.FechaEmision = DateTime.Now;
+                }
+                    
                 operacion.NumeroOperacion = DateTime.Now.Ticks.ToString();
                 operacion.NotificacionOperacion = "S";
                 operacion.DocumentoAdjunto = "N";
-                //operacion.EstadoOperacion = "0";
 
                 //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 using (var oNOperacion = new NOperacion())
@@ -63,6 +74,21 @@ namespace Gdoc.Web.Controllers
                 listDocumentoElectronico = oOperacion.ListarOperacionElectronico().Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico).ToList();
             }
             return new JsonResult { Data = listDocumentoElectronico, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+
+        protected DateTime DateAgregarLaborales(Int32 add, DateTime FechaInicial)
+        {
+            if (FechaInicial.DayOfWeek == DayOfWeek.Saturday) { FechaInicial = FechaInicial.AddDays(2); }
+            if (FechaInicial.DayOfWeek == DayOfWeek.Sunday) { FechaInicial = FechaInicial.AddDays(1); }
+            Int32 weeks = add / 5;
+            add += weeks * 2;
+            if (FechaInicial.DayOfWeek > FechaInicial.AddDays(add).DayOfWeek)
+                add += 2;
+
+            if (FechaInicial.AddDays(add).DayOfWeek == DayOfWeek.Saturday)
+                add += 2;
+
+            return FechaInicial.AddDays(add);
         }
 	}
 }

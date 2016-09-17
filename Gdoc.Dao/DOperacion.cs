@@ -176,6 +176,63 @@ namespace Gdoc.Dao
             }
             return listOperacion;
         }
+        public List<EOperacion> ListarMesaVirtual()
+        {
+            var listOperacion = new List<EOperacion>();
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var list = db.Operacions.ToList();
+
+                    var list2 = (from operacion in db.Operacions
+
+                                 join tipomesa in db.Conceptoes
+                                 on operacion.TipoDocumento equals tipomesa.CodiConcepto
+
+                                 join estado in db.Conceptoes
+                                 on operacion.EstadoOperacion.ToString() equals estado.CodiConcepto
+
+                                 where tipomesa.TipoConcepto.Equals("011") &&
+                                        estado.TipoConcepto.Equals("001")
+
+                                 select new { operacion, tipomesa,  /*usuariopart,*/ estado /*,usuario*/ }).ToList();
+
+                    list2.ForEach(x => listOperacion.Add(new EOperacion
+                    {
+                        IDOperacion = x.operacion.IDOperacion,
+                        IDEmpresa = x.operacion.IDEmpresa,
+                        TipoOperacion = x.operacion.TipoOperacion,
+                        FechaEmision = x.operacion.FechaEmision,
+                        NumeroOperacion = x.operacion.NumeroOperacion,
+                        TituloOperacion = x.operacion.TituloOperacion,
+                        AccesoOperacion = x.operacion.AccesoOperacion,
+                        EstadoOperacion = x.operacion.EstadoOperacion,
+                        DescripcionOperacion = x.operacion.DescripcionOperacion,
+                        PrioridadOperacion = x.operacion.PrioridadOperacion,
+                        FechaCierre = x.operacion.FechaCierre,
+                        FechaRegistro = x.operacion.FechaRegistro,
+                        FechaEnvio = x.operacion.FechaEnvio,
+                        FechaVigente = x.operacion.FechaVigente,
+                        DocumentoAdjunto = x.operacion.DocumentoAdjunto,
+                        TipoComunicacion = x.operacion.TipoComunicacion,
+                        NotificacionOperacion = x.operacion.NotificacionOperacion,
+                        TipoDocumento = x.operacion.TipoDocumento,
+
+                        TipoDoc = new Concepto { DescripcionConcepto = x.tipomesa.DescripcionConcepto },
+                        Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
+                    }));
+
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return listOperacion;
+        }
         public Operacion EditarOperacion(Operacion operacion)
         {
             try
@@ -193,7 +250,6 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-
         public Operacion EliminarOperacion(Operacion operacion)
         {
             try

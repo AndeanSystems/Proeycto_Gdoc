@@ -26,15 +26,20 @@ namespace Gdoc.Web.Controllers
                 //FALTA TERMINAR QUITAR VALORES EN DURO
                 operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                 operacion.TipoOperacion = Constantes.TipoOperacion.MesaVirtual;
-                //operacion.FechaEmision = DateTime.Now;
-                //operacion.FechaCierre = DateTime.Now;
-                operacion.FechaVigente = DateTime.Now;
-                operacion.FechaEnvio = DateTime.Now;
-                operacion.FechaRegistro = DateTime.Now;
+
+
+                if (operacion.EstadoOperacion == 1)
+                {
+                    if (operacion.FechaRegistro == null)
+                        operacion.FechaRegistro = DateTime.Now;
+                    operacion.FechaEnvio = DateTime.Now;
+                }
+                else
+                    operacion.FechaRegistro = DateTime.Now;
+
                 operacion.NumeroOperacion = DateTime.Now.Ticks.ToString();
                 operacion.NotificacionOperacion = "S";
                 operacion.DocumentoAdjunto = "N";
-                //operacion.EstadoOperacion = "0";
 
                 //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 using (var oNOperacion = new NOperacion())
@@ -48,6 +53,15 @@ namespace Gdoc.Web.Controllers
 
                 throw;
             }
+        }
+        public JsonResult ListarOperacion()
+        {
+            var listMesaVirtual = new List<EOperacion>();
+            using (var oOperacion = new NOperacion())
+            {
+                listMesaVirtual = oOperacion.ListarMesaVirtual().Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
+            }
+            return new JsonResult { Data = listMesaVirtual, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
 	}
 }

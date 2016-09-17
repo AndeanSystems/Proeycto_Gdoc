@@ -30,13 +30,21 @@ namespace Gdoc.Web.Controllers
                 //FALTA TERMINAR
                 operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                 operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoDigital;
-                operacion.FechaEmision = DateTime.Now;
                 operacion.NumeroOperacion = DateTime.Now.Ticks.ToString();//FALTA
 
-                operacion.FechaCierre = DateTime.Now.AddDays(5);//FALTA TRAER DE TABLA GNERAL
-                operacion.FechaRegistro = DateTime.Now;
-                operacion.FechaEnvio = DateTime.Now;//FALTA
-                operacion.FechaVigente = DateTime.Now;//FALTA
+                
+                
+
+                if (operacion.EstadoOperacion == 1)
+                {
+                    if (operacion.FechaRegistro == null)
+                        operacion.FechaRegistro = DateTime.Now;
+                    operacion.FechaEnvio = DateTime.Now;
+                    operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
+                }
+                else
+                    operacion.FechaRegistro = DateTime.Now;
+
                 operacion.NotificacionOperacion = "S";//FALTA
                 operacion.DocumentoAdjunto = "N";//FALTA
 
@@ -74,6 +82,21 @@ namespace Gdoc.Web.Controllers
                 mensajeRespuesta.Mensaje = "Grabación Exitosa";
             }
             return new JsonResult { Data = mensajeRespuesta };
+        }
+
+        protected DateTime DateAgregarLaborales(Int32 add, DateTime FechaInicial)
+        {
+            if (FechaInicial.DayOfWeek == DayOfWeek.Saturday) { FechaInicial = FechaInicial.AddDays(2); }
+            if (FechaInicial.DayOfWeek == DayOfWeek.Sunday) { FechaInicial = FechaInicial.AddDays(1); }
+            Int32 weeks = add / 5;
+            add += weeks * 2;
+            if (FechaInicial.DayOfWeek > FechaInicial.AddDays(add).DayOfWeek)
+                add += 2;
+
+            if (FechaInicial.AddDays(add).DayOfWeek == DayOfWeek.Saturday)
+                add += 2;
+
+            return FechaInicial.AddDays(add);
         }
 	}
 }

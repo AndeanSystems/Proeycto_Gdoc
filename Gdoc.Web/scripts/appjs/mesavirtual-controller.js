@@ -1,13 +1,28 @@
-﻿(function () {
+﻿//Leer Archivos de de fisico a binario
+var archivosSelecionados = [];
+let TipoMensaje = "warning";
+function ReadFileToBinary(control) {
+    for (var i = 0, f; f = control.files[i]; i++) {
+        let files = f;
+        var reader = new FileReader();
+        reader.onloadend = function (e) {
+            console.log(files);
+            archivosSelecionados.push({
+                NombreArchivo: files.name,
+                TamanoArchivo: files.size,
+                TipoArchivo: files.type,
+                RutaBinaria: e.target.result
+            });
+        }
+        reader.readAsBinaryString(f);
+    }
+}
+(function () {
     'use strict';
 
-    angular.module('app').controller('mesavirtual_controller', mesavirtual_controller)
+    angular.module('app').controller('mesavirtual_controller', mesavirtual_controller);
 
-    .config(function ($mdDateLocaleProvider) {
-        $mdDateLocaleProvider.formatDate = function (date) {
-            return moment(date).format('DD/MM/YYYY');
-        };
-    });
+    
     mesavirtual_controller.$inject = ['$location', 'app_factory', 'appService'];
 
     function mesavirtual_controller($location, dataProvider, appService) {
@@ -23,7 +38,7 @@
         let UsuarioInvitado = "02";
         var context = this;
         context.operacion = {};
-        context.visible = "List";
+        context.visible = "CreateAndEdit";
         context.listaUsuarioGrupo = [];
 
         //Crear Combo Auto Filters
@@ -44,31 +59,43 @@
 
         //COMIENZO
         context.operacion = {
-            //TipoDocumento: '02',
+            TipoDocumento: '02',
             PrioridadOperacion: '02',
             AccesoOperacion: '2',
             NotificacionOperacion: '0'
         };
 
-        //context.gridOptions = {
-        //    paginationPageSizes: [25, 50, 75],
-        //    paginationPageSize: 25,
-        //    enableFiltering: true,
-        //    data: [],
-        //    columnDefs: [
-        //        { field: 'CodiConcepto', displayName: 'Codigo' },
-        //        { field: 'DescripcionConcepto', displayName: 'Descripcion' },
-        //        { field: 'DescripcionCorta', displayName: 'Abreviatura' },
-        //        { field: 'ValorUno', displayName: 'Valor1' },
-        //        { field: 'ValorDos', displayName: 'Valor2' },
-        //        { field: 'TextoUno', displayName: 'Texto1' },
-        //        { field: 'TextoDos', displayName: 'Texto2' },
-        //        { field: 'EstadoConcepto', displayName: 'Estado' },
-        //        { field: 'Empresa.DireccionEmpresa', displayName: 'Direción Empresa' }
-        //    ]
-        //};
+        context.gridOptions = {
+            paginationPageSizes: [25, 50, 75],
+            paginationPageSize: 25,
+            //enableFiltering: true,
+            data: [],
+            appScopeProvider: context,
+            columnDefs: [
+                { field: 'NumeroOperacion', displayName: 'Nº Documento' },
+                { field: 'TipoDoc.DescripcionConcepto', displayName: 'Tipo de Documento' },
+                { field: 'DescripcionOperacion', displayName: '	Asunto' },
+                { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'FechaVigente', displayName: '	Fecha Recepción', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
+                {
+                    name: 'Acciones',
+                    cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="top" data-toggle="tooltip" title="" data-original-title="Cerrar"></i>'
+                }
+            ]
+        };
         //Eventos
         context.grabar = function (numeroboton) {
+            if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
+                return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
+            }
+            if (context.usuarioOrganizador == undefined || context.usuarioOrganizador == "") {
+                return appService.mostrarAlerta("Falta el Organizador", "Agregue al Organizador", "warning");
+            }
+            if (context.usuarioInvitados == undefined || context.usuarioInvitados == "") {
+                return appService.mostrarAlerta("Falta los Invitados", "Agregue a los invitados", "warning");
+            }
             console.log(context.operacion);
             let Operacion = context.operacion;
             let listEUsuarioGrupo = [];
@@ -86,12 +113,19 @@
             else if (numeroboton == 2)
                 Operacion.EstadoOperacion = 1
 
-            console.log(context.DocumentoElectronicoOperacion);
-            dataProvider.postData("MesaVirtual/Grabar", { Operacion: Operacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
-                console.log(respuesta);
-            }).error(function (error) {
-                //MostrarError();
-            });
+            function enviarFomularioOK() {
+                console.log(context.DocumentoElectronicoOperacion);
+                dataProvider.postData("MesaVirtual/Grabar", { Operacion: Operacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", "Se grabo correctamente", TipoMensaje);
+                    console.log(respuesta);
+                }).error(function (error) {
+                    //MostrarError();
+                });
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+            
         }
 
         context.CambiarVentana = function (mostrarVentana) {
@@ -129,5 +163,14 @@
                     context.listTipoMesaVirtual = respuesta;
             });
         }
+
+        function listarOperacion() {
+            dataProvider.getData("MesaVirtual/ListarOperacion").success(function (respuesta) {
+                context.gridOptions.data = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+        listarOperacion();
     }
 })();
