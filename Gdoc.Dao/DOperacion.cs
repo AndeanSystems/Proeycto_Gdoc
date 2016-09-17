@@ -95,13 +95,14 @@ namespace Gdoc.Dao
             }
             return listOperacion;
         }
-        public List<EOperacion> ListarOperacionElectronico()
+        public List<EOperacion> ListarOperacionElectronico(UsuarioParticipante eUsuarioParticipante)
         {
             var listOperacion = new List<EOperacion>();
             try
             {
                 using (var db = new DataBaseContext())
                 {
+                    var query1 = db.UsuarioParticipantes.Include("Operacion").Include("DocumentoElectronicoOperacion").Include("DocumentoAdjunto").Include("Adjunto").ToList(x=)).ToList();
                     var list = db.Operacions.ToList();
 
                     var list2 = (from operacion in db.Operacions

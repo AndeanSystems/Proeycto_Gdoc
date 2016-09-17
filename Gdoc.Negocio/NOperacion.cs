@@ -305,11 +305,11 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public List<EOperacion> ListarOperacionElectronico()
+        public List<EOperacion> ListarOperacionElectronico(UsuarioParticipante eUsuarioParticipante)
         {
             try
             {
-                return dOperacion.ListarOperacionElectronico();
+                return dOperacion.ListarOperacionElectronico(eUsuarioParticipante);
             }
             catch (Exception)
             {

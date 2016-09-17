@@ -71,7 +71,9 @@ namespace Gdoc.Web.Controllers
             var listDocumentoElectronico = new List<EOperacion>();
             using (var oOperacion = new NOperacion())
             {
-                listDocumentoElectronico = oOperacion.ListarOperacionElectronico().Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico).ToList();
+                listDocumentoElectronico = oOperacion.ListarOperacionElectronico(new UsuarioParticipante {
+                    IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString*()(,
+                }).Where(x => x.TipoOperacion == Constants.TipoOperacion.DocumentoElectronico).ToList();
             }
             return new JsonResult { Data = listDocumentoElectronico, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

@@ -73,15 +73,15 @@ function ReadFileToBinary(control) {
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
-            //enableFiltering: true,
+            enableFiltering: true,
             data: [],
             appScopeProvider: context,
             columnDefs: [
                 { field: 'NumeroOperacion', displayName: 'Nº Documento' },
                 { field: 'TipoDoc.DescripcionConcepto', displayName: 'Tipo de Documento' },
                 { field: 'DescripcionOperacion', displayName: '	Asunto' },
-                { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
-                { field: 'FechaVigente', displayName: '	Fecha Recepción', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'FechaRegistro', displayName: 'Fecha Emisión', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'FechaVigente', displayName: '	Fecha Recepción', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
                 { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
                 {
                     name: 'Acciones',
