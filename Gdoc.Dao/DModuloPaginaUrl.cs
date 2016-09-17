@@ -19,6 +19,7 @@ namespace Gdoc.Dao
                 {
                     var query = (from modulo in db.ModuloPaginaUrls.Include("AccesoSistema")
                                    select new { modulo }).ToList();
+
                     foreach (var eModuloPaginaUrl in query)
                     {
                         //var listAccesoSistema = new List<AccesoSistema>();
