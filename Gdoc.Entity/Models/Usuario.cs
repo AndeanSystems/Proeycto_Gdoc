@@ -39,6 +39,7 @@ namespace Gdoc.Entity.Models
         public string ExpiraFirma { get; set; }
         public Nullable<System.DateTime> FechaExpiraClave { get; set; }
         public Nullable<System.DateTime> FechaExpiraFirma { get; set; }
+        public string RutaAvatar { get; set; }
         public virtual ICollection<AccesoSistema> AccesoSistemas { get; set; }
         public virtual ICollection<Adjunto> Adjuntoes { get; set; }
         public virtual ICollection<General> Generals { get; set; }

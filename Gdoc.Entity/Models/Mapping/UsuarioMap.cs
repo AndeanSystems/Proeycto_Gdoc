@@ -72,6 +72,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.ExpiraFirma).HasColumnName("ExpiraFirma");
             this.Property(t => t.FechaExpiraClave).HasColumnName("FechaExpiraClave");
             this.Property(t => t.FechaExpiraFirma).HasColumnName("FechaExpiraFirma");
+            this.Property(t => t.RutaAvatar).HasColumnName("RutaAvatar");
 
             // Relationships
             this.HasOptional(t => t.Personal)
