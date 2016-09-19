@@ -13,7 +13,9 @@ namespace Gdoc.Web.Controllers
     public class MesaVirtualController : Controller
     {
         //
-        // GET: /MesaVirtual/
+        #region "Variables"
+        MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
+        #endregion
         public ActionResult Index()
         {
             return View();
@@ -37,7 +39,7 @@ namespace Gdoc.Web.Controllers
                 else
                     operacion.FechaRegistro = DateTime.Now;
 
-                operacion.NumeroOperacion = DateTime.Now.Ticks.ToString();
+                operacion.NumeroOperacion = "MV"+DateTime.Now.Ticks.ToString();
                 operacion.NotificacionOperacion = "S";
                 operacion.DocumentoAdjunto = "N";
 
@@ -46,12 +48,15 @@ namespace Gdoc.Web.Controllers
                 {
                     var respuesta = oNOperacion.GrabarMesaVirtual(operacion, listEUsuarioGrupo);
                 }
-                return new JsonResult { Data = null, MaxJsonLength = Int32.MaxValue };
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Operación " + operacion.NumeroOperacion + " realizada correctamente";
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception ex)
             {
-
-                throw;
+                mensajeRespuesta.Mensaje = "Operación no realizada correctamente";
+                mensajeRespuesta.Exitoso = false;
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
         }
         public JsonResult ListarOperacion()
@@ -59,7 +64,10 @@ namespace Gdoc.Web.Controllers
             var listMesaVirtual = new List<EOperacion>();
             using (var oOperacion = new NOperacion())
             {
-                listMesaVirtual = oOperacion.ListarMesaVirtual().Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
+                listMesaVirtual = oOperacion.ListarMesaVirtual(new UsuarioParticipante 
+                { 
+                    IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString())
+                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
             }
             return new JsonResult { Data = listMesaVirtual, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

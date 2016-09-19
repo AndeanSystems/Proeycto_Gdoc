@@ -20,9 +20,7 @@ function ReadFileToBinary(control) {
 (function () {
     'use strict';
 
-    angular.module('app').controller('mesavirtual_controller', mesavirtual_controller);
-
-    
+    angular.module('app').controller('mesavirtual_controller', mesavirtual_controller); 
     mesavirtual_controller.$inject = ['$location', 'app_factory', 'appService'];
 
     function mesavirtual_controller($location, dataProvider, appService) {
@@ -64,7 +62,9 @@ function ReadFileToBinary(control) {
             TipoDocumento: '02',
             PrioridadOperacion: '02',
             AccesoOperacion: '2',
-            NotificacionOperacion: '0'
+            NotificacionOperacion: '0',
+            FechaVigente: new Date(),
+            FechaCierre: new Date()
         };
 
         context.gridOptions = {
@@ -120,19 +120,22 @@ function ReadFileToBinary(control) {
                 dataProvider.postData("MesaVirtual/Grabar", { Operacion: Operacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                     if (respuesta.Exitoso)
                         TipoMensaje = "success";
-                    appService.mostrarAlerta("Información", "Se grabo correctamente", TipoMensaje);
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
                     console.log(respuesta);
                 }).error(function (error) {
                     //MostrarError();
                 });
+                limpiarFormulario();
             }
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+           
             
         }
 
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
-            if (context.visible != "List") {
+            if (context.visible == "List") {
+                listarOperacion();
             }
         }
         ////
@@ -141,6 +144,13 @@ function ReadFileToBinary(control) {
             appService.buscarUsuarioGrupoAutoComplete(UsuarioGrupo).success(function (respuesta) {
                 //context.listaUsuario = respuesta;
                 context.listaUsuarioGrupo = respuesta;
+            });
+        }
+
+        function obtenerUsuarioSession() {
+            var usuarioGrupo = { IDUsuarioGrupo: appService.obtenerUsuarioId() };
+            appService.buscarUsuarioGrupoAutoComplete(usuarioGrupo).success(function (respuesta) {
+                context.usuarioOrganizador = respuesta;
             });
         }
 
@@ -173,6 +183,23 @@ function ReadFileToBinary(control) {
                 //MostrarError();
             });
         }
-        listarOperacion();
+
+        function limpiarFormulario() {
+            context.operacion = {};
+            context.usuarioInvitados = [];
+            context.usuarioOrganizador = [];
+            context.operacion = {
+                TipoDocumento: '02',
+                PrioridadOperacion: '02',
+                AccesoOperacion: '2',
+                NotificacionOperacion: '0',
+                FechaVigente: new Date(),
+                FechaCierre: new Date()
+            };
+            archivosSelecionados = [];
+            document.getElementById("input_file").value = "";
+        }
+        
+        obtenerUsuarioSession();
     }
 })();

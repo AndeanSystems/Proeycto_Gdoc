@@ -32,20 +32,29 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult GrabarPersonal(Personal personal)
         {
-            using (var oPersonal = new NPersonal())
+            try
             {
-                personal.IDEmpresa = 1001;
-                //personal.UsuarioRegistro = Session["NombreUsuario"].ToString();
-                //var respuesta = oPersonal.GrabarPersonal(personal);
-                Personal respuesta = null;
-                if (personal.IDEmpresa > 0)
-                    respuesta = oPersonal.EditarPersonal(personal);
-                else
-                    respuesta = oPersonal.GrabarPersonal(personal);
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                using (var oPersonal = new NPersonal())
+                {
+                    //personal.IDEmpresa = 1001;
+                    //personal.UsuarioRegistro = Session["NombreUsuario"].ToString();
+                    //var respuesta = oPersonal.GrabarPersonal(personal);
+                    Personal respuesta = null;
+                    if (personal.IDPersonal > 0)
+                        respuesta = oPersonal.EditarPersonal(personal);
+                    else
+                        respuesta = oPersonal.GrabarPersonal(personal);
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                }
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
         [HttpPost]
         public JsonResult BuscarPersonalNombre(Personal personal)

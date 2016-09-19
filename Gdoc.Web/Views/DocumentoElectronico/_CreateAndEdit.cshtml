@@ -15,52 +15,71 @@
 
 
                 <div class="form-group no-margin-bottom">
-                    <label>Tipo de Documento <span class="text-danger">(*)</span></label>
-                    <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
-                        <option value="">Seleccione</option>
-                    </select>
+                    <label class="col-md-12">Tipo de Documento <span class="text-danger">(*)</span></label>
+                    <div class="col-md-12">
+                        <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-group no-margin-bottom">
-                    <label>Tipo de Comunicacion <span class="text-danger">(*)</span></label>
-                    <select class="form-control" ng-model="ctrl.operacion.TipoComunicacion" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoComunicacion">
-                        <option value="">Seleccione</option>
-                    </select>
+                    <label class="col-md-12">Tipo de Comunicacion <span class="text-danger">(*)</span></label>
+                    <div class="col-md-12">
+                        <select class="form-control" ng-model="ctrl.operacion.TipoComunicacion" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoComunicacion">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-group no-margin-bottom">
-                    <label style="display:block;">Tipo de Accesso <span class="text-danger">(*)</span></label>
-                    <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
-                        <md-radio-button style="display:inline-block;margin-right:2em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso ">{{ta.DescripcionConcepto}} </md-radio-button>
-                    </md-radio-group>
+                    <label style="display:block;" class="col-md-12">Tipo de Accesso <span class="text-danger">(*)</span></label>
+                    <div class="col-md-12">
+                        <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
+                            <md-radio-button style="display:inline-block;margin-right:2em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso ">{{ta.DescripcionConcepto}} </md-radio-button>
+                        </md-radio-group>
+                    </div>
                 </div>
 
                 <div class="form-group no-margin-bottom">
-                    <label>Prioridad de Atención <span class="text-danger">(*)</span></label>
-                    <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion ">
-                        <option value="">Seleccione</option>
-                    </select>
+                    <label class="col-md-12">Prioridad de Atención <span class="text-danger">(*)</span></label>
+                    <div class="col-md-12">
+                        <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion ">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-group no-margin-bottom">
-                    <label>Plazo de Confirmación</label>
-                    @Html.TextBox("StudentName", System.DateTime.Now.AddDays(5), new { @class = "form-control", disabled = "true" }) <!--FALTA TERMINAR PASAR PARAMETRO DE TABLA GENERAL-->
+                    <label class="col-md-12">Plazo de Confirmación</label>
+                    <div class="col-md-12">
+                        @*@Html.TextBox("StudentName", System.DateTime.Now.AddDays(5), new { @class = "form-control", disabled = "true" }) <!--FALTA TERMINAR PASAR PARAMETRO DE TABLA GENERAL-->*@
+                        <md-datepicker ng-model="ctrl.operacion.FechaVigente" disabled></md-datepicker>
+                    </div>
+                </div>
+
+                <div class="form-group no-margin-bottom">
+                    <label class="col-md-12">Fecha de Envio</label>
+                    <div class="col-md-12">
+                        @*<input type="text" class="form-control" disabled="true" placeholder="12/05/08">*@
+                        <md-datepicker ng-model="ctrl.operacion.FechaEnvio" disabled></md-datepicker>
+                    </div>
+                </div>
+
+                <div class="form-group no-margin-bottom">
+                    <label class="col-md-12">Fecha de Creación</label>
                     @*<input type="text" class="form-control" disabled="true" placeholder="12/05/08">*@
+                    <div class="col-md-12">
+                        <md-datepicker ng-model="ctrl.operacion.FechaRegistro" disabled></md-datepicker>
+                    </div>
+                    
                 </div>
 
                 <div class="form-group no-margin-bottom">
-                    <label>Fecha de Envio</label>
-                    <input type="text" class="form-control" disabled="true" placeholder="12/05/08">
-                </div>
-
-                <div class="form-group no-margin-bottom">
-                    <label>Fecha de Creación</label>
-                    <input type="text" class="form-control" disabled="true" placeholder="12/05/08">
-                </div>
-
-                <div class="form-group no-margin-bottom">
-                    <label>Estado</label>
-                    <input type="text" ng-model="ctrl.operacion.EstadoOperacion" ng-init="Creado" ng-disabled="true" class="form-control" placeholder="Creado" />
+                    <label class="col-md-12">Estado</label>
+                    <div class="col-md-12">
+                        <input type="text" ng-model="ctrl.operacion.EstadoOperacion" ng-init="Creado" ng-disabled="true" class="form-control" placeholder="Creado" />
+                    </div>
                 </div>
             </div>
             <!--asdasd-->
@@ -107,7 +126,7 @@
                                                   md-contact-name="Nombre"
                                                   md-highlight-flags="i"
                                                   filter-selected="ctrl.filterSelected"
-                                                  placeholder="Remitente" >
+                                                  placeholder="Remitente">
                                 </md-contact-chips>
                             </md-content>
                         </div><!-- /.form-group -->

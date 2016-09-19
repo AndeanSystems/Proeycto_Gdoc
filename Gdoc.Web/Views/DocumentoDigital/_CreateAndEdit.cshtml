@@ -136,6 +136,21 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-12">Remitente <span class="text-danger">(*)</span></label>
+                            <div style="font-size:12px" class="col-sm-12">
+                                <md-content class="autocomplete" layout="column">
+                                    <md-contact-chips ng-model="ctrl.usuarioRemitentes"
+                                                      md-contacts="ctrl.querySearch($query)"
+                                                      md-contact-name="Nombre"
+                                                      md-highlight-flags="i"
+                                                      filter-selected="ctrl.filterSelected"
+                                                      placeholder="Remitente">
+                                    </md-contact-chips>
+                                </md-content>
+                            </div><!-- /.form-group -->
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-12">Destinatario <span class="text-danger">(*)</span></label>
                             <div class="col-sm-12">
                                 <md-content class="autocomplete" layout="column">
@@ -158,7 +173,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-12">Fecha de Cierre</label>
+                            <label class="col-sm-12">Fecha de Recepcion</label>
                             <div class="col-sm-12">
                                 <md-datepicker ng-model="ctrl.operacion.FechaCierre"></md-datepicker>
                             </div>

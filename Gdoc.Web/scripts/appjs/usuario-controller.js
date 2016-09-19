@@ -187,35 +187,15 @@
                 var personal = context.personal;
                 var usuario = context.usuario;
 
-                //GRABAR PERSONAL
                 if (numeroboton == 1)
                     personal.EstadoPersonal = 0
                 else if (numeroboton == 2)
                     personal.EstadoPersonal = 1
-                //personal.CodigoUbigeo = (departamento + provincia + distrito);
-
-                personal.IDEmpresa = 1001 //POR TERMINAR
-
-                //dataProvider.postData("Personal/GrabarPersonal", personal).success(function (respuesta) {
-                //    console.log(respuesta);
-                //    //listarUsuario();
-                //    //$("#modal_contenido").modal("hide");
-                //}).error(function (error) {
-                //    //MostrarError();
-                //});
-                //GRABAR USUARIO
-                //usuario.NombreUsuario = personal.NombrePers.substr(0,1) + personal.ApellidoPersonal;
-                //usuario.ClaveUsuario = 123;
-
-                //usuario.IDPersonal = personal.IDPersonal;
 
                 if (numeroboton == 1)
                     usuario.EstadoUsuario = 0
                 else if (numeroboton == 2)
                     usuario.EstadoUsuario = 1
-
-                //Aqui se llena la entidad usuario, y tambien personal. Asignandole la propiedad de usuario.personal con la (Entidad) Personal
-                //usuario.Personal = personal;
                 dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
                     console.log(respuesta);
                     listarUsuario();

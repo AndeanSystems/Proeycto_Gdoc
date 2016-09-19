@@ -30,7 +30,7 @@ namespace Gdoc.Web.Controllers
                 //FALTA TERMINAR
                 operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                 operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoDigital;
-                operacion.NumeroOperacion = DateTime.Now.Ticks.ToString();//FALTA
+                operacion.NumeroOperacion ="DD"+ DateTime.Now.Ticks.ToString();//FALTA
 
                 
                 
@@ -52,15 +52,17 @@ namespace Gdoc.Web.Controllers
                 {
                     Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                     var respuesta = oOperacion.GrabarDocumentoDigital(operacion, listDocumentoDigitalOperacion, listEUsuarioGrupo, listIndexacion, IDusuario);
-                    mensajeRespuesta.Exitoso = true;
-                    mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                    
                 }
-                return new JsonResult { Data = mensajeRespuesta };
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Operación " + operacion.NumeroOperacion + " realizada correctamente";
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception ex)
             {
-
-                throw;
+                mensajeRespuesta.Mensaje = "Operación no realizada correctamente";
+                mensajeRespuesta.Exitoso = false;
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
         }
         public JsonResult ListarOperacion()
@@ -68,7 +70,10 @@ namespace Gdoc.Web.Controllers
             var listOperacion = new List<EOperacion>();
             using (var oOperacion = new NOperacion())
             {
-                listOperacion = oOperacion.ListarOperacionDigital().Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital).ToList();
+                listOperacion = oOperacion.ListarOperacionDigital(new UsuarioParticipante
+                {
+                    IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
+                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital).ToList();
             }
             return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

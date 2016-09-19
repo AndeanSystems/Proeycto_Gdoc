@@ -37,7 +37,7 @@ function ReadFileToBinary(control) {
         context.DocumentoElectronicoOperacion = {};
         context.visible = "CreateAndEdit";
         context.listaUsuarioGrupo = [];
-
+        
         //Variable de autocomplete
         var Operacion = {};
         let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
@@ -56,6 +56,9 @@ function ReadFileToBinary(control) {
         var usuario = {};
 
 
+        //var
+        var listRemitentes = [];
+        var listDestinatarios = [];
 
         LlenarConcepto(TipoDocumento);
         LlenarConcepto(PrioridadAtencion);
@@ -66,7 +69,10 @@ function ReadFileToBinary(control) {
             TipoDocumento: '02',
             TipoComunicacion: '1',
             PrioridadOperacion: '02',
-            AccesoOperacion: '2'
+            AccesoOperacion: '2',
+            FechaVigente: sumarDias(new Date(),5),
+            FechaEnvio: new Date(),
+            FechaRegistro: new Date()
         };
 
         
@@ -94,9 +100,9 @@ function ReadFileToBinary(control) {
         context.grabar = function (numeroboton) {
             Operacion = context.operacion;
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
-            if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
-                return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
-            }
+            //if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
+            //    return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
+            //}
             if (context.usuarioRemitentes == undefined || context.usuarioRemitentes == "") {
                 return appService.mostrarAlerta("Falta los Remitentes", "Agregue a los Remitentes", "warning");
             }
@@ -155,17 +161,39 @@ function ReadFileToBinary(control) {
             context.operacion.TipoComunicacion = context.operacion.TipoComunicacion.substring(0, 1);
             //context.codigodepartamento = parseInt(context.empresa.CodigoUbigeo.substring(0, 2));
             context.operacion.AccesoOperacion = context.operacion.AccesoOperacion.substring(0, 1)
+
+            //falta corregir fecha
+            context.operacion.FechaVigente = appService.setFormatDate(context.operacion.FechaVigente);
+            context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
+            context.operacion.FechaRegistro = appService.setFormatDate(context.operacion.FechaRegistro);
+
+            //Estados
+            if (context.operacion.EstadoOperacion==0)
+                context.operacion.EstadoOperacion = 'CREADO'
+            else if (context.operacion.EstadoOperacion == 1)
+                context.operacion.EstadoOperacion = 'ACTIVO'
+            else
+                context.operacion.EstadoOperacion = 'INACTIVO'
+
+
+            //falta mostrar el username
+            ObtenerUsuariosParticipantes(context.operacion)
+
+            context.usuarioRemitentes = listRemitentes;
+            context.usuarioDestinatarios = listDestinatarios;
+
             console.log(context.operacion);
             console.log(context.DocumentoElectronicoOperacion);
             context.CambiarVentana('CreateAndEdit');
         };
         context.CambiarVentana = function (mostrarVentana) {
+           
             context.visible = mostrarVentana;
             if (context.visible == "List") {
-                limpiarFormulario();
+                
                 listarOperacion();
             } else {
-                
+                limpiarFormulario();    
             }
         }
         ////
@@ -178,10 +206,15 @@ function ReadFileToBinary(control) {
                 TipoDocumento: '02',
                 TipoComunicacion: '1',
                 PrioridadOperacion: '02',
-                AccesoOperacion: '2'
+                AccesoOperacion: '2',
+                FechaVigente: sumarDias(new Date(), 5),
+                FechaEnvio: new Date(),
+                FechaRegistro: new Date()
             }
             archivosSelecionados = [];
             document.getElementById("input_file").value = "";
+            listRemitentes = [];
+            listDestinatarios = [];
         }
         function listarUsuarioGrupoAutoComplete(Nombre) {
             var UsuarioGrupo = { Nombre: Nombre };
@@ -194,6 +227,7 @@ function ReadFileToBinary(control) {
         function obtenerUsuarioSession() {
             var usuarioGrupo = { IDUsuarioGrupo: appService.obtenerUsuarioId() };
             appService.buscarUsuarioGrupoAutoComplete(usuarioGrupo).success(function (respuesta) {
+                console.log(respuesta);
                 context.usuarioRemitentes = respuesta;
             });
         }
@@ -226,8 +260,30 @@ function ReadFileToBinary(control) {
                 //MostrarError();
             });
         }
+        //sumar dias
+        function sumarDias(fecha, dias) {
+            fecha.setDate(fecha.getDate() + dias);
+            return fecha;
+        }
 
+        function ObtenerUsuariosParticipantes(operacion) {
+            dataProvider.postData("DocumentoElectronico/ListarUsuarioParticipanteDE", operacion).success(function (respuesta) {
+                for (var ind in respuesta) {
+                    respuesta[ind].Usuario.Nombre = respuesta[ind].Usuario.NombreUsuario;
+                    if (respuesta[ind].TipoParticipante == UsuarioRemitente)
+                        listRemitentes.push(respuesta[ind].Usuario);
+                    else
+                        listDestinatarios.push(respuesta[ind].Usuario);
+                }
+                console.log(listDestinatarios);
+                console.log(listRemitentes);
+            }).error(function (error) {
+                //MostrarError();
+            });
+
+        }
         obtenerUsuarioSession();
         //context.usuarioDestinatarios=
+        //ObtenerUsuariosParticipantes();
     }
 })();

@@ -32,48 +32,53 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult GrabarGrupoUsuarios(Grupo grupo, List<EUsuarioGrupo> listUsuarioGrupo)
         {
-            using (var oGrupo = new NGrupo())
+            try
             {
-                var listEusuarioGrupo = new List<UsuarioGrupo>();
-                var oUsuarioGrupo = new NUsuarioGrupo();
-
-                grupo.FechaModifica = System.DateTime.Now;
-                grupo.UsuarioModifica = Session["NombreUsuario"].ToString();
-                grupo.EstadoGrupo = 1;
-
-                //Grupo respuesta = null;
-                Grupo respuesta2;
-                short respuesta = 1;
-
-                if (grupo.IDGrupo > 0)
-                    respuesta2 = oGrupo.EditarGrupo(grupo);
-                else
-                    respuesta = oGrupo.GrabarGrupoUsuarios(grupo);
-
-                foreach (var participante in listUsuarioGrupo)
+                using (var oGrupo = new NGrupo())
                 {
-                    var eUsuarioGrupo = new UsuarioGrupo();
+                    var listEusuarioGrupo = new List<UsuarioGrupo>();
+                    var oUsuarioGrupo = new NUsuarioGrupo();
 
-                    eUsuarioGrupo.IDUsuario = participante.IDUsuarioGrupo;
-                    eUsuarioGrupo.IDGrupo = grupo.IDGrupo;
-                    eUsuarioGrupo.UsuarioRegistro = Session["NombreUsuario"].ToString();
-                    eUsuarioGrupo.FechaRegistro = System.DateTime.Now;
-                    eUsuarioGrupo.EstadoUsuarioGrupo = 1;
-                    listEusuarioGrupo.Add(eUsuarioGrupo);
+                    grupo.FechaModifica = System.DateTime.Now;
+                    grupo.UsuarioModifica = Session["NombreUsuario"].ToString();
+                    grupo.EstadoGrupo = 1;
 
+                    //Grupo respuesta = null;
+                    Grupo respuesta2;
+                    short respuesta = 1;
+
+                    if (grupo.IDGrupo > 0)
+                        respuesta2 = oGrupo.EditarGrupo(grupo);
+                    else
+                    {
+                        respuesta = oGrupo.GrabarGrupoUsuarios(grupo);
+
+                        foreach (var participante in listUsuarioGrupo)
+                        {
+                            var eUsuarioGrupo = new UsuarioGrupo();
+
+                            eUsuarioGrupo.IDUsuario = participante.IDUsuarioGrupo;
+                            eUsuarioGrupo.IDGrupo = grupo.IDGrupo;
+                            eUsuarioGrupo.UsuarioRegistro = Session["NombreUsuario"].ToString();
+                            eUsuarioGrupo.FechaRegistro = System.DateTime.Now;
+                            eUsuarioGrupo.EstadoUsuarioGrupo = 1;
+                            listEusuarioGrupo.Add(eUsuarioGrupo);
+
+                        }
+
+                        oUsuarioGrupo.GrabarUsuarioGrupo(listEusuarioGrupo);
+                    }
+
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Grabación Exitosa";
                 }
 
-                oUsuarioGrupo.GrabarUsuarioGrupo(listEusuarioGrupo);
-
-
-
-                //var respuesta = oGrupo.GrabarGrupoUsuarios(grupo);
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            //RedirectToAction("Index", "Grupo"); falta terminar redireccionar la pagina
-            return new JsonResult { Data = mensajeRespuesta };
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public JsonResult EliminarGrupo(Grupo grupo)
         {
@@ -93,7 +98,6 @@ namespace Gdoc.Web.Controllers
             using (var oConcepto = new NGrupo())
             {
                 listConcepto = oConcepto.ListarGrupo().Where(x => x.NombreGrupo == grupo.NombreGrupo).ToList();
-                //listConceptoRetorno.ForEach(x => listConcepto.Add(x));
             }
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

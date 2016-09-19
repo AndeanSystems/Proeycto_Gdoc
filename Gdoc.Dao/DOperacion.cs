@@ -27,7 +27,7 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-        public List<EOperacion> ListarOperacionDigital()
+        public List<EOperacion> ListarOperacionDigital(UsuarioParticipante eUsuarioParticipante)
         {
             var listOperacion = new List<EOperacion>();
             try
@@ -51,7 +51,8 @@ namespace Gdoc.Dao
                                  on operacion.EstadoOperacion.ToString() equals estado.CodiConcepto
 
                                  where tipodocumento.TipoConcepto.Equals("012") &&
-                                        estado.TipoConcepto.Equals("001")
+                                        estado.TipoConcepto.Equals("001") &&
+                                        (operacion.UsuarioParticipantes.Count(x=>x.IDUsuario==eUsuarioParticipante.IDUsuario)>0)
 
                                  select new { operacion, tipodocumento, /*documentodigital, usuariopart,*/ estado }).ToList();
 
@@ -181,7 +182,7 @@ namespace Gdoc.Dao
             }
             return listOperacion;
         }
-        public List<EOperacion> ListarMesaVirtual()
+        public List<EOperacion> ListarMesaVirtual(UsuarioParticipante eUsuarioParticipante)
         {
             var listOperacion = new List<EOperacion>();
             try
@@ -199,7 +200,8 @@ namespace Gdoc.Dao
                                  on operacion.EstadoOperacion.ToString() equals estado.CodiConcepto
 
                                  where tipomesa.TipoConcepto.Equals("011") &&
-                                        estado.TipoConcepto.Equals("001")
+                                        estado.TipoConcepto.Equals("001") &&
+                                        (operacion.UsuarioParticipantes.Count(x=>x.IDUsuario==eUsuarioParticipante.IDUsuario)>0)
 
                                  select new { operacion, tipomesa,  /*usuariopart,*/ estado /*,usuario*/ }).ToList();
 

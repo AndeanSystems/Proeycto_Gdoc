@@ -1,4 +1,5 @@
-﻿(function () {
+﻿let TipoMensaje = "warning";    
+(function () {
     'use strict';
 
     angular.module('app').controller('grupo_controller', grupo_controller);
@@ -9,7 +10,6 @@
         ///Variables
         var context = this;
         context.listGrupo = [];
-        context.listUsuario = [];
         context.grupo = {};
         context.listaUsuariosGrupo = [];
         context.listaUsuarioGrupo = [];
@@ -27,6 +27,7 @@
 
         context.editarGrupo = function (rowIndex) {
             context.grupo = context.gridOptions.data[rowIndex];
+            context.CambiarVentana('CreateAndEdit');
         };
 
         context.eliminarGrupo = function (rowIndex) {
@@ -60,22 +61,14 @@
             ],
             multiSelect: false,
             modifierKeysToMultiSelect: false,
-            //onRegisterApi : function( gridApi ) {
-            //    context.gridApi = gridApi;
-            //    gridApi.selection.on.rowSelectionChanged(context, function (row) {
-            //        var msg = 'row selected ' + row.isSelected;
-            //        console.log(msg);
-            //    });
-            //}
         };
 
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
-            if (context.visible != "List") {
+            if (context.visible == "List") {
+                listarGrupo();
             }
         }
-        //context.listausuariosgrupo = [];
-        //context.Usuario = {};
 
         //Eventos
 
@@ -123,28 +116,33 @@
             else if (numeroboton == 2)
                 grupo.EstadoGrupo = 1
 
-            console.log(context.grupo);
-            dataProvider.postData("Grupo/GrabarGrupoUsuarios", { grupo: grupo, listUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
-                console.log(respuesta);
-                listarGrupo();
-                context.grupo = {};
-                $("#modal_contenido").modal("hide");
-            }).error(function (error) {
-                //MostrarError();
-            });
+            function enviarFomularioOK() {
+                console.log(context.grupo);
+                dataProvider.postData("Grupo/GrabarGrupoUsuarios", { grupo: grupo, listUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+                    listarGrupo();
+                }).error(function (error) {
+                    //MostrarError();
+                });
+
+                limpiarFormulario();
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
         }
 
         //Metodos
-        function listarUsuarioGrupoAutoComplete(Nombre) {
-            var UsuarioGrupo = { Nombre: Nombre };
+        function listarUsuarioGrupoAutoComplete(Nombre, tipo) {
+            var UsuarioGrupo = { Nombre: Nombre, Tipo: tipo };
             appService.buscarUsuarioGrupoAutoComplete(UsuarioGrupo).success(function (respuesta) {
                 //context.listaUsuario = respuesta;
                 context.listaUsuarioGrupo = respuesta;
             });
         }
 
-        function querySearch(criteria) {
-            listarUsuarioGrupoAutoComplete(criteria);
+        function querySearch(criteria, tipo) {
+            listarUsuarioGrupoAutoComplete(criteria, tipo);
             cachedQuery = cachedQuery || criteria;
             return cachedQuery ? context.listaUsuarioGrupo : [];
         }
@@ -158,17 +156,11 @@
             });
         }
 
-        function listarUsuario() {
-            dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
-                context.listUsuario = respuesta;
-            }).error(function (error) {
-                //MostrarError();
-            });
+        function limpiarFormulario() {
+            context.grupo = {};
         }
-
         
         //Carga
         listarGrupo();
-        listarUsuario();
     }
 })();

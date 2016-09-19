@@ -1,4 +1,5 @@
-﻿(function () {
+﻿let TipoMensaje = "warning";
+(function () {
     'use strict';
 
     angular.module('app').controller('personal_controller', personal_controller);
@@ -19,6 +20,7 @@
         LlenarConcepto("024");
 
         context.personal = {};
+        context.personal.FechaNacimiento = new Date();
         context.listDepartamento = [];
 
 
@@ -70,10 +72,10 @@
             var personal = context.personal;
             var departamento, provincia, distrito;
 
-            if (numeroboton == 1)
-                personal.EstadoPersonal = 0
-            else if (numeroboton == 2)
-                personal.EstadoPersonal = 1
+            //if (numeroboton == 1)
+            //    personal.EstadoPersonal = 0
+            //else if (numeroboton == 2)
+            personal.EstadoPersonal = 1
 
             departamento = (context.codigodepartamento < 10) ? "0" + context.codigodepartamento : context.codigodepartamento.toString();
             provincia = (context.codigoprovincia < 10) ? "0" + context.codigoprovincia : context.codigoprovincia.toString();
@@ -81,13 +83,24 @@
 
             personal.CodigoUbigeo = (departamento + provincia + distrito);
 
-            dataProvider.postData("Personal/GrabarPersonal", personal).success(function (respuesta) {
-                console.log(respuesta);
-                listarPersonal();
-                $("#modal_contenido").modal("hide");
-            }).error(function (error) {
-                //MostrarError();
-            });
+
+
+            function enviarFomularioOK() {
+                dataProvider.postData("Personal/GrabarPersonal", personal).success(function (respuesta) {
+                    console.log(respuesta);
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+                    listarPersonal();
+                    $("#modal_contenido").modal("hide");
+                }).error(function (error) {
+                    //MostrarError();
+                });
+
+                limpiarFormulario();
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+           
         }
 
         context.buscarPersonal = function (personal) {
@@ -102,10 +115,7 @@
         }
 
         context.nuevoPersonal = function () {
-            context.personal = {};
-            context.codigodepartamento = {};
-            context.codigodistrito = {};
-            context.codigoprovincia = {};
+            limpiarFormulario();
             $("#modal_contenido").modal("show");
         }
         //Metodos
@@ -170,6 +180,14 @@
             }).error(function (error) {
                 //MostrarError();
             });
+        }
+
+        function limpiarFormulario() {
+            context.personal = {};
+            context.codigodepartamento = {};
+            context.codigodistrito = {};
+            context.codigoprovincia = {};
+            context.personal.FechaNacimiento = new Date();
         }
         ////Carga
         listarDepartamento();

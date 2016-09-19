@@ -27,6 +27,10 @@ namespace Gdoc.Dao
                         TipoOperacion= x.TipoOperacion,
                         TipoParticipante = x.TipoParticipante,
 
+                        Usuario = new Usuario
+                        {
+                            NombreUsuario=x.Usuario.NombreUsuario,
+                        }
                     }));
                 }
             }

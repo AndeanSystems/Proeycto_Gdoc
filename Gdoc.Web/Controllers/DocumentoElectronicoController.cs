@@ -46,7 +46,8 @@ namespace Gdoc.Web.Controllers
                     operacion.FechaEmision = DateTime.Now;
                 }
                     
-                operacion.NumeroOperacion = DateTime.Now.Ticks.ToString();
+                //operacion.NumeroOperacion = DateTime.Now.Ticks.ToString();
+                operacion.NumeroOperacion = "DE" + DateTime.Now.Ticks.ToString();
                 operacion.NotificacionOperacion = "S";
                 operacion.DocumentoAdjunto = "N";
 
@@ -56,13 +57,13 @@ namespace Gdoc.Web.Controllers
                     Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                     var respuesta = oNOperacion.Grabar(operacion,listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario, null);
                 }
-                mensajeRespuesta.Mensaje = "Operación realizado correctamente";
+                mensajeRespuesta.Mensaje = "Operación "+operacion.NumeroOperacion+" realizada correctamente";
                 mensajeRespuesta.Exitoso = true;
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception ex)
             {
-                mensajeRespuesta.Mensaje = "Operación no realizado correctamente";
+                mensajeRespuesta.Mensaje = "Operación no realizada correctamente";
                 mensajeRespuesta.Exitoso = false;
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
@@ -79,6 +80,16 @@ namespace Gdoc.Web.Controllers
             return new JsonResult { Data = listDocumentoElectronico, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
 
+        [HttpPost]
+        public JsonResult ListarUsuarioParticipanteDE(Operacion operacion)
+        {
+            var listUsuarioParticipante= new List<UsuarioParticipante>();
+            using (var oUsuarioParticipante = new NUsuarioParticipante())
+            {
+                listUsuarioParticipante = oUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+            }
+            return new JsonResult { Data = listUsuarioParticipante, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
         protected DateTime DateAgregarLaborales(Int32 add, DateTime FechaInicial)
         {
             if (FechaInicial.DayOfWeek == DayOfWeek.Saturday) { FechaInicial = FechaInicial.AddDays(2); }

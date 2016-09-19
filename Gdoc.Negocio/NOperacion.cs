@@ -52,34 +52,38 @@ namespace Gdoc.Negocio
                 {
                     Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
                 }
-                foreach (var documentoAdjunto in listDocumentosAdjuntos)
+                if(listDocumentosAdjuntos!=null)
                 {
-                    byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoAdjunto.RutaArchivo);
-                    documentoAdjunto.IDUsuario = IDusuario;
-                    documentoAdjunto.NombreOriginal = documentoAdjunto.NombreOriginal;
-                    //documentoAdjunto.RutaArchivo = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoAdjunto.NombreOriginal);
-                    documentoAdjunto.RutaArchivo = string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, documentoAdjunto.NombreOriginal);
-                    documentoAdjunto.TamanoArchivo = documentoAdjunto.TamanoArchivo;
-                    documentoAdjunto.FechaRegistro = System.DateTime.Now;
-                    documentoAdjunto.EstadoAdjunto = 1;
-                    if (string.IsNullOrEmpty(documentoAdjunto.TipoArchivo) || !documentoAdjunto.TipoArchivo.Contains(ArchivoTXT))
+                    foreach (var documentoAdjunto in listDocumentosAdjuntos)
                     {
-                        File.WriteAllBytes(documentoAdjunto.RutaArchivo, fileBytes);
-                    }
-                    else if (documentoAdjunto.TipoArchivo.Contains(ArchivoTXT))
-                    {
-                        File.WriteAllText(documentoAdjunto.RutaArchivo, Encoding.UTF8.GetString(fileBytes));
-                    }
-                    else
-                    {
-                        using (MemoryStream stream = new MemoryStream(fileBytes))
+                        byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoAdjunto.RutaArchivo);
+                        documentoAdjunto.IDUsuario = IDusuario;
+                        documentoAdjunto.NombreOriginal = documentoAdjunto.NombreOriginal;
+                        //documentoAdjunto.RutaArchivo = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoAdjunto.NombreOriginal);
+                        documentoAdjunto.RutaArchivo = string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, documentoAdjunto.NombreOriginal);
+                        documentoAdjunto.TamanoArchivo = documentoAdjunto.TamanoArchivo;
+                        documentoAdjunto.FechaRegistro = System.DateTime.Now;
+                        documentoAdjunto.EstadoAdjunto = 1;
+                        if (string.IsNullOrEmpty(documentoAdjunto.TipoArchivo) || !documentoAdjunto.TipoArchivo.Contains(ArchivoTXT))
                         {
-                            Image.FromStream(stream).Save(documentoAdjunto.RutaArchivo, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            File.WriteAllBytes(documentoAdjunto.RutaArchivo, fileBytes);
+                        }
+                        else if (documentoAdjunto.TipoArchivo.Contains(ArchivoTXT))
+                        {
+                            File.WriteAllText(documentoAdjunto.RutaArchivo, Encoding.UTF8.GetString(fileBytes));
+                        }
+                        else
+                        {
+                            using (MemoryStream stream = new MemoryStream(fileBytes))
+                            {
+                                Image.FromStream(stream).Save(documentoAdjunto.RutaArchivo, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            }
                         }
                     }
+                    //Grabar Adjunto
+                    dAdjunto.GrabarAdjunto(listDocumentosAdjuntos); 
                 }
-                //Grabar Adjunto
-                dAdjunto.GrabarAdjunto(listDocumentosAdjuntos);
+                
 
                 eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 dDocumentoElectronicoOperacion.Grabar(eDocumentoElectronicoOperacion);
@@ -95,6 +99,7 @@ namespace Gdoc.Negocio
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
                         eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
                         eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                        eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                         eUsuarioParticipante.ReenvioOperacion = "S";
                         eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                         //listEusuarioParticipante.Add(eUsuarioParticipante);
@@ -113,6 +118,7 @@ namespace Gdoc.Negocio
                             eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
                             eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
                             eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                            eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                             eUsuarioParticipante.ReenvioOperacion = "S";
                             eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                             if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
@@ -184,8 +190,8 @@ namespace Gdoc.Negocio
                         eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
                         eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoDigital;
-                        eUsuarioParticipante.TipoParticipante = operacion.TipoOperacion;
-                        eUsuarioParticipante.FechaNotificacion = DateAgregarLaborales(5, System.DateTime.Now);
+                        eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                        eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                         eUsuarioParticipante.ReenvioOperacion = "S";//FALTA
                         eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                         listEusuarioParticipante.Add(eUsuarioParticipante);
@@ -201,8 +207,8 @@ namespace Gdoc.Negocio
                             eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
                             eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
                             eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoDigital;
-                            eUsuarioParticipante.TipoParticipante = operacion.TipoOperacion;
-                            eUsuarioParticipante.FechaNotificacion = DateAgregarLaborales(5, System.DateTime.Now);
+                            eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                            eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                             eUsuarioParticipante.ReenvioOperacion = "S";//FALTA
                             eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                             listEusuarioParticipante.Add(eUsuarioParticipante);
@@ -256,8 +262,9 @@ namespace Gdoc.Negocio
 
                         eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                        eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                        eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.MesaVirtual;
                         eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                        eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                         eUsuarioParticipante.ReenvioOperacion = "S";
                         eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                         //listEusuarioParticipante.Add(eUsuarioParticipante);
@@ -275,8 +282,9 @@ namespace Gdoc.Negocio
                             eUsuarioParticipante = new UsuarioParticipante();
                             eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
                             eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                            eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                            eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.MesaVirtual;
                             eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                            eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                             eUsuarioParticipante.ReenvioOperacion = "S";
                             eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                             if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
@@ -293,11 +301,11 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public List<EOperacion> ListarOperacionDigital()
+        public List<EOperacion> ListarOperacionDigital(UsuarioParticipante eUsuarioParticipante)
         {
             try
             {
-                return dOperacion.ListarOperacionDigital();
+                return dOperacion.ListarOperacionDigital(eUsuarioParticipante);
             }
             catch (Exception)
             {
@@ -317,11 +325,11 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public List<EOperacion> ListarMesaVirtual()
+        public List<EOperacion> ListarMesaVirtual(UsuarioParticipante eUsuarioParticipante)
         {
             try
             {
-                return dOperacion.ListarMesaVirtual();
+                return dOperacion.ListarMesaVirtual(eUsuarioParticipante);
             }
             catch (Exception)
             {
@@ -355,20 +363,6 @@ namespace Gdoc.Negocio
         }
 
         #region Metodos
-        protected DateTime DateAgregarLaborales(Int32 add, DateTime FechaInicial)
-        {
-            if (FechaInicial.DayOfWeek == DayOfWeek.Saturday) { FechaInicial = FechaInicial.AddDays(2); }
-            if (FechaInicial.DayOfWeek == DayOfWeek.Sunday) { FechaInicial = FechaInicial.AddDays(1); }
-            Int32 weeks = add / 5;
-            add += weeks * 2;
-            if (FechaInicial.DayOfWeek > FechaInicial.AddDays(add).DayOfWeek) 
-                add += 2; 
-           
-            if (FechaInicial.AddDays(add).DayOfWeek == DayOfWeek.Saturday) 
-                add += 2; 
-
-            return FechaInicial.AddDays(add);
-        }
 
         protected void GrabarLogOperacion(string codigoevento, Operacion operacion, Int64 IDusuario)
         {

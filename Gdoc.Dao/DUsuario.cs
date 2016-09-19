@@ -104,9 +104,8 @@ namespace Gdoc.Dao
 
                                where (usuparti.TipoParticipante =="03" ||
                                      usuparti.TipoParticipante == "08") &&
-                                     usuparti.IDUsuario==usuario.IDUsuario &&
-
-                                      usuparti.FechaNotificacion.Value.Day == System.DateTime.Now.Day
+                                     usuparti.IDUsuario==usuario.IDUsuario
+                               && usuparti.FechaNotificacion.Value.Day == System.DateTime.Now.Day
                                group new { usuparti } by new
                                {
                                    usuparti.IDUsuario,

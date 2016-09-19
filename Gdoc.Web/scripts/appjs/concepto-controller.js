@@ -9,7 +9,6 @@
         ///Variables
         var context = this;
         context.concepto = {};
-
         LlenarConcepto("999");
 
         //var concepto = { TipoConcepto: "012" };
@@ -30,12 +29,7 @@
             console.log(context.concepto);
             context.concepto.EstadoConcepto = context.concepto.EstadoConcepto.toString();
             if (context.concepto.EditarRegistro == 0){
-                swal({   title: "Lo Sentimos",   
-                    text: "El concepto no se puede editar",
-                    //type: "info",
-                    confirmButtonColor: "#DD6B55",
-                    closeOnConfirm: false,
-                });
+                return appService.mostrarAlerta("Informacion", "El concepto no se puede editar", "info");
             }
             else
                 $("#modal_contenido").modal("show");
@@ -43,23 +37,13 @@
 
         context.buscarConcepto = function (CodiConcepto, EstadoConcepto) {
             if (CodiConcepto == null) {
-                swal({
-                    title: "Advertencia",
-                    text: "Seleccione el tipo de concepto para la consultar",
-                    //type: "info",
-                    confirmButtonColor: "#DD6B55",
-                    closeOnConfirm: false,
-                });
+                return appService.mostrarAlerta("Advertencia", "Seleccione el tipo de concepto para la consultar", "info");
             }
             else {
                 if (EstadoConcepto == null) {
                     dataProvider.postData("Concepto/BuscarConceptoEstado", { CodiConcepto: CodiConcepto }).success(function (respuesta) {
                         console.log(respuesta);
                         context.concepto = respuesta[0];
-                        //if (context.concepto.EditarRegistro == 0) {
-                        //    context.acciones = '<i>a</i>';//por terminar
-                        //    console.log(context.acciones);
-                        //}
                         context.gridOptions.data = respuesta;
                     }).error(function (error) {
                         //MostrarError();
@@ -69,10 +53,6 @@
                     dataProvider.postData("Concepto/BuscarConceptoEstado", { CodiConcepto: CodiConcepto, EstadoConcepto: EstadoConcepto }).success(function (respuesta) {
                         console.log(respuesta);
                         context.concepto = respuesta[0];
-                        //if (context.concepto.EditarRegistro == 0) {
-                        //    context.acciones = ' a';
-                        //    console.log(context.acciones);
-                        //}
                         context.gridOptions.data = respuesta;
                     }).error(function (error) {
                         //MostrarError();
@@ -109,42 +89,34 @@
                     name: 'Acciones',
                     cellTemplate: context.acciones
                 }
-                //{ field: 'Empresa.DireccionEmpresa',displayName:'Direción Empresa' }
             ]
         };
         //Eventos
         context.grabar = function () {
-            swal({
-                title: "¿Seguro que deseas continuar?",
-                text: "No podrás deshacer este paso...",
-                type: "warning",
-                showCancelButton: true,
-                cancelButtonText: "Cancelar",
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Aceptar",
-                closeOnConfirm: false
-            },
-            function () {
-                var concepto = context.concepto;
+            var concepto = context.concepto;
 
-                //if (numeroboton == 1)
-                //    concepto.EstadoConcepto = 0
-                //else if (numeroboton == 2)
-                //    concepto.EstadoConcepto = 1
+            //if (numeroboton == 1)
+            //    concepto.EstadoConcepto = 0
+            //else if (numeroboton == 2)
+            //    concepto.EstadoConcepto = 1
 
-                console.log(context.concepto);
+            console.log(context.concepto);
+
+           
+            function enviarFomularioOK() {
                 dataProvider.postData("Concepto/GrabarConcepto", context.concepto).success(function (respuesta) {
                     console.log(respuesta);
                     //listarConcepto();
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
                     context.concepto = {};
-                    $("#modal_conformidad").modal("hide");
                     $("#modal_contenido").modal("hide");
                 }).error(function (error) {
                     //MostrarError();
                 });
-                swal("¡Bien!", "Concepto Registrado Correctamente", "success");
-            });
-            
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
         }
 
         //Metodos
