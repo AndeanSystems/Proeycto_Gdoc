@@ -45,6 +45,7 @@
     <Compile Include="DAdjunto.cs" />
     <Compile Include="DataBaseContext.cs" />
     <Compile Include="DConcepto.cs" />
+    <Compile Include="DDocumentoAdjunto.cs" />
     <Compile Include="DDocumentoDigitalOperacion.cs" />
     <Compile Include="DDocumentoElectronicoOperacion.cs" />
     <Compile Include="DEmpresa.cs" />

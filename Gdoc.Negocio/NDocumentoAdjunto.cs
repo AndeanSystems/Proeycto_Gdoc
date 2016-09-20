@@ -6,21 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Gdoc.Entity.Models;
 using Gdoc.Entity.Extension;
-
 namespace Gdoc.Negocio
 {
-    public class NAdjunto : IDisposable
+    public class NDocumentoAdjunto : IDisposable
     {
-        private DAdjunto dAdjunto = new DAdjunto();
+        private DDocumentoAdjunto dDocumentoAdjunto = new DDocumentoAdjunto();
         public void Dispose()
         {
-            dAdjunto = null;
+            dDocumentoAdjunto = null;
         }
-        public Int32 GrabarAdjunto(Adjunto Adjunto)
+        public Int32 GrabarDocumentoAdjunto(DocumentoAdjunto DocumentoAdjunto)
         {
             try
             {
-                dAdjunto.GrabarAdjunto(Adjunto);
+                dDocumentoAdjunto.GrabarDocumentoAdjunto(DocumentoAdjunto);
                 return 1;
             }
             catch (Exception)

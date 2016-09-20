@@ -93,77 +93,88 @@
                 <button ng-model="ctrl.Enviar" class="btn btn-default pull-right" ng-disabled="frmDatos.$invalid" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
                 <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
             </div><!-- /.box-header -->
-            <div class="row">
-                <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#Datos">Datos</a></li>
+                <li><a data-toggle="tab" href="#Contenido">Contenido</a></li>    
+            </ul>
+            <div class="tab-content">
+                <div id="Datos" class="tab-pane fade in active">
+                    <div class="row">
+                        <div class="col-md-12">
 
-                    <div class="form-group">
-                        <label class="col-sm-12">Titulo <span class="text-danger">(*)</span></label>
-                        <div class="col-sm-12">
-                            <input type="text" ng-model="ctrl.operacion.TituloOperacion" class="form-control" required>
+                            <div class="form-group">
+                                <label class="col-sm-12">Titulo <span class="text-danger">(*)</span></label>
+                                <div class="col-sm-12">
+                                    <input type="text" ng-model="ctrl.operacion.TituloOperacion" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-12">Asunto <span class="text-danger">(*)</span></label>
+                                <div class="col-sm-12">
+                                    <input type="text" ng-model="ctrl.operacion.DescripcionOperacion" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-12">Documento Adjunto</label>
+                                <div class="col-sm-12">
+                                    <input type="file" id="input_file" onchange="ReadFileToBinary(this)" multiple>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-12">Remitente <span class="text-danger">(*)</span></label>
+                                <div style="font-size:12px" class="col-sm-12">
+                                    <md-content class="autocomplete" layout="column">
+                                        <md-contact-chips ng-model="ctrl.usuarioRemitentes"
+                                                          md-contacts="ctrl.querySearch($query)"
+                                                          md-contact-name="Nombre"
+                                                          md-highlight-flags="i"
+                                                          filter-selected="ctrl.filterSelected"
+                                                          placeholder="Remitente">
+                                        </md-contact-chips>
+                                    </md-content>
+                                </div><!-- /.form-group -->
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-12">Destinatario <span class="text-danger">(*)</span></label>
+                                <div style="font-size:12px" class="col-sm-12">
+                                    <md-content style="font-size:12px" class="autocomplete" layout="column" required>
+                                        <md-contact-chips ng-model="ctrl.usuarioDestinatarios"
+                                                          md-contacts="ctrl.querySearch($query)"
+                                                          md-contact-name="Nombre"
+                                                          md-highlight-flags="i"
+                                                          filter-selected="ctrl.filterSelected"
+                                                          placeholder="Destinatario">
+                                        </md-contact-chips>
+                                    </md-content>
+                                </div><!-- /.form-group -->
+                            </div>
+
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-12">Asunto <span class="text-danger">(*)</span></label>
-                        <div class="col-sm-12">
-                            <input type="text" ng-model="ctrl.operacion.DescripcionOperacion" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-12">Documento Adjunto</label>
-                        <div class="col-sm-12">
-                            <input type="file" id="input_file" onchange="ReadFileToBinary(this)" multiple>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-12">Remitente <span class="text-danger">(*)</span></label>
-                        <div style="font-size:12px" class="col-sm-12">
-                            <md-content class="autocomplete" layout="column">
-                                <md-contact-chips ng-model="ctrl.usuarioRemitentes"
-                                                  md-contacts="ctrl.querySearch($query)"
-                                                  md-contact-name="Nombre"
-                                                  md-highlight-flags="i"
-                                                  filter-selected="ctrl.filterSelected"
-                                                  placeholder="Remitente">
-                                </md-contact-chips>
-                            </md-content>
-                        </div><!-- /.form-group -->
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-12">Destinatario <span class="text-danger">(*)</span></label>
-                        <div style="font-size:12px" class="col-sm-12">
-                            <md-content style="font-size:12px" class="autocomplete" layout="column" required>
-                                <md-contact-chips ng-model="ctrl.usuarioDestinatarios"
-                                                  md-contacts="ctrl.querySearch($query)"
-                                                  md-contact-name="Nombre"
-                                                  md-highlight-flags="i"
-                                                  filter-selected="ctrl.filterSelected"
-                                                  placeholder="Destinatario">
-                                </md-contact-chips>
-                            </md-content>
-                        </div><!-- /.form-group -->
-                    </div>
-
-                    <div class="form-group">
-                        <br>
-                        <div class="form-group">
-                            <label class="col-sm-12">Contenido <span class="text-danger">(*)</span></label>
-                            <div class="col-sm-12">
-                                <textarea id="editor1" name="editor1" style="resize:none" rows="7" cols="80" class="form-control" ng-model="ctrl.DocumentoElectronicoOperacion.Memo" required>
-                                    Editor de texto
-                                </textarea>
+                </div>
+                <div id="Contenido" class="tab-pane fade">
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-sm-12">Contenido <span class="text-danger">(*)</span></label>
+                                <div class="col-sm-12 margin-bottom">
+                                    <textarea id="editor1" name="editor1" style="resize:none" rows="18" cols="80" class="form-control" ng-model="ctrl.DocumentoElectronicoOperacion.Memo" required>
+                                        Editor de texto
+                                    </textarea>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
 
 
-        </div>
+</div>
     </div>
     
 </form>

@@ -9,15 +9,15 @@ using Gdoc.Entity.Extension;
 
 namespace Gdoc.Dao
 {
-    public class DAdjunto
+    public class DDocumentoAdjunto
     {
-        public Int32 GrabarAdjunto(Adjunto Adjunto)
+        public Int32 GrabarDocumentoAdjunto(DocumentoAdjunto DocumentoAdjunto)
         {
             try
             {
                 using (var db = new DataBaseContext())
                 {
-                    db.Adjuntoes.Add(Adjunto);
+                    db.DocumentoAdjuntoes.Add(DocumentoAdjunto);
                     db.SaveChanges();
                 }
                 return 1;

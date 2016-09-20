@@ -44,6 +44,7 @@
     <Compile Include="NAccesoSistema.cs" />
     <Compile Include="NAdjunto.cs" />
     <Compile Include="NConcepto.cs" />
+    <Compile Include="NDocumentoAdjunto.cs" />
     <Compile Include="NDocumentoDigitalOperacion.cs" />
     <Compile Include="NDocumentoElectronicoOperacion.cs" />
     <Compile Include="NEmpresa.cs" />

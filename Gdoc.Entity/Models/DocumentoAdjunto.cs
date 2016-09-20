@@ -9,7 +9,6 @@ namespace Gdoc.Entity.Models
         public Nullable<long> IDOperacion { get; set; }
         public Nullable<long> IDAdjunto { get; set; }
         public Nullable<long> IDComentarioMesaVirtual { get; set; }
-        public string TipoDoctoAdjunto { get; set; }
         public Nullable<int> EstadoDoctoAdjunto { get; set; }
         public virtual Adjunto Adjunto { get; set; }
         public virtual MesaVirtualComentario MesaVirtualComentario { get; set; }

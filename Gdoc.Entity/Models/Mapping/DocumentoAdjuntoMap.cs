@@ -11,9 +11,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasKey(t => t.IDDocumentoAdjunto);
 
             // Properties
-            this.Property(t => t.TipoDoctoAdjunto)
-                .IsFixedLength()
-                .HasMaxLength(2);
 
             // Table & Column Mappings
             this.ToTable("DocumentoAdjunto");
@@ -21,7 +18,6 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.IDOperacion).HasColumnName("IDOperacion");
             this.Property(t => t.IDAdjunto).HasColumnName("IDAdjunto");
             this.Property(t => t.IDComentarioMesaVirtual).HasColumnName("IDComentarioMesaVirtual");
-            this.Property(t => t.TipoDoctoAdjunto).HasColumnName("TipoDoctoAdjunto");
             this.Property(t => t.EstadoDoctoAdjunto).HasColumnName("EstadoDoctoAdjunto");
 
             // Relationships
