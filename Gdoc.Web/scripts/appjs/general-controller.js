@@ -14,12 +14,16 @@
         context.editar= function () {
             var general = context.general;           
             console.log(general);
-            dataProvider.postData("General/EditarGeneralParametros", general).success(function (respuesta) {
-                console.log(respuesta);
-                listarGeneral();
-            }).error(function (error) {
-                //MostrarError();
-            });
+
+            function enviarFomularioOK() {
+                dataProvider.postData("General/EditarGeneralParametros", general).success(function (respuesta) {
+                    console.log(respuesta);
+                    listarGeneral();
+                }).error(function (error) {
+                    //MostrarError();
+                });
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
         }
 
         //Metodos

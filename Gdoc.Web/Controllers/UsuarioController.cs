@@ -115,10 +115,16 @@ namespace Gdoc.Web.Controllers
                         return RedirectToAction("Index", "Alertas");
                     }
                     else
+                    {
+                        TempData["Message"] = "Usuario Incorrecto";
                         return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
+                {
+                    TempData["Message2"] = "Usted no pertenece al dominio";
                     return RedirectToAction("Index", "Home");
+                }
                
             }
         }

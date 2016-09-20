@@ -58,6 +58,7 @@
     <Compile Include="DModuloPaginaUrl.cs" />
     <Compile Include="DOperacion.cs" />
     <Compile Include="DPersonal.cs" />
+    <Compile Include="DSede.cs" />
     <Compile Include="DUbigeo.cs" />
     <Compile Include="DUsuario.cs" />
     <Compile Include="DUsuarioGrupo.cs" />

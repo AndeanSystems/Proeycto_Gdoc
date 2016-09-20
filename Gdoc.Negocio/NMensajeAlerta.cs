@@ -28,5 +28,18 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public Int32 GrabarMensajeAlerta(MensajeAlerta mensajeAlerta)
+        {
+            try
+            {
+                dMensajeAlerta.GrabarMensajeAlerta(mensajeAlerta);
+                return 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

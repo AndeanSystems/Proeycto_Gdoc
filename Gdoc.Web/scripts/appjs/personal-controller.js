@@ -23,7 +23,6 @@
         context.personal.FechaNacimiento = new Date();
         context.listDepartamento = [];
 
-
         context.editarPersonal = function (rowIndex) {
             context.personal = context.gridOptions.data[rowIndex];
             context.codigodepartamento = parseInt(context.personal.CodigoUbigeo.substring(0, 2));
@@ -48,12 +47,14 @@
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
-            //enableFiltering: true,
+            enableFiltering: true,
             data: [],
             appScopeProvider: context,
             columnDefs: [
                 { field: 'IDEmpresa', displayName: 'ID Empresa' },
                 { field: 'NombrePers', displayName: 'Nombres' },
+                { field: 'ApellidoPersonal', displayName: 'Apellidos' },
+                { field: 'CodigoCargo', displayName: 'Cargo' },
                 { field: 'NumeroIdentificacion', displayName: 'Numero de Identificacion' },
                 //{ field: 'Personal.TelefonoPersonal', displayName: 'Telefono Personal' },
                 //{ field: 'ClaseUsu.DescripcionConcepto', displayName: 'Clase Usuario' },
@@ -154,6 +155,7 @@
             });
         }
 
+
         function LlenarConcepto(tipoConcepto) {
             var concepto = { TipoConcepto: tipoConcepto };
             appService.listarConcepto(concepto).success(function (respuesta) {
@@ -182,6 +184,13 @@
             });
         }
 
+        function listarSede() {
+            dataProvider.getData("Sede/ListarSede").success(function (respuesta) {
+                context.listSede = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         function limpiarFormulario() {
             context.personal = {};
             context.codigodepartamento = {};
@@ -193,5 +202,6 @@
         listarDepartamento();
         listarPersonal();
         listarEmpresa();
+        listarSede();
     }
 })();

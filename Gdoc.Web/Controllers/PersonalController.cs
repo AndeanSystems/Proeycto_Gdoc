@@ -36,9 +36,6 @@ namespace Gdoc.Web.Controllers
             {
                 using (var oPersonal = new NPersonal())
                 {
-                    //personal.IDEmpresa = 1001;
-                    //personal.UsuarioRegistro = Session["NombreUsuario"].ToString();
-                    //var respuesta = oPersonal.GrabarPersonal(personal);
                     Personal respuesta = null;
                     if (personal.IDPersonal > 0)
                         respuesta = oPersonal.EditarPersonal(personal);

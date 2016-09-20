@@ -25,6 +25,7 @@ namespace Gdoc.Negocio
         protected DGeneral dGeneral = new DGeneral();
         protected DLogOperacion dLogOperacion = new DLogOperacion();
         protected DDocumentoAdjunto dDocumentoAdjunto = new DDocumentoAdjunto();
+        protected DMensajeAlerta dMensajeAlerta = new DMensajeAlerta();
 
         
         protected string Usuario = "U";
@@ -46,6 +47,11 @@ namespace Gdoc.Negocio
             try
             {
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
+                //var lista = dUsuarioParticipante.ListarUsuarioParticipante();
+                var listDocumentoAdjunto = new List<DocumentoAdjunto>();
+                var eDocumentoAdjunto = new DocumentoAdjunto();
+                var eMensajeAlerta = new MensajeAlerta();
+                var eGeneral = dGeneral.CargaParametros(operacion.IDEmpresa);
                 //GRABAR OPERACION
                 dOperacion.Grabar(operacion);
 
@@ -53,16 +59,11 @@ namespace Gdoc.Negocio
                 eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 dDocumentoElectronicoOperacion.Grabar(eDocumentoElectronicoOperacion);
 
-                //var lista = dUsuarioParticipante.ListarUsuarioParticipante();
-                var listDocumentoAdjunto = new List<DocumentoAdjunto>();
-                var eDocumentoAdjunto = new DocumentoAdjunto();
-
-                var eGeneral = dGeneral.CargaParametros(operacion.IDEmpresa);
+                //COPIAR ADJUNTO Y GRABAR 
                 if (!Directory.Exists(eGeneral.RutaGdocAdjuntos))
                 {
                     Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
                 }
-                //COPIAR ADJUNTO Y GRABAR
                 if(listDocumentosAdjuntos!=null)
                 {
                     foreach (var adjunto in listDocumentosAdjuntos)
@@ -90,7 +91,7 @@ namespace Gdoc.Negocio
                                 Image.FromStream(stream).Save(adjunto.RutaArchivo, System.Drawing.Imaging.ImageFormat.Jpeg);
                             }
                         }
-
+                        //GRABAR ADJUNTO
                         dAdjunto.GrabarAdjunto(adjunto);
 
                         //GRABAR DOCUMENTO ADJUNTO
@@ -119,6 +120,19 @@ namespace Gdoc.Negocio
                         //listEusuarioParticipante.Add(eUsuarioParticipante);
                         if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
                             listEusuarioParticipante.Add(eUsuarioParticipante);
+
+                        //GRABAR MENSAJE ALERTA
+                        if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                        {
+                            eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                            eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                            eMensajeAlerta.TipoAlerta = 1;
+                            eMensajeAlerta.EstadoMensajeAlerta = 1;
+                            eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
+
+                            dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                        }
+                        
                         
                     }
                     else {
@@ -137,14 +151,27 @@ namespace Gdoc.Negocio
                             eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                             if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
                                 listEusuarioParticipante.Add(eUsuarioParticipante);
+
+                            //GRABAR MENSAJE ALERTA
+                            if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                            {
+                                eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                                eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                                eMensajeAlerta.TipoAlerta = 1;
+                                eMensajeAlerta.EstadoMensajeAlerta = 1;
+                                eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
+
+                                dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                            }
                         }
                     }
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
 
-                //GRABA log operacion
+                //GRABA LOG OPERACION
                 GrabarLogOperacion("011", operacion, IDusuario);
-                GrabarLogOperacion("017", operacion, IDusuario);
+                if(operacion.EstadoOperacion==1)
+                    GrabarLogOperacion("017", operacion, IDusuario);
 
                 return 1;
             }
@@ -160,9 +187,14 @@ namespace Gdoc.Negocio
             {
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 var listEindexacionDocumento = new List<IndexacionDocumento>();
-                //Grabar Operacion
+                var eMensajeAlerta = new MensajeAlerta();
+                //GRABAR OPERACION
                 dOperacion.Grabar(operacion);
 
+                //GRABAR DOCUMENTODIGITALOPERACION
+                dDocumentoDigitalOperacion.GrabarDocumentoDigitalOperacion(listDocumentoDigitalOperacion);
+
+                //GRABAR ADJUNTO
                 //Traer las ruta de la tabla general
                 var eGeneral = dGeneral.CargaParametros(operacion.IDEmpresa);
                 if (!Directory.Exists(eGeneral.RutaGdocAdjuntos)) {
@@ -193,9 +225,7 @@ namespace Gdoc.Negocio
                 }
 
 
-                //Grabar documentoDigitalOperacion
-                dDocumentoDigitalOperacion.GrabarDocumentoDigitalOperacion(listDocumentoDigitalOperacion);
-
+                //GRABAR USUARIOPARTICIPANTE
                 foreach (var participante in listEUsuarioGrupo)
                 {
                     var eUsuarioParticipante = new UsuarioParticipante();
@@ -208,7 +238,19 @@ namespace Gdoc.Negocio
                         eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                         eUsuarioParticipante.ReenvioOperacion = "S";//FALTA
                         eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
-                        listEusuarioParticipante.Add(eUsuarioParticipante);
+                        if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
+                            listEusuarioParticipante.Add(eUsuarioParticipante);
+                        //GRABAR MENSAJE ALERTA
+                        if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                        {
+                            eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                            eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                            eMensajeAlerta.TipoAlerta = 1;
+                            eMensajeAlerta.EstadoMensajeAlerta = 1;
+                            eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
+
+                            dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                        }
                     }
                     else
                     {
@@ -225,14 +267,27 @@ namespace Gdoc.Negocio
                             eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                             eUsuarioParticipante.ReenvioOperacion = "S";//FALTA
                             eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
-                            listEusuarioParticipante.Add(eUsuarioParticipante);
+                            if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
+                                listEusuarioParticipante.Add(eUsuarioParticipante);
+
+                            //GRABAR MENSAJE ALERTA
+                            if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                            {
+                                eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                                eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                                eMensajeAlerta.TipoAlerta = 1;
+                                eMensajeAlerta.EstadoMensajeAlerta = 1;
+                                eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
+
+                                dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                            }
                         }
                     }
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
 
 
-                //grabar referencias
+                //GRABAR INDEXACION
                 if (listIndexacion!=null)
                 {
                     foreach (var referencia in listIndexacion)
@@ -248,9 +303,10 @@ namespace Gdoc.Negocio
                 }
                 
 
-                //GRABA log operacion
+                //GRABA LOG OPERACION
                 GrabarLogOperacion("001",operacion, IDusuario);
-                GrabarLogOperacion("007",operacion, IDusuario);
+                if (operacion.EstadoOperacion == 1)
+                    GrabarLogOperacion("007",operacion, IDusuario);
                 return 1;
             }
             catch (Exception)
@@ -264,6 +320,7 @@ namespace Gdoc.Negocio
             try
             {
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
+                var eMensajeAlerta = new MensajeAlerta();
                 dOperacion.Grabar(operacion);
 
                 var listDocumentoAdjunto = new List<DocumentoAdjunto>();
@@ -329,10 +386,20 @@ namespace Gdoc.Negocio
                         eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                         eUsuarioParticipante.ReenvioOperacion = "S";
                         eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
-                        //listEusuarioParticipante.Add(eUsuarioParticipante);
                         if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
                             listEusuarioParticipante.Add(eUsuarioParticipante);
 
+                        //GRABAR MENSAJE ALERTA
+                        if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                        {
+                            eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                            eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                            eMensajeAlerta.TipoAlerta = 1;
+                            eMensajeAlerta.EstadoMensajeAlerta = 1;
+                            eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
+
+                            dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                        }
                     }
                     else
                     {
@@ -351,10 +418,27 @@ namespace Gdoc.Negocio
                             eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                             if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
                                 listEusuarioParticipante.Add(eUsuarioParticipante);
+
+                            //GRABAR MENSAJE ALERTA
+                            if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                            {
+                                eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                                eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                                eMensajeAlerta.TipoAlerta = 1;
+                                eMensajeAlerta.EstadoMensajeAlerta = 1;
+                                eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
+
+                                dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                            }
                         }
                     }
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
+
+                //GRABA LOG OPERACION
+                GrabarLogOperacion("030", operacion, IDusuario);
+                if (operacion.EstadoOperacion == 1)
+                    GrabarLogOperacion("044", operacion, IDusuario);
                 return 1;
             }
             catch (Exception)

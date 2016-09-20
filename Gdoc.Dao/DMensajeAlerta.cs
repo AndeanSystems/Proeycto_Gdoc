@@ -20,28 +20,23 @@ namespace Gdoc.Dao
                     var list = db.MensajeAlertas.ToList();
 
                     var list2 = (from mensajealerta in db.MensajeAlertas
-                                
-                                join operacion in db.Operacions
-                                on mensajealerta.IDOperacion equals operacion.IDOperacion
+
+                                 join operacion in db.Operacions
+                                 on mensajealerta.IDOperacion equals operacion.IDOperacion
 
                                  join usuario in db.Usuarios
                                  on mensajealerta.IDUsuario equals usuario.IDUsuario
 
-                                join usuarioparticipante in db.UsuarioParticipantes
-                                on operacion.IDOperacion equals usuarioparticipante.IDOperacion
-
-
-
                                  join tipooperacion in db.Conceptoes
                                  on operacion.TipoOperacion equals tipooperacion.CodiConcepto
 
-                                join tipodocumento in db.Conceptoes
-                                on operacion.TipoDocumento equals tipodocumento.CodiConcepto
+                                 join tipodocumento in db.Conceptoes
+                                 on operacion.TipoDocumento equals tipodocumento.CodiConcepto
 
-                                where tipodocumento.TipoConcepto.Equals("012")
-                                      && tipooperacion.TipoConcepto.Equals("003") 
+                                 where tipodocumento.TipoConcepto.Equals("012")
+                                       && tipooperacion.TipoConcepto.Equals("003")
 
-                                select new { mensajealerta, usuarioparticipante, tipooperacion, tipodocumento,usuario,operacion }).ToList();
+                                 select new { mensajealerta, tipooperacion, tipodocumento, usuario, operacion }).ToList();
 
                     list2.ForEach(x => listMensajeAlerta.Add(new EMensajeAlerta
                     {
@@ -57,19 +52,19 @@ namespace Gdoc.Dao
                         {
                             DescripcionConcepto = x.tipooperacion.DescripcionConcepto,
                         },
-                        TipoDocumento=new Concepto
+                        TipoDocumento = new Concepto
                         {
-                            DescripcionConcepto=x.tipodocumento.DescripcionConcepto,
+                            DescripcionConcepto = x.tipodocumento.DescripcionConcepto,
                         },
-                        Operacion =new Operacion
+                        Operacion = new Operacion
                         {
-                            NumeroOperacion=x.operacion.NumeroOperacion,
+                            NumeroOperacion = x.operacion.NumeroOperacion,
                         },
                         Usuario = new Usuario
                         {
-                            NombreUsuario=x.usuario.NombreUsuario,
+                            NombreUsuario = x.usuario.NombreUsuario,
                         }
-                        
+
                     }));
                 }
             }
@@ -79,6 +74,22 @@ namespace Gdoc.Dao
                 throw;
             }
             return listMensajeAlerta;
+        }
+        public Int32 GrabarMensajeAlerta(MensajeAlerta mensajeAlerta)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    db.MensajeAlertas.Add(mensajeAlerta);
+                    db.SaveChanges();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

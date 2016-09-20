@@ -57,6 +57,7 @@
     <Compile Include="NModuloPaginaUrl.cs" />
     <Compile Include="NOperacion.cs" />
     <Compile Include="NPersonal.cs" />
+    <Compile Include="NSede.cs" />
     <Compile Include="NUbigeo.cs" />
     <Compile Include="NUsuarioGrupo.cs" />
     <Compile Include="NUsuarioParticipante.cs" />

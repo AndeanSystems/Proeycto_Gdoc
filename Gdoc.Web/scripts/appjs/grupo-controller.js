@@ -67,6 +67,7 @@
             context.visible = mostrarVentana;
             if (context.visible == "List") {
                 listarGrupo();
+                limpiarFormulario();
             }
         }
 
@@ -106,7 +107,7 @@
 
             var grupo = context.grupo;
 
-            let listEUsuarioGrupo = [];
+            var listEUsuarioGrupo = [];
             for (var ind in context.participantesGrupo) {
                 listEUsuarioGrupo.push(context.participantesGrupo[ind]);
             }
@@ -158,6 +159,7 @@
 
         function limpiarFormulario() {
             context.grupo = {};
+            listEUsuarioGrupo = [];
         }
         
         //Carga
