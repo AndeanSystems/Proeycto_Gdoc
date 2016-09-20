@@ -98,8 +98,14 @@ function ReadFileToBinary(control) {
         };
         //Eventos
         context.grabar = function (numeroboton) {
+            
             Operacion = context.operacion;
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
+
+            console.log(Operacion.EstadoOperacion);
+            if (Operacion.EstadoOperacion == "ACTIVO") {
+                return appService.mostrarAlerta("Operacion enviada", "No se puede editar la operacion", "warning");
+            }
             //if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
             //    return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
             //}
@@ -156,7 +162,9 @@ function ReadFileToBinary(control) {
 
         context.editarOperacion = function (rowIndex) {
            
+            
             context.operacion = context.gridOptions.data[rowIndex];
+
             context.DocumentoElectronicoOperacion = context.operacion.DocumentoElectronicoOperacion;
             context.operacion.TipoComunicacion = context.operacion.TipoComunicacion.substring(0, 1);
             //context.codigodepartamento = parseInt(context.empresa.CodigoUbigeo.substring(0, 2));
@@ -175,7 +183,6 @@ function ReadFileToBinary(control) {
             else
                 context.operacion.EstadoOperacion = 'INACTIVO'
 
-
             //falta mostrar el username
             ObtenerUsuariosParticipantes(context.operacion)
 
@@ -184,16 +191,18 @@ function ReadFileToBinary(control) {
 
             console.log(context.operacion);
             console.log(context.DocumentoElectronicoOperacion);
+
             context.CambiarVentana('CreateAndEdit');
+
         };
         context.CambiarVentana = function (mostrarVentana) {
            
             context.visible = mostrarVentana;
             if (context.visible == "List") {
-                
+                limpiarFormulario();
                 listarOperacion();
             } else {
-                limpiarFormulario();    
+                obtenerUsuarioSession();
             }
         }
         ////

@@ -26,36 +26,62 @@ namespace Gdoc.Web.Controllers
         public JsonResult Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos,DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo) {
             try
             {
-                //FALTA TERMINAR QUITAR VALORES EN DURO
-                operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
-                operacion.TipoOperacion = Gdoc.Web.Util.Constantes.TipoOperacion.DocumentoElectronico;
-
-                if (operacion.EstadoOperacion == 1)
-                {
-                    if (operacion.FechaRegistro == null)
-                    {
-                        operacion.FechaRegistro = DateTime.Now;
-                        operacion.FechaEmision = DateTime.Now;
-                    }
-                    operacion.FechaEnvio = DateTime.Now;
-                    operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
-                }
-                else
-                {
-                    operacion.FechaRegistro = DateTime.Now;
-                    operacion.FechaEmision = DateTime.Now;
-                }
-                    
-                //operacion.NumeroOperacion = DateTime.Now.Ticks.ToString();
-                operacion.NumeroOperacion = "DE" + DateTime.Now.Ticks.ToString();
-                operacion.NotificacionOperacion = "S";
-                operacion.DocumentoAdjunto = "N";
-
-                //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 using (var oNOperacion = new NOperacion())
                 {
-                    Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
-                    var respuesta = oNOperacion.Grabar(operacion,listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario, null);
+                    Int32 respuesta = 0;
+                    if (operacion.IDOperacion > 0)
+                    {
+                        if (operacion.EstadoOperacion == 1)
+                        {
+                            operacion.FechaEnvio = DateTime.Now;
+                            operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
+                        }
+                        else
+                        {
+                            //NO ESTOY SEGURO
+                            //operacion.FechaRegistro = DateTime.Now;
+                            //operacion.FechaEmision = DateTime.Now;
+                        }
+                        respuesta = oNOperacion.EditarOperacion(operacion,eDocumentoElectronicoOperacion);
+                    }
+                    else
+                    {
+                        //FALTA TERMINAR QUITAR VALORES EN DURO
+                        operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
+                        operacion.TipoOperacion = Gdoc.Web.Util.Constantes.TipoOperacion.DocumentoElectronico;
+
+                        if (operacion.EstadoOperacion == 1)
+                        {
+                            if (operacion.FechaRegistro == null)
+                            {
+                                operacion.FechaRegistro = DateTime.Now;
+                                operacion.FechaEmision = DateTime.Now;
+                            }
+                            operacion.FechaEnvio = DateTime.Now;
+                            operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
+                        }
+                        else
+                        {
+                            operacion.FechaRegistro = DateTime.Now;
+                            operacion.FechaEmision = DateTime.Now;
+                        }
+
+                        operacion.NumeroOperacion = "DE" + DateTime.Now.Ticks.ToString();
+                        operacion.NotificacionOperacion = "S";
+
+                        if (listDocumentosAdjuntos != null) 
+                            operacion.DocumentoAdjunto = "S";
+                        else
+                            operacion.DocumentoAdjunto = "N";
+
+                        //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
+                        //using (var oNOperacion = new NOperacion())
+                        //{
+
+                        Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
+                        respuesta = oNOperacion.Grabar(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
+                    }
+                    
                 }
                 mensajeRespuesta.Mensaje = "Operación "+operacion.NumeroOperacion+" realizada correctamente";
                 mensajeRespuesta.Exitoso = true;

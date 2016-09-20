@@ -57,5 +57,22 @@ namespace Gdoc.Dao
                 throw;
             }
         }
+        public short Editar(List<UsuarioParticipante> listUsuarioParticipante)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    //var entidad = db.DocumentoElectronicoOperacions.Find(listUsuarioParticipante.Find())
+                    db.SaveChanges();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

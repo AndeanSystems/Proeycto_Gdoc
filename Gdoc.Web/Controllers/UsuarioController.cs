@@ -7,40 +7,43 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Gdoc.Entity.Extension;
-using Gdoc.Web.ActiveDirectory;
 using System.Configuration;
 using System.Text;
 using System.Drawing;
 using System.IO;
-
+using ActiveDirectoryValidation;
+using Seguridadv2;
 namespace Gdoc.Web.Controllers
 {
     public class UsuarioController : Controller
     {
         #region "Variables"
-
+        List<eUsuarioActiveDirec> lstUsuarioAD = new List<eUsuarioActiveDirec>();
+        ADFunctions oADFunctions = new ADFunctions();
         MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
-        ADFunctions ADFunctions = new ADFunctions();
         #endregion
         // GET: Usuario
 
-        //bool FnValidarAD()
-        //{
-        //    if (ADFunctions.FnValidarUsuario(ConfigurationManager.AppSettings.Get("Dominio"), Session["NombreUsuario"].ToString(), Session["ClaveUsuario"].ToString(), ConfigurationManager.AppSettings.Get("UrlLDAP")))
-        //    {
-        //        Session.Add("sAMAccountName", Session["NombreUsuario"].ToString());
-        //        //Guardamos el usuario y la clave AD en una sesión:
-        //        EUsuario _eUsuario = new EUsuario();
-        //        _eUsuario.NombreUsuario = Session["NombreUsuario"].ToString();
-        //        _eUsuario.ClaveUsuario = Session["ClaveUsuario"].ToString();
-        //        Session["CredencialesAD"] = _eUsuario;
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
+        public bool ValidarUsuarioEnActiveDirectory(EUsuario usuario)
+        {
+            //txtUsuario.Text.Equals("reaseguros"))//
+            if (oADFunctions.FnValidarUsuario(ConfigurationManager.AppSettings.Get("Dominio"),usuario.NombreUsuario, usuario.ClaveUsuario, ConfigurationManager.AppSettings.Get("UrlLDAP")))
+            {
+                Session["username"] = usuario.NombreUsuario;
+                //Guardamos el usuario y la clave AD en una sesión:
+                EUsuarioFEPCMAC eUsuario = new EUsuarioFEPCMAC();
+                eUsuario._Usuario = Session["username"].ToString();
+                eUsuario._Contrasena = FNSeguridad.EncriptarConClave(usuario.ClaveUsuario, "11254125852587458124587485215895");
+                eUsuario._usu_reg = Session["username"].ToString();
+                //eUsuario._Aceso_Pagina = "99";
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public ActionResult Index()
         {
             return View();
@@ -57,65 +60,66 @@ namespace Gdoc.Web.Controllers
         {
             using (var NUsuario = new NUsuario())
             {
-                var UsuarioEncontrado = NUsuario.ValidarLogin(usuario);
-                var CantidadAlerta = NUsuario.CantidadAlerta(UsuarioEncontrado);
-                var CantidadDocumentosRecibidos = NUsuario.CantidadDocumentosRecibidos(UsuarioEncontrado);
-                var CantidadMesaVirtual = NUsuario.CantidadMesaVirtual(UsuarioEncontrado);
-
-                
-
-                if (UsuarioEncontrado != null)
+                //false)//
+                if (ValidarUsuarioEnActiveDirectory(usuario) == false)// true)
                 {
-                    Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
-                    Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
-                    Session["IDUsuario"] = UsuarioEncontrado.IDUsuario;
-                    Session["ClaveUsuario"] = UsuarioEncontrado.ClaveUsuario;
-                    Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
-                    Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);
-                    Session["RutaAvatar"] = string.IsNullOrEmpty(UsuarioEncontrado.RutaAvatar) ? "/resources/img/incognito.png" : UsuarioEncontrado.RutaAvatar.Replace("~",string.Empty);
+                    var UsuarioEncontrado = NUsuario.ValidarLogin(usuario);
+                    var CantidadAlerta = NUsuario.CantidadAlerta(UsuarioEncontrado);
+                    var CantidadDocumentosRecibidos = NUsuario.CantidadDocumentosRecibidos(UsuarioEncontrado);
+                    var CantidadMesaVirtual = NUsuario.CantidadMesaVirtual(UsuarioEncontrado);
 
-                    //if (FnValidarAD() == true)
-                    //{
-                    //    var sr = 1;
-                    //}
-                    //CONTADORES
-                    if (CantidadAlerta != null) Session["CantidadAlerta"] = CantidadAlerta.CantidadAlerta; 
-                    else Session["CantidadAlerta"] = 0; 
-                    //---
-                    if (CantidadDocumentosRecibidos != null) Session["CantidadDocumentosRecibidos"] = CantidadDocumentosRecibidos.CantidadDocumentosRecibidos;
-                    else Session["CantidadDocumentosRecibidos"] = 0;
-                    //---
-                    if (CantidadMesaVirtual != null) Session["CantidadMesaVirtual"] = CantidadMesaVirtual.CantidadMesasVirtual;
-                    else Session["CantidadMesaVirtual"] = 0; 
-                    //--
+                    if (UsuarioEncontrado != null)
+                    {
+                        Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
+                        Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
+                        Session["IDUsuario"] = UsuarioEncontrado.IDUsuario;
+                        Session["ClaveUsuario"] = UsuarioEncontrado.ClaveUsuario;
+                        Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
+                        Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);
+                        Session["RutaAvatar"] = string.IsNullOrEmpty(UsuarioEncontrado.RutaAvatar) ? "/resources/img/incognito.png" : UsuarioEncontrado.RutaAvatar.Replace("~", string.Empty);
 
-                    //PARAMETROS GENERALES
-                    //using (var NGeneral = new NGeneral())
-                    //{
-                    //    var CargarParametros = NGeneral.CargaParametros(Convert.ToInt32(Session["IDEmpresa"]));
+                        //CONTADORES
+                        if (CantidadAlerta != null) Session["CantidadAlerta"] = CantidadAlerta.CantidadAlerta;
+                        else Session["CantidadAlerta"] = 0;
+                        //---
+                        if (CantidadDocumentosRecibidos != null) Session["CantidadDocumentosRecibidos"] = CantidadDocumentosRecibidos.CantidadDocumentosRecibidos;
+                        else Session["CantidadDocumentosRecibidos"] = 0;
+                        //---
+                        if (CantidadMesaVirtual != null) Session["CantidadMesaVirtual"] = CantidadMesaVirtual.CantidadMesasVirtual;
+                        else Session["CantidadMesaVirtual"] = 0;
+                        //--
 
-                    //    Session["PlazoDoctoElectronico"] = CargarParametros.PlazoDoctoElectronico;
-                    //    Session["ExtensionPlazoDoctoElectronico"] = CargarParametros.ExtensionPlazoDoctoElectronico;
-                    //    Session["AlertaDoctoElectronico"] = CargarParametros.AlertaDoctoElectronico;
-                    //    Session["PlazoMesaVirtual"] = CargarParametros.PlazoMesaVirtual;
-                    //    Session["ExtensionPlazoMesaVirtual"] = CargarParametros.ExtensionPlazoMesaVirtual;
-                    //    Session["AlertaMesaVirtual"] = CargarParametros.AlertaMesaVirtual;
-                    //    Session["AlertaMailLaboral"] = CargarParametros.AlertaMailLaboral;
-                    //    Session["AlertaMailPersonal"] = CargarParametros.AlertaMailPersonal;
-                    //    Session["HoraActualizaEstadoOperacion"] = CargarParametros.HoraActualizaEstadoOperacion;
-                    //    Session["HoraCierreLabores"] = CargarParametros.HoraCierreLabores;
-                    //    Session["PlazoExpiraFirma"] = CargarParametros.PlazoExpiraFirma;
-                    //    Session["RutaGdocImagenes"] = CargarParametros.RutaGdocImagenes;
-                    //    Session["RutaGdocPDF"] = CargarParametros.RutaGdocPDF;
-                    //    Session["RutaGdocAdjuntos"] = CargarParametros.RutaGdocAdjuntos;
-                    //    Session["RutaGdocExternos"] = CargarParametros.RutaGdocExternos;
+                        //PARAMETROS GENERALES
+                        //using (var NGeneral = new NGeneral())
+                        //{
+                        //    var CargarParametros = NGeneral.CargaParametros(Convert.ToInt32(Session["IDEmpresa"]));
 
-                    //}
+                        //    Session["PlazoDoctoElectronico"] = CargarParametros.PlazoDoctoElectronico;
+                        //    Session["ExtensionPlazoDoctoElectronico"] = CargarParametros.ExtensionPlazoDoctoElectronico;
+                        //    Session["AlertaDoctoElectronico"] = CargarParametros.AlertaDoctoElectronico;
+                        //    Session["PlazoMesaVirtual"] = CargarParametros.PlazoMesaVirtual;
+                        //    Session["ExtensionPlazoMesaVirtual"] = CargarParametros.ExtensionPlazoMesaVirtual;
+                        //    Session["AlertaMesaVirtual"] = CargarParametros.AlertaMesaVirtual;
+                        //    Session["AlertaMailLaboral"] = CargarParametros.AlertaMailLaboral;
+                        //    Session["AlertaMailPersonal"] = CargarParametros.AlertaMailPersonal;
+                        //    Session["HoraActualizaEstadoOperacion"] = CargarParametros.HoraActualizaEstadoOperacion;
+                        //    Session["HoraCierreLabores"] = CargarParametros.HoraCierreLabores;
+                        //    Session["PlazoExpiraFirma"] = CargarParametros.PlazoExpiraFirma;
+                        //    Session["RutaGdocImagenes"] = CargarParametros.RutaGdocImagenes;
+                        //    Session["RutaGdocPDF"] = CargarParametros.RutaGdocPDF;
+                        //    Session["RutaGdocAdjuntos"] = CargarParametros.RutaGdocAdjuntos;
+                        //    Session["RutaGdocExternos"] = CargarParametros.RutaGdocExternos;
 
-                    return RedirectToAction("Index", "Alertas");
+                        //}
+
+                        return RedirectToAction("Index", "Alertas");
+                    }
+                    else
+                        return RedirectToAction("Index", "Home");
                 }
                 else
                     return RedirectToAction("Index", "Home");
+               
             }
         }
         [HttpGet]

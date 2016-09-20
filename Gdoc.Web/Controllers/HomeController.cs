@@ -16,29 +16,5 @@ namespace WebGdoc_MVC.Controllers
         {
             return View();
         }
-
-        [HttpPost]
-        public ActionResult Index(string id, string con)
-        {
-            ViewBag.id = id;
-            ViewBag.con = con;
-
-            if (id.Equals("123")&&con.Equals("123"))
-            {
-                Session["trabajador"] = "Anderson";
-                return RedirectToAction("Alertas", "Alertas");
-            }
-            else
-            {
-                return View();
-            }
-            //return RedirectToAction("Alertas","Alertas");
-        }
-
-        public ActionResult Logueo()
-        {
-            return View();
-        }
-
     }
 }

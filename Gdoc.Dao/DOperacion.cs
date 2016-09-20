@@ -240,16 +240,24 @@ namespace Gdoc.Dao
             }
             return listOperacion;
         }
-        public Operacion EditarOperacion(Operacion operacion)
+        public short EditarOperacion(Operacion operacion)
         {
             try
             {
                 using (var db = new DataBaseContext())
                 {
                     var entidad = db.Operacions.Find(operacion.IDOperacion);
+                    entidad.TituloOperacion = operacion.TituloOperacion;
+                    entidad.AccesoOperacion = operacion.AccesoOperacion;
+                    entidad.DescripcionOperacion = operacion.DescripcionOperacion;
+                    entidad.PrioridadOperacion = operacion.PrioridadOperacion;
+                    entidad.TipoComunicacion = operacion.TipoComunicacion;
+                    entidad.TipoDocumento = operacion.TipoDocumento;
+                    entidad.FechaEnvio = operacion.FechaEnvio;
+                    entidad.FechaVigente = operacion.FechaVigente;
                     db.SaveChanges();
                 }
-                return operacion;
+                return 1;
             }
             catch (Exception ex)
             {

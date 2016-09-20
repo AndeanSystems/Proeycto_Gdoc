@@ -39,11 +39,12 @@ namespace Gdoc.Negocio
             dAdjunto = null;
         }
 
-        public short Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo,Int64 IDusuario, List<EUsuarioGrupo> listEDestinatario = null )
+        public short Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo,Int64 IDusuario)
         {
             try
             {
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
+                //GRABAR OPERACION
                 dOperacion.Grabar(operacion);
                 //var lista = dUsuarioParticipante.ListarUsuarioParticipante();
 
@@ -52,6 +53,7 @@ namespace Gdoc.Negocio
                 {
                     Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
                 }
+                //COPIAR ADJUNTO Y GRABAR
                 if(listDocumentosAdjuntos!=null)
                 {
                     foreach (var documentoAdjunto in listDocumentosAdjuntos)
@@ -84,17 +86,18 @@ namespace Gdoc.Negocio
                     dAdjunto.GrabarAdjunto(listDocumentosAdjuntos); 
                 }
                 
-
+                //GRABAR DOCUMENTO ELECTRONICO OPERACION
                 eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 dDocumentoElectronicoOperacion.Grabar(eDocumentoElectronicoOperacion);
-                //Falta Terminar
+              
+                //GRABA USUARIOS PARTICIPANTES
                 foreach (var participante in listEUsuarioGrupo)
                 {
 
                     var eUsuarioParticipante = new UsuarioParticipante();
-                    if (participante.Tipo.Equals(Usuario))//Grabar solo Usuarios
+                    if (participante.Tipo.Equals(Usuario))
                     {
-                        
+                        //Grabar solo Usuarios
                         eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
                         eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
@@ -337,11 +340,15 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public Operacion EditarOperacion(Operacion operacion)
+        public short EditarOperacion(Operacion operacion,DocumentoElectronicoOperacion eDocumentoElectronicoOperacion)
         {
             try
             {
-                return dOperacion.EditarOperacion(operacion);
+                dOperacion.EditarOperacion(operacion);
+                dDocumentoElectronicoOperacion.Editar(eDocumentoElectronicoOperacion);
+                //FALTA EDITAR DOCUMENTO ADJUNTO
+                //FALTA EDITAR USUARIOS PARTICIPANTES
+                return 1;
             }
             catch (Exception)
             {
