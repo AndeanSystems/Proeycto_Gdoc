@@ -21,7 +21,7 @@ namespace Gdoc.Web.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult Grabar(Operacion operacion, List<EUsuarioGrupo> listEUsuarioGrupo)
+        public JsonResult Grabar(Operacion operacion,List<Adjunto> listAdjuntos, List<EUsuarioGrupo> listEUsuarioGrupo)
         {
             try
             {
@@ -46,7 +46,8 @@ namespace Gdoc.Web.Controllers
                 //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 using (var oNOperacion = new NOperacion())
                 {
-                    var respuesta = oNOperacion.GrabarMesaVirtual(operacion, listEUsuarioGrupo);
+                    Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
+                    var respuesta = oNOperacion.GrabarMesaVirtual(operacion, listAdjuntos, listEUsuarioGrupo, IDusuario);
                 }
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Operación " + operacion.NumeroOperacion + " realizada correctamente";

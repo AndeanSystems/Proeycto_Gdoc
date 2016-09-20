@@ -2,6 +2,7 @@
 var archivosSelecionados = [];
 let TipoMensaje = "warning";
 function ReadFileToBinary(control) {
+    archivosSelecionados = [];
     for (var i = 0, f; f = control.files[i]; i++) {
         let files = f;
         var reader = new FileReader();
@@ -49,7 +50,7 @@ function ReadFileToBinary(control) {
         context.filterSelected = true;
         context.querySearch = querySearch;
         var usuario = {};
-
+        var listDocumentosAdjuntos = [];
 
         LlenarConcepto(TipoDocumento);
         LlenarConcepto(TipoAcceso);
@@ -70,7 +71,7 @@ function ReadFileToBinary(control) {
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
-            //enableFiltering: true,
+            enableFiltering: true,
             data: [],
             appScopeProvider: context,
             columnDefs: [
@@ -115,9 +116,19 @@ function ReadFileToBinary(control) {
             else if (numeroboton == 2)
                 Operacion.EstadoOperacion = 1
 
+            for (var index in archivosSelecionados) {
+                listDocumentosAdjuntos.push({
+                    RutaArchivo: archivosSelecionados[index].RutaBinaria,
+                    NombreOriginal: archivosSelecionados[index].NombreArchivo,
+                    TamanoArchivo: archivosSelecionados[index].TamanoArchivo,
+                    TipoArchivo: archivosSelecionados[index].TipoArchivo,
+                });
+                console.log(listDocumentosAdjuntos);
+            }
+
             function enviarFomularioOK() {
                 console.log(context.DocumentoElectronicoOperacion);
-                dataProvider.postData("MesaVirtual/Grabar", { Operacion: Operacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+                dataProvider.postData("MesaVirtual/Grabar", { Operacion: Operacion, listAdjuntos: listDocumentosAdjuntos, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                     if (respuesta.Exitoso)
                         TipoMensaje = "success";
                     appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
@@ -198,6 +209,9 @@ function ReadFileToBinary(control) {
             };
             archivosSelecionados = [];
             document.getElementById("input_file").value = "";
+            obtenerUsuarioSession();
+            archivosSelecionados = [];
+            listDocumentosAdjuntos = [];
         }
         
         obtenerUsuarioSession();

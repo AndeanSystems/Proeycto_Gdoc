@@ -67,8 +67,6 @@ namespace Gdoc.Negocio
                 {
                     foreach (var adjunto in listDocumentosAdjuntos)
                     {
-                       
-
                         byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(adjunto.RutaArchivo);
                         adjunto.IDUsuario = IDusuario;
                         adjunto.NombreOriginal = adjunto.NombreOriginal;
@@ -94,12 +92,12 @@ namespace Gdoc.Negocio
                         }
 
                         dAdjunto.GrabarAdjunto(adjunto);
+
                         //GRABAR DOCUMENTO ADJUNTO
                         eDocumentoAdjunto = new DocumentoAdjunto();
                         eDocumentoAdjunto.IDOperacion = operacion.IDOperacion;
                         eDocumentoAdjunto.IDAdjunto = adjunto.IDAdjunto;
                         eDocumentoAdjunto.EstadoDoctoAdjunto = 1;
-                        //listDocumentoAdjunto.Add(eDocumentoAdjunto);
                         dDocumentoAdjunto.GrabarDocumentoAdjunto(eDocumentoAdjunto);
                     }
                 }
@@ -261,13 +259,61 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public short GrabarMesaVirtual(Operacion operacion, List<EUsuarioGrupo> listEUsuarioGrupo)
+        public short GrabarMesaVirtual(Operacion operacion, List<Adjunto> listAdjuntos, List<EUsuarioGrupo> listEUsuarioGrupo, Int64 IDusuario)
         {
             try
             {
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 dOperacion.Grabar(operacion);
 
+                var listDocumentoAdjunto = new List<DocumentoAdjunto>();
+                var eDocumentoAdjunto = new DocumentoAdjunto();
+
+                var eGeneral = dGeneral.CargaParametros(operacion.IDEmpresa);
+                if (!Directory.Exists(eGeneral.RutaGdocAdjuntos))
+                {
+                    Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
+                }
+
+                //COPIAR ADJUNTO Y GRABAR
+                if (listAdjuntos != null)
+                {
+                    foreach (var adjunto in listAdjuntos)
+                    {
+                        byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(adjunto.RutaArchivo);
+                        adjunto.IDUsuario = IDusuario;
+                        adjunto.NombreOriginal = adjunto.NombreOriginal;
+                        //documentoAdjunto.RutaArchivo = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoAdjunto.NombreOriginal);
+                        adjunto.RutaArchivo = string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, adjunto.NombreOriginal);
+                        adjunto.TamanoArchivo = adjunto.TamanoArchivo;
+                        adjunto.FechaRegistro = System.DateTime.Now;
+                        adjunto.EstadoAdjunto = 1;
+                        if (string.IsNullOrEmpty(adjunto.TipoArchivo) || !adjunto.TipoArchivo.Contains(ArchivoTXT))
+                        {
+                            File.WriteAllBytes(adjunto.RutaArchivo, fileBytes);
+                        }
+                        else if (adjunto.TipoArchivo.Contains(ArchivoTXT))
+                        {
+                            File.WriteAllText(adjunto.RutaArchivo, Encoding.UTF8.GetString(fileBytes));
+                        }
+                        else
+                        {
+                            using (MemoryStream stream = new MemoryStream(fileBytes))
+                            {
+                                Image.FromStream(stream).Save(adjunto.RutaArchivo, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            }
+                        }
+
+                        dAdjunto.GrabarAdjunto(adjunto);
+
+                        //GRABAR DOCUMENTO ADJUNTO
+                        eDocumentoAdjunto = new DocumentoAdjunto();
+                        eDocumentoAdjunto.IDOperacion = operacion.IDOperacion;
+                        eDocumentoAdjunto.IDAdjunto = adjunto.IDAdjunto;
+                        eDocumentoAdjunto.EstadoDoctoAdjunto = 1;
+                        dDocumentoAdjunto.GrabarDocumentoAdjunto(eDocumentoAdjunto);
+                    }
+                }
                 //Falta Terminar
                 foreach (var participante in listEUsuarioGrupo)
                 {

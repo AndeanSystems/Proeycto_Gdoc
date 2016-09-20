@@ -2,6 +2,7 @@
 var archivosSelecionados = [];
 let TipoMensaje = "warning";
 function ReadFileToBinary(control) {
+    archivosSelecionados = [];
     for (var i = 0, f; f = control.files[i]; i++) {
         let files = f;
         var reader = new FileReader();
@@ -75,7 +76,7 @@ function ReadFileToBinary(control) {
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
-            //enableFiltering: true,//FILTRO
+            enableFiltering: true,//FILTRO
             data: [],
             appScopeProvider: context,
             columnDefs: [
@@ -146,7 +147,7 @@ function ReadFileToBinary(control) {
 
             console.log(listIndexacionDocumento);
             console.log(listEUsuarioGrupo);
-            let listDocumentoDigitaloOperacion = [];
+            var listDocumentoDigitaloOperacion = [];
 
             console.log(archivosSelecionados);
             for (var index in archivosSelecionados) {
@@ -264,6 +265,8 @@ function ReadFileToBinary(control) {
             context.DocumentoDigitaloOperacion = {
                 DerivarDocto: 'S'
             };
+            obtenerUsuarioSession();
+            archivosSelecionados = [];
         }
         
         obtenerUsuarioSession();

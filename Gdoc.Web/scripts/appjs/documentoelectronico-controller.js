@@ -2,6 +2,7 @@
 var archivosSelecionados = [];
 let TipoMensaje = "warning";
 function ReadFileToBinary(control) {
+    archivosSelecionados = [];
     for (var i = 0, f; f = control.files[i]; i++) {
         let files = f;
         var reader = new FileReader();
@@ -44,7 +45,7 @@ function ReadFileToBinary(control) {
         let listEUsuarioGrupo = [];
         let listERemitente = [];
         let listEDestinatario = [];
-        let listDocumentosAdjuntos = [];
+        var listDocumentosAdjuntos = [];
         //
         //Crear Combo Auto Filters
         var pendingSearch, cancelSearch = angular.noop;
@@ -70,7 +71,7 @@ function ReadFileToBinary(control) {
             TipoComunicacion: '1',
             PrioridadOperacion: '02',
             AccesoOperacion: '2',
-            FechaVigente: sumarDias(new Date(),5),
+            FechaVigente: sumarDias(new Date(), 5),
             FechaEnvio: new Date(),
             FechaRegistro: new Date()
         };
@@ -220,10 +221,12 @@ function ReadFileToBinary(control) {
                 FechaEnvio: new Date(),
                 FechaRegistro: new Date()
             }
-            archivosSelecionados = [];
             document.getElementById("input_file").value = "";
             listRemitentes = [];
             listDestinatarios = [];
+            obtenerUsuarioSession();
+            archivosSelecionados = [];
+            listDocumentosAdjuntos = [];
         }
         function listarUsuarioGrupoAutoComplete(Nombre) {
             var UsuarioGrupo = { Nombre: Nombre };
