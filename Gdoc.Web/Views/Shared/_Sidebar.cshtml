@@ -29,7 +29,7 @@
                 <a href="#">
                     <i class="fa fa-cubes"></i><span>Gestion</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
-                <ul class="treeview-menu">
+                <ul class="treeview-menu" >
                     @*<li class="active"><a href="documento_electronico.html"><i class="fa fa-check"></i>Documento Electronico</a></li>*@
                     <li class="active"><a href="@Url.Action("Index", "DocumentoElectronico")"><i class="fa fa-check"></i>Documento Electronico</a></li>
                     @*<li class="active"><a href="documento_digital.html"><i class="fa fa-check"></i>Documento Digital</a></li>*@
@@ -48,7 +48,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="@Url.Action("Index", "Busqueda")"><i class="fa fa-check"></i>Busquedas</a></li>
-                    <li><a href="log_operaciones.html"><i class="fa fa-check"></i>Log Administrativo</a></li>
+                    <li><a href="@Url.Action("Index", "LogOperacion")"><i class="fa fa-check"></i>Log Administrativo</a></li>
                 </ul>
             </li>
             <li class="  treeview">

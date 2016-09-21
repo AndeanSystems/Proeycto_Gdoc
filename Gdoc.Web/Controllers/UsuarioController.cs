@@ -18,8 +18,9 @@ namespace Gdoc.Web.Controllers
     public class UsuarioController : Controller
     {
         #region "Variables"
-        List<eUsuarioActiveDirec> lstUsuarioAD = new List<eUsuarioActiveDirec>();
+        List<eUsuarioActiveDirec> LstUsuAD = new List<eUsuarioActiveDirec>();
         ADFunctions oADFunctions = new ADFunctions();
+        EUsuarioFEPCMAC _eUsuario = new EUsuarioFEPCMAC();
         MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
         #endregion
         // GET: Usuario
@@ -29,13 +30,11 @@ namespace Gdoc.Web.Controllers
             //txtUsuario.Text.Equals("reaseguros"))//
             if (oADFunctions.FnValidarUsuario(ConfigurationManager.AppSettings.Get("Dominio"),usuario.NombreUsuario, usuario.ClaveUsuario, ConfigurationManager.AppSettings.Get("UrlLDAP")))
             {
-                Session["username"] = usuario.NombreUsuario;
                 //Guardamos el usuario y la clave AD en una sesión:
-                EUsuarioFEPCMAC eUsuario = new EUsuarioFEPCMAC();
-                eUsuario._Usuario = Session["username"].ToString();
-                eUsuario._Contrasena = FNSeguridad.EncriptarConClave(usuario.ClaveUsuario, "11254125852587458124587485215895");
-                eUsuario._usu_reg = Session["username"].ToString();
+                _eUsuario._Usuario = usuario.NombreUsuario;
+                _eUsuario._Contrasena = FNSeguridad.EncriptarConClave(usuario.ClaveUsuario, "11254125852587458124587485215895");
                 //eUsuario._Aceso_Pagina = "99";
+                Session["CredencialesAD"] = _eUsuario;
 
                 return true;
             }
@@ -58,75 +57,84 @@ namespace Gdoc.Web.Controllers
         }
         public ActionResult Login(EUsuario usuario)
         {
-            using (var NUsuario = new NUsuario())
+            try
             {
-                //false)//
-                if (ValidarUsuarioEnActiveDirectory(usuario) == true)
+                using (var NUsuario = new NUsuario())
                 {
-                    var UsuarioEncontrado = NUsuario.ValidarLogin(usuario);
-                    var CantidadAlerta = NUsuario.CantidadAlerta(UsuarioEncontrado);
-                    var CantidadDocumentosRecibidos = NUsuario.CantidadDocumentosRecibidos(UsuarioEncontrado);
-                    var CantidadMesaVirtual = NUsuario.CantidadMesaVirtual(UsuarioEncontrado);
-
-                    if (UsuarioEncontrado != null)
+                    //false)//
+                    if (ValidarUsuarioEnActiveDirectory(usuario) == true)
                     {
-                        Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
-                        Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
-                        Session["IDUsuario"] = UsuarioEncontrado.IDUsuario;
-                        Session["ClaveUsuario"] = UsuarioEncontrado.ClaveUsuario;
-                        Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
-                        Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);
-                        Session["RutaAvatar"] = string.IsNullOrEmpty(UsuarioEncontrado.RutaAvatar) ? "/resources/img/incognito.png" : UsuarioEncontrado.RutaAvatar.Replace("~", string.Empty);
+                        var UsuarioEncontrado = NUsuario.ValidarLogin(usuario);
+                        var CantidadAlerta = NUsuario.CantidadAlerta(UsuarioEncontrado);
+                        var CantidadDocumentosRecibidos = NUsuario.CantidadDocumentosRecibidos(UsuarioEncontrado);
+                        var CantidadMesaVirtual = NUsuario.CantidadMesaVirtual(UsuarioEncontrado);
 
-                        //CONTADORES
-                        if (CantidadAlerta != null) Session["CantidadAlerta"] = CantidadAlerta.CantidadAlerta;
-                        else Session["CantidadAlerta"] = 0;
-                        //---
-                        if (CantidadDocumentosRecibidos != null) Session["CantidadDocumentosRecibidos"] = CantidadDocumentosRecibidos.CantidadDocumentosRecibidos;
-                        else Session["CantidadDocumentosRecibidos"] = 0;
-                        //---
-                        if (CantidadMesaVirtual != null) Session["CantidadMesaVirtual"] = CantidadMesaVirtual.CantidadMesasVirtual;
-                        else Session["CantidadMesaVirtual"] = 0;
-                        //--
+                        if (UsuarioEncontrado != null)
+                        {
+                            Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
+                            Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
+                            Session["IDUsuario"] = UsuarioEncontrado.IDUsuario;
+                            Session["ClaveUsuario"] = UsuarioEncontrado.ClaveUsuario;
+                            Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
+                            Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);
+                            Session["RutaAvatar"] = string.IsNullOrEmpty(UsuarioEncontrado.RutaAvatar) ? "/resources/img/incognito.png" : UsuarioEncontrado.RutaAvatar.Replace("~", string.Empty);
 
-                        //PARAMETROS GENERALES
-                        //using (var NGeneral = new NGeneral())
-                        //{
-                        //    var CargarParametros = NGeneral.CargaParametros(Convert.ToInt32(Session["IDEmpresa"]));
+                            //CONTADORES
+                            if (CantidadAlerta != null) Session["CantidadAlerta"] = CantidadAlerta.CantidadAlerta;
+                            else Session["CantidadAlerta"] = 0;
+                            //---
+                            if (CantidadDocumentosRecibidos != null) Session["CantidadDocumentosRecibidos"] = CantidadDocumentosRecibidos.CantidadDocumentosRecibidos;
+                            else Session["CantidadDocumentosRecibidos"] = 0;
+                            //---
+                            if (CantidadMesaVirtual != null) Session["CantidadMesaVirtual"] = CantidadMesaVirtual.CantidadMesasVirtual;
+                            else Session["CantidadMesaVirtual"] = 0;
+                            //--
 
-                        //    Session["PlazoDoctoElectronico"] = CargarParametros.PlazoDoctoElectronico;
-                        //    Session["ExtensionPlazoDoctoElectronico"] = CargarParametros.ExtensionPlazoDoctoElectronico;
-                        //    Session["AlertaDoctoElectronico"] = CargarParametros.AlertaDoctoElectronico;
-                        //    Session["PlazoMesaVirtual"] = CargarParametros.PlazoMesaVirtual;
-                        //    Session["ExtensionPlazoMesaVirtual"] = CargarParametros.ExtensionPlazoMesaVirtual;
-                        //    Session["AlertaMesaVirtual"] = CargarParametros.AlertaMesaVirtual;
-                        //    Session["AlertaMailLaboral"] = CargarParametros.AlertaMailLaboral;
-                        //    Session["AlertaMailPersonal"] = CargarParametros.AlertaMailPersonal;
-                        //    Session["HoraActualizaEstadoOperacion"] = CargarParametros.HoraActualizaEstadoOperacion;
-                        //    Session["HoraCierreLabores"] = CargarParametros.HoraCierreLabores;
-                        //    Session["PlazoExpiraFirma"] = CargarParametros.PlazoExpiraFirma;
-                        //    Session["RutaGdocImagenes"] = CargarParametros.RutaGdocImagenes;
-                        //    Session["RutaGdocPDF"] = CargarParametros.RutaGdocPDF;
-                        //    Session["RutaGdocAdjuntos"] = CargarParametros.RutaGdocAdjuntos;
-                        //    Session["RutaGdocExternos"] = CargarParametros.RutaGdocExternos;
+                            //PARAMETROS GENERALES
+                            //using (var NGeneral = new NGeneral())
+                            //{
+                            //    var CargarParametros = NGeneral.CargaParametros(Convert.ToInt32(Session["IDEmpresa"]));
 
-                        //}
+                            //    Session["PlazoDoctoElectronico"] = CargarParametros.PlazoDoctoElectronico;
+                            //    Session["ExtensionPlazoDoctoElectronico"] = CargarParametros.ExtensionPlazoDoctoElectronico;
+                            //    Session["AlertaDoctoElectronico"] = CargarParametros.AlertaDoctoElectronico;
+                            //    Session["PlazoMesaVirtual"] = CargarParametros.PlazoMesaVirtual;
+                            //    Session["ExtensionPlazoMesaVirtual"] = CargarParametros.ExtensionPlazoMesaVirtual;
+                            //    Session["AlertaMesaVirtual"] = CargarParametros.AlertaMesaVirtual;
+                            //    Session["AlertaMailLaboral"] = CargarParametros.AlertaMailLaboral;
+                            //    Session["AlertaMailPersonal"] = CargarParametros.AlertaMailPersonal;
+                            //    Session["HoraActualizaEstadoOperacion"] = CargarParametros.HoraActualizaEstadoOperacion;
+                            //    Session["HoraCierreLabores"] = CargarParametros.HoraCierreLabores;
+                            //    Session["PlazoExpiraFirma"] = CargarParametros.PlazoExpiraFirma;
+                            //    Session["RutaGdocImagenes"] = CargarParametros.RutaGdocImagenes;
+                            //    Session["RutaGdocPDF"] = CargarParametros.RutaGdocPDF;
+                            //    Session["RutaGdocAdjuntos"] = CargarParametros.RutaGdocAdjuntos;
+                            //    Session["RutaGdocExternos"] = CargarParametros.RutaGdocExternos;
 
-                        return RedirectToAction("Index", "Alertas");
+                            //}
+
+                            return RedirectToAction("Index", "Alertas");
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Usuario Incorrecto";
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                     else
                     {
-                        TempData["Message"] = "Usuario Incorrecto";
+                        TempData["Message2"] = "Usted no pertenece al dominio";
                         return RedirectToAction("Index", "Home");
                     }
+
                 }
-                else
-                {
-                    TempData["Message2"] = "Usted no pertenece al dominio";
-                    return RedirectToAction("Index", "Home");
-                }
-               
             }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
         [HttpGet]
         public JsonResult ListarUsuario()
@@ -160,81 +168,160 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult GrabarUsuario(Usuario usuario)
         {
-            //CopiarFirma("","","");
-            using (var oUsuario = new NUsuario())
+            try
             {
-                Usuario respuesta = null;
-                if (usuario.IDUsuario > 0){
-                    usuario.FechaModifica = System.DateTime.Now;
-                    respuesta = oUsuario.EditarUsuario(usuario);
-                }
-                else
+                //CopiarFirma("","","");
+                using (var oUsuario = new NUsuario())
                 {
-                    //POR TERMINAR
-                    usuario.ClaveUsuario = "";
-                    usuario.FechaRegistro = System.DateTime.Now;
-                    usuario.FirmaElectronica = "";
-                    usuario.FechaModifica = System.DateTime.Now;
-                    usuario.IntentoErradoClave = 3;
-                    usuario.IntentoerradoFirma = 2;
-                    usuario.CodigoConexion = "";
+                    Usuario respuesta = null;
+                    if (usuario.IDUsuario > 0)
+                    {
+                        usuario.FechaModifica = System.DateTime.Now;
+                        respuesta = oUsuario.EditarUsuario(usuario);
+                    }
+                    else
+                    {
+                        //POR TERMINAR
+                        usuario.ClaveUsuario = "";
+                        usuario.FechaRegistro = System.DateTime.Now;
+                        usuario.FirmaElectronica = "";
+                        usuario.FechaModifica = System.DateTime.Now;
+                        usuario.IntentoErradoClave = 3;
+                        usuario.IntentoerradoFirma = 2;
+                        usuario.CodigoConexion = "";
 
-                    usuario.UsuarioRegistro = Session["NombreUsuario"].ToString();
-                    usuario.ExpiraClave = "1";//0=EXPIRA || 1=NO EXPIRA
-                    //usuario.ExpiraFirma = "90";
-                    usuario.FechaExpiraClave = System.DateTime.Now;
-                    usuario.FechaExpiraFirma = System.DateTime.Now.AddDays(90);//falta terminar traer el valor de dias de experacion de firmas de la tabla general
+                        usuario.UsuarioRegistro = Session["NombreUsuario"].ToString();
+                        usuario.ExpiraClave = "1";//0=EXPIRA || 1=NO EXPIRA
+                        //usuario.ExpiraFirma = "90";
+                        usuario.FechaExpiraClave = System.DateTime.Now;
+                        usuario.FechaExpiraFirma = System.DateTime.Now.AddDays(90);//falta terminar traer el valor de dias de experacion de firmas de la tabla general
 
-                    respuesta = oUsuario.GrabarUsuario(usuario);
+                        respuesta = oUsuario.GrabarUsuario(usuario);
+                    }
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Grabación Exitosa";
                 }
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
         public JsonResult EliminarUsuario(Usuario usuario)
         {
-            using (var oUsuario = new NUsuario())
+            try
             {
-                usuario.EstadoUsuario = Gdoc.Web.Util.Estados.EstadoEmpresa.Inactivo;
-                var respuesta = oUsuario.EliminarUsuario(usuario);
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                using (var oUsuario = new NUsuario())
+                {
+                    usuario.EstadoUsuario = Gdoc.Web.Util.Estados.EstadoEmpresa.Inactivo;
+                    var respuesta = oUsuario.EliminarUsuario(usuario);
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                }
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
         [HttpPost]
         public JsonResult BuscarUsuarioNombre(Usuario usuario)
         {
-            var listUsuario = new List<EUsuario>();
-            using (var oUsuario = new NUsuario())
+            try
             {
-                if (!string.IsNullOrEmpty(usuario.NombreUsuario))
-                    listUsuario = oUsuario.ListarUsuario().Where(x => x.NombreUsuario.Contains(usuario.NombreUsuario.ToUpper())).ToList();
-                else
-                    listUsuario = oUsuario.ListarUsuario();
-            }
+                var listUsuario = new List<EUsuario>();
+                using (var oUsuario = new NUsuario())
+                {
+                    if (!string.IsNullOrEmpty(usuario.NombreUsuario))
+                        listUsuario = oUsuario.ListarUsuario().Where(x => x.NombreUsuario.Contains(usuario.NombreUsuario.ToUpper())).ToList();
+                    else
+                        listUsuario = oUsuario.ListarUsuario();
+                }
 
-            return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
+                return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
         [HttpPost]
-        public JsonResult BuscarUsuarioPersonal(Usuario usuario, Personal personal)
+        public JsonResult BuscarUsuarioPersonal(Usuario usuario)
         {
             var listUsuario = new List<EUsuario>();
-            using (var oUsuario = new NUsuario())
+            try
             {
-                if (!string.IsNullOrEmpty(usuario.NombreUsuario))
-                    listUsuario = oUsuario.ListarUsuario().Where(x => x.NombreUsuario==usuario.NombreUsuario.ToUpper() 
-                        //||
-                        //                                        x.Personal.NumeroIdentificacion == usuario.Personal.NumeroIdentificacion ||
-                        //                                        x.Personal.TipoIdentificacion == usuario.Personal.TipoIdentificacion ||
-                        //                                        x.Personal.EstadoPersonal==1
-                                                                ).ToList();
-                else
-                    listUsuario = oUsuario.ListarUsuario();
-            }
+                if (usuario.NombreUsuario != null)
+                {
+                    listUsuario = new List<EUsuario>();
+                    _eUsuario = (EUsuarioFEPCMAC)Session["CredencialesAD"];
+                    LstUsuAD = new List<eUsuarioActiveDirec>();
+                    var usuarioAD = new EUsuario();
+                    try
+                    {
+                        LstUsuAD = oADFunctions.FnRecuperarDatos("sAMAccountName", usuario.NombreUsuario, ConfigurationManager.AppSettings.Get("UrlLDAP"), _eUsuario._Usuario.ToString(), FNSeguridad.DesencriptarConClave(_eUsuario._Contrasena.ToString(), "11254125852587458124587485215895"));
+                    }
+                    catch
+                    {
+                        LstUsuAD = null;
+                    }
 
-            return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
+                    if (LstUsuAD != null)
+                    {
+                        if (LstUsuAD.Count > 0)
+                        {
+                            if (LstUsuAD[0]._sAMAccountName != null)
+                            {
+                                usuarioAD = new EUsuario();
+
+                                usuarioAD.NombreUsuario = LstUsuAD[0]._sAMAccountName;
+                                //usuarioAD.Personal.NumeroIdentificacion = "1";
+                                //usuarioAD.Personal.TipoIdentificacion = "1";
+                                usuarioAD.NombreCompleto = LstUsuAD[0]._cn;
+                                usuarioAD.Personal.NombrePers = LstUsuAD[0]._name;
+                                //usuarioAD.Personal.CodigoCargo = LstUsuAD[0]._title;
+                                //usuarioAD.Personal.CodigoArea = "1";
+                                usuarioAD.ClaseUsuario = "0";
+                                listUsuario.Add(usuarioAD);
+                            }
+                        }
+                    }
+
+                    return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
+                }
+                else if (usuario.Personal.NumeroIdentificacion != null)
+                {
+                    listUsuario = new List<EUsuario>();
+                    using (var oUsuario = new NUsuario())
+                    {
+                        if (!string.IsNullOrEmpty(usuario.Personal.NumeroIdentificacion))
+                            listUsuario = oUsuario.ListarUsuario().Where(x => x.Personal.NumeroIdentificacion == usuario.Personal.NumeroIdentificacion
+                                //                                        x.Personal.TipoIdentificacion == usuario.Personal.TipoIdentificacion ||
+                                //                                        x.Personal.EstadoPersonal==1
+                                                                        ).ToList();
+                        else
+                            listUsuario = oUsuario.ListarUsuario();
+                    }
+
+                    return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
+                }
+                else
+                    return new JsonResult { Data = "MAL", MaxJsonLength = Int32.MaxValue };
+                
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
         [HttpGet]
         public JsonResult BuscarUsuarioNombreClave()

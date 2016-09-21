@@ -30,6 +30,25 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listGrupo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+        [HttpPost]
+        public JsonResult ListarUsuarioGrupo(Grupo grupo)
+        {
+            var listUsuarioGrupo = new List<UsuarioGrupo>();
+            try
+            {
+                using (var oUsuarioGrupo = new NUsuarioGrupo())
+                {
+                    listUsuarioGrupo = oUsuarioGrupo.listarUsuarioG().Where(x => x.IDGrupo == grupo.IDGrupo).ToList();
+                }
+                return new JsonResult { Data = listUsuarioGrupo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+           
+        }
         public JsonResult GrabarGrupoUsuarios(Grupo grupo, List<EUsuarioGrupo> listUsuarioGrupo)
         {
             try

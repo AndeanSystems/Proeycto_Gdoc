@@ -23,10 +23,16 @@
         context.filterSelected = true;
         context.querySearch = querySearch;
         var usuario = {};
+        var listUsuariosGrupo = [];
+        var listEUsuarioGrupo = [];
 
 
         context.editarGrupo = function (rowIndex) {
             context.grupo = context.gridOptions.data[rowIndex];
+            
+
+            ObtenerUsuariosGrupo(context.grupo)
+            context.participantesGrupo = listUsuariosGrupo;
             context.CambiarVentana('CreateAndEdit');
         };
 
@@ -107,7 +113,7 @@
 
             var grupo = context.grupo;
 
-            var listEUsuarioGrupo = [];
+            
             for (var ind in context.participantesGrupo) {
                 listEUsuarioGrupo.push(context.participantesGrupo[ind]);
             }
@@ -156,10 +162,23 @@
                 //MostrarError();
             });
         }
+        function ObtenerUsuariosGrupo(grupo) {
+            dataProvider.postData("Grupo/ListarUsuarioGrupo", grupo).success(function (respuesta) {
+                for (var ind in respuesta) {
+                    respuesta[ind].Usuario.Nombre = respuesta[ind].Usuario.NombreUsuario;
+                    listUsuariosGrupo.push(respuesta[ind].Usuario);
+                }
+            }).error(function (error) {
+                //MostrarError();
+            });
+
+        }
 
         function limpiarFormulario() {
             context.grupo = {};
+            context.participantesGrupo = [];
             listEUsuarioGrupo = [];
+            listUsuariosGrupo = [];
         }
         
         //Carga

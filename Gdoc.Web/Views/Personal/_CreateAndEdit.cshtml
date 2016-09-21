@@ -58,6 +58,13 @@
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
+                                            <label class="col-sm-12">Fecha de Nacimiento <span class="text-danger">(*)</span></label>
+                                            <div class="col-sm-12">
+                                                @*<input type="text" class="form-control" placeholder="Abreviatura" ng-model="ctrl.personal.FechaNacimiento">*@
+                                                <md-datepicker ng-model="ctrl.personal.FechaNacimiento"></md-datepicker>
+                                            </div>
+                                        </div>
+                                        <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Email Trabajo <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
                                                 <input type="email" class="form-control" placeholder="Email Trabajo" ng-model="ctrl.personal.EmailTrabrajo" required>
@@ -70,21 +77,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
-                                            <label class="col-sm-12">Fecha de Nacimiento <span class="text-danger">(*)</span></label>
-                                            <div class="col-sm-12">
-                                                @*<input type="text" class="form-control" placeholder="Abreviatura" ng-model="ctrl.personal.FechaNacimiento">*@
-                                                <md-datepicker ng-model="ctrl.personal.FechaNacimiento" ></md-datepicker>
-                                            </div>
-                                        </div>
-                                        <div class="form-group no-margin-bottom">
-                                            <label class="col-sm-12">Celular 1</label>
-                                            <div class="col-sm-12">
+                                            <label class="col-sm-6">Celular 1</label>
+                                            <label class="col-sm-6">Celular 2</label>
+                                            <div class="col-sm-6">
                                                 <input type="text" class="form-control" placeholder="Celular 1" ng-model="ctrl.personal.CelularPersonalUno">
                                             </div>
-                                        </div>
-                                        <div class="form-group no-margin-bottom">
-                                            <label class="col-sm-12">Celular 2</label>
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-6">
                                                 <input type="text" class="form-control" placeholder="Celular 2" ng-model="ctrl.personal.CelularPersonalDos">
                                             </div>
                                         </div>
@@ -105,15 +103,37 @@
                                     <div class="box-body no-padding">
 
                                         <div class="form-group no-margin-bottom">
-                                            <label class="col-sm-12">Telefono</label>
-                                            <div class="col-sm-12">
+                                            <label class="col-sm-6">Telefono</label>
+                                            <label class="col-sm-6">Anexo</label>
+                                            <div class="col-sm-6">
                                                 <input type="text" class="form-control" placeholder="Telefono" ng-model="ctrl.personal.TelefonoPersonal">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" placeholder="Anexo" ng-model="ctrl.personal.AnexoPersonal">
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
-                                            <label class="col-sm-12">Anexo</label>
+                                            <label class="col-sm-12">Dirección <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <input type="text" class="form-control" placeholder="Anexo" ng-model="ctrl.personal.AnexoPersonal">
+                                                <input type="text" class="form-control" placeholder="Dirección" ng-model="ctrl.personal.DireccionPersonal" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group no-margin-bottom">
+                                            <label class="col-sm-12">Ubigeo <span class="text-danger">(*)</span></label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control" ng-model="ctrl.codigodepartamento" ng-options="dep.CodigoDepartamento as dep.DescripcionUbicacion for dep in ctrl.listDepartamento" ng-change="ctrl.obtenerProvincia(ctrl.codigodepartamento)" required>
+                                                    <option value="">Seleccione</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <select class="form-control" ng-model="ctrl.codigoprovincia" ng-options="dep.CodigoProvincia as dep.DescripcionUbicacion for dep in ctrl.listPronvincia" ng-change="ctrl.obtenerDistrito(ctrl.codigodepartamento, ctrl.codigoprovincia)" required>
+                                                    <option value="">Seleccione</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <select class="form-control" ng-model="ctrl.codigodistrito" ng-options="dep.CodigoDistrito as dep.DescripcionUbicacion for dep in ctrl.listDistrito" required>
+                                                    <option value="">Seleccione</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
@@ -156,30 +176,7 @@
                                                 <input type="text" class="form-control" placeholder="Numero de Identificacion" ng-model="ctrl.personal.NumeroIdentificacion" required>
                                             </div>
                                         </div>
-                                        <div class="form-group no-margin-bottom">
-                                            <label class="col-sm-12">Dirección <span class="text-danger">(*)</span></label>
-                                            <div class="col-sm-12">
-                                                <input type="text" class="form-control" placeholder="Dirección" ng-model="ctrl.personal.DireccionPersonal" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group no-margin-bottom">
-                                            <label class="col-sm-12">Ubigeo <span class="text-danger">(*)</span></label>
-                                            <div class="col-sm-4">
-                                                <select class="form-control" ng-model="ctrl.codigodepartamento" ng-options="dep.CodigoDepartamento as dep.DescripcionUbicacion for dep in ctrl.listDepartamento" ng-change="ctrl.obtenerProvincia(ctrl.codigodepartamento)" required>
-                                                    <option value="">Seleccione</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <select class="form-control" ng-model="ctrl.codigoprovincia" ng-options="dep.CodigoProvincia as dep.DescripcionUbicacion for dep in ctrl.listPronvincia" ng-change="ctrl.obtenerDistrito(ctrl.codigodepartamento, ctrl.codigoprovincia)" required>
-                                                    <option value="">Seleccione</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <select class="form-control" ng-model="ctrl.codigodistrito" ng-options="dep.CodigoDistrito as dep.DescripcionUbicacion for dep in ctrl.listDistrito" required>
-                                                    <option value="">Seleccione</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                       
 
 
                                     </div>

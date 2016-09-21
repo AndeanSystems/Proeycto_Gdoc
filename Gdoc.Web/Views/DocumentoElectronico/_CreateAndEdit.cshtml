@@ -54,9 +54,9 @@
                     <label class="col-md-12">Plazo de Confirmación</label>
                     <div class="col-md-12">
                         @*@Html.TextBox("StudentName", System.DateTime.Now.AddDays(5), new { @class = "form-control", disabled = "true" }) <!--FALTA TERMINAR PASAR PARAMETRO DE TABLA GENERAL-->*@
-                        @*<input type="text" class="form-control" ng-model="ctrl.operacion.FechaVigente" disabled="true" >*@
+                        <input type="date" class="form-control" ng-model="ctrl.operacion.FechaVigente" disabled="true">
                         
-                        <md-datepicker ng-model="ctrl.operacion.FechaVigente" disabled></md-datepicker>
+                        @*<md-datepicker ng-model="ctrl.operacion.FechaVigente" disabled></md-datepicker>*@
 
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="form-group no-margin-bottom">
                     <label class="col-md-12">Fecha de Envio</label>
                     <div class="col-md-12">
-                        <input type="text" class="form-control"ng-model="ctrl.operacion.FechaEnvio" disabled="true" >
+                        <input type="date" class="form-control" ng-model="ctrl.operacion.FechaEnvio" disabled="true">
                         @*<md-datepicker ng-model="ctrl.operacion.FechaEnvio" disabled></md-datepicker>*@
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                     <label class="col-md-12">Fecha de Creación</label>
                     
                     <div class="col-md-12">
-                        <input type="text" class="form-control" ng-model="ctrl.operacion.FechaRegistro" disabled="true" >
+                        <input type="date" class="form-control" ng-model="ctrl.operacion.FechaRegistro" disabled="true" >
                         @*<md-datepicker ng-model="ctrl.operacion.FechaRegistro" disabled></md-datepicker>*@
                     </div>
                     
@@ -165,7 +165,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="col-sm-12">   </label>
+                                <label class="col-md-12"></label>
                                 <div class="col-sm-12 margin-bottom">
                                     <textarea id="editor1" name="editor1" style="resize:none" rows="18" cols="80" class="form-control" ng-model="ctrl.DocumentoElectronicoOperacion.Memo" required>
                                         Editor de texto

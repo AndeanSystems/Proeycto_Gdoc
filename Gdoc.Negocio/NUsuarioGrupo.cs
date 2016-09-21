@@ -12,7 +12,8 @@ namespace Gdoc.Negocio
         #endregion
         public void Dispose()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            dUsuarioGrupo = null;
         }
 
         public List<UsuarioGrupo> listarUsuarioGrupo(UsuarioGrupo eUsuarioGrupo) {
@@ -21,6 +22,18 @@ namespace Gdoc.Negocio
                 return dUsuarioGrupo.listarUsuarioGrupo(eUsuarioGrupo);
             }
             catch (System.Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public List<UsuarioGrupo> listarUsuarioG()
+        {
+            try
+            {
+                return dUsuarioGrupo.listarUsuarioG();
+            }
+            catch (Exception)
             {
 
                 throw;

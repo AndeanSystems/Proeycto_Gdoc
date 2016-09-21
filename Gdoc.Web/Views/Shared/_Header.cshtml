@@ -1,13 +1,9 @@
-﻿
-    <!-- Header Navbar: style can be found in header.less -->
-<input type="hidden" value="@Html.Raw(Session["IDUsuario"].ToString())" id="IDUsuario"/>
+﻿<input type="hidden" value="@Html.Raw(Session["IDUsuario"].ToString())" id="IDUsuario"/>
     <nav class="navbar navbar-fixed-top" role="navigation" ng-controller="header_controller as ctrl">
         <a href="@Url.Action("Alertas", "Alertas")" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini">
                 <img width="50" height="50" src="~/resources/img/fepcmac1_mini.png" />
             </span>
-            <!-- logo for regular state and mobile devices -->
             <span class="logo-lg">
                 <img width="200" height="50" src="~/resources/img/fepcmac1.png" />
             </span>
@@ -18,7 +14,6 @@
 
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <!-- Messages: style can be found in dropdown.less-->
                 <li>
                     <a href="@Url.Action("Index", "Alertas")">
                         <i class="fa fa-home" data-placement="right" data-toggle="tooltip" title="Inicio"></i>
@@ -32,7 +27,6 @@
                     </a>
 
                 </li>
-                <!-- Notifications: style can be found in dropdown.less -->
                 <li>
                     <a href="@Url.Action("Index", "MesaVirtual")">
                         <i class="fa fa-folder" data-placement="right" data-toggle="tooltip" title="Mesa de Trabajo"></i>
@@ -40,7 +34,6 @@
                     </a>
 
                 </li>
-                <!-- Tasks: style can be found in dropdown.less -->
                 <li>
                     <a href="@Url.Action("Index", "DocumentoElectronico")">
                         <i class="fa fa-file" data-placement="right" data-toggle="tooltip" title="Documento Electronico"></i>
@@ -57,14 +50,12 @@
 
                 </li>
 
-                <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="@Html.Raw(Session["RutaAvatar"].ToString())" class="user-image" alt="User Image" id="AvatarUser" />
                         <span class="hidden-xs">@Html.Raw(Session["NombreUsuario"].ToString())</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <!-- User image -->
                         <li class="user-header" style=" background:#A20012!important">
                             <input style="height: 35%;top: 0;position: absolute; opacity: 0;" type="file" id="fotoAvatar" accept="image/*">
                             <img src="@Html.Raw(Session["RutaAvatar"].ToString())" class="img-circle" alt="User Image" id="AvatarUser" />
@@ -80,7 +71,6 @@
                                 </small>
                             </p>
                         </li>
-                        <!-- Menu Body -->
                         <li class="user-body">
                             <div class="col-xs-6 text-center">
                                 <a  href="@Url.Action("CambiarContraseña", "Usuario")">Cambiar Contraseña</a>
@@ -92,7 +82,6 @@
                             </div>
 
                         </li>
-                        <!-- Menu Footer-->
                         <li class="user-footer">
                             
                             <div class="text-center">
@@ -105,7 +94,6 @@
                         </li>
                     </ul>
                 </li>
-                <!-- Control Sidebar Toggle Button -->
                 <li>
                     <a href="#" data-toggle="control-sidebar">
                         <i class="fa fa-chevron-circle-left"></i>
@@ -118,14 +106,13 @@
     <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-        <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-        <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+        <li class="active"><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+        @*<li ><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>*@
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
         <!-- Home tab content -->
-        <div class="tab-pane active" id="control-sidebar-home-tab">
-            <!--  <h3 class="control-sidebar-heading">Recent Activity</h3>-->
+        <div class="tab-pane" id="control-sidebar-home-tab">
             <ul class="control-sidebar-menu">
                 <div class="input-group">
                     <input type="text" name="q" class="form-control" placeholder="Buscar Documentos" />
@@ -144,7 +131,7 @@
         </div>
         <!-- /.tab-pane -->
         <!-- Settings tab content -->
-        <div class="tab-pane" id="control-sidebar-settings-tab">
+        <div class="tab-pane active" id="control-sidebar-settings-tab">
             <h3 class="control-sidebar-heading">Configuraciones</h3>
             <div>
                 <label class="label-form">Recibir notificaciones propias<input type="checkbox" class="ios-switch green tinyswitch" checked /><div><div></div></div></label>

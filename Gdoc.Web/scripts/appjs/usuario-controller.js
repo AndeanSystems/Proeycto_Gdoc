@@ -18,7 +18,6 @@
         LlenarConcepto("015");
         LlenarConcepto("024");
 
-        context.personal = {};
         context.usuario = {};
         context.listDepartamento = [];
 
@@ -89,9 +88,13 @@
             $("#modal_contenido").modal("show");
         };
 
-        context.buscarUsuarioPersonal = function (user,documento,idetificacion) {
+        context.buscarUsuarioPersonal = function (user, documento, idetificacion) {
             
-            dataProvider.postData("Usuario/BuscarUsuarioPersonal", { NombreUsuario: user }, { NumeroIdentificacion: documento }, { TipoIdentificacion: idetificacion }).success(function (respuesta) {
+            var personal = context.personal;
+
+            personal = { NumeroIdentificacion: documento };
+            console.log(personal);
+            dataProvider.postData("Usuario/BuscarUsuarioPersonal", { NombreUsuario: user,Personal:personal }).success(function (respuesta) {
                 console.log(respuesta);
                 context.usuario = respuesta[0];
                 console.log(context.usuario)
@@ -150,67 +153,45 @@
 
         //Eventos
         context.grabar = function (numeroboton) {
-            swal({
-                title: "¿Seguro que deseas continuar?",
-                text: "No podrás deshacer este paso...",
-                type: "warning",
-                showCancelButton: true,
-                cancelButtonText: "Cancelar",
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Aceptar",
-                closeOnConfirm: false
-            },
 
-            function () {
-                //swal({
-                //    title: "Confirmacion de Credencial!",
-                //    text: "Ingrese su clave de Usuario",
-                //    type: "input",
-                //    showCancelButton: true,
-                //    closeOnConfirm: false,
-                //    animation: "slide-from-top",
-                //    inputPlaceholder: "Write something"
-                //},
-                //function (inputValue) {
-                //    if (inputValue === false) return false;
-                //    if (inputValue === "") {
-                //        swal.showInputError("Por favor Digite su clave de Usuario");
-                //        return false;
-                //    }
-                //    if (inputValue != "hola") {
-                //        swal.showInputError("Clave Incorrecta");
-                //        return false;
-                //    }
-                //});
-                console.log(context.personal);
+            //swal({
+            //    title: "Confirmacion de Credencial!",
+            //    text: "Ingrese su clave de Usuario",
+            //    type: "input",
+            //    showCancelButton: true,
+            //    closeOnConfirm: false,
+            //    animation: "slide-from-top",
+            //    inputPlaceholder: "Write something"
+            //},
+            //function (inputValue) {
+            //    if (inputValue === false) return false;
+            //    if (inputValue === "") {
+            //        swal.showInputError("Por favor Digite su clave de Usuario");
+            //        return false;
+            //    }
+            //    if (inputValue != "hola") {
+            //        swal.showInputError("Clave Incorrecta");
+            //        return false;
+            //    }
+            //});
 
-                var personal = context.personal;
-                var usuario = context.usuario;
+            if (numeroboton == 1)
+                usuario.EstadoUsuario = 0
+            else if (numeroboton == 2)
+                usuario.EstadoUsuario = 1
 
-                if (numeroboton == 1)
-                    personal.EstadoPersonal = 0
-                else if (numeroboton == 2)
-                    personal.EstadoPersonal = 1
-
-                if (numeroboton == 1)
-                    usuario.EstadoUsuario = 0
-                else if (numeroboton == 2)
-                    usuario.EstadoUsuario = 1
+            function enviarFomularioOK() {
                 dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
                     console.log(respuesta);
                     listarUsuario();
-                    context.personal = {};
-                    context.usuario = {};
-                    context.listDepartamento = [];
-                    context.listPronvincia = [];
-                    context.listDistrito = [];
                     $("#modal_contenido").modal("hide");
                 }).error(function (error) {
                     //MostrarError();
                 });
 
                 swal("¡Bien!", "Usuario Registrado Correctamente", "success");
-            });
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);    
         }
 
         context.listPronvincia = function (CodigoDepartamento) {
@@ -232,7 +213,6 @@
         }
 
         context.buscarUsuario = function (usuario) {
-            //usuario.Personal.NombrePers = usuario
             dataProvider.postData("Usuario/BuscarUsuarioNombre", usuario).success(function (respuesta) {
                 //context.usuario = respuesta[0];
                 console.log(usuario)
@@ -243,8 +223,21 @@
             });
         }
 
+        context.nuevoUsuario = function () {
+            limpiarFormulario();
+            $("#modal_contenido").modal("show");
+        }
         //Metodos
         
+        function limpiarFormulario() {
+            context.usuario = {};
+            context.listDepartamento = [];
+            context.usuario.ExpiraFirma = 0;
+            context.listDepartamento = [];
+            context.listPronvincia = [];
+            context.listDistrito = [];
+        }
+
         function listarUsuario() {
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
                 context.gridOptions.data = respuesta;

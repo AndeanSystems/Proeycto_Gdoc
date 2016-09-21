@@ -18,6 +18,9 @@ function ReadFileToBinary(control) {
         reader.readAsBinaryString(f);
     }
 }
+$(function () {
+    CKEDITOR.replace('editor1');
+});
 (function () {
     'use strict';
 

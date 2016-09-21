@@ -68,7 +68,10 @@ function ReadFileToBinary(control) {
             PrioridadOperacion: '02',
             TipoComunicacion: '1',
             FechaEmision: new Date(),
-            FechaCierre: new Date()
+            FechaCierre: new Date(),
+            FechaRegistro: new Date(),
+            FechaEnvio: new Date(),
+            FechaVigente: new Date()
         };
         context.DocumentoDigitaloOperacion = {
             DerivarDocto: 'S'
@@ -260,7 +263,10 @@ function ReadFileToBinary(control) {
                 PrioridadOperacion: '02',
                 TipoComunicacion: '1',
                 FechaEmision: new Date(),
-                FechaCierre: new Date()
+                FechaCierre: new Date(),
+                FechaRegistro: new Date(),
+                FechaEnvio: new Date(),
+                FechaVigente: new Date()
             };
             context.DocumentoDigitaloOperacion = {
                 DerivarDocto: 'S'

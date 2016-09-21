@@ -19,43 +19,43 @@
             var usuario = context.usuario;
 
             if (usuario.ClaveUsuarioAntigua == undefined || usuario.ClaveUsuarioAntigua == "") {
-                alert("Ingrese clave")
-                return;
+                return appService.mostrarAlerta("Informacion", "Ingrese Clave", "warning");
             }
             else if (usuario.ClaveUsuarioAntigua != usuario.ClaveUsuario) {
-                alert("Clave Actual incorrecta")
-                return;
+                return appService.mostrarAlerta("Informacion", "Clave Actual incorrecta", "error");
             }
             else if (usuario.ClaveUsuarioNueva == undefined || usuario.ClaveUsuarioNueva == "") {
-                alert("Ingrese la clave nueva");
-                return;
+                return appService.mostrarAlerta("Informacion", "Ingrese la clave nueva", "warning");
             }
             else if (usuario.ClaveUsuarioNueva == context.usuario.ClaveUsuario) {
-                alert("La nueva Clave es igual a la Anterior")
-                return;
+                return appService.mostrarAlerta("Informacion", "La nueva Clave es igual a la Anterior", "warning");
             }
             else if (usuario.ClaveUsuarioNueva2 == undefined || usuario.ClaveUsuarioNueva2 == "") {
-                alert("Confirme la clave nueva");
-                return;
+                return appService.mostrarAlerta("Informacion", "Confirme la clave nueva", "warning");
             }
             else if (usuario.ClaveUsuarioNueva != usuario.ClaveUsuarioNueva2) {
-                alert("Las claves no coinciden");
-                return;
+                return appService.mostrarAlerta("Informacion", "Las claves no coinciden", "error");
             }
             else {
-                alert("grabo");
 
-                context.usuario.ClaveUsuario = usuario.ClaveUsuarioNueva2
-                dataProvider.postData("GrabarUsuario", usuario).success(function (respuesta) {
-                    console.log(respuesta);
+
+                function enviarFomularioOK() {
+                    context.usuario.ClaveUsuario = usuario.ClaveUsuarioNueva2
+                    dataProvider.postData("GrabarUsuario", usuario).success(function (respuesta) {
+                        if (respuesta.Exitoso)
+                            TipoMensaje = "success";
+                        appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+                    }).error(function (error) {
+                        //MostrarError();
+                    });
                     context.usuario = {};
-                }).error(function (error) {
-                    //MostrarError();
-                });
-
-                context.usuario = {};
-                usuario = {};
-                location.href = "CambiarContraseña";
+                    usuario = {};
+                    listarUsuario();
+                }
+                appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+                
+                
+                //location.href = "CambiarContraseña";
             }
         }
 

@@ -65,7 +65,9 @@ function ReadFileToBinary(control) {
             AccesoOperacion: '2',
             NotificacionOperacion: '0',
             FechaVigente: new Date(),
-            FechaCierre: new Date()
+            FechaCierre: new Date(),
+            FechaRegistro: new Date(),
+            FechaEnvio: new Date()
         };
 
         context.gridOptions = {
@@ -205,7 +207,9 @@ function ReadFileToBinary(control) {
                 AccesoOperacion: '2',
                 NotificacionOperacion: '0',
                 FechaVigente: new Date(),
-                FechaCierre: new Date()
+                FechaCierre: new Date(),
+                FechaRegistro: new Date(),
+                FechaEnvio: new Date()
             };
             archivosSelecionados = [];
             document.getElementById("input_file").value = "";

@@ -1,6 +1,7 @@
 ﻿//Leer Archivos de de fisico a binario
 var archivosSelecionados = [];
 function ReadFileToBinary(control) {
+    archivosSelecionados = [];
     for (var i = 0, f; f = control.files[i]; i++) {
         let files = f;
         var reader = new FileReader();
@@ -26,9 +27,7 @@ function ReadFileToBinary(control) {
     function firma_controller($location, dataProvider, appService) {
         /* jshint validthis:true */
         ///Variables
-
         var context = this;
-
         context.usuario = {};
 
         //Eventos
@@ -45,10 +44,11 @@ function ReadFileToBinary(control) {
             console.log(context.usuario);
 
             var usuario = context.usuario;
-
+            if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
+                return appService.mostrarAlerta("Advertencia", "Debe adjuntar una firma", "warning");
+            }
             if (usuario.FirmaElectronicaNueva == undefined || usuario.FirmaElectronicaNueva == "") {
-                alert("Ingrese Firma")
-                return;
+                return appService.mostrarAlerta("Advertencia", "Ingrese caracteres", "warning");
             }
             else {
 
@@ -65,24 +65,31 @@ function ReadFileToBinary(control) {
                 }
 
                 context.usuario.FirmaElectronica = usuario.FirmaElectronicaNueva
-                console.log(usuario);
-                dataProvider.postData("GrabarUsuario", usuario).success(function (respuesta) {
-                    console.log(respuesta);
-                }).error(function (error) {
-                    //MostrarError();
-                });
-                console.log(listoFirmas);
-                dataProvider.postData("MoverFirma", listoFirmas).success(function (respuesta) {
-                    console.log(respuesta);
-                    context.usuario = {};
-                }).error(function (error) {
-                    //MostrarError();
-                });
 
-                context.usuario = {};
-                usuario = {};
-                alert("grabo");
-                location.href = "CambiarFirmaElectronica";
+                function enviarFomularioOK() {
+                    console.log(usuario);
+                    dataProvider.postData("GrabarUsuario", usuario).success(function (respuesta) {
+                        console.log(respuesta);
+                    }).error(function (error) {
+                        //MostrarError();
+                    });
+                    console.log(listoFirmas);
+                    dataProvider.postData("MoverFirma", listoFirmas).success(function (respuesta) {
+                        console.log(respuesta);
+                    }).error(function (error) {
+                        //MostrarError();
+                    });
+                    context.usuario = {};
+                    usuario = {};
+                    document.getElementById("input_file").value = "";
+                    listarUsuario();
+                    appService.mostrarAlerta("Información", "se grabo correctamente", "success");
+                    location.href = "CambiarFirmaElectronica";
+                }
+                appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+
+                
+                
                 
             }
         }
