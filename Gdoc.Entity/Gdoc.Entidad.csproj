@@ -53,6 +53,7 @@
     <Compile Include="Extension\EEmpresa.cs" />
     <Compile Include="Extension\EFirma.cs" />
     <Compile Include="Extension\EGrupo.cs" />
+    <Compile Include="Extension\ELogOperacion.cs" />
     <Compile Include="Extension\EMensajeAlerta.cs" />
     <Compile Include="Extension\EModuloPaginaUrl.cs" />
     <Compile Include="Extension\EOperacion.cs" />

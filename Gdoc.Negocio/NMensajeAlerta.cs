@@ -16,11 +16,11 @@ namespace Gdoc.Negocio
         {
             dMensajeAlerta = null;
         }
-        public List<EMensajeAlerta> ListarMensajeAlerta()
+        public List<EMensajeAlerta> ListarMensajeAlerta(Int64 IDUsuario)
         {
             try
             {
-                return dMensajeAlerta.ListarMensajeAlerta();
+                return dMensajeAlerta.ListarMensajeAlerta().Where(x => x.IDUsuario == IDUsuario).ToList();
             }
             catch (Exception)
             {

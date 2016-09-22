@@ -70,6 +70,26 @@ function ReadFileToBinary(control) {
             FechaEnvio: new Date()
         };
 
+        context.editarOperacion = function (rowIndex) {
+
+            context.operacion = context.gridOptions.data[rowIndex];
+
+            console.log(context.operacion);
+
+            context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
+            context.operacion.FechaCierre = appService.setFormatDate(context.operacion.FechaCierre);
+
+            //Estados
+            if (context.operacion.EstadoOperacion == 0)
+                context.operacion.EstadoOperacion = 'CREADO'
+            else if (context.operacion.EstadoOperacion == 1)
+                context.operacion.EstadoOperacion = 'ACTIVO'
+            else
+                context.operacion.EstadoOperacion = 'INACTIVO'
+
+            context.CambiarVentana('Commentary');
+        }
+
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -148,7 +168,14 @@ function ReadFileToBinary(control) {
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
             if (context.visible == "List") {
+                limpiarFormulario()
                 listarOperacion();
+            }
+            else if (context.visible == "Commentary") {
+
+            }
+            else {
+                limpiarFormulario()
             }
         }
         ////

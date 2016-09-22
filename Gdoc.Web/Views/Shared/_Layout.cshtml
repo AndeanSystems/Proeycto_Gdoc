@@ -84,6 +84,9 @@
             display: block;
             font-size: 13px;
         }
+        .modal-content {
+            border-radius: 5px;
+        }
         label {
             font-family: 'Source Sans Pro',sans-serif;
             font-size: 13px;
@@ -133,30 +136,12 @@
             background-color: #E83333;
         }
     </style>
-    <style>
-        .example-modal .modal {
-            position: relative;
-            top: auto;
-            bottom: auto;
-            right: auto;
-            left: auto;
-            display: block;
-            z-index: 1;
-        }
-
-        .example-modal .modal {
-            background: transparent !important;
-        }
-    </style>
 </head>
 <body class="skin-blue sidebar-mini" style="background-color: #ecf0f5" ng-app="app">
     <div class="wrapper">
         <header class="main-header">
-
             @Html.Partial("_Header")
-
         </header>
-
         <div>
             @Html.Partial("_Sidebar")
         </div>
@@ -170,11 +155,7 @@
         </div>
 
         <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.0
-            </div>
-            <strong>Copyright &copy; 2016 <a target="_blank" href="http://andeansystems.com">Andean Systems</a>.</strong> All rights
-            reserved.
+            @Html.Partial("_Footer")
         </footer>
 
         <!--modal en construccion-->
@@ -190,39 +171,7 @@
                 </div>
             </div>
         </div>
-
-        <!--modal de clave de autorizacion-->
-        <div class="modal fade" id="modal_clave">
-            <div class="modal-dialog modal-lg" style="width:20%;">
-                <br />
-                <br />
-                <br />
-                <br />
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title">Mensaje de Autorizacion</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Ingrese Clave</p>
-                        <input class="form-control" type="password" />
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-primary center">Aceptar</button>
-                        </div>
-                        <div class="col-md-4">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+    </div>
     <script src="~/scripts/angular/angular.min.js"></script>
     <script src="~/scripts/angular-locale_es-pe.js"></script>
     <script src="~/scripts/ui-grid.min.js"></script>

@@ -628,6 +628,7 @@
     <Content Include="scripts\appjs\firma-controller.js" />
     <Content Include="scripts\appjs\general-controller.js" />
     <Content Include="scripts\appjs\grupo-controller.js" />
+    <Content Include="scripts\appjs\logoperacion-controller.js" />
     <Content Include="scripts\appjs\mesavirtual-controller.js" />
     <Content Include="scripts\appjs\personal-controller.js" />
     <Content Include="scripts\appjs\usuario-controller.js" />
@@ -761,6 +762,7 @@
     <Content Include="Views\Busqueda\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\LogOperacion\Index.cshtml" />
+    <Content Include="Views\MesaVirtual\_Commentary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

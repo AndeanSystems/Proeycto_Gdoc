@@ -1,0 +1,172 @@
+﻿<br />
+<br />
+<br />
+<form role="form" name="frmDatos" novalidate>
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Mesa Virtual</h3>
+                <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
+            </div>
+
+            <div class="box-body">
+
+                <div class="form-group">
+                    <label class="col-sm-6">Titulo : </label>
+                    <label class="col-sm-6">{{ctrl.operacion.TituloOperacion}}</label>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6">Asunto </label>
+                    <label class="col-sm-6">{{ctrl.operacion.DescripcionOperacion}}</label>
+                </div>
+                <div class="form-group margin-bottom">
+                    <label class="col-sm-6">Tipo Mesa Virtual </label>
+                    <div class="col-sm-6">
+                        <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoMesaVirtual" disabled>
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Prioridad Atencion</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listPrioridadAtencion" disabled>
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label class="col-sm-6">Estado</label>
+                    <label class="col-sm-6">{{ctrl.operacion.EstadoOperacion}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Organizador </label>
+                    <label class="col-sm-6">{{ctrl.usuarioOrganizador.Nombre}}docuweb2 </label>
+                        @*<input type="text" class="form-control" placeholder="JSANCHEZ">*@
+                        @*<md-content class="autocomplete" layout="column">
+                            <md-contact-chips ng-model="ctrl.usuarioOrganizador"
+                                              md-contacts="ctrl.querySearch($query,'U')"
+                                              md-contact-name="Nombre"
+                                              md-highlight-flags="i"
+                                              filter-selected="ctrl.filterSelected"
+                                              placeholder="Organizador">
+                            </md-contact-chips>
+                        </md-content>*@
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6">Invitados </label>
+                    <label class="col-sm-6">{{ctrl.usuarioInvitados.Nombre}}docuweb </label>
+                    @*<div class="col-sm-6">
+                        <md-content class="autocomplete" layout="column">
+                            <md-contact-chips ng-model="ctrl.usuarioInvitados"
+                                              md-contacts="ctrl.querySearch($query)"
+                                              md-contact-name="Nombre"
+                                              md-highlight-flags="i"
+                                              filter-selected="ctrl.filterSelected"
+                                              placeholder="Invitados">
+                            </md-contact-chips>
+                        </md-content>
+                    </div>*@
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6">Fecha de Registro    </label>
+                    <label class="col-sm-6">{{ctrl.operacion.FechaEnvio}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Fecha de Cierre</label>
+                    <label class="col-sm-6">{{ctrl.operacion.FechaCierre}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-12">Documento Adjunto</label>
+                    <div class="col-sm-12">
+                        <input type="file" class="form-control" data-icon="false" onchange="ReadFileToBinary(this)" id="input_file" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Comentarios</h3>
+                <button class="btn btn-default pull-right" ng-click="ctrl.grabarcomentario()"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+            </div>
+
+            <div class="box-body">
+
+                
+
+                @*<div class="form-group no-margin">
+                        <label class="col-sm-4">Tipo de Accesso <span class="text-danger">(*)</span></label>
+                        <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
+                            <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso | limitTo:2">{{ta.DescripcionConcepto}} </md-radio-button>
+                        </md-radio-group>
+                    </div>
+
+                    <div class="form-group no-margin">
+                        <label class="col-sm-4">Notificar Acciones <span class="text-danger">(*)</span></label>
+                        <md-radio-group ng-model="ctrl.operacion.NotificacionOperacion">
+                            <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="0" class="standard">Si</md-radio-button>
+                            <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="1" class="standard">No</md-radio-button>
+
+                        </md-radio-group>
+                    </div>
+
+                    *@
+
+                <div class="form-group">
+                    <label class="col-sm-12">Comentario</label>
+                    <div class="col-sm-12">
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-12">Documento Adjunto</label>
+                    <div class="col-sm-12">
+                        <input type="file" class="form-control"  onchange="ReadFileToBinary(this)" id="input_file" multiple>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Historial de Comentarios</h3>
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha Hora</th>
+                                <th>Participante</th>
+                                <th>Comentario</th>
+                                <th>Adjuno</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ctrl.listaReferencia">
+                                <td>{{item.DescripcionIndice}}</td>
+                                <td>{{item.DescripcionIndice}}</td>
+                                <td>{{item.DescripcionIndice}}</td>
+                                <td>
+                                    <i class="fa fa-times  " data-placement="top" data-toggle="tooltip" title="Borrar" ng-click="ctrl.eliminarreferencia($index)"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -18,6 +18,7 @@
         LlenarConcepto("015");
         LlenarConcepto("024");
 
+        var usuario = {};
         context.usuario = {};
         context.listDepartamento = [];
 
@@ -154,44 +155,48 @@
         //Eventos
         context.grabar = function (numeroboton) {
 
-            //swal({
-            //    title: "Confirmacion de Credencial!",
-            //    text: "Ingrese su clave de Usuario",
-            //    type: "input",
-            //    showCancelButton: true,
-            //    closeOnConfirm: false,
-            //    animation: "slide-from-top",
-            //    inputPlaceholder: "Write something"
-            //},
-            //function (inputValue) {
-            //    if (inputValue === false) return false;
-            //    if (inputValue === "") {
-            //        swal.showInputError("Por favor Digite su clave de Usuario");
-            //        return false;
-            //    }
-            //    if (inputValue != "hola") {
-            //        swal.showInputError("Clave Incorrecta");
-            //        return false;
-            //    }
-            //});
-
+            usuario = context.usuario;
             if (numeroboton == 1)
                 usuario.EstadoUsuario = 0
             else if (numeroboton == 2)
                 usuario.EstadoUsuario = 1
 
-            function enviarFomularioOK() {
-                dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
-                    console.log(respuesta);
-                    listarUsuario();
-                    $("#modal_contenido").modal("hide");
-                }).error(function (error) {
-                    //MostrarError();
-                });
+            swal({
+                title: "Confirmacion de Credencial!",
+                text: "Ingrese su clave de Usuario",
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Write something"
+            },
+            function (inputValue) {
+                if (inputValue === false) return false;
+                if (inputValue === "") {
+                    swal.showInputError("Por favor Digite su clave de Usuario");
+                    return false;
+                }
+                if (inputValue != "hola") {
+                    swal.showInputError("Clave Incorrecta");
+                    return false;
+                }
 
-                swal("¡Bien!", "Usuario Registrado Correctamente", "success");
-            }
-            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);    
+                function enviarFomularioOK() {
+                    dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
+                        console.log(respuesta);
+                        listarUsuario();
+                        $("#modal_contenido").modal("hide");
+                    }).error(function (error) {
+                        //MostrarError();
+                    });
+
+                    swal("¡Bien!", "Usuario Registrado Correctamente", "success");
+                }
+                appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+            });
+           
+
+                
         }
 
         context.listPronvincia = function (CodigoDepartamento) {

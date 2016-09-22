@@ -25,7 +25,8 @@ namespace Gdoc.Web.Controllers
             var listMensajeAlerta = new List<EMensajeAlerta>();
             using (var oMensajeAlerta = new NMensajeAlerta())
             {
-                listMensajeAlerta = oMensajeAlerta.ListarMensajeAlerta();
+                Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
+                listMensajeAlerta = oMensajeAlerta.ListarMensajeAlerta(IDusuario);
             }
             return new JsonResult { Data = listMensajeAlerta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

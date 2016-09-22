@@ -42,6 +42,19 @@ namespace Gdoc.Negocio
             dAdjunto = null;
         }
 
+        public List<EOperacion> ListarOperacionBusqueda()
+        {
+            try
+            {
+                return dOperacion.ListarOperacionBusqueda();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public short Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo,Int64 IDusuario)
         {
             try
@@ -191,8 +204,7 @@ namespace Gdoc.Negocio
                 //GRABAR OPERACION
                 dOperacion.Grabar(operacion);
 
-                //GRABAR DOCUMENTODIGITALOPERACION
-                dDocumentoDigitalOperacion.GrabarDocumentoDigitalOperacion(listDocumentoDigitalOperacion);
+                
 
                 //GRABAR ADJUNTO
                 //Traer las ruta de la tabla general
@@ -223,7 +235,8 @@ namespace Gdoc.Negocio
                         }
                     }
                 }
-
+                //GRABAR DOCUMENTODIGITALOPERACION
+                dDocumentoDigitalOperacion.GrabarDocumentoDigitalOperacion(listDocumentoDigitalOperacion);
 
                 //GRABAR USUARIOPARTICIPANTE
                 foreach (var participante in listEUsuarioGrupo)
@@ -271,7 +284,7 @@ namespace Gdoc.Negocio
                                 listEusuarioParticipante.Add(eUsuarioParticipante);
 
                             //GRABAR MENSAJE ALERTA
-                            if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                            if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)
                             {
                                 eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                                 eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
@@ -390,7 +403,7 @@ namespace Gdoc.Negocio
                             listEusuarioParticipante.Add(eUsuarioParticipante);
 
                         //GRABAR MENSAJE ALERTA
-                        if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                        if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV)
                         {
                             eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                             eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;

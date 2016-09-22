@@ -16,6 +16,18 @@ namespace Gdoc.Negocio
         {
             dLogOperacion = null;
         }
+        public List<ELogOperacion> ListarLogOperacion()
+        {
+            try
+            {
+                return dLogOperacion.ListarLogOperacion();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public LogOperacion GrabarLogOperacion(LogOperacion logoperacion)
         {
             try

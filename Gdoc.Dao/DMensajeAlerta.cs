@@ -35,6 +35,7 @@ namespace Gdoc.Dao
 
                                  where tipodocumento.TipoConcepto.Equals("012")
                                        && tipooperacion.TipoConcepto.Equals("003")
+                                       && mensajealerta.FechaAlerta.Value.Day == System.DateTime.Now.Day
 
                                  select new { mensajealerta, tipooperacion, tipodocumento, usuario, operacion }).ToList();
 

@@ -17,5 +17,14 @@ namespace Gdoc.Web.Controllers
         {
             return View();
         }
+        public JsonResult ListarOperacionBusqueda(Operacion operacion)
+        {
+            var listOperacion = new List<EOperacion>();
+            using (var oOperacion = new NOperacion())
+            {
+                listOperacion = oOperacion.ListarOperacionBusqueda().Where(x=>x.TipoOperacion==operacion.TipoOperacion).ToList();
+            }
+            return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
 	}
 }

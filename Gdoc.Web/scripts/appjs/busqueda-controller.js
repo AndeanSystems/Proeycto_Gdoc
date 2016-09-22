@@ -13,79 +13,36 @@
         let PrioridadAtencion = "005";
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
-        context.busqueda = {};
+        context.operacion = {};
 
         LlenarConcepto(TipoOperacion);
         LlenarConcepto(TipoDocumento);
 
-        //var concepto = { TipoConcepto: "012" };
-        
-        //appService.listarConcepto(concepto).success(function (respuesta) {
-        //    console.log(respuesta);
-        //});
-
      
-        context.buscarConcepto = function (CodiConcepto, EstadoConcepto) {
-            if (CodiConcepto == null) {
-                alert("Seleccione el tipo de concepto para la consulta");
-            }
-            else {
-                if (EstadoConcepto == null) {
-                    dataProvider.postData("Concepto/BuscarConceptoEstado", { CodiConcepto: CodiConcepto }).success(function (respuesta) {
-                        console.log(respuesta);
-                        context.concepto = respuesta[0];
-                        //if (context.concepto.EditarRegistro == 0) {
-                        //    context.acciones = '<i>a</i>';//por terminar
-                        //    console.log(context.acciones);
-                        //}
-                        context.gridOptions.data = respuesta;
-                    }).error(function (error) {
-                        //MostrarError();
-                    });
-                }
-                else {
-                    dataProvider.postData("Concepto/BuscarConceptoEstado", { CodiConcepto: CodiConcepto, EstadoConcepto: EstadoConcepto }).success(function (respuesta) {
-                        console.log(respuesta);
-                        context.concepto = respuesta[0];
-                        //if (context.concepto.EditarRegistro == 0) {
-                        //    context.acciones = ' a';
-                        //    console.log(context.acciones);
-                        //}
-                        context.gridOptions.data = respuesta;
-                    }).error(function (error) {
-                        //MostrarError();
-                    });
-                }
-
-            }
-
+        context.buscarOperacion = function (operacion) {
+            dataProvider.postData("Busqueda/ListarOperacionBusqueda", operacion).success(function (respuesta) {
+                console.log(respuesta);
+                context.gridOptions.data = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
         }
 
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
-            //enableFiltering: true,
-            //multiSelect: false,
-            //enableSelectAll: false,
-            //modifierKeysToMultiSelect: false,
-            //noUnselect: true,
-            //enableRowHeaderSelection: false, 
-            //enableRowSelection: true, 
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'TipoConcepto', displayName: 'Tipo Concepto' },
-                { field: 'CodiConcepto', displayName: 'Codigo' },
-                { field: 'DescripcionConcepto', width: '20%', displayName: 'Descripcion' },
-                { field: 'DescripcionCorta', displayName: 'Abreviatura' },
-                { field: 'ValorUno', width: '8%', displayName: 'Valor1' },
-                { field: 'ValorDos', width: '8%', displayName: 'Valor2' },
-                { field: 'TextoUno', width: '8%', displayName: 'Texto1' },
-                { field: 'TextoDos', width: '8%', displayName: 'Texto2' },
-                { field: 'EstadoConcepto', displayName: 'Estado' },
+                { field: 'TipoOpe.DescripcionConcepto', displayName: 'Tipo Operacion' },
+                { field: 'NumeroOperacion', displayName: 'Numero Operacion' },
+                { field: 'FechaEnvio', displayName: 'Fecha Envio', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'TipoDoc.DescripcionConcepto', displayName: 'Tipo Documento/Mesa' },
                 {
                     name: 'Acciones',
-                    cellTemplate: context.acciones
+                    cellTemplate: '<i  class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                '<i  class="fa fa-user-plus" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Compartir"></i> ' +
+                                '<i  class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Eliminar"></i> '
                 }
                 //{ field: 'Empresa.DireccionEmpresa',displayName:'Direción Empresa' }
             ]
