@@ -1,12 +1,9 @@
-﻿<br />
-<br />
-<br />
-<form role="form" name="frmDatos" novalidate>
+﻿<form role="form" name="frmDatos" novalidate>
     <div class="col-md-12">
-        <div class="box box-primary">
+        <div class="box box-primary margin-top">
             <div class="box-header with-border">
-                <h3 class="box-title">Mesa Virtual</h3>
-                <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
+                <h3 class="box-title">Mesa de Trabajo Virtual</h3>
+                <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana2('ListWork')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
             </div>
 
             <div class="box-body">
@@ -16,11 +13,12 @@
                 </div>
 
                 <div class="form-group margin-bottom">
-                    <label class="col-sm-12">Tipo Mesa : {{ctrl.operacion.TipoDoc.DescripcionConcepto}};      
-                                            Prioridad : {{ctrl.operacion.Prioridad.DescripcionConcepto}};         
-                                            Estado : {{ctrl.operacion.Estado.DescripcionConcepto}};
-                                            Fecha de Registro : {{ctrl.operacion.FechaEnvio | date:"dd/MM/yyyy"}};
-                                            Organizador : {{ctrl.usuarioOrganizador}}
+                    <label class="col-sm-12">
+                        Tipo Mesa : {{ctrl.operacion.TipoDoc.DescripcionConcepto}};
+                        Prioridad : {{ctrl.operacion.Prioridad.DescripcionConcepto}};
+                        Estado : {{ctrl.operacion.Estado.DescripcionConcepto}};
+                        Fecha de Registro : {{ctrl.operacion.FechaEnvio | date:"dd/MM/yyyy"}};
+                        Organizador : {{ctrl.usuarioOrganizador}}
                     </label>
                 </div>
 
@@ -29,27 +27,6 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-12">Documento Adjunto : <i ng-click="ctrl.mostrarAdjuntosMesa(ctrl.operacion)" class="fa fa-eye" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver"></i></label>
-                    <div class="col-sm-12">
-                        @*<div class="grid" style="font-size: 12px; height: 200px" ui-grid="ctrl.gridDocumentosAdjuntos"></div>*@
-                        @*<table class="table table-hover table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Tipo Archivo</th>
-                                    <th>Abrir</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="item in ctrl.listDocumentoAdjuntoMesa">
-                                    <td>{{item.Adjunto.NombreOriginal}}</td>
-                                    <td>{{item.Adjunto.TipoArchivo}}</td>
-                                    <td>
-                                        <a class="fa fa-folder-open-o" ng-href="http://localhost:99/ADJUNTOS/{{item.Archivo}}" style="padding: 4px;font-size: 1.4em;" target="_blank" data-placement="top" data-toggle="tooltip" title="Abrir"></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>*@
-                    </div>
                 </div>
             </div>
         </div>
@@ -62,27 +39,6 @@
             </div>
 
             <div class="box-body">
-
-                
-
-                @*<div class="form-group no-margin">
-                        <label class="col-sm-4">Tipo de Accesso <span class="text-danger">(*)</span></label>
-                        <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
-                            <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso | limitTo:2">{{ta.DescripcionConcepto}} </md-radio-button>
-                        </md-radio-group>
-                    </div>
-
-                    <div class="form-group no-margin">
-                        <label class="col-sm-4">Notificar Acciones <span class="text-danger">(*)</span></label>
-                        <md-radio-group ng-model="ctrl.operacion.NotificacionOperacion">
-                            <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="0" class="standard">Si</md-radio-button>
-                            <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="1" class="standard">No</md-radio-button>
-
-                        </md-radio-group>
-                    </div>
-
-                    *@
-
                 <div class="form-group">
                     <label class="col-sm-12">Comentario</label>
                     <div class="col-sm-12">
@@ -93,12 +49,9 @@
                 <div class="form-group">
                     <label class="col-sm-12">Documento Adjunto</label>
                     <div class="col-sm-12">
-                        <input type="file" class="form-control"  onchange="ReadFileToBinary(this)" id="input_file2" multiple>
+                        <input type="file" class="form-control" onchange="ReadFileToBinary(this)" id="input_file2" multiple>
                     </div>
                 </div>
-
-
-
             </div>
 
         </div>
@@ -145,10 +98,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div><!-- /.col -->
-
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

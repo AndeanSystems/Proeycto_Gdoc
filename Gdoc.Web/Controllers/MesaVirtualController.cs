@@ -60,17 +60,103 @@ namespace Gdoc.Web.Controllers
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
         }
+
+        [HttpPost]
+        public JsonResult GrabarMesaVirtualComentario(Operacion operacion,List<Adjunto> listAdjuntos, MesaVirtualComentario mesaVirtualComentario)
+        {
+            try
+            {
+                mesaVirtualComentario.FechaPublicacion = System.DateTime.Now;
+                mesaVirtualComentario.EstadoComentario = 1;
+                mesaVirtualComentario.IDOperacion = operacion.IDOperacion;
+                mesaVirtualComentario.IDUsuario = Convert.ToInt64(Session["IDUsuario"]);
+
+                using (var oNMesaVirtualComentario = new NMesaVirtualComentario())
+                {
+                    Int64 IDUsuario= Convert.ToInt64(Session["IDUsuario"]);
+                    var respuesta = oNMesaVirtualComentario.GrabarMesaVirtualComentario(operacion, listAdjuntos, mesaVirtualComentario, IDUsuario);
+                }
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Comentario realizado correctamente";
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception)
+            {
+                mensajeRespuesta.Mensaje = "Operación no realizada correctamente";
+                mensajeRespuesta.Exitoso = false;
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
+            }
+        }
         public JsonResult ListarOperacion()
         {
             var listMesaVirtual = new List<EOperacion>();
             using (var oOperacion = new NOperacion())
             {
-                listMesaVirtual = oOperacion.ListarMesaVirtual(new UsuarioParticipante 
-                { 
+                listMesaVirtual = oOperacion.ListarMesaVirtual(new UsuarioParticipante
+                {
                     IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString())
                 }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
+
+                //listMesaVirtual = oOperacion.ListarMesaVirtual().Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
+
             }
             return new JsonResult { Data = listMesaVirtual, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+        public JsonResult ListarMesaTrabajoVirtual()
+        {
+            var listMesaVirtual = new List<EOperacion>();
+            using (var oOperacion = new NOperacion())
+            {
+                listMesaVirtual = oOperacion.ListarMesaVirtual(new UsuarioParticipante
+                {
+                    IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString())
+                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
+
+                //listMesaVirtual = oOperacion.ListarMesaVirtual().Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
+
+            }
+            return new JsonResult { Data = listMesaVirtual, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+        [HttpPost]
+        public JsonResult ListarUsuarioParticipanteMV(Operacion operacion)
+        {
+            var listUsuarioParticipante = new List<UsuarioParticipante>();
+            using (var oUsuarioParticipante = new NUsuarioParticipante())
+            {
+                listUsuarioParticipante = oUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+            }
+            return new JsonResult { Data = listUsuarioParticipante, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };      
+        }
+        [HttpPost]
+        public JsonResult ListarComentarioMesaVirtual(Operacion operacion)
+        {
+            var listComentarioMesaVirtual = new List<MesaVirtualComentario>();
+            using (var oMesaVirtualComentario = new NMesaVirtualComentario())
+            {
+                listComentarioMesaVirtual = oMesaVirtualComentario.ListarMesaVirtualComentario().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+            }
+            return new JsonResult { Data = listComentarioMesaVirtual, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+        [HttpPost]
+        public JsonResult ListarDocumentoAdjunto(MesaVirtualComentario mesaVirtualComentario)
+        {
+            var listDocumentoAdjunto = new List<EDocumentoAdjunto>();
+            using (var oDocumentoAdjunto = new NDocumentoAdjunto())
+            {
+                listDocumentoAdjunto = oDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDComentarioMesaVirtual == mesaVirtualComentario.IDComentarioMesaVirtual).ToList();
+            }
+            return new JsonResult { Data = listDocumentoAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+
+        [HttpPost]
+        public JsonResult ListarDocumentoAdjuntoOperacion(Operacion operacion)
+        {
+            var listDocumentoAdjunto = new List<EDocumentoAdjunto>();
+            using (var oDocumentoAdjunto = new NDocumentoAdjunto())
+            {
+                listDocumentoAdjunto = oDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDOperacion == operacion.IDOperacion && x.IDComentarioMesaVirtual==null).ToList();
+            }
+            return new JsonResult { Data = listDocumentoAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
 	}
 }

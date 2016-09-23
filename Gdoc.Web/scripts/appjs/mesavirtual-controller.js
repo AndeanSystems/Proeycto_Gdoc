@@ -37,9 +37,11 @@ function ReadFileToBinary(control) {
         let UsuarioInvitado = "02";
         var context = this;
         context.operacion = {};
+        context.mesavirtualComentario = {};
         context.operacion.FechaVigente = new Date();
         context.operacion.FechaCierre = new Date();
         context.visible = "CreateAndEdit";
+        context.visible2 = "ListWork";
         context.listaUsuarioGrupo = [];
 
         //Crear Combo Auto Filters
@@ -51,6 +53,9 @@ function ReadFileToBinary(control) {
         context.querySearch = querySearch;
         var usuario = {};
         var listDocumentosAdjuntos = [];
+
+        var listOrganizador = [];
+        var listInvitados = [];
 
         LlenarConcepto(TipoDocumento);
         LlenarConcepto(TipoAcceso);
@@ -70,26 +75,7 @@ function ReadFileToBinary(control) {
             FechaEnvio: new Date()
         };
 
-        context.editarOperacion = function (rowIndex) {
-
-            context.operacion = context.gridOptions.data[rowIndex];
-
-            console.log(context.operacion);
-
-            context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
-            context.operacion.FechaCierre = appService.setFormatDate(context.operacion.FechaCierre);
-
-            //Estados
-            if (context.operacion.EstadoOperacion == 0)
-                context.operacion.EstadoOperacion = 'CREADO'
-            else if (context.operacion.EstadoOperacion == 1)
-                context.operacion.EstadoOperacion = 'ACTIVO'
-            else
-                context.operacion.EstadoOperacion = 'INACTIVO'
-
-            context.CambiarVentana('Commentary');
-        }
-
+        //MESA VIRTUAL
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -105,7 +91,7 @@ function ReadFileToBinary(control) {
                 { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
                 {
                     name: 'Acciones',
-                    cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                    cellTemplate: //'<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
                                 '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="top" data-toggle="tooltip" title="" data-original-title="Cerrar"></i>'
                 }
             ]
@@ -159,22 +145,19 @@ function ReadFileToBinary(control) {
                     //MostrarError();
                 });
                 limpiarFormulario();
+                document.getElementById("input_file").value = "";
             }
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
-           
-            
-        }
 
+
+        }
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
             if (context.visible == "List") {
-                limpiarFormulario()
+                limpiarFormulario();
                 listarOperacion();
             }
-            else if (context.visible == "Commentary") {
-
-            }
-            else {
+            else if (context.visible == "CreateAndEdit") {
                 limpiarFormulario()
             }
         }
@@ -186,18 +169,135 @@ function ReadFileToBinary(control) {
                 context.listaUsuarioGrupo = respuesta;
             });
         }
-
         function obtenerUsuarioSession() {
             var usuarioGrupo = { IDUsuarioGrupo: appService.obtenerUsuarioId() };
             appService.buscarUsuarioGrupoAutoComplete(usuarioGrupo).success(function (respuesta) {
                 context.usuarioOrganizador = respuesta;
             });
         }
-
         function querySearch(criteria, tipo) {
             listarUsuarioGrupoAutoComplete(criteria, tipo);
             cachedQuery = cachedQuery || criteria;
             return cachedQuery ? context.listaUsuarioGrupo : [];
+        }
+        function listarOperacion() {
+            dataProvider.getData("MesaVirtual/ListarOperacion").success(function (respuesta) {
+                context.gridOptions.data = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+        //MESA VIRTUAL COMENTARIO
+        context.mostrarAdjuntos = function (rowIndex) {
+            context.mesavirtualComentario = context.gridComentarios.data[rowIndex];
+            listarDocumentoAdjunto(context.mesavirtualComentario);
+            context.mesavirtualComentario.ComentarioMesaVirtual = "";
+            listarComentarioMesaVirtual(context.operacion);
+            $("#modal_adjuntos").modal("show");
+        }
+        context.mostrarAdjuntosMesa = function (operacion) {
+
+            listarDocumentoAdjuntoMesa(operacion);
+            $("#modal_adjuntos").modal("show");
+        }
+
+        context.editarOperacion = function (rowIndex) {
+
+            context.operacion = context.gridMesaTrabajo.data[rowIndex];
+
+            console.log(context.operacion);
+            context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
+            context.operacion.FechaCierre = appService.setFormatDate(context.operacion.FechaCierre);
+
+            ObtenerUsuariosParticipantes(context.operacion)
+            context.usuarioOrganizador = listOrganizador;
+            context.usuarioInvitados = listInvitados;
+            context.CambiarVentana2('Commentario');
+        }
+
+        context.gridMesaTrabajo = {
+            paginationPageSizes: [25, 50, 75],
+            paginationPageSize: 25,
+            enableFiltering: true,
+            data: [],
+            appScopeProvider: context,
+            columnDefs: [
+                { field: 'NumeroOperacion', displayName: 'Nº Documento' },
+                { field: 'TipoDoc.DescripcionConcepto', displayName: 'Tipo de Mesa' },
+                { field: 'DescripcionOperacion', displayName: '	Asunto' },
+                { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'Prioridad.DescripcionConcepto', displayName: 'Prioridad' },
+                {
+                    name: 'Acciones',
+                    cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>'
+                }
+            ]
+        };
+
+        context.gridComentarios = {
+            paginationPageSizes: [25, 50, 75],
+            paginationPageSize: 25,
+            //enableFiltering: true,
+            data: [],
+            appScopeProvider: context,
+            columnDefs: [
+                { field: 'FechaPublicacion', displayName: 'Fecha', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'Usuario.NombreUsuario', displayName: 'Participante' },
+                { field: 'ComentarioMesaVirtual', displayName: 'Comentario' },
+                {
+                    name: 'Adjuntos',
+                    cellTemplate: '<i ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-eye" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver"></i>'
+                }
+            ]
+        };
+        context.CambiarVentana2 = function (mostrarVentana) {
+            context.visible2 = mostrarVentana;
+            if (context.visible2 == "ListWork") {
+                limpiarFormulario();
+                listarMesaTrabajo();
+            }
+            else if (context.visible2 == "Commentario") {
+                listarComentarioMesaVirtual(context.operacion);
+            }
+        }
+
+        context.grabarComentarioMesa = function () {
+            let Operacion = context.operacion;
+            let MesaVirtualComentario = context.mesavirtualComentario;
+
+            for (var index in archivosSelecionados) {
+                listDocumentosAdjuntos.push({
+                    RutaArchivo: archivosSelecionados[index].RutaBinaria,
+                    NombreOriginal: archivosSelecionados[index].NombreArchivo,
+                    TamanoArchivo: archivosSelecionados[index].TamanoArchivo,
+                    TipoArchivo: archivosSelecionados[index].TipoArchivo,
+                });
+                console.log(listDocumentosAdjuntos);
+            }
+
+            function enviarFomularioOK() {
+                dataProvider.postData("MesaVirtual/GrabarMesaVirtualComentario", { Operacion: Operacion, listAdjuntos: listDocumentosAdjuntos,mesaVirtualComentario:MesaVirtualComentario }).success(function (respuesta) {
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+                    console.log(respuesta);
+                }).error(function (error) {
+                    //MostrarError();
+                });
+
+                context.mesavirtualComentario = {};
+                document.getElementById("input_file2").value = "";
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+        }
+        
+        function listarMesaTrabajo() {
+            dataProvider.getData("MesaVirtual/ListarMesaTrabajoVirtual").success(function (respuesta) {
+                context.gridMesaTrabajo.data = respuesta;
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
         }
 
         function LlenarConcepto(tipoConcepto) {
@@ -216,16 +316,51 @@ function ReadFileToBinary(control) {
             });
         }
 
-        function listarOperacion() {
-            dataProvider.getData("MesaVirtual/ListarOperacion").success(function (respuesta) {
-                context.gridOptions.data = respuesta;
+        
+        function listarDocumentoAdjunto(mesavirtualcomentario) {
+            dataProvider.postData("MesaVirtual/ListarDocumentoAdjunto", mesavirtualcomentario).success(function (respuesta) {
+                context.listDocumentoAdjunto = respuesta;
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+        function listarDocumentoAdjuntoMesa(operacion) {
+            dataProvider.postData("MesaVirtual/ListarDocumentoAdjuntoOperacion", operacion).success(function (respuesta) {
+                console.log(respuesta);
+                context.listDocumentoAdjunto = respuesta;
+                //context.gridDocumentosAdjuntos.data = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+        function listarComentarioMesaVirtual(operacion) {
+            dataProvider.postData("MesaVirtual/ListarComentarioMesaVirtual", operacion).success(function (respuesta) {
+                context.gridComentarios.data = respuesta;
             }).error(function (error) {
                 //MostrarError();
             });
         }
 
+        function ObtenerUsuariosParticipantes(operacion) {
+            dataProvider.postData("MesaVirtual/ListarUsuarioParticipanteMV", operacion).success(function (respuesta) {
+                for (var ind in respuesta) {
+                    respuesta[ind].Usuario.Nombre = respuesta[ind].Usuario.NombreUsuario;
+                    if (respuesta[ind].TipoParticipante == UsuarioOrganizado)
+                        listOrganizador.push(respuesta[ind].Usuario.Nombre);
+                    else
+                        listInvitados.push(respuesta[ind].Usuario.Nombre);
+                }
+                console.log(listInvitados);
+                console.log(listOrganizador);
+            }).error(function (error) {
+                //MostrarError();
+            });
+
+        }
         function limpiarFormulario() {
             context.operacion = {};
+            context.mesavirtualComentario = {};
             context.usuarioInvitados = [];
             context.usuarioOrganizador = [];
             context.operacion = {
@@ -239,12 +374,15 @@ function ReadFileToBinary(control) {
                 FechaEnvio: new Date()
             };
             archivosSelecionados = [];
-            document.getElementById("input_file").value = "";
+            //document.getElementById("input_file2").value = "";
+            //document.getElementById("input_file").value = "";
             obtenerUsuarioSession();
             archivosSelecionados = [];
             listDocumentosAdjuntos = [];
+            listOrganizador = [];
+            listInvitados = [];
         }
-        
+        listarMesaTrabajo();
         obtenerUsuarioSession();
     }
 })();

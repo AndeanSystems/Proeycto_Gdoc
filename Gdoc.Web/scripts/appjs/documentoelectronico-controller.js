@@ -187,7 +187,6 @@ function ReadFileToBinary(control) {
             else
                 context.operacion.EstadoOperacion = 'INACTIVO'
 
-            //falta mostrar el username
             ObtenerUsuariosParticipantes(context.operacion)
 
             context.usuarioRemitentes = listRemitentes;

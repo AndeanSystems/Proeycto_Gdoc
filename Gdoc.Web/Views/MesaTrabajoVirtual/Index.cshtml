@@ -1,0 +1,13 @@
+﻿<section class="content-header">
+    <section class="content" ng-controller="mesavirtual_controller as ctrl" layout="column" ng-cloak>
+        <div class="row " ng-if="ctrl.visible2 == 'ListWork'">
+            @Html.Partial("_ListWork")
+        </div>
+        <div class="row" ng-if="ctrl.visible2 == 'Commentario'">
+            @Html.Partial("_Commentary")
+        </div> 
+    </section>
+</section>
+@section Scripts{
+    <script src="~/scripts/appjs/mesavirtual-controller.js"></script>
+}

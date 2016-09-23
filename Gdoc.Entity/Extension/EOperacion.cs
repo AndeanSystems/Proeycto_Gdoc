@@ -18,5 +18,6 @@ namespace Gdoc.Entity.Extension
         public Concepto TipoOpe { get; set; }
         public Concepto TipoDoc { get; set; }
         public Concepto Estado { get; set; }
+        public Concepto Prioridad { get; set; }
     }
 }

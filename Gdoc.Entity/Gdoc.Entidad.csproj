@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension\EAccesoSistema.cs" />
+    <Compile Include="Extension\EDocumentoAdjunto.cs" />
     <Compile Include="Extension\EEmpresa.cs" />
     <Compile Include="Extension\EFirma.cs" />
     <Compile Include="Extension\EGrupo.cs" />
