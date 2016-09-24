@@ -167,18 +167,19 @@
                             <div class="form-group">
                                 <label class="col-md-12"></label>
                                 <div class="col-sm-12 margin-bottom">
-                                    <textarea id="editor1" name="editor1" style="resize:none" rows="18" cols="80" class="form-control" ng-model="ctrl.DocumentoElectronicoOperacion.Memo" required>
-                                        Editor de texto
-                                    </textarea>
+                                    <textarea id="editor1" name="editor1" style="resize:none" rows="18" cols="80" class="form-control" required></textarea>
+                                    <script>
+                                        try {
+                                            CKEDITOR.instances['editor1'].destroy(true);
+                                        } catch (e) { }
+                                        CKEDITOR.replace('editor1');
+                                    </script>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-</div>
+        </div>
     </div>
-    
 </form>
