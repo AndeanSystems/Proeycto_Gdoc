@@ -49,7 +49,7 @@ namespace Gdoc.Web.Util
             {
                 logoRuta = general.CargaParametros(IDEmpresa).RutaGdocPDF;
             }
-            iTextSharp.text.Image sFepcmac = iTextSharp.text.Image.GetInstance(string.Concat(logoRuta, sNameImagen));
+            iTextSharp.text.Image sFepcmac = iTextSharp.text.Image.GetInstance(Path.Combine(logoRuta, sNameImagen));
             sFepcmac.ScaleAbsolute(60, 70);
 
             Chunk chkLogoFepcmac = new Chunk(sFepcmac, -10, -10, true);
