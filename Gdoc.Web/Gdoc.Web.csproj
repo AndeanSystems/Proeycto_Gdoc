@@ -624,6 +624,7 @@
     <Content Include="scripts\appjs\contrasena-controller.js" />
     <Content Include="scripts\appjs\documentodigital-controller.js" />
     <Content Include="scripts\appjs\documentoelectronico-controller.js" />
+    <Content Include="scripts\appjs\documentorecibido-controller.js" />
     <Content Include="scripts\appjs\empresa-controller.js" />
     <Content Include="scripts\appjs\firma-controller.js" />
     <Content Include="scripts\appjs\general-controller.js" />
@@ -694,6 +695,7 @@
     <Compile Include="Controllers\ConceptoController.cs" />
     <Compile Include="Controllers\DocumentoDigitalController.cs" />
     <Compile Include="Controllers\DocumentoElectronicoController.cs" />
+    <Compile Include="Controllers\DocumentosRecibidosController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\GrupoController.cs" />
@@ -767,6 +769,7 @@
     <Content Include="Views\MesaTrabajoVirtual\Index.cshtml" />
     <Content Include="Views\MesaTrabajoVirtual\_Commentary.cshtml" />
     <Content Include="Views\MesaTrabajoVirtual\_ListWork.cshtml" />
+    <Content Include="Views\DocumentosRecibidos\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -87,6 +87,74 @@ namespace Gdoc.Dao
             }
             return listOperacion;
         }
+        public List<EOperacion> ListarDocumentosRecibidos(UsuarioParticipante eUsuarioParticipante)
+        {
+            var listOperacion = new List<EOperacion>();
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var list = db.Operacions.ToList();
+
+                    var list2 = (from operacion in db.Operacions
+
+                                 join tipodocumento in db.Conceptoes
+                                 on operacion.TipoDocumento equals tipodocumento.CodiConcepto
+
+                                 join estado in db.Conceptoes
+                                 on operacion.EstadoOperacion.ToString() equals estado.CodiConcepto
+
+                                 join prioridad in db.Conceptoes
+                                 on operacion.PrioridadOperacion equals prioridad.CodiConcepto
+
+                                 join tipooperacion in db.Conceptoes
+                                 on operacion.TipoOperacion equals tipooperacion.CodiConcepto
+
+                                 where tipodocumento.TipoConcepto.Equals("012") &&
+                                        estado.TipoConcepto.Equals("001") &&
+                                        tipooperacion.TipoConcepto.Equals("003") &&
+                                        prioridad.TipoConcepto.Equals("005") &&
+                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) > 0)
+
+                                 select new { operacion, tipodocumento, estado, tipooperacion, prioridad }).ToList();
+
+                    list2.ForEach(x => listOperacion.Add(new EOperacion
+                    {
+                        IDOperacion = x.operacion.IDOperacion,
+                        IDEmpresa = x.operacion.IDEmpresa,
+                        TipoOperacion = x.operacion.TipoOperacion,
+                        FechaEmision = x.operacion.FechaEmision,
+                        NumeroOperacion = x.operacion.NumeroOperacion,
+                        TituloOperacion = x.operacion.TituloOperacion,
+                        AccesoOperacion = x.operacion.AccesoOperacion,
+                        EstadoOperacion = x.operacion.EstadoOperacion,
+                        DescripcionOperacion = x.operacion.DescripcionOperacion,
+                        PrioridadOperacion = x.operacion.PrioridadOperacion,
+                        FechaCierre = x.operacion.FechaCierre,
+                        FechaRegistro = x.operacion.FechaRegistro,
+                        FechaEnvio = x.operacion.FechaEnvio,
+                        FechaVigente = x.operacion.FechaVigente,
+                        DocumentoAdjunto = x.operacion.DocumentoAdjunto,
+                        TipoComunicacion = x.operacion.TipoComunicacion,
+                        NotificacionOperacion = x.operacion.NotificacionOperacion,
+                        TipoDocumento = x.operacion.TipoDocumento,
+
+                        TipoOpe = new Concepto { DescripcionConcepto = x.tipooperacion.DescripcionConcepto },
+                        TipoDoc = new Concepto { DescripcionConcepto = x.tipodocumento.DescripcionConcepto },
+                        Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
+                        Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
+                    }));
+
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return listOperacion;
+        }
         public short Grabar(Operacion operacion)
         {
             try

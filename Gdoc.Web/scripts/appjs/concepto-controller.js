@@ -76,7 +76,6 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'TipoConcepto', displayName: 'Tipo Concepto' },
                 { field: 'CodiConcepto', displayName: 'Codigo' },
                 { field: 'DescripcionConcepto', width: '20%', displayName: 'Descripcion' },
                 { field: 'DescripcionCorta', displayName: 'Abreviatura' },

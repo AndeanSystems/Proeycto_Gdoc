@@ -55,6 +55,18 @@ namespace Gdoc.Negocio
             }
         }
 
+        public List<EOperacion> ListarDocumentosRecibidos(UsuarioParticipante eUsuarioParticipante)
+        {
+            try
+            {
+                return dOperacion.ListarDocumentosRecibidos(eUsuarioParticipante);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public short Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo,Int64 IDusuario)
         {
             try

@@ -69,6 +69,8 @@ namespace Gdoc.Web.Controllers
                         var CantidadDocumentosRecibidos = NUsuario.CantidadDocumentosRecibidos(UsuarioEncontrado);
                         var CantidadMesaVirtual = NUsuario.CantidadMesaVirtual(UsuarioEncontrado);
 
+                        Session["UsuarioEncontrado"] = new EUsuario();
+                        Session["UsuarioEncontrado"] = UsuarioEncontrado;
                         if (UsuarioEncontrado != null)
                         {
                             Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
