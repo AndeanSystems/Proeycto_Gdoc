@@ -7,13 +7,12 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using iTextSharp.text.html.simpleparser;
-using Gdoc.Dao;
 
 namespace Gdoc.Common.Utilitario
 {
     public class UtilPdf
     {
-        private DGeneral dGeneral = new DGeneral();
+
         public void GenerarArchivoPDF(string sNumeroDocumentoElectronico, string sCarpetaOrigen, string sBodyTexto, int IDEmpresa, string rutaPDF)
         {
             string sFEPCMAC = ConfigurationManager.AppSettings.Get("FooterPDF1");
