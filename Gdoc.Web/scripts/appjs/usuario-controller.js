@@ -186,13 +186,12 @@
                 function enviarFomularioOK() {
                     dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
                         console.log(respuesta);
+                        swal("¡Bien!", "Usuario Registrado Correctamente", "success");
                         listarUsuario();
                         $("#modal_contenido").modal("hide");
                     }).error(function (error) {
                         //MostrarError();
                     });
-
-                    swal("¡Bien!", "Usuario Registrado Correctamente", "success");
                 }
                 appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
             //});
