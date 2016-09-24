@@ -228,7 +228,7 @@ namespace Gdoc.Dao
 
 
                         TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
-                        Estado = new Concepto { DescripcionCorta = x.estado.DescripcionCorta },
+                        Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
                     }));
 
                     

@@ -84,10 +84,9 @@ function ReadFileToBinary(control) {
             appScopeProvider: context,
             columnDefs: [
                 { field: 'NumeroOperacion', displayName: 'Nº Documento' },
-                { field: 'TipoDoc.DescripcionConcepto', displayName: 'Tipo de Documento' },
+                { field: 'FechaRegistro', displayName: 'Fecha Registro', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Doc' },
                 { field: 'DescripcionOperacion', displayName: '	Asunto' },
-                { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
-                { field: 'FechaVigente', displayName: '	Fecha Recepción', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
                 { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
                 {
                     name: 'Acciones',
