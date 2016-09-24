@@ -291,9 +291,6 @@ namespace Gdoc.Dao
             {
                 using (var db = new DataBaseContext())
                 {
-                    //db.Personals.Add(usuario.Personal);
-                    //db.SaveChanges();
-                    //usuario.IDPersonal = usuario.Personal.IDPersonal; Faltar terminar quitar grabacion de tabla personal
                     db.Usuarios.Add(usuario);
                     db.SaveChanges();
                 }

@@ -42,6 +42,15 @@
 
                         </div>
 
+                        @*<div class="form-group no-margin-bottom">
+                            <label class="col-sm-12">Tipo de Identificacion</label>
+                            <div class="col-sm-12">
+                                <select class="form-control" ng-model="ctrl.usuario.Personal.TipoIdentificacion" ng-options="ca.CodiConcepto as ca.DescripcionConcepto for ca in ctrl.listTipoIdentificacion">
+                                    <option value="">Seleccione</option>
+                                </select>
+                            </div>
+                        </div>*@
+
                         <div class="form-group no-margin-bottom">
                             <label class="col-sm-12">N° de DNI</label>
                             <div class="col-sm-12">
@@ -49,14 +58,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group no-margin-bottom">
-                            <label class="col-sm-12">Tipo de Identificacion</label>
-                            <div class="col-sm-12">
-                                <select class="form-control" ng-model="ctrl.usuario.Personal.TipoIdentificacion" ng-options="ca.CodiConcepto as ca.DescripcionConcepto for ca in ctrl.listTipoIdentificacion">
-                                    <option value="">Seleccione</option>
-                                </select>
-                            </div>
-                        </div>
+                        
 
                         <div class="form-group no-margin-bottom">
                             <label class="col-sm-12">Apellidos y Nombres</label>
@@ -69,7 +71,7 @@
                         <div class="form-group no-margin-bottom">
                             <label class="col-sm-12">Cargo</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" ng-model="ctrl.usuario.Personal.CodigoCargo" placeholder="Cargo" disabled="true">
+                                <input type="text" class="form-control" ng-model="ctrl.usuario.Personal.Cargo.DescripcionConcepto" placeholder="Cargo" disabled="true">
                                 @*<select class="form-control" ng-model="ctrl.personal.CodigoCargo" ng-options="tca.CodiConcepto as tca.DescripcionConcepto for tca in ctrl.listTipoCargo">
                                         <option value="">Seleccione</option>
                                     </select>*@
@@ -79,7 +81,7 @@
                         <div class="form-group no-margin-bottom">
                             <label class="col-sm-12">Area</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" ng-model="ctrl.usuario.Personal.CodigoArea" placeholder="Area" disabled="true">
+                                <input type="text" class="form-control" ng-model="ctrl.usuario.Personal.Area.DescripcionConcepto" placeholder="Area" disabled="true">
                                 @*<select class="form-control" ng-model="ctrl.personal.CodigoArea" ng-options="ta.CodiConcepto as ta.DescripcionConcepto for ta in ctrl.listArea">
                                         <option value="">Seleccione</option>
                                     </select>*@

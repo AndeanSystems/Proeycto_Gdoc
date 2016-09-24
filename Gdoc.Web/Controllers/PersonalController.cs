@@ -23,7 +23,7 @@ namespace Gdoc.Web.Controllers
         [HttpGet]
         public JsonResult ListarPersonal()
         {
-            var listPersonal = new List<Personal>();
+            var listPersonal = new List<EPersonal>();
             using (var oPersonal = new NPersonal())
             {
                 listPersonal = oPersonal.ListarPersonal();
@@ -56,7 +56,7 @@ namespace Gdoc.Web.Controllers
         [HttpPost]
         public JsonResult BuscarPersonalNombre(Personal personal)
         {
-            var listUsuario = new List<Personal>();
+            var listUsuario = new List<EPersonal>();
             using (var oPersonal = new NPersonal())
             {
                 if (!string.IsNullOrEmpty(personal.NombrePers))
