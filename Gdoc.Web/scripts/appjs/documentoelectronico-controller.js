@@ -210,6 +210,9 @@ function ReadFileToBinary(control) {
                 obtenerUsuarioSession();
             }
         }
+        context.listarAdjunto = function () {
+            listarAdjunto
+        }
         ////
         function limpiarFormulario() {
             context.operacion = {};
