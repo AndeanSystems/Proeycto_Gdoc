@@ -172,7 +172,9 @@
                                         try {
                                             CKEDITOR.instances['editor1'].destroy(true);
                                         } catch (e) { }
-                                        CKEDITOR.replace('editor1');
+                                        CKEDITOR.replace('editor1', {
+                                            removeButtons: 'Save,Print'
+                                        });
                                     </script>
                                 </div>
                             </div>
