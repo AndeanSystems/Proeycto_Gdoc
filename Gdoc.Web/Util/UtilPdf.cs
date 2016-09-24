@@ -104,8 +104,8 @@ namespace Gdoc.Web.Util
                     if (!Directory.Exists(RutapDF + sNombreCarpeta))
                         Directory.CreateDirectory(Path.Combine(RutapDF ,sNombreCarpeta));
 
-                    if (!File.Exists(Path.Combine(RutapDF,sNombreCarpeta,sNombreArchivo,sExtencionArchivo)))
-                        File.WriteAllBytes(Path.Combine(RutapDF, sNombreCarpeta,sNombreArchivo , sExtencionArchivo), sbyteContent);
+                    if (!File.Exists(Path.Combine(RutapDF,sNombreCarpeta, string.Format("{0}{1}",sNombreArchivo,sExtencionArchivo))))
+                        File.WriteAllBytes(Path.Combine(RutapDF, sNombreCarpeta, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo)), sbyteContent);
                 }
                 catch (Exception ex)
                 {
