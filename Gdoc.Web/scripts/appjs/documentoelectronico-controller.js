@@ -18,9 +18,10 @@ function ReadFileToBinary(control) {
         reader.readAsBinaryString(f);
     }
 }
-//$(function () {
-//    CKEDITOR.replace('editor1');
-//});
+//try {
+//    CKEDITOR.instances['editor1'].destroy(true);
+//} catch (e) { }
+//CKEDITOR.replace('editor1');
 (function () {
     'use strict';
 
@@ -102,7 +103,7 @@ function ReadFileToBinary(control) {
         };
         //Eventos
         context.grabar = function (numeroboton) {
-            
+            context.DocumentoElectronicoOperacion.Memo = CKEDITOR.instances.editor1.getData();
             Operacion = context.operacion;
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
 
@@ -165,10 +166,7 @@ function ReadFileToBinary(control) {
         }
 
         context.editarOperacion = function (rowIndex) {
-           
-            
             context.operacion = context.gridOptions.data[rowIndex];
-
             context.DocumentoElectronicoOperacion = context.operacion.DocumentoElectronicoOperacion;
             context.operacion.TipoComunicacion = context.operacion.TipoComunicacion.substring(0, 1);
             //context.codigodepartamento = parseInt(context.empresa.CodigoUbigeo.substring(0, 2));
@@ -192,11 +190,10 @@ function ReadFileToBinary(control) {
             context.usuarioRemitentes = listRemitentes;
             context.usuarioDestinatarios = listDestinatarios;
 
-            console.log(context.operacion);
-            console.log(context.DocumentoElectronicoOperacion);
-
             context.CambiarVentana('CreateAndEdit');
-
+            window.setTimeout(function () {
+                CKEDITOR.instances.editor1.setData(context.DocumentoElectronicoOperacion.Memo);
+            }, 2000);
         };
         context.CambiarVentana = function (mostrarVentana) {
            
@@ -296,6 +293,7 @@ function ReadFileToBinary(control) {
             });
 
         }
+
         obtenerUsuarioSession();
         //context.usuarioDestinatarios=
         //ObtenerUsuariosParticipantes();
