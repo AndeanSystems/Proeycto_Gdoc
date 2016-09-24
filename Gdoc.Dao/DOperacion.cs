@@ -71,8 +71,8 @@ namespace Gdoc.Dao
                         //    Comentario=x.documentodigital.Comentario,
                         //},
 
-                        TipoOpe = new Concepto { DescripcionConcepto = x.tipooperacion.DescripcionConcepto },
-                        TipoDoc = new Concepto { DescripcionConcepto = x.tipodocumento.DescripcionConcepto },
+                        TipoOpe = new Concepto { DescripcionCorta = x.tipooperacion.DescripcionCorta },
+                        TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
                         Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
                     }));
@@ -227,8 +227,8 @@ namespace Gdoc.Dao
                         //},
 
 
-                        TipoDoc = new Concepto { DescripcionConcepto=x.tipodocumento.DescripcionConcepto},
-                        Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
+                        TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
+                        Estado = new Concepto { DescripcionCorta = x.estado.DescripcionCorta },
                     }));
 
                     
@@ -313,7 +313,7 @@ namespace Gdoc.Dao
                         //Usuario=new Usuario{
                         //    NombreUsuario=x.usuario.NombreUsuario,
                         //},
-                        TipoDoc = new Concepto { DescripcionConcepto = x.tipodocumento.DescripcionConcepto },
+                        TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
                     }));
 
@@ -375,7 +375,7 @@ namespace Gdoc.Dao
                         NotificacionOperacion = x.operacion.NotificacionOperacion,
                         TipoDocumento = x.operacion.TipoDocumento,
 
-                        TipoDoc = new Concepto { DescripcionConcepto = x.tipomesa.DescripcionConcepto },
+                        TipoDoc = new Concepto { DescripcionCorta = x.tipomesa.DescripcionCorta },
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
                         Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
                     }));

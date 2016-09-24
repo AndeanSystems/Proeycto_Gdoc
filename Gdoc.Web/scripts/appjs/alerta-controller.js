@@ -18,11 +18,11 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'FechaAlerta', displayName: 'Fecha Emision', type: 'date', cellFilter: 'toDateTime | date:"mediumDate"' },
-                { field: 'TipoOperacion.DescripcionConcepto', displayName: 'Tipo Operacion' },
                 { field: 'Operacion.NumeroOperacion', displayName: 'Numero Operacion' },
-                { field: 'TipoDocumento.DescripcionConcepto', displayName: 'Tipo Documento' },
+                { field: 'FechaAlerta', displayName: 'Fecha Emision', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 { field: 'Usuario.NombreUsuario', displayName: 'Remitente' },
+                { field: 'TipoOperacion.DescripcionCorta', displayName: 'T.Ope' },
+                { field: 'TipoDocumento.DescripcionCorta', displayName: 'T.Doc' },
                 {
                     name: 'Acciones',
                     cellTemplate: '<i class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' 

@@ -51,11 +51,11 @@ namespace Gdoc.Dao
 
                         TipoOperacion = new Concepto
                         {
-                            DescripcionConcepto = x.tipooperacion.DescripcionConcepto,
+                            DescripcionCorta = x.tipooperacion.DescripcionCorta,
                         },
                         TipoDocumento = new Concepto
                         {
-                            DescripcionConcepto = x.tipodocumento.DescripcionConcepto,
+                            DescripcionCorta = x.tipodocumento.DescripcionCorta,
                         },
                         Operacion = new Operacion
                         {
