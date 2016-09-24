@@ -163,25 +163,25 @@
             else if (numeroboton == 2)
                 usuario.EstadoUsuario = 1
 
-            swal({
-                title: "Confirmacion de Credencial!",
-                text: "Ingrese su clave de Usuario",
-                type: "input",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                animation: "slide-from-top",
-                inputPlaceholder: "Write something"
-            },
-            function (inputValue) {
-                if (inputValue === false) return false;
-                if (inputValue === "") {
-                    swal.showInputError("Por favor Digite su clave de Usuario");
-                    return false;
-                }
-                if (inputValue != "hola") {
-                    swal.showInputError("Clave Incorrecta");
-                    return false;
-                }
+            //swal({
+            //    title: "Confirmacion de Credencial!",
+            //    text: "Ingrese su clave de Usuario",
+            //    type: "input",
+            //    showCancelButton: true,
+            //    closeOnConfirm: false,
+            //    animation: "slide-from-top",
+            //    inputPlaceholder: "Write something"
+            //},
+            //function (inputValue) {
+                //if (inputValue === false) return false;
+                //if (inputValue === "") {
+                //    swal.showInputError("Por favor Digite su clave de Usuario");
+                //    return false;
+                //}
+                //if (inputValue != "hola") {
+                //    swal.showInputError("Clave Incorrecta");
+                //    return false;
+                //}
 
                 function enviarFomularioOK() {
                     dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
@@ -195,7 +195,7 @@
                     swal("¡Bien!", "Usuario Registrado Correctamente", "success");
                 }
                 appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
-            });
+            //});
            
 
                 
@@ -238,6 +238,7 @@
         
         function limpiarFormulario() {
             context.usuario = {};
+            context.usuario.Personal = {};
             context.listDepartamento = [];
             context.usuario.ExpiraFirma = 0;
             context.listDepartamento = [];

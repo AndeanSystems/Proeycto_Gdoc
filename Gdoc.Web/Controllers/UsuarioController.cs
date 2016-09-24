@@ -93,9 +93,9 @@ namespace Gdoc.Web.Controllers
                             //--
 
                             //PARAMETROS GENERALES
-                            //using (var NGeneral = new NGeneral())
-                            //{
-                            //    var CargarParametros = NGeneral.CargaParametros(Convert.ToInt32(Session["IDEmpresa"]));
+                            using (var NGeneral = new NGeneral())
+                            {
+                                var CargarParametros = NGeneral.CargaParametros(Convert.ToInt32(Session["IDEmpresa"]));
 
                             //    Session["PlazoDoctoElectronico"] = CargarParametros.PlazoDoctoElectronico;
                             //    Session["ExtensionPlazoDoctoElectronico"] = CargarParametros.ExtensionPlazoDoctoElectronico;
@@ -107,13 +107,13 @@ namespace Gdoc.Web.Controllers
                             //    Session["AlertaMailPersonal"] = CargarParametros.AlertaMailPersonal;
                             //    Session["HoraActualizaEstadoOperacion"] = CargarParametros.HoraActualizaEstadoOperacion;
                             //    Session["HoraCierreLabores"] = CargarParametros.HoraCierreLabores;
-                            //    Session["PlazoExpiraFirma"] = CargarParametros.PlazoExpiraFirma;
-                            //    Session["RutaGdocImagenes"] = CargarParametros.RutaGdocImagenes;
-                            //    Session["RutaGdocPDF"] = CargarParametros.RutaGdocPDF;
-                            //    Session["RutaGdocAdjuntos"] = CargarParametros.RutaGdocAdjuntos;
-                            //    Session["RutaGdocExternos"] = CargarParametros.RutaGdocExternos;
+                                Session["PlazoExpiraFirma"] = CargarParametros.PlazoExpiraFirma;
+                                Session["RutaGdocImagenes"] = CargarParametros.RutaGdocImagenes;
+                                Session["RutaGdocPDF"] = CargarParametros.RutaGdocPDF;
+                                Session["RutaGdocAdjuntos"] = CargarParametros.RutaGdocAdjuntos;
+                                Session["RutaGdocExternos"] = CargarParametros.RutaGdocExternos;
 
-                            //}
+                            }
 
                             return RedirectToAction("Index", "Alertas");
                         }
