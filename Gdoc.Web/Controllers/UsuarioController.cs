@@ -184,6 +184,7 @@ namespace Gdoc.Web.Controllers
                     else
                     {
                         //POR TERMINAR
+                        usuario.IDPersonal = usuario.Personal.IDPersonal;
                         usuario.ClaveUsuario = "";
                         usuario.FechaRegistro = System.DateTime.Now;
                         usuario.FirmaElectronica = "";
