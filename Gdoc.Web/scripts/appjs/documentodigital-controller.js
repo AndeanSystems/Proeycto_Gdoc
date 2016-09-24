@@ -98,6 +98,12 @@ function ReadFileToBinary(control) {
             ]
         };
         //Eventos
+
+        context.nuevo = function () {
+            limpiarFormulario();
+            obtenerUsuarioSession();
+        }
+
         context.agregarreferencia = function (referencia) {
             if (context.referencia.DescripcionIndice == undefined)
                 alert("Ingrese Referencia");
@@ -117,6 +123,7 @@ function ReadFileToBinary(control) {
         context.grabar = function (numeroboton) {
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
 
+            let Operacion = context.operacion;
             if (Operacion.EstadoOperacion == "ACTIVO") {
                 return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
             }
@@ -130,7 +137,6 @@ function ReadFileToBinary(control) {
                 return appService.mostrarAlerta("Falta los Destinatarios", "Agregue a los destinatarios", "warning");
             }
 
-            let Operacion = context.operacion;
             let DocumentoDigitalOperacion = context.DocumentoDigitaloOperacion;
             let listIndexacionDocumento = context.listaReferencia;
 

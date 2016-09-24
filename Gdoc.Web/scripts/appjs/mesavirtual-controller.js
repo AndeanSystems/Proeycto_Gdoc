@@ -98,6 +98,8 @@ function ReadFileToBinary(control) {
         };
         //Eventos
         context.grabar = function (numeroboton) {
+
+            let Operacion = context.operacion;
             if (Operacion.EstadoOperacion == "ACTIVO") {
                 return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
             }
@@ -111,7 +113,6 @@ function ReadFileToBinary(control) {
                 return appService.mostrarAlerta("Falta los Invitados", "Agregue a los invitados", "warning");
             }
             console.log(context.operacion);
-            let Operacion = context.operacion;
             let listEUsuarioGrupo = [];
 
             for (var ind in context.usuarioOrganizador) {
@@ -154,6 +155,11 @@ function ReadFileToBinary(control) {
 
 
         }
+        context.nuevo = function () {
+            limpiarFormulario();
+            obtenerUsuarioSession();
+        }
+
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
             if (context.visible == "List") {
