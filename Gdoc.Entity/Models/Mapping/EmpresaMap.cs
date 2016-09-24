@@ -13,7 +13,7 @@ namespace Gdoc.Entity.Models.Mapping
             // Properties
             this.Property(t => t.RazonSocial)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(150);
 
             this.Property(t => t.DireccionEmpresa)
                 .HasMaxLength(150);

@@ -1,10 +1,10 @@
 ﻿<section class="content-header">
-    <section class="content" ng-controller="" layout="column" ng-cloak>
+    <section class="content" ng-controller="documentorecibido_controller as ctrl" layout="column" ng-cloak>
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary margin-top">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Documentos Electronicos</h3>
+                        <h3 class="box-title">Documentos Recibidos</h3>
                     </div>
                     <div class="box-body no-padding">
                         <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination></div>
@@ -12,10 +12,48 @@
                 </div>
             </div>
         </div>
+
+        <!--MODAL ADJUNTOS-->
+        <div class="modal fade" id="modal_adjuntos">
+            <div class="modal-dialog modal-lg" style="width:50%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Documentos Adjuntos</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-primary">
+                                    <table class="table table-hover table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Tipo Archivo</th>
+                                                <th>Abrir</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in ctrl.listDocumentoAdjunto">
+                                                <td>{{item.Adjunto.NombreOriginal}}</td>
+                                                <td>{{item.Adjunto.TipoArchivo}}</td>
+                                                <td>
+                                                    <a class="fa fa-folder-open-o" ng-href="http://localhost:99/ADJUNTOS/{{item.Archivo}}" style="padding: 4px;font-size: 1.4em;" target="_blank" data-placement="top" data-toggle="tooltip" title="Abrir"></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </section>
 @section Scripts{
-    @*<script src="~/scripts/appjs/documentoelectronico-controller.js"></script>*@
+    <script src="~/scripts/appjs/documentorecibido-controller.js"></script>
 }
 
 

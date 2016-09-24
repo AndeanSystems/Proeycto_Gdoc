@@ -36,13 +36,15 @@
                     <li class="active"><a href="@Url.Action("Index", "DocumentoDigital")"><i class="fa fa-check"></i>Documento Digital</a></li>
                     @*<li class="active"><a href="mesavnuevo.html"><i class="fa fa-check"></i>Mesa Virtual</a></li>*@
                     <li class="active"><a href="@Url.Action("Index", "MesaVirtual")"><i class="fa fa-check"></i>Mesa Virtual</a></li>
+                    <li class="active"><a href="@Url.Action("Index", "Busqueda")"><i class="fa fa-check"></i>Busquedas</a></li>
+                    <li class="active"><a href="@Url.Action("Index", "LogOperacion")"><i class="fa fa-check"></i>Log Administrativo</a></li>
 
 
                 </ul>
             </li>
 
 
-            <li class="  treeview">
+            @*<li class="  treeview">
                 <a href="#">
                     <i class="fa fa-hand-o-right"></i><span>Administracion</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -50,7 +52,7 @@
                     <li><a href="@Url.Action("Index", "Busqueda")"><i class="fa fa-check"></i>Busquedas</a></li>
                     <li><a href="@Url.Action("Index", "LogOperacion")"><i class="fa fa-check"></i>Log Administrativo</a></li>
                 </ul>
-            </li>
+            </li>*@
             <li class="  treeview">
                 <a href="#">
                     <i class="fa fa-pencil"></i><span>Mantenimiento</span> <i class="fa fa-angle-left pull-right"></i>
@@ -58,7 +60,8 @@
                 <ul class="treeview-menu">
                     <li class="active"><a href="@Url.Action("Index", "Usuario")"><i class="fa fa-check"></i>Usuarios</a></li>
                     <li><a href="@Url.Action("Index", "Personal")"><i class="fa fa-check"></i>Personal</a></li>
-                    <li ><a href="@Url.Action("Index", "Acceso")"><i class="fa fa-check"></i>Accesos</a></li>
+                    <li><a href="@Url.Action("Index", "Empresa")"><i class="fa fa-check"></i>Empresa</a></li>
+                    <li><a href="@Url.Action("Index", "Acceso")"><i class="fa fa-check"></i>Accesos</a></li>
                     <li><a href="@Url.Action("Index", "Grupo")"><i class="fa fa-check"></i>Grupos</a></li>
                 </ul>
             </li>
@@ -68,7 +71,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class ="active"><a href="@Url.Action("Index", "Concepto")"><i class="fa fa-check"></i>Concepto</a></li>
-                    <li><a href="@Url.Action("Index", "Empresa")"><i class="fa fa-check"></i>Empresa</a></li>
+                    @*<li><a href="@Url.Action("Index", "Empresa")"><i class="fa fa-check"></i>Empresa</a></li>*@
                     <li><a href="@Url.Action("Index", "General")"><i class="fa fa-check"></i>Parámetros</a></li>
                 </ul>
             </li>
@@ -104,7 +107,7 @@
                 </a>
             </li>
             <li>
-                <a href="@Url.Action("DocumentosRecibidos", "Alertas")">
+                <a href="@Url.Action("Index", "DocumentosRecibidos")">
                     <i class="fa fa-envelope"></i><span>Documentos Recibidos</span>
                     <small class="label pull-right bg-yellow">@Html.Raw(Session["CantidadDocumentosRecibidos"].ToString())</small>
                 </a>
