@@ -58,6 +58,7 @@
     <Compile Include="Extension\EMensajeAlerta.cs" />
     <Compile Include="Extension\EModuloPaginaUrl.cs" />
     <Compile Include="Extension\EOperacion.cs" />
+    <Compile Include="Extension\EPersonal.cs" />
     <Compile Include="Extension\EUsuario.cs" />
     <Compile Include="Extension\EUsuarioFEPCMAC.cs" />
     <Compile Include="Extension\EUsuarioGrupo.cs" />

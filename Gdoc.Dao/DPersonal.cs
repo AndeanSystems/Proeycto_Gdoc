@@ -10,48 +10,54 @@ namespace Gdoc.Dao
 {
     public class DPersonal 
     {
-        public List<Personal> ListarPersonal()
+        public List<EPersonal> ListarPersonal()
         {
-            var listPersonal = new List<Personal>();
+            var listPersonal = new List<EPersonal>();
             try
             {
                 using (var db = new DataBaseContext())
                 {
                     var list = db.Personals.ToList();
 
-                    var list2 = (from empresa in db.Empresas
-                                 join estado in db.Conceptoes
-                                 on empresa.EstadoEmpresa.ToString() equals estado.CodiConcepto
+                    var list2 = (from personal in db.Personals
+                                 join area in db.Conceptoes
+                                 on personal.CodigoArea.ToString() equals area.CodiConcepto
 
-                                 where estado.TipoConcepto.Equals("016")
+                                 join cargo in db.Conceptoes
+                                 on personal.CodigoCargo.ToString() equals cargo.CodiConcepto
 
-                                 select new { empresa, estado }).ToList();
+                                 where area.TipoConcepto.Equals("013") &&
+                                        cargo.TipoConcepto.Equals("007")
+
+                                 select new { personal, area,cargo }).ToList();
 
 
-                    list.ForEach(x => listPersonal.Add(new Personal
+                    list2.ForEach(x => listPersonal.Add(new EPersonal
                     {
-                        IDPersonal=x.IDPersonal,
-                        IDEmpresa = x.IDEmpresa,
-                        IDSede=x.IDSede,
-                        CodigoPersonal=x.CodigoPersonal,
-                        NombrePers=x.NombrePers,
-                        ApellidoPersonal=x.ApellidoPersonal,
-                        SexoPersonal=x.SexoPersonal,
-                        EmailPersonal=x.EmailPersonal,
-                        EmailTrabrajo=x.EmailTrabrajo,
-                        FechaNacimiento=x.FechaNacimiento,
-                        TelefonoPersonal=x.TelefonoPersonal,
-                        AnexoPersonal=x.AnexoPersonal,
-                        EstadoPersonal=x.EstadoPersonal,
-                        CodigoArea=x.CodigoArea,
-                        CodigoCargo=x.CodigoCargo,
-                        ClasePersonal=x.ClasePersonal,
-                        NumeroIdentificacion=x.NumeroIdentificacion,
-                        DireccionPersonal=x.DireccionPersonal,
-                        CodigoUbigeo=x.CodigoUbigeo,
-                        CelularPersonalUno=x.CelularPersonalUno,
-                        CelularPersonalDos = x.CelularPersonalDos,
-                        TipoIdentificacion=x.TipoIdentificacion,
+                        IDPersonal = x.personal.IDPersonal,
+                        IDEmpresa = x.personal.IDEmpresa,
+                        IDSede = x.personal.IDSede,
+                        CodigoPersonal = x.personal.CodigoPersonal,
+                        NombrePers = x.personal.NombrePers,
+                        ApellidoPersonal = x.personal.ApellidoPersonal,
+                        SexoPersonal = x.personal.SexoPersonal,
+                        EmailPersonal = x.personal.EmailPersonal,
+                        EmailTrabrajo = x.personal.EmailTrabrajo,
+                        FechaNacimiento = x.personal.FechaNacimiento,
+                        TelefonoPersonal = x.personal.TelefonoPersonal,
+                        AnexoPersonal = x.personal.AnexoPersonal,
+                        EstadoPersonal = x.personal.EstadoPersonal,
+                        CodigoArea = x.personal.CodigoArea,
+                        CodigoCargo = x.personal.CodigoCargo,
+                        ClasePersonal = x.personal.ClasePersonal,
+                        NumeroIdentificacion = x.personal.NumeroIdentificacion,
+                        DireccionPersonal = x.personal.DireccionPersonal,
+                        CodigoUbigeo = x.personal.CodigoUbigeo,
+                        CelularPersonalUno = x.personal.CelularPersonalUno,
+                        CelularPersonalDos = x.personal.CelularPersonalDos,
+                        TipoIdentificacion = x.personal.TipoIdentificacion,
+                        Cargo = new Concepto { DescripcionConcepto = x.cargo.DescripcionConcepto },
+                        Area = new Concepto { DescripcionConcepto = x.area.DescripcionConcepto },
 
                     }));
                 }

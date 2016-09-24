@@ -259,7 +259,7 @@ namespace Gdoc.Web.Controllers
         public JsonResult BuscarUsuarioPersonal(Usuario usuario)
         {
             var listUsuario = new List<EUsuario>();
-            var listPersonal = new List<Personal>();
+            var listPersonal = new List<EPersonal>();
             try
             {
                 if (usuario.NombreUsuario != null)
@@ -314,7 +314,7 @@ namespace Gdoc.Web.Controllers
                     //    else
                     //        listUsuario = oUsuario.ListarUsuario();
                     //}
-                    listPersonal = new List<Personal>();
+                    listPersonal = new List<EPersonal>();
                     using (var oPersonal = new NPersonal())
                     {
                         if (!string.IsNullOrEmpty(usuario.Personal.NumeroIdentificacion))

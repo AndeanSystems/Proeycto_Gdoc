@@ -41,7 +41,7 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public List<Personal> ListarPersonal()
+        public List<EPersonal> ListarPersonal()
         {
             try
             {
