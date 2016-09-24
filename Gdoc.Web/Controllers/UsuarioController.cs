@@ -281,6 +281,7 @@ namespace Gdoc.Web.Controllers
                             if (LstUsuAD[0]._sAMAccountName != null)
                             {
                                 usuarioAD = new EUsuario();
+                                usuarioAD.Personal = new Personal();
 
                                 usuarioAD.NombreUsuario = LstUsuAD[0]._sAMAccountName;
                                 //usuarioAD.Personal.NumeroIdentificacion = "1";

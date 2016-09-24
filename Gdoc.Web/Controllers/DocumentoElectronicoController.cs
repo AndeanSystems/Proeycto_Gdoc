@@ -103,6 +103,7 @@ namespace Gdoc.Web.Controllers
                     IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
                 }).Where(x => x.TipoOperacion == Gdoc.Web.Util.Constantes.TipoOperacion.DocumentoElectronico).ToList();
             }
+
             return new JsonResult { Data = listDocumentoElectronico, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
 
