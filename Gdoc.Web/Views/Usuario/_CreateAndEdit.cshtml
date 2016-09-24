@@ -42,6 +42,15 @@
 
                         </div>
 
+                        @*<div class="form-group no-margin-bottom">
+                            <label class="col-sm-12">Tipo de Identificacion</label>
+                            <div class="col-sm-12">
+                                <select class="form-control" ng-model="ctrl.usuario.Personal.TipoIdentificacion" ng-options="ca.CodiConcepto as ca.DescripcionConcepto for ca in ctrl.listTipoIdentificacion">
+                                    <option value="">Seleccione</option>
+                                </select>
+                            </div>
+                        </div>*@
+
                         <div class="form-group no-margin-bottom">
                             <label class="col-sm-12">N° de DNI</label>
                             <div class="col-sm-12">
@@ -49,14 +58,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group no-margin-bottom">
-                            <label class="col-sm-12">Tipo de Identificacion</label>
-                            <div class="col-sm-12">
-                                <select class="form-control" ng-model="ctrl.usuario.Personal.TipoIdentificacion" ng-options="ca.CodiConcepto as ca.DescripcionConcepto for ca in ctrl.listTipoIdentificacion">
-                                    <option value="">Seleccione</option>
-                                </select>
-                            </div>
-                        </div>
+                        
 
                         <div class="form-group no-margin-bottom">
                             <label class="col-sm-12">Apellidos y Nombres</label>

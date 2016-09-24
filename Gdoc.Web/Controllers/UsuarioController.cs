@@ -259,6 +259,7 @@ namespace Gdoc.Web.Controllers
         public JsonResult BuscarUsuarioPersonal(Usuario usuario)
         {
             var listUsuario = new List<EUsuario>();
+            var listPersonal = new List<Personal>();
             try
             {
                 if (usuario.NombreUsuario != null)
@@ -303,18 +304,29 @@ namespace Gdoc.Web.Controllers
                 else if (usuario.Personal.NumeroIdentificacion != null)
                 {
                     listUsuario = new List<EUsuario>();
-                    using (var oUsuario = new NUsuario())
+                    //using (var oUsuario = new NUsuario())
+                    //{
+                    //    if (!string.IsNullOrEmpty(usuario.Personal.NumeroIdentificacion))
+                    //        listUsuario = oUsuario.ListarUsuario().Where(x => x.Personal.NumeroIdentificacion == usuario.Personal.NumeroIdentificacion
+                    //            //                                        x.Personal.TipoIdentificacion == usuario.Personal.TipoIdentificacion ||
+                    //            //                                        x.Personal.EstadoPersonal==1
+                    //                                                    ).ToList();
+                    //    else
+                    //        listUsuario = oUsuario.ListarUsuario();
+                    //}
+                    listPersonal = new List<Personal>();
+                    using (var oPersonal = new NPersonal())
                     {
                         if (!string.IsNullOrEmpty(usuario.Personal.NumeroIdentificacion))
-                            listUsuario = oUsuario.ListarUsuario().Where(x => x.Personal.NumeroIdentificacion == usuario.Personal.NumeroIdentificacion
+                            listPersonal = oPersonal.ListarPersonal().Where(x => x.NumeroIdentificacion == usuario.Personal.NumeroIdentificacion
                                 //                                        x.Personal.TipoIdentificacion == usuario.Personal.TipoIdentificacion ||
                                 //                                        x.Personal.EstadoPersonal==1
                                                                         ).ToList();
                         else
-                            listUsuario = oUsuario.ListarUsuario();
+                            listPersonal = oPersonal.ListarPersonal();
                     }
 
-                    return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
+                    return new JsonResult { Data = listPersonal, MaxJsonLength = Int32.MaxValue };
                 }
                 else
                     return new JsonResult { Data = "MAL", MaxJsonLength = Int32.MaxValue };

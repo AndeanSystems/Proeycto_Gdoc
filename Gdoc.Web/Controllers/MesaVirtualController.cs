@@ -32,7 +32,7 @@ namespace Gdoc.Web.Controllers
 
                 if (operacion.EstadoOperacion == 1)
                 {
-                    if (operacion.FechaRegistro == null)
+                    //if (operacion.FechaRegistro == null)
                         operacion.FechaRegistro = DateTime.Now;
                     operacion.FechaEnvio = DateTime.Now;
                 }

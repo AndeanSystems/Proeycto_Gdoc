@@ -95,9 +95,11 @@
 
             personal = { NumeroIdentificacion: documento };
             console.log(personal);
-            dataProvider.postData("Usuario/BuscarUsuarioPersonal", { NombreUsuario: user,Personal:personal }).success(function (respuesta) {
+            dataProvider.postData("Usuario/BuscarUsuarioPersonal", { NombreUsuario: user, Personal: personal }).success(function (respuesta) {
+
+                context.usuario.Personal = respuesta[0];
                 console.log(respuesta);
-                context.usuario = respuesta[0];
+                //context.usuario = respuesta[0];
                 console.log(context.usuario)
             }).error(function (error) {
                 //MostrarError();
