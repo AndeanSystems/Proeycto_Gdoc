@@ -35,8 +35,8 @@
                 { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
                 {
                     name: 'Ver',
-                    cellTemplate: '<a class="fa fa-folder-open-o" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" target="_blank" data-placement="top" data-toggle="tooltip" title="Abrir"></a>' +
-                            '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-eye" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>'
+                    cellTemplate: '<i class="fa fa-paperclip" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" target="_blank" data-placement="bottom" data-toggle="tooltip" title="Abrir pdf"></i>' +
+                            '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-eye" data-placement="bottom" data-toggle="tooltip" title="Adjuntos"></i>'
                 }
             ]
         };

@@ -116,6 +116,10 @@ function ReadFileToBinary(control) {
         }
         context.grabar = function (numeroboton) {
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
+
+            if (Operacion.EstadoOperacion == "ACTIVO") {
+                return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
+            }
             if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
                 return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
             }

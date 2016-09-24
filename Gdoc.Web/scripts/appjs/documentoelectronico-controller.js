@@ -109,7 +109,7 @@ function ReadFileToBinary(control) {
 
             console.log(Operacion.EstadoOperacion);
             if (Operacion.EstadoOperacion == "ACTIVO") {
-                return appService.mostrarAlerta("Operacion enviada", "No se puede editar la operacion", "warning");
+                return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
             }
             //if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
             //    return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
