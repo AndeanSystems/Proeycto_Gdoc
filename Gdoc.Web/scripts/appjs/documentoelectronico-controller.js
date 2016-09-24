@@ -211,7 +211,7 @@ function ReadFileToBinary(control) {
             }
         }
         context.listarAdjunto = function () {
-            listarAdjunto
+            //listarAdjunto
         }
         ////
         function limpiarFormulario() {
@@ -234,6 +234,7 @@ function ReadFileToBinary(control) {
             obtenerUsuarioSession();
             archivosSelecionados = [];
             listDocumentosAdjuntos = [];
+            CKEDITOR.instances.editor1.setData("");
         }
         function listarUsuarioGrupoAutoComplete(Nombre) {
             var UsuarioGrupo = { Nombre: Nombre };
