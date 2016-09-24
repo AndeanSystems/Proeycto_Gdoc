@@ -98,9 +98,12 @@ function ReadFileToBinary(control) {
         };
         //Eventos
         context.grabar = function (numeroboton) {
-            if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
-                return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
+            if (Operacion.EstadoOperacion == "ACTIVO") {
+                return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
             }
+            //if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
+            //    return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
+            //}
             if (context.usuarioOrganizador == undefined || context.usuarioOrganizador == "") {
                 return appService.mostrarAlerta("Falta el Organizador", "Agregue al Organizador", "warning");
             }
