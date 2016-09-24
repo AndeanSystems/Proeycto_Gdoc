@@ -72,36 +72,47 @@ namespace Gdoc.Web.Controllers
         }
         [HttpPost]
         public JsonResult GrabarConcepto(Concepto concepto) {
-            using (var oConcepto = new NConcepto())
+            try
             {
-                concepto.UsuarioModifica = Session["NombreUsuario"].ToString();
-                concepto.FechaModifica = System.DateTime.Now;
-                //var respuesta = oConcepto.GrabarConcepto(concepto);
-                Concepto respuesta = null;
-                if (concepto.IDEmpresa > 0){
-                    respuesta = oConcepto.EditarConcepto(concepto);
-                }
-                else if (concepto.IDEmpresa < 1)
+                using (var oConcepto = new NConcepto())
                 {
-                    concepto.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
-                    if(concepto.TipoConcepto.Equals("001")||concepto.TipoConcepto.Equals("002") ||concepto.TipoConcepto.Equals("011") || concepto.TipoConcepto.Equals("013")
-                        || concepto.TipoConcepto.Equals("015") || concepto.TipoConcepto.Equals("016")||concepto.TipoConcepto.Equals("017") || concepto.TipoConcepto.Equals("018")
-                        || concepto.TipoConcepto.Equals("019") || concepto.TipoConcepto.Equals("020") || concepto.TipoConcepto.Equals("021") || concepto.TipoConcepto.Equals("022")
-                        || concepto.TipoConcepto.Equals("023"))
-                    {
-                        concepto.EditarRegistro = 0;
-                    }
-                    
-                    concepto.EditarRegistro = 1;//por terminar
                     concepto.UsuarioModifica = Session["NombreUsuario"].ToString();
                     concepto.FechaModifica = System.DateTime.Now;
-                    respuesta = oConcepto.GrabarConcepto(concepto);
+                    //var respuesta = oConcepto.GrabarConcepto(concepto);
+                    Concepto respuesta = null;
+                    if (concepto.IDEmpresa > 0)
+                    {
+                        respuesta = oConcepto.EditarConcepto(concepto);
+                    }
+                    else if (concepto.IDEmpresa < 1)
+                    {
+                        concepto.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
+                        if (concepto.TipoConcepto.Equals("001") || concepto.TipoConcepto.Equals("002") || concepto.TipoConcepto.Equals("011") || concepto.TipoConcepto.Equals("013")
+                            || concepto.TipoConcepto.Equals("015") || concepto.TipoConcepto.Equals("016") || concepto.TipoConcepto.Equals("017") || concepto.TipoConcepto.Equals("018")
+                            || concepto.TipoConcepto.Equals("019") || concepto.TipoConcepto.Equals("020") || concepto.TipoConcepto.Equals("021") || concepto.TipoConcepto.Equals("022")
+                            || concepto.TipoConcepto.Equals("023"))
+                        {
+                            concepto.EditarRegistro = 0;
+                        }
+
+                        concepto.EditarRegistro = 1;//por terminar
+                        concepto.UsuarioModifica = Session["NombreUsuario"].ToString();
+                        concepto.FechaModifica = System.DateTime.Now;
+                        respuesta = oConcepto.GrabarConcepto(concepto);
+                    }
+
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Grabación Exitoso";
                 }
-                    
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception)
+            {
+                mensajeRespuesta.Mensaje = "Concepto no grabo correctamente";
+                mensajeRespuesta.Exitoso = false;
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
+            }
+            
         }
         public JsonResult EliminarConcepto(Concepto concepto)
         {

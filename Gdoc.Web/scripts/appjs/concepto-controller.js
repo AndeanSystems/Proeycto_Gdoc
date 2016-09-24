@@ -1,4 +1,5 @@
-﻿(function () {
+﻿let TipoMensaje = "warning";
+(function () {
     'use strict';
 
     angular.module('app').controller('concepto_controller', concepto_controller);
