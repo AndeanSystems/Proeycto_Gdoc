@@ -165,6 +165,11 @@ function ReadFileToBinary(control) {
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
         }
 
+        context.nuevo = function () {
+            limpiarFormulario();
+            obtenerUsuarioSession();
+        }
+
         context.editarOperacion = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
             context.DocumentoElectronicoOperacion = context.operacion.DocumentoElectronicoOperacion;
