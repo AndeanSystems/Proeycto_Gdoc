@@ -62,7 +62,7 @@ namespace Gdoc.Web.Controllers
                 using (var NUsuario = new NUsuario())
                 {
                     //false)//
-                    if (ValidarUsuarioEnActiveDirectory(usuario) == true)
+                    if (ValidarUsuarioEnActiveDirectory(usuario) == false)//true)
                     {
                         var UsuarioEncontrado = NUsuario.ValidarLogin(usuario);
                         var CantidadAlerta = NUsuario.CantidadAlerta(UsuarioEncontrado);
