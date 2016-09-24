@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gdoc.Web", "Gdoc.Web\Gdoc.Web.csproj", "{3AA8FC86-8F83-468B-A9AB-7993682F8535}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gdoc.Negocio", "Gdoc.Negocio\Gdoc.Negocio.csproj", "{51091A12-36AA-4756-B584-FADC0A62FA09}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gdoc.Dao", "Gdoc.Dao\Gdoc.Dao.csproj", "{73CE3D69-20BB-4C3F-BA62-9D1BC942E8F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gdoc.Comun", "Gdoc.Common\Gdoc.Comun.csproj", "{F4874758-6433-4587-BE9A-08A4EAB8DED9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{73CE3D69-20BB-4C3F-BA62-9D1BC942E8F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73CE3D69-20BB-4C3F-BA62-9D1BC942E8F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73CE3D69-20BB-4C3F-BA62-9D1BC942E8F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4874758-6433-4587-BE9A-08A4EAB8DED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4874758-6433-4587-BE9A-08A4EAB8DED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4874758-6433-4587-BE9A-08A4EAB8DED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4874758-6433-4587-BE9A-08A4EAB8DED9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

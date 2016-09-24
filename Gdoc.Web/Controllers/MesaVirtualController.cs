@@ -1,7 +1,7 @@
 ﻿using Gdoc.Entity.Extension;
 using Gdoc.Entity.Models;
 using Gdoc.Negocio;
-using Gdoc.Web.Util;
+using Gdoc.Common.Utilitario;
 using System;
 using System.Collections.Generic;
 using System.Linq;

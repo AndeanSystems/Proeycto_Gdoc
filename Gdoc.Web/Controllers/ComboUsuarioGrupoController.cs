@@ -1,10 +1,10 @@
 ﻿using Gdoc.Entity.Extension;
 using Gdoc.Negocio;
-using Gdoc.Web.Util;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Linq;
+using Gdoc.Common.Utilitario;
 
 namespace Gdoc.Web.Controllers
 {

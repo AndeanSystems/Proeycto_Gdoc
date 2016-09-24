@@ -1,6 +1,6 @@
 ﻿using Gdoc.Entity.Models;
 using Gdoc.Negocio;
-using Gdoc.Web.Util;
+using Gdoc.Common.Utilitario;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -219,7 +219,7 @@ namespace Gdoc.Web.Controllers
             {
                 using (var oUsuario = new NUsuario())
                 {
-                    usuario.EstadoUsuario = Gdoc.Web.Util.Estados.EstadoEmpresa.Inactivo;
+                    usuario.EstadoUsuario = Estados.EstadoEmpresa.Inactivo;
                     var respuesta = oUsuario.EliminarUsuario(usuario);
                     mensajeRespuesta.Exitoso = true;
                     mensajeRespuesta.Mensaje = "Grabación Exitoso";

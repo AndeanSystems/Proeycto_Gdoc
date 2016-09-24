@@ -7,13 +7,14 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using iTextSharp.text.html.simpleparser;
-using Gdoc.Negocio;
+using Gdoc.Dao;
 
-namespace Gdoc.Web.Util
+namespace Gdoc.Common.Utilitario
 {
     public class UtilPdf
     {
-        public void GenerarArchivoPDF(string sNumeroDocumentoElectronico, string sCarpetaOrigen, string sBodyTexto,int IDEmpresa)
+        private DGeneral dGeneral = new DGeneral();
+        public void GenerarArchivoPDF(string sNumeroDocumentoElectronico, string sCarpetaOrigen, string sBodyTexto, int IDEmpresa, string rutaPDF)
         {
             string sFEPCMAC = ConfigurationManager.AppSettings.Get("FooterPDF1");
             string sDireccion = ConfigurationManager.AppSettings.Get("FooterPDF2");
@@ -27,7 +28,7 @@ namespace Gdoc.Web.Util
             MemoryStream ms = new MemoryStream();
             PdfWriter.GetInstance(document, ms);
             //Traer ruta de imagenes.. logos 
-            document.Header = GenerarHeader(IDEmpresa, "FEPCMAC_Logo2.jpg");
+            document.Header = GenerarHeader(IDEmpresa, "FEPCMAC_Logo2.jpg", rutaPDF);
             document.Footer = GenerarFooter(sFooter); ;
 
             document.Open();
@@ -40,15 +41,10 @@ namespace Gdoc.Web.Util
             ms.Flush();
             ms.Close();
 
-            SubirArchivoFTP(sCarpetaOrigen, sNumeroDocumentoElectronico, ".pdf", byteArray,IDEmpresa);
+            SubirArchivoFTP(sCarpetaOrigen, sNumeroDocumentoElectronico, ".pdf", byteArray, rutaPDF, IDEmpresa);
         }
-        protected HeaderFooter GenerarHeader(int IDEmpresa, string sNameImagen)
+        protected HeaderFooter GenerarHeader(int IDEmpresa, string sNameImagen,string logoRuta)
         {
-            var logoRuta = string.Empty;
-            using (var general = new NGeneral())
-            {
-                logoRuta = general.CargaParametros(IDEmpresa).RutaGdocPDF;
-            }
             iTextSharp.text.Image sFepcmac = iTextSharp.text.Image.GetInstance(Path.Combine(logoRuta, sNameImagen));
             sFepcmac.ScaleAbsolute(60, 70);
 
@@ -86,7 +82,7 @@ namespace Gdoc.Web.Util
             worker.EndDocument();
             worker.Close();
         }
-        protected string SubirArchivoFTP(string sNombreCarpeta, string sNombreArchivo, string sExtencionArchivo, byte[] sbyteContent, int IDEmpresa)
+        protected string SubirArchivoFTP(string sNombreCarpeta, string sNombreArchivo, string sExtencionArchivo, byte[] sbyteContent, string rutaPDF, int IDEmpresa)
         {
             string _MensajeError = string.Empty;
 
@@ -94,18 +90,12 @@ namespace Gdoc.Web.Util
             {
                 try
                 {
-                    //Guardar en la ruta de pdf
-                    var RutapDF = string.Empty;
-                    using (var general = new NGeneral())
-                    {
-                        RutapDF = general.CargaParametros(IDEmpresa).RutaGdocPDF;
-                    }
 
-                    if (!Directory.Exists(RutapDF + sNombreCarpeta))
-                        Directory.CreateDirectory(Path.Combine(RutapDF ,sNombreCarpeta));
+                    if (!Directory.Exists(rutaPDF + sNombreCarpeta))
+                        Directory.CreateDirectory(Path.Combine(rutaPDF, sNombreCarpeta));
 
-                    if (!File.Exists(Path.Combine(RutapDF,sNombreCarpeta, string.Format("{0}{1}",sNombreArchivo,sExtencionArchivo))))
-                        File.WriteAllBytes(Path.Combine(RutapDF, sNombreCarpeta, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo)), sbyteContent);
+                    if (!File.Exists(Path.Combine(rutaPDF, sNombreCarpeta, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo))))
+                        File.WriteAllBytes(Path.Combine(rutaPDF, sNombreCarpeta, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo)), sbyteContent);
                 }
                 catch (Exception ex)
                 {

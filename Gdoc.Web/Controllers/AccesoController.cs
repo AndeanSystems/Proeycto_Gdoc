@@ -1,6 +1,6 @@
 ﻿using Gdoc.Entity.Models;
 using Gdoc.Negocio;
-using Gdoc.Web.Util;
+using Gdoc.Common.Utilitario;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +49,7 @@ namespace Gdoc.Web.Controllers
             using (var oAccesosistema = new NAccesoSistema())
             {
 
-                accesosistema.EstadoAcceso = Gdoc.Web.Util.Estados.EstadoAcceso.Inactivo;
+                accesosistema.EstadoAcceso = Estados.EstadoAcceso.Inactivo;
                 var respuesta = oAccesosistema.CambiarEstadoAcceso(accesosistema);
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitoso";
@@ -62,7 +62,7 @@ namespace Gdoc.Web.Controllers
             using (var oAccesosistema = new NAccesoSistema())
             {
                
-                accesosistema.EstadoAcceso = Gdoc.Web.Util.Estados.EstadoAcceso.Activo;
+                accesosistema.EstadoAcceso = Estados.EstadoAcceso.Activo;
                 var respuesta = oAccesosistema.CambiarEstadoAcceso(accesosistema);
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitoso";

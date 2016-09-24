@@ -1,7 +1,7 @@
-﻿using Gdoc.Entity.Extension;
+﻿using Gdoc.Common.Utilitario;
+using Gdoc.Entity.Extension;
 using Gdoc.Entity.Models;
 using Gdoc.Negocio;
-using Gdoc.Web.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,7 +103,7 @@ namespace Gdoc.Web.Controllers
         {
             using (var oGrupo = new NGrupo())
             {
-                grupo.EstadoGrupo = Gdoc.Web.Util.Estados.EstadoEmpresa.Inactivo;
+                grupo.EstadoGrupo = Estados.EstadoEmpresa.Inactivo;
                 var respuesta = oGrupo.EliminarGrupo(grupo);
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitoso";

@@ -1,6 +1,6 @@
-﻿using Gdoc.Entity.Models;
+﻿using Gdoc.Common.Utilitario;
+using Gdoc.Entity.Models;
 using Gdoc.Negocio;
-using Gdoc.Web.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,7 +118,7 @@ namespace Gdoc.Web.Controllers
         {
             using (var oConcepto = new NConcepto())
             {
-                concepto.EstadoConcepto = Gdoc.Web.Util.Estados.EstadoEmpresa.Inactivo;
+                concepto.EstadoConcepto = Estados.EstadoEmpresa.Inactivo;
                 var respuesta = oConcepto.EliminarConcepto(concepto);
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitoso";

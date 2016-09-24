@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gdoc.Negocio.Utils
+namespace Gdoc.Common.Utilitario
 {
     public class Constantes
     {
@@ -25,6 +25,27 @@ namespace Gdoc.Negocio.Utils
             public const string DestinatarioDD = "08";
         }
         public struct EstadoParticipante
+        {
+            public const short Creado = 0;
+            public const short Activo = 1;
+            public const short Inactivo = 2;
+        }
+    }
+    public class Estados {
+        public struct EstadoEmpresa
+        {
+            public const short Creado = 0;
+            public const short Activo = 1;
+            public const short Inactivo = 2;
+        }
+
+        public struct EstadoAcceso
+        {
+            public const short Creado = 0;
+            public const short Activo = 1;
+            public const short Inactivo = 2;
+        }
+        public struct EstadoOperacion
         {
             public const short Creado = 0;
             public const short Activo = 1;

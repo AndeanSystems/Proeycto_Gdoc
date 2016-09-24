@@ -1,7 +1,7 @@
-﻿using Gdoc.Dao;
+﻿using Gdoc.Common.Utilitario;
+using Gdoc.Dao;
 using Gdoc.Entity.Extension;
 using Gdoc.Entity.Models;
-using Gdoc.Negocio.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

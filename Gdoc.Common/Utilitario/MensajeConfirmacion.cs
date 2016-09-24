@@ -1,4 +1,4 @@
-﻿namespace Gdoc.Web.Util
+﻿namespace Gdoc.Common.Utilitario
 {
     public class MensajeConfirmacion
     {

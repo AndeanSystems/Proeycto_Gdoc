@@ -1,13 +1,12 @@
 ﻿using Gdoc.Entity.Extension;
 using Gdoc.Entity.Models;
 using Gdoc.Negocio;
-using Gdoc.Web.Util;
+using Gdoc.Common.Utilitario;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Gdoc.Negocio.Utils;
 
 namespace Gdoc.Web.Controllers
 {
@@ -48,7 +47,7 @@ namespace Gdoc.Web.Controllers
                     {
                         //FALTA TERMINAR QUITAR VALORES EN DURO
                         operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
-                        operacion.TipoOperacion = Gdoc.Web.Util.Constantes.TipoOperacion.DocumentoElectronico;
+                        operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
 
                         if (operacion.EstadoOperacion == 1)
                         {
@@ -81,7 +80,7 @@ namespace Gdoc.Web.Controllers
                         Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                         respuesta = oNOperacion.Grabar(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
                         //if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                        new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa);
+                        new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
                     }
                     
                 }
@@ -103,7 +102,7 @@ namespace Gdoc.Web.Controllers
             {
                 listDocumentoElectronico = oOperacion.ListarOperacionElectronico(new UsuarioParticipante {
                     IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
-                }).Where(x => x.TipoOperacion == Gdoc.Web.Util.Constantes.TipoOperacion.DocumentoElectronico).ToList();
+                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico).ToList();
             }
 
             return new JsonResult { Data = listDocumentoElectronico, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };

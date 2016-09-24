@@ -67,6 +67,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Gdoc.Common\Gdoc.Comun.csproj">
+      <Project>{f4874758-6433-4587-be9a-08a4eab8ded9}</Project>
+      <Name>Gdoc.Comun</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gdoc.Entity\Gdoc.Entidad.csproj">
       <Project>{2830a51e-0956-4435-8341-b77ca3fb7aa8}</Project>
       <Name>Gdoc.Entidad</Name>

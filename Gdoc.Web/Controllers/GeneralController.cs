@@ -1,6 +1,6 @@
-﻿using Gdoc.Entity.Models;
+﻿using Gdoc.Common.Utilitario;
+using Gdoc.Entity.Models;
 using Gdoc.Negocio;
-using Gdoc.Web.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
