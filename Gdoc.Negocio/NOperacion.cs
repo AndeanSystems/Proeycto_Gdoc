@@ -508,6 +508,19 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public List<EOperacion> ListarMesaTrabajoVirtual(UsuarioParticipante eUsuarioParticipante)
+        {
+            try
+            {
+                return dOperacion.ListarMesaTrabajoVirtual(eUsuarioParticipante);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        
         public short EditarOperacion(Operacion operacion,DocumentoElectronicoOperacion eDocumentoElectronicoOperacion)
         {
             try

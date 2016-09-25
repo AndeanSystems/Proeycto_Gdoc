@@ -85,8 +85,8 @@ function ReadFileToBinary(control) {
             columnDefs: [
                 { field: 'NumeroOperacion', displayName: 'Nº Documento' },
                 { field: 'FechaRegistro', displayName: 'Fecha Registro', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
-                { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Doc' },
-                { field: 'DescripcionOperacion', displayName: '	Asunto' },
+                { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Mesa' },
+                { field: 'TituloOperacion', displayName: 'Titulo' },
                 { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
                 {
                     name: 'Acciones',
@@ -231,8 +231,8 @@ function ReadFileToBinary(control) {
             appScopeProvider: context,
             columnDefs: [
                 { field: 'NumeroOperacion', displayName: 'Nº Documento' },
-                { field: 'TipoDoc.DescripcionConcepto', displayName: 'Tipo de Mesa' },
-                { field: 'DescripcionOperacion', displayName: '	Asunto' },
+                { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Mesa' },
+                { field: 'TituloOperacion', displayName: 'Titulo' },
                 { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
                 { field: 'Prioridad.DescripcionConcepto', displayName: 'Prioridad' },
                 {
