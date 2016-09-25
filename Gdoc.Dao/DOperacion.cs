@@ -198,7 +198,7 @@ namespace Gdoc.Dao
 
                                  where tipodocumento.TipoConcepto.Equals("012") &&
                                         estado.TipoConcepto.Equals("001") &&
-                                        (operacion.UsuarioParticipantes.Count(x=>x.IDUsuario==eUsuarioParticipante.IDUsuario)>0)
+                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && x.TipoParticipante == Constantes.TipoParticipante.RemitenteDE) > 0)
 
                                  select new { operacion, tipodocumento, /*documentodigital, usuariopart,*/ estado }).ToList();
 
