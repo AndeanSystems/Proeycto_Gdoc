@@ -45,7 +45,6 @@ function ReadFileToBinary(control) {
         
         //Variable de autocomplete
         var Operacion = {};
-        let DocumentoElectronicoOperacion = context.DocumentoElectronicoOperacion;
         let listEUsuarioGrupo = [];
         let listERemitente = [];
         let listEDestinatario = [];
@@ -103,10 +102,11 @@ function ReadFileToBinary(control) {
         //Eventos
         context.grabar = function (numeroboton) {
             context.DocumentoElectronicoOperacion.Memo = CKEDITOR.instances.editor1.getData();
+            console.log(CKEDITOR.instances.editor1.getData());
+            console.log(context.DocumentoElectronicoOperacion.Memo);
             Operacion = context.operacion;
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
 
-            console.log(Operacion.EstadoOperacion);
             if (Operacion.EstadoOperacion == "ACTIVO") {
                 return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
             }
@@ -150,7 +150,7 @@ function ReadFileToBinary(control) {
             }
 
             function enviarFomularioOK() {
-                dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, listDocumentosAdjuntos: listDocumentosAdjuntos, eDocumentoElectronicoOperacion: DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+                dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, listDocumentosAdjuntos: listDocumentosAdjuntos, eDocumentoElectronicoOperacion: context.DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                     console.log(Operacion);
                     if (respuesta.Exitoso)
                         TipoMensaje = "success";
