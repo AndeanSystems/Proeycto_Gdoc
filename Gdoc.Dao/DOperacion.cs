@@ -115,7 +115,7 @@ namespace Gdoc.Dao
                                         estado.TipoConcepto.Equals("001") &&
                                         tipooperacion.TipoConcepto.Equals("003") &&
                                         prioridad.TipoConcepto.Equals("005") &&
-                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) > 0)
+                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)) > 0)
 
                                  select new { operacion, tipodocumento, estado, tipooperacion, prioridad }).ToList();
 
@@ -140,8 +140,8 @@ namespace Gdoc.Dao
                         NotificacionOperacion = x.operacion.NotificacionOperacion,
                         TipoDocumento = x.operacion.TipoDocumento,
 
-                        TipoOpe = new Concepto { DescripcionConcepto = x.tipooperacion.DescripcionConcepto },
-                        TipoDoc = new Concepto { DescripcionConcepto = x.tipodocumento.DescripcionConcepto },
+                        TipoOpe = new Concepto { DescripcionCorta = x.tipooperacion.DescripcionCorta },
+                        TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
                         Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
                     }));
@@ -274,7 +274,7 @@ namespace Gdoc.Dao
 
                                  where tipodocumento.TipoConcepto.Equals("012") &&
                                         estado.TipoConcepto.Equals("001") &&
-                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && x.TipoParticipante == Constantes.TipoParticipante.RemitenteDE) > 0)
+                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && x.TipoParticipante == Constantes.TipoParticipante.RemitenteDE ) > 0)
                                         
                                  select new { operacion, tipodocumento, documentoelectronico, /*usuariopart,*/ estado /*,usuario*/ }).ToList();
 

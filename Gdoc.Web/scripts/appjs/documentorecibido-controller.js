@@ -27,12 +27,11 @@
             appScopeProvider: context,
             columnDefs: [
                 { field: 'NumeroOperacion', displayName: 'Nº Documento' },
-                { field: 'TipoOpe.DescripcionConcepto', displayName: 'Tipo Operacion' },
-                { field: 'TipoDoc.DescripcionConcepto', displayName: 'Tipo de Documento' },
-                { field: 'DescripcionOperacion', displayName: '	Asunto' },
-                { field: 'FechaRegistro', displayName: 'Fecha Emisión', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
-                { field: 'FechaVigente', displayName: '	Fecha Recepción', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
-                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
+                { field: 'TipoOpe.DescripcionCorta', displayName: 'T.Oper' },
+                { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Doc' },
+                { field: 'TituloOperacion', displayName: '	Titulo' },
+                { field: 'FechaRegistro', displayName: 'Fecha Emisión', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'FechaVigente', displayName: '	Fecha Recepción', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 {
                     name: 'Ver',
                     cellTemplate: '<i class="fa fa-paperclip" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" target="_blank" data-placement="bottom" data-toggle="tooltip" title="Abrir pdf"></i>' +
