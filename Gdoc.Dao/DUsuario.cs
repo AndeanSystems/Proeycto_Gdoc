@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gdoc.Entity.Models;
 using Gdoc.Entity.Extension;
+using Gdoc.Common.Utilitario;
 
 namespace Gdoc.Dao
 {
@@ -150,7 +151,7 @@ namespace Gdoc.Dao
                 {
                     var usu = (from usuparti in db.UsuarioParticipantes
 
-                               where usuparti.TipoParticipante == "02" &&
+                               where (usuparti.TipoParticipante == Constantes.TipoParticipante.OrganizadorMV || usuparti.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV) &&
                                      usuparti.IDUsuario == usuario.IDUsuario &&
 
                                       usuparti.FechaNotificacion.Value.Day == System.DateTime.Now.Day
