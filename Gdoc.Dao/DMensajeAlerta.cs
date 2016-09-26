@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gdoc.Entity.Models;
 using Gdoc.Entity.Extension;
+using Gdoc.Common.Utilitario;
 
 namespace Gdoc.Dao
 {
@@ -24,8 +25,14 @@ namespace Gdoc.Dao
                                  join operacion in db.Operacions
                                  on mensajealerta.IDOperacion equals operacion.IDOperacion
 
-                                 join usuario in db.Usuarios
-                                 on mensajealerta.IDUsuario equals usuario.IDUsuario
+                                //join usuariopart in db.UsuarioParticipantes
+                                //on operacion.IDOperacion equals usuariopart.IDOperacion
+
+                                // join usuario in db.Usuarios
+                                // on mensajealerta.IDUsuario equals usuario.IDUsuario
+
+                                // join usuariod in db.Usuarios
+                                // on usuariopart.IDUsuario equals usuariod.IDUsuario
 
                                  join tipooperacion in db.Conceptoes
                                  on operacion.TipoOperacion equals tipooperacion.CodiConcepto
@@ -36,8 +43,9 @@ namespace Gdoc.Dao
                                  where tipodocumento.TipoConcepto.Equals("012")
                                        && tipooperacion.TipoConcepto.Equals("003")
                                        && mensajealerta.FechaAlerta.Value.Day == System.DateTime.Now.Day
+                                       //&& (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD || x.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV)) > 0)
 
-                                 select new { mensajealerta, tipooperacion, tipodocumento, usuario, operacion }).ToList();
+                                 select new { mensajealerta, tipooperacion, tipodocumento, operacion }).ToList();
 
                     list2.ForEach(x => listMensajeAlerta.Add(new EMensajeAlerta
                     {
@@ -59,12 +67,15 @@ namespace Gdoc.Dao
                         },
                         Operacion = new Operacion
                         {
+                            IDOperacion=x.operacion.IDOperacion,
                             NumeroOperacion = x.operacion.NumeroOperacion,
+
                         },
-                        Usuario = new Usuario
-                        {
-                            NombreUsuario = x.usuario.NombreUsuario,
-                        }
+                        //Usuario = new Usuario
+                        //{
+                        //    NombreUsuario = x.usuario.NombreUsuario,
+                        //},
+                        //Remitente=x.usuariod.NombreUsuario,
 
                     }));
                 }

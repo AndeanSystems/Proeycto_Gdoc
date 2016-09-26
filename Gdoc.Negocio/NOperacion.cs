@@ -266,7 +266,7 @@ namespace Gdoc.Negocio
                         if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
                             listEusuarioParticipante.Add(eUsuarioParticipante);
                         //GRABAR MENSAJE ALERTA
-                        if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                        if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)
                         {
                             eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                             eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
@@ -445,7 +445,7 @@ namespace Gdoc.Negocio
                                 listEusuarioParticipante.Add(eUsuarioParticipante);
 
                             //GRABAR MENSAJE ALERTA
-                            if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                            if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV)
                             {
                                 eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                                 eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;

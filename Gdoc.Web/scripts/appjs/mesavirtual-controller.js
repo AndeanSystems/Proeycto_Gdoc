@@ -231,6 +231,7 @@ function ReadFileToBinary(control) {
             appScopeProvider: context,
             columnDefs: [
                 { field: 'NumeroOperacion', displayName: 'Nº Documento' },
+                { field: 'OrganizadorMV', displayName: 'Organizador' },
                 { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Mesa' },
                 { field: 'TituloOperacion', displayName: 'Titulo' },
                 { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },

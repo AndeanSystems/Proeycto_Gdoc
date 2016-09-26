@@ -20,7 +20,8 @@
             columnDefs: [
                 { field: 'Operacion.NumeroOperacion', displayName: 'Numero Operacion' },
                 { field: 'FechaAlerta', displayName: 'Fecha Emision', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
-                { field: 'Usuario.NombreUsuario', displayName: 'Remitente' },
+                //{ field: 'Usuario.NombreUsuario', displayName: 'Destinatario' },
+                //{ field: 'Remitente', displayName: 'Remitente' },
                 { field: 'TipoOperacion.DescripcionCorta', displayName: 'T.Ope' },
                 { field: 'TipoDocumento.DescripcionCorta', displayName: 'T.Doc' },
                 {

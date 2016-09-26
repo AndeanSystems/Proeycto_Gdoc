@@ -15,5 +15,6 @@ namespace Gdoc.Entity.Extension
         public Concepto TipoDocumento { get; set; }
         public UsuarioParticipante UsuarioParticipante { get; set; }
         public Usuario Usuario { get; set; }
+        public string Remitente { get; set; }
     }
 }

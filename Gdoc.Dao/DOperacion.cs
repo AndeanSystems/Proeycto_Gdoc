@@ -198,7 +198,7 @@ namespace Gdoc.Dao
 
                                  where tipodocumento.TipoConcepto.Equals("012") &&
                                         estado.TipoConcepto.Equals("001") &&
-                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && x.TipoParticipante == Constantes.TipoParticipante.RemitenteDE) > 0)
+                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && x.TipoParticipante == Constantes.TipoParticipante.EmisorDD) > 0)
 
                                  select new { operacion, tipodocumento, /*documentodigital, usuariopart,*/ estado }).ToList();
 
@@ -412,12 +412,19 @@ namespace Gdoc.Dao
                                  join prioridad in db.Conceptoes
                                  on operacion.PrioridadOperacion equals prioridad.CodiConcepto
 
+                                 join organizador in db.UsuarioParticipantes
+                                 on operacion.IDOperacion equals organizador.IDOperacion
+
+                                 join usuario in db.Usuarios
+                                 on organizador.IDUsuario equals usuario.IDUsuario
+
                                  where tipomesa.TipoConcepto.Equals("011") &&
                                         estado.TipoConcepto.Equals("001") &&
                                         prioridad.TipoConcepto.Equals("005") &&
-                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario &&  (x.TipoParticipante == Constantes.TipoParticipante.OrganizadorMV || x.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV)) > 0)
-
-                                 select new { operacion, tipomesa,  /*usuariopart,*/ estado /*,usuario*/, prioridad }).ToList();
+                                        //(operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario &&  (x.TipoParticipante == Constantes.TipoParticipante.OrganizadorMV || x.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV)) > 0)
+                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) > 0)
+                                        && organizador.TipoParticipante.Equals(Constantes.TipoParticipante.OrganizadorMV)
+                                 select new { operacion, tipomesa,  /*usuariopart,*/ estado /*,usuario*/, prioridad,organizador,usuario }).ToList();
 
                     list2.ForEach(x => listOperacion.Add(new EOperacion
                     {
@@ -443,6 +450,8 @@ namespace Gdoc.Dao
                         TipoDoc = new Concepto { DescripcionCorta = x.tipomesa.DescripcionCorta },
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
                         Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
+
+                        OrganizadorMV = x.usuario.NombreUsuario,
                     }));
 
 

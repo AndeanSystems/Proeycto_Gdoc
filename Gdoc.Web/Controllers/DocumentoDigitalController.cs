@@ -46,7 +46,8 @@ namespace Gdoc.Web.Controllers
                     operacion.FechaRegistro = DateTime.Now;
 
                 operacion.NotificacionOperacion = "S";//FALTA
-                operacion.DocumentoAdjunto = "N";//FALTA
+                
+                operacion.DocumentoAdjunto = "S";
 
                 using (var oOperacion = new NOperacion())
                 {

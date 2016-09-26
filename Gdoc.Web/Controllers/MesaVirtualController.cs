@@ -41,7 +41,11 @@ namespace Gdoc.Web.Controllers
 
                 operacion.NumeroOperacion = "MV"+DateTime.Now.Ticks.ToString();
                 operacion.NotificacionOperacion = "S";
-                operacion.DocumentoAdjunto = "N";
+
+                if (listAdjuntos != null)
+                    operacion.DocumentoAdjunto = "S";
+                else
+                    operacion.DocumentoAdjunto = "N";
 
                 //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 using (var oNOperacion = new NOperacion())
