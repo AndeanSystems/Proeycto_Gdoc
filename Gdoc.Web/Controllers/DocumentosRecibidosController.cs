@@ -40,5 +40,21 @@ namespace Gdoc.Web.Controllers
             }
             
         }
+
+        public JsonResult ListarDocumentoPDF(Operacion operacion)
+        {
+            try
+            {
+                
+                //var ruta = Session["RutaGdocPDF"].ToString().Substring(1)+"" + operacion.NumeroOperacion + ".pdf";
+                var ruta = "http://192.168.100.29:85/PDF/" + operacion.NumeroOperacion + ".pdf";
+                return new JsonResult { Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 	}
 }

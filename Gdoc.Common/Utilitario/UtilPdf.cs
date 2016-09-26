@@ -90,11 +90,17 @@ namespace Gdoc.Common.Utilitario
                 try
                 {
 
-                    if (!Directory.Exists(rutaPDF + sNombreCarpeta))
-                        Directory.CreateDirectory(Path.Combine(rutaPDF, sNombreCarpeta));
+                    //if (!Directory.Exists(rutaPDF + sNombreCarpeta))
+                    //    Directory.CreateDirectory(Path.Combine(rutaPDF, sNombreCarpeta));
 
-                    if (!File.Exists(Path.Combine(rutaPDF, sNombreCarpeta, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo))))
-                        File.WriteAllBytes(Path.Combine(rutaPDF, sNombreCarpeta, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo)), sbyteContent);
+                    //if (!File.Exists(Path.Combine(rutaPDF, sNombreCarpeta, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo))))
+                    //    File.WriteAllBytes(Path.Combine(rutaPDF, sNombreCarpeta, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo)), sbyteContent);
+
+                    if (!Directory.Exists(rutaPDF))
+                        Directory.CreateDirectory(Path.Combine(rutaPDF));
+
+                    if (!File.Exists(Path.Combine(rutaPDF, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo))))
+                        File.WriteAllBytes(Path.Combine(rutaPDF, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo)), sbyteContent);
                 }
                 catch (Exception ex)
                 {

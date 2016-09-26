@@ -55,7 +55,7 @@
                 cancelButtonText: "Cancelar",
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Aceptar",
-                closeOnConfirm: false
+                closeOnConfirm: true
             },
             function () {
                 metodoOK();

@@ -9,14 +9,16 @@
         context.operacion = {};
 
         context.mostrarPDF = function (rowIndex) {
-            try {
-                context.operacion = context.gridOptions.data[rowIndex];
-                var ruta = "http://localhost:99/PDF/" + context.operacion.NumeroOperacion + ".pdf";
-                window.open(ruta, '_blank');
-            } catch (e) {
-                //return appService.mostrarAlerta("No encontrado", "El Documento no se ha encontrado o ha sido eliminado", "error");
-                swal("No encontrado", "El Documento no se ha encontrado o ha sido eliminado", "error");
-            }
+            context.operacion = context.gridOptions.data[rowIndex];
+            dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
+                console.log(respuesta)
+                window.open(respuesta, '_blank');
+            }).error(function (error) {
+                //MostrarError();
+            });
+
+            
+            
             
         }
         context.gridOptions = {
