@@ -23,7 +23,7 @@
                 //{ field: 'Usuario.NombreUsuario', displayName: 'Destinatario' },
                 //{ field: 'Remitente', displayName: 'Remitente' },
                 { field: 'TipoOperacion.DescripcionCorta', displayName: 'T.Ope' },
-                { field: 'TipoDocumento.DescripcionCorta', displayName: 'T.Doc' },
+                { field: 'TipoDocumento.DescripcionCorta', displayName: 'Tipo' },
                 {
                     name: 'Acciones',
                     cellTemplate: '<i class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' 

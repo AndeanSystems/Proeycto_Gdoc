@@ -19,6 +19,7 @@
                 dataProvider.postData("General/EditarGeneralParametros", general).success(function (respuesta) {
                     console.log(respuesta);
                     listarGeneral();
+                    appService.mostrarAlerta("Información", "Se grabo correctamente", "success");
                 }).error(function (error) {
                     //MostrarError();
                 });

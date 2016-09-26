@@ -20,7 +20,7 @@
 
                             </div>
                             <div class="col-md-3">
-                                <select class="form-control" ng-model="ctrl.concepto.TipoConcepto" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoConceptoTitulo">
+                                <select class="form-control" ng-model="ctrl.concepto.TipoConcepto" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoConceptoTitulo" ng-change="ctrl.buscarConcepto(ctrl.concepto.TipoConcepto,ctrl.EstadoConcepto)">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -38,7 +38,7 @@
                             </div>
 
                             <div class="col-md-2">
-                                <button type="submit" name="search" id="search-btn" class="btn btn-default" ng-click="ctrl.buscarConcepto(ctrl.concepto.TipoConcepto,ctrl.EstadoConcepto)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
+                                @*<button type="submit" name="search" id="search-btn" class="btn btn-default" ng-click="ctrl.buscarConcepto(ctrl.concepto.TipoConcepto,ctrl.EstadoConcepto)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>*@
                                 <button class="btn btn-default" ng-click="ctrl.registrarConcepto()"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
                             </div>
                         </div>

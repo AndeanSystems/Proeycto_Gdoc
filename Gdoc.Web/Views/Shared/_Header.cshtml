@@ -14,13 +14,22 @@
 
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+                @*<li>
+                    <label class="pull-left">asd</label>
+                </li>*@
                 <li>
                     <a href="@Url.Action("Index", "Alertas")">
                         <i class="fa fa-home" data-placement="right" data-toggle="tooltip" title="Inicio"></i>
                     </a>
 
                 </li>
+                <li>
+                    <a href="@Url.Action("Index", "DocumentoElectronico")">
+                        <i class="fa fa-file" data-placement="right" data-toggle="tooltip" title="Documento Electronico"></i>
 
+                    </a>
+
+                </li>
                 <li>
                     <a href="@Url.Action("Index", "DocumentoDigital")">
                         <i class="fa fa-file-pdf-o" data-placement="right" data-toggle="tooltip" title="Documento Digital"></i>
@@ -30,13 +39,6 @@
                 <li>
                     <a href="@Url.Action("Index", "MesaVirtual")">
                         <i class="fa fa-folder" data-placement="right" data-toggle="tooltip" title="Mesa de Trabajo"></i>
-
-                    </a>
-
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", "DocumentoElectronico")">
-                        <i class="fa fa-file" data-placement="right" data-toggle="tooltip" title="Documento Electronico"></i>
 
                     </a>
 
