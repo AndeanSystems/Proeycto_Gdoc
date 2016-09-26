@@ -32,7 +32,7 @@ namespace Gdoc.Dao
                                 // on mensajealerta.IDUsuario equals usuario.IDUsuario
 
                                 // join usuariod in db.Usuarios
-                                // on usuariopart.IDUsuario equals usuariod.IDUsuario
+                                //// on usuariopart.IDUsuario equals usuariod.IDUsuario
 
                                  join tipooperacion in db.Conceptoes
                                  on operacion.TipoOperacion equals tipooperacion.CodiConcepto
