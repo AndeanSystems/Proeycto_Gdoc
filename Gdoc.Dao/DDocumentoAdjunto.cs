@@ -23,8 +23,10 @@ namespace Gdoc.Dao
                                     join adjunto in db.Adjuntoes
                                     on docadjunto.IDAdjunto equals adjunto.IDAdjunto
 
+                                    join operacion in db.Operacions
+                                    on docadjunto.IDOperacion equals operacion.IDOperacion
 
-                                    select new { docadjunto, adjunto }).ToList();
+                                    select new { docadjunto, adjunto, operacion }).ToList();
 
 
                     list2.ForEach(x => listDocumentoAdjunto.Add(new EDocumentoAdjunto
@@ -40,8 +42,8 @@ namespace Gdoc.Dao
                             TipoArchivo=x.adjunto.TipoArchivo,
                             RutaArchivo=x.adjunto.RutaArchivo,
                         },
-                        
-                        Archivo =  x.adjunto.RutaArchivo.Substring(20),
+
+                        Archivo = string.Format(@"{0}_{1}", x.operacion.NumeroOperacion, x.adjunto.NombreOriginal),
                     }));
                 }
             }

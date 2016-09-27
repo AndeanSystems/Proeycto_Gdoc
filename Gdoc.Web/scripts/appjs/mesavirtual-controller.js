@@ -209,6 +209,10 @@ function ReadFileToBinary(control) {
             $("#modal_adjuntos").modal("show");
         }
 
+        context.mostrarAdjuntoWindows = function (archivo) {
+            console.log(archivo);
+            window.open("http://192.168.100.29:85/ADJUNTOS/"+archivo, "mywin", "resizable=0");
+        }
         context.editarOperacion = function (rowIndex) {
 
             context.operacion = context.gridMesaTrabajo.data[rowIndex];
@@ -234,8 +238,8 @@ function ReadFileToBinary(control) {
                 { field: 'OrganizadorMV', displayName: 'Organizador' },
                 { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Mesa' },
                 { field: 'TituloOperacion', displayName: 'Titulo' },
-                { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
-                { field: 'Prioridad.DescripcionConcepto', displayName: 'Prioridad' },
+                { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'Prioridad.DescripcionCorta', displayName: 'Prioridad' },
                 {
                     name: 'Acciones',
                     cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>'
@@ -255,7 +259,7 @@ function ReadFileToBinary(control) {
                 { field: 'ComentarioMesaVirtual', displayName: 'Comentario' },
                 {
                     name: 'Adjuntos',
-                    cellTemplate: '<i ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-eye" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver"></i>'
+                    cellTemplate: '<i ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-paperclip" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver"></i>'
                 }
             ]
         };
@@ -289,6 +293,8 @@ function ReadFileToBinary(control) {
                     if (respuesta.Exitoso)
                         TipoMensaje = "success";
                     appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+
+                    listarComentarioMesaVirtual(context.operacion);
                     console.log(respuesta);
                 }).error(function (error) {
                     //MostrarError();
@@ -324,8 +330,6 @@ function ReadFileToBinary(control) {
                     context.listTipoMesaVirtual = respuesta;
             });
         }
-
-        
         function listarDocumentoAdjunto(mesavirtualcomentario) {
             dataProvider.postData("MesaVirtual/ListarDocumentoAdjunto", mesavirtualcomentario).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;

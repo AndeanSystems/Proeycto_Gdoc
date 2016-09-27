@@ -449,7 +449,7 @@ namespace Gdoc.Dao
 
                         TipoDoc = new Concepto { DescripcionCorta = x.tipomesa.DescripcionCorta },
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
-                        Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
+                        Prioridad = new Concepto { DescripcionCorta = x.prioridad.DescripcionCorta },
 
                         OrganizadorMV = x.usuario.NombreUsuario,
                     }));

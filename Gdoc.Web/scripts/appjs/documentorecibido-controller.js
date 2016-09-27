@@ -12,15 +12,23 @@
             context.operacion = context.gridOptions.data[rowIndex];
             dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
                 console.log(respuesta)
-                window.open(respuesta, '_blank');
+                window.open(respuesta,"mywin","resizable=1");
             }).error(function (error) {
                 //MostrarError();
             });
-
-            
-            
-            
         }
+
+        context.mostrarAdjuntos = function (rowIndex) {
+            context.operacion = context.gridOptions.data[rowIndex];
+            listarDocumentoAdjunto(context.operacion);
+            $("#modal_adjuntos").modal("show");
+        }
+
+        context.mostrarAdjuntoWindows = function (archivo) {
+            console.log(archivo);
+            window.open("http://192.168.100.29:85/ADJUNTOS/" + archivo, "mywin", "resizable=1");
+        }
+
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -28,33 +36,35 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'NumeroOperacion', displayName: 'Nº Documento' },
-                { field: 'TipoOpe.DescripcionCorta', displayName: 'T.Oper' },
-                { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Doc' },
-                { field: 'TituloOperacion', displayName: '	Titulo' },
-                { field: 'FechaRegistro', displayName: 'Fecha Emisión', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
-                { field: 'FechaVigente', displayName: '	Fecha Recepción', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'NumeroOperacion', width: '20%', displayName: 'Nº Documento' },
+                { field: 'TipoOpe.DescripcionCorta', width: '10%', displayName: 'T.Oper' },
+                { field: 'TipoDoc.DescripcionCorta', width: '10%', displayName: 'T.Doc' },
+                { field: 'TituloOperacion', width: '23%', displayName: '	Titulo' },
+                { field: 'FechaRegistro', width: '15%', displayName: 'Fecha Emisión', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'FechaVigente', width: '15%', displayName: '	Fecha Vigencia', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 {
-                    name: 'Ver',
-                    cellTemplate: '<i class="fa fa-paperclip" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" target="_blank" data-placement="bottom" data-toggle="tooltip" title="Abrir pdf"></i>' +
-                            '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-eye" data-placement="bottom" data-toggle="tooltip" title="Adjuntos"></i>'
+                    name: 'Acciones', width: '7%',
+                    cellTemplate: '<i class="fa fa-file-pdf-o" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver Documento pdf"></i>' +
+                            '<i class="fa fa-paperclip" ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;"  data-placement="bottom" data-toggle="tooltip" title="Ver Adjuntos"></i>'
                 }
             ]
         };
         //Eventos
 
         //Metodos
-        context.buscarLogOperacion = function (operacion) {
-            dataProvider.postData("LogOperacion/ListarLogOperacion", operacion).success(function (respuesta) {
+
+        function listarOperacion() {
+            dataProvider.getData("DocumentosRecibidos/ListarOperacion").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
+                console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();
             });
         }
 
-        function listarOperacion() {
-            dataProvider.getData("DocumentosRecibidos/ListarOperacion").success(function (respuesta) {
-                context.gridOptions.data = respuesta;
+        function listarDocumentoAdjunto(mesavirtualcomentario) {
+            dataProvider.postData("DocumentosRecibidos/ListarDocumentoAdjunto", mesavirtualcomentario).success(function (respuesta) {
+                context.listDocumentoAdjunto = respuesta;
                 console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();

@@ -26,7 +26,7 @@
                 { field: 'TipoDocumento.DescripcionCorta', displayName: 'Tipo' },
                 {
                     name: 'Acciones',
-                    cellTemplate: '<i class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' 
+                    cellTemplate: '<i class="fa fa-paperclip" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver Operacion"></i>'
                 }
 
             ],
@@ -34,6 +34,25 @@
         };
 
         //Metodos
+
+        context.mostrarPDF = function (rowIndex) {
+            context.operacion = context.gridOptions.data[rowIndex];
+            console.log(context.operacion);
+            if (context.operacion.Operacion.TipoOperacion == "04") {
+
+                return appService.mostrarAlerta("","","error")
+            }
+            else {
+                dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
+                    console.log(respuesta)
+                    //window.open(respuesta, '_blank');
+                    window.open(respuesta, "mywin", "resizable=0");
+                }).error(function (error) {
+                    //MostrarError();
+                });
+            }
+        }
+
         function listarMensajeAlerta() {
             dataProvider.getData("Alertas/ListarMensajeAlerta").success(function (respuesta) {
                 context.gridOptions.data = respuesta;

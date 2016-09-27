@@ -27,10 +27,11 @@ namespace Gdoc.Web.Controllers
             {
                 using (var oNOperacion = new NOperacion())
                 {
+                    Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                     Int32 respuesta = 0;
                     if (operacion.IDOperacion > 0)
                     {
-                        if (operacion.EstadoOperacion == 1)
+                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                         {
                             operacion.FechaEnvio = DateTime.Now;
                             operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
@@ -41,15 +42,14 @@ namespace Gdoc.Web.Controllers
                             //operacion.FechaRegistro = DateTime.Now;
                             //operacion.FechaEmision = DateTime.Now;
                         }
-                        respuesta = oNOperacion.EditarOperacion(operacion,eDocumentoElectronicoOperacion);
+                        respuesta = oNOperacion.EditarOperacion(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, IDusuario);
                     }
                     else
                     {
-                        //FALTA TERMINAR QUITAR VALORES EN DURO
                         operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                         operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
 
-                        if (operacion.EstadoOperacion == 1)
+                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                         {
                             //if (operacion.FechaRegistro != null)
                             //{
@@ -77,12 +77,11 @@ namespace Gdoc.Web.Controllers
                         //using (var oNOperacion = new NOperacion())
                         //{
 
-                        Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
+                        
                         respuesta = oNOperacion.Grabar(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
-                        //if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                        //new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
 
-                        new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
+                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                            new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
                     }
                     
                 }

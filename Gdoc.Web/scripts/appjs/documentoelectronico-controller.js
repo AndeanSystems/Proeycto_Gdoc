@@ -164,6 +164,8 @@ function ReadFileToBinary(control) {
                     console.log(Operacion);
                     if (respuesta.Exitoso)
                         TipoMensaje = "success";
+                    else
+                        TipoMensaje = "error";
                     appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
                 }).error(function (error) {
                     console.log(error);

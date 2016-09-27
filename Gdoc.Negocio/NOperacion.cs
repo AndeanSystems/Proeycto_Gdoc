@@ -100,7 +100,12 @@ namespace Gdoc.Negocio
                         adjunto.RutaArchivo = string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, adjunto.NombreOriginal);
                         adjunto.TamanoArchivo = adjunto.TamanoArchivo;
                         adjunto.FechaRegistro = System.DateTime.Now;
-                        adjunto.EstadoAdjunto = 1;
+
+                        if(operacion.EstadoOperacion==Estados.EstadoOperacion.Activo)
+                            adjunto.EstadoAdjunto = Estados.EstadoAdjunto.Activo;
+                        else
+                            adjunto.EstadoAdjunto = Estados.EstadoAdjunto.Inactivo;
+
                         if (string.IsNullOrEmpty(adjunto.TipoArchivo) || !adjunto.TipoArchivo.Contains(ArchivoTXT))
                         {
                             File.WriteAllBytes(adjunto.RutaArchivo, fileBytes);
@@ -123,7 +128,7 @@ namespace Gdoc.Negocio
                         eDocumentoAdjunto = new DocumentoAdjunto();
                         eDocumentoAdjunto.IDOperacion = operacion.IDOperacion;
                         eDocumentoAdjunto.IDAdjunto = adjunto.IDAdjunto;
-                        eDocumentoAdjunto.EstadoDoctoAdjunto = 1;
+                        eDocumentoAdjunto.EstadoDoctoAdjunto = adjunto.EstadoAdjunto;
                         dDocumentoAdjunto.GrabarDocumentoAdjunto(eDocumentoAdjunto);
                     }
                 }
@@ -521,14 +526,59 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        
-        public short EditarOperacion(Operacion operacion,DocumentoElectronicoOperacion eDocumentoElectronicoOperacion)
+
+        public short EditarOperacion(Operacion operacion, List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, Int64 IDusuario)
         {
             try
             {
+                var eGeneral = dGeneral.CargaParametros(operacion.IDEmpresa);
                 dOperacion.EditarOperacion(operacion);
                 dDocumentoElectronicoOperacion.Editar(eDocumentoElectronicoOperacion);
+                var eDocumentoAdjunto = new DocumentoAdjunto();
                 //FALTA EDITAR DOCUMENTO ADJUNTO
+                if (listDocumentosAdjuntos != null)
+                {
+                    foreach (var adjunto in listDocumentosAdjuntos)
+                    {
+                        byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(adjunto.RutaArchivo);
+                        adjunto.IDUsuario = IDusuario;
+                        adjunto.NombreOriginal = adjunto.NombreOriginal;
+                        //documentoAdjunto.RutaArchivo = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoAdjunto.NombreOriginal);
+                        adjunto.RutaArchivo = string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, adjunto.NombreOriginal);
+                        adjunto.TamanoArchivo = adjunto.TamanoArchivo;
+                        adjunto.FechaRegistro = System.DateTime.Now;
+
+                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                            adjunto.EstadoAdjunto = Estados.EstadoAdjunto.Activo;
+                        else
+                            adjunto.EstadoAdjunto = Estados.EstadoAdjunto.Inactivo;
+
+                        if (string.IsNullOrEmpty(adjunto.TipoArchivo) || !adjunto.TipoArchivo.Contains(ArchivoTXT))
+                        {
+                            File.WriteAllBytes(adjunto.RutaArchivo, fileBytes);
+                        }
+                        else if (adjunto.TipoArchivo.Contains(ArchivoTXT))
+                        {
+                            File.WriteAllText(adjunto.RutaArchivo, Encoding.UTF8.GetString(fileBytes));
+                        }
+                        else
+                        {
+                            using (MemoryStream stream = new MemoryStream(fileBytes))
+                            {
+                                Image.FromStream(stream).Save(adjunto.RutaArchivo, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            }
+                        }
+                        //GRABAR ADJUNTO
+                        dAdjunto.GrabarAdjunto(adjunto);
+
+                        //GRABAR DOCUMENTO ADJUNTO
+                        eDocumentoAdjunto = new DocumentoAdjunto();
+                        eDocumentoAdjunto.IDOperacion = operacion.IDOperacion;
+                        eDocumentoAdjunto.IDAdjunto = adjunto.IDAdjunto;
+                        eDocumentoAdjunto.EstadoDoctoAdjunto = adjunto.EstadoAdjunto;
+                        dDocumentoAdjunto.GrabarDocumentoAdjunto(eDocumentoAdjunto);
+                    }
+                }
                 //FALTA EDITAR USUARIOS PARTICIPANTES
                 return 1;
             }

@@ -56,5 +56,15 @@ namespace Gdoc.Web.Controllers
                 throw;
             }
         }
-	}
+        [HttpPost]
+        public JsonResult ListarDocumentoAdjunto(Operacion operacion)
+        {
+            var listDocumentoAdjunto = new List<EDocumentoAdjunto>();
+            using (var oDocumentoAdjunto = new NDocumentoAdjunto())
+            {
+                listDocumentoAdjunto = oDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+            }
+            return new JsonResult { Data = listDocumentoAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+    }
 }

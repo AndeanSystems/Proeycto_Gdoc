@@ -17,7 +17,7 @@
                 <div class="form-group no-margin-bottom">
                     <label class="col-md-12">Tipo de Documento <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionCorta for td in ctrl.listTipoDocumento">
+                        <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
                             <option value="">Seleccione</option>
                         </select>
                     </div>
@@ -26,7 +26,7 @@
                 <div class="form-group no-margin-bottom">
                     <label class="col-md-12">Tipo de Comunicacion <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <select class="form-control" ng-model="ctrl.operacion.TipoComunicacion" ng-options="tc.CodiConcepto as tc.DescripcionCorta for tc in ctrl.listTipoComunicacion">
+                        <select class="form-control" ng-model="ctrl.operacion.TipoComunicacion" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoComunicacion">
                             <option value="">Seleccione</option>
                         </select>
                     </div>
@@ -44,7 +44,7 @@
                 <div class="form-group no-margin-bottom">
                     <label class="col-md-12">Prioridad de Atención <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionCorta for pa in ctrl.listPrioridadAtencion ">
+                        <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion ">
                             <option value="">Seleccione</option>
                         </select>
                     </div>

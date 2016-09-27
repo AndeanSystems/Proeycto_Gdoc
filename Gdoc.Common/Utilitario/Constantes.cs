@@ -51,5 +51,11 @@ namespace Gdoc.Common.Utilitario
             public const short Activo = 1;
             public const short Inactivo = 2;
         }
+        public struct EstadoAdjunto
+        {
+            public const short Creado = 0;
+            public const short Activo = 1;
+            public const short Inactivo = 2;
+        }
     }
 }
