@@ -227,7 +227,8 @@ namespace Gdoc.Negocio
                 foreach (var documentoOperacion in listDocumentoDigitalOperacion)
                 {
                     byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoOperacion.RutaFisica);
-                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoOperacion.NombreOriginal);
+                    //documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoOperacion.NombreOriginal);
+                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}{2}", eGeneral.RutaGdocPDF, operacion.NumeroOperacion, ".pdf");
                     documentoOperacion.IDOperacion = operacion.IDOperacion;
                     documentoOperacion.NombreFisico = string.Empty;
                     documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;

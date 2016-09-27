@@ -95,11 +95,21 @@ function ReadFileToBinary(control) {
                 {
                     name: 'Acciones',
                     cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                '<i ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-eye" data-placement="bottom" data-toggle="tooltip"  data-original-title="Ver"></i>'+
                                 '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="top" data-toggle="tooltip" title="" data-original-title="Borrar"></i>'
                 }
             ]
         };
         //Eventos
+        context.mostrarPDF = function (rowIndex) {
+            context.operacion = context.gridOptions.data[rowIndex];
+            dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
+                console.log(respuesta)
+                window.open(respuesta, '_blank');
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         context.grabar = function (numeroboton) {
             context.DocumentoElectronicoOperacion.Memo = CKEDITOR.instances.editor1.getData();
             console.log(CKEDITOR.instances.editor1.getData());
