@@ -18,14 +18,15 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'Operacion.NumeroOperacion', displayName: 'Numero Operacion' },
-                { field: 'FechaAlerta', displayName: 'Fecha Emision', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'Operacion.NumeroOperacion',width:'14%', displayName: 'Nº Operación' },
+                { field: 'FechaAlerta', width: '12%', displayName: 'Fecha Operación', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 //{ field: 'Usuario.NombreUsuario', displayName: 'Destinatario' },
                 //{ field: 'Remitente', displayName: 'Remitente' },
-                { field: 'TipoOperacion.DescripcionCorta', displayName: 'T.Ope' },
-                { field: 'TipoDocumento.DescripcionCorta', displayName: 'Tipo' },
+                { field: 'TipoOperacion.DescripcionCorta', width: '6%', displayName: 'T.Oper.' },
+                { field: 'TipoDocumento.DescripcionCorta', width: '6%', displayName: 'T.Doc.' },
+                { field: 'Detalle', width: '55%', displayName: 'Detalle' },
                 {
-                    name: 'Acciones',
+                    name: 'Acciones', width: '7%',
                     cellTemplate: '<i class="fa fa-paperclip" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver Operacion"></i>'
                 }
 
