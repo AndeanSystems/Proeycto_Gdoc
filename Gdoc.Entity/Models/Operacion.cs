@@ -36,6 +36,7 @@ namespace Gdoc.Entity.Models
         public string TipoComunicacion { get; set; }
         public string NotificacionOperacion { get; set; }
         public string TipoDocumento { get; set; }
+        public string NombreFinal { get; set; }
         public virtual ICollection<DocumentoAdjunto> DocumentoAdjuntoes { get; set; }
         public virtual ICollection<DocumentoDigitalOperacion> DocumentoDigitalOperacions { get; set; }
         public virtual ICollection<DocumentoElectronicoOperacion> DocumentoElectronicoOperacions { get; set; }

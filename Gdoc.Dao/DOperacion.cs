@@ -111,16 +111,13 @@ namespace Gdoc.Dao
                                  join tipooperacion in db.Conceptoes
                                  on operacion.TipoOperacion equals tipooperacion.CodiConcepto
 
-                                 join digital in db.DocumentoDigitalOperacions
-                                 on operacion.IDOperacion equals digital.IDOperacion
-
                                  where tipodocumento.TipoConcepto.Equals("012") &&
                                         estado.TipoConcepto.Equals("001") &&
                                         tipooperacion.TipoConcepto.Equals("003") &&
                                         prioridad.TipoConcepto.Equals("005") &&
                                         (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)) > 0)
 
-                                 select new { operacion, tipodocumento, estado, tipooperacion, prioridad, digital }).ToList();
+                                 select new { operacion, tipodocumento, estado, tipooperacion, prioridad }).ToList();
 
                     list2.ForEach(x => listOperacion.Add(new EOperacion
                     {
@@ -142,12 +139,6 @@ namespace Gdoc.Dao
                         TipoComunicacion = x.operacion.TipoComunicacion,
                         NotificacionOperacion = x.operacion.NotificacionOperacion,
                         TipoDocumento = x.operacion.TipoDocumento,
-
-                        DocumentoDigitalOperacion = new DocumentoDigitalOperacion{
-                            NombreOriginal=x.digital.NombreOriginal,
-                            TipoArchivo=x.digital.TipoArchivo,
-                            TamanoDocto=x.digital.TamanoDocto,
-                        },
 
                         TipoOpe = new Concepto { DescripcionCorta = x.tipooperacion.DescripcionCorta },
                         TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },

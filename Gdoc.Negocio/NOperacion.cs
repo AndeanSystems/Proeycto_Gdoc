@@ -218,10 +218,10 @@ namespace Gdoc.Negocio
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 var listEindexacionDocumento = new List<IndexacionDocumento>();
                 var eMensajeAlerta = new MensajeAlerta();
+
+
                 //GRABAR OPERACION
                 dOperacion.Grabar(operacion);
-
-                
 
                 //GRABAR ADJUNTO
                 //Traer las ruta de la tabla general
@@ -236,10 +236,12 @@ namespace Gdoc.Negocio
                     var extension = documentoOperacion.NombreOriginal;
                     var n = extension.LastIndexOf(".");
                     var ext=extension.Substring(n);
-                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}{2}", eGeneral.RutaGdocPDF, operacion.NumeroOperacion, ext);
+
+                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}{2}", eGeneral.RutaGdocPDF, operacion.NumeroOperacion, ".pdf");
                     documentoOperacion.IDOperacion = operacion.IDOperacion;
                     documentoOperacion.NombreFisico = string.Empty;
                     documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;
+                    //operacion.NombreFinal = operacion.NumeroOperacion + ext;
                     if (string.IsNullOrEmpty(documentoOperacion.TipoArchivo) || !documentoOperacion.TipoArchivo.Contains(ArchivoTXT))
                     {
                         File.WriteAllBytes(documentoOperacion.RutaFisica, fileBytes);

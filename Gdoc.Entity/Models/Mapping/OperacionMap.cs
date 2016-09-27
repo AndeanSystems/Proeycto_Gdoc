@@ -63,6 +63,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.TipoComunicacion).HasColumnName("TipoComunicacion");
             this.Property(t => t.NotificacionOperacion).HasColumnName("NotificacionOperacion");
             this.Property(t => t.TipoDocumento).HasColumnName("TipoDocumento");
+            this.Property(t => t.NombreFinal).HasColumnName("NombreFinal");
         }
     }
 }
