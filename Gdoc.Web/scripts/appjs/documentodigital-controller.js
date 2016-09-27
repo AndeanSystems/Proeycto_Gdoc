@@ -271,6 +271,7 @@ function ReadFileToBinary(control) {
             context.DocumentoDigitaloOperacion = {};
             context.referencia = {};
             context.listaReferencia = [];
+            document.getElementById("input_file").value = "";
             context.operacion = {
                 TipoDocumento: '02',
                 AccesoOperacion: '2',

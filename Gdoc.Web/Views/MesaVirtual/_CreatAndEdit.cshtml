@@ -3,7 +3,7 @@
         <div class="col-md-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Datos de la Mesa Virtual</h3>
+                    <h3 class="box-title">Datos del Grupo Virtual</h3>
                     <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
                     <button class="btn btn-default pull-right" ng-click="ctrl.nuevo()"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
                 </div>
@@ -11,7 +11,7 @@
                 <div class="box-body">
 
                     <div class="form-group margin-bottom">
-                        <label class="col-sm-12">Tipo Mesa Virtual <span class="text-danger">(*)</span></label>
+                        <label class="col-sm-12">Tipo Grupo<span class="text-danger">(*)</span></label>
                         <div class="col-sm-12">
                             <select style="margin-bottom: 15px;" class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoMesaVirtual">
                                 <option value="">Seleccione</option>
@@ -67,7 +67,7 @@
         <div class="col-md-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Mesa Virtual</h3>
+                    <h3 class="box-title">Grupo Virtual</h3>
                     <button class="btn btn-default pull-right" ng-disabled="frmDatos.$invalid" ng-click="ctrl.grabar(2)"><i class="fa fa-users" data-placement="top" data-toggle="tooltip" title="Compartir"></i></button>
                     <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
                 </div>

@@ -85,7 +85,7 @@ function ReadFileToBinary(control) {
             columnDefs: [
                 { field: 'NumeroOperacion', displayName: 'Nº Documento' },
                 { field: 'FechaRegistro', displayName: 'Fecha Registro', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
-                { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Mesa' },
+                { field: 'TipoDoc.DescripcionCorta', displayName: 'Tipo' },
                 { field: 'TituloOperacion', displayName: 'Titulo' },
                 { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
                 {
@@ -198,10 +198,20 @@ function ReadFileToBinary(control) {
         //MESA VIRTUAL COMENTARIO
         context.mostrarAdjuntos = function (rowIndex) {
             context.mesavirtualComentario = context.gridComentarios.data[rowIndex];
-            listarDocumentoAdjunto(context.mesavirtualComentario);
+            listarDocumentoAdjunto(context.mesavirtualComentario)
             context.mesavirtualComentario.ComentarioMesaVirtual = "";
-            listarComentarioMesaVirtual(context.operacion);
-            $("#modal_adjuntos").modal("show");
+            //if (context.listDocumentoAdjunto == undefined || context.listDocumentoAdjunto == undefined) {
+            //    appService.mostrarAlerta("Informacion", "No tiene Documentos Adjuntos", "warning")
+            //    return;
+            //}
+            //else {
+                
+                listarComentarioMesaVirtual(context.operacion);
+                $("#modal_adjuntos").modal("show");
+            //}
+                
+            
+            
         }
         context.mostrarAdjuntosMesa = function (operacion) {
 
@@ -236,13 +246,13 @@ function ReadFileToBinary(control) {
             columnDefs: [
                 { field: 'NumeroOperacion', displayName: 'Nº Documento' },
                 { field: 'OrganizadorMV', displayName: 'Organizador' },
-                { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Mesa' },
+                { field: 'TipoDoc.DescripcionCorta', displayName: 'Tipo' },
                 { field: 'TituloOperacion', displayName: 'Titulo' },
                 { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 { field: 'Prioridad.DescripcionCorta', displayName: 'Prioridad' },
                 {
                     name: 'Acciones',
-                    cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>'
+                    cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>'
                 }
             ]
         };
@@ -254,11 +264,11 @@ function ReadFileToBinary(control) {
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'FechaPublicacion', displayName: 'Fecha', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
-                { field: 'Usuario.NombreUsuario', displayName: 'Participante' },
-                { field: 'ComentarioMesaVirtual', displayName: 'Comentario' },
+                { field: 'FechaPublicacion', width:'9%', displayName: 'Fecha', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm"' },
+                { field: 'Usuario.NombreUsuario', width: '10%', displayName: 'Participante' },
+                { field: 'ComentarioMesaVirtual', width: '74%', displayName: 'Comentario' },
                 {
-                    name: 'Adjuntos',
+                    name: 'Adjuntos', width: '7%',
                     cellTemplate: '<i ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-paperclip" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver"></i>'
                 }
             ]
@@ -333,10 +343,11 @@ function ReadFileToBinary(control) {
         function listarDocumentoAdjunto(mesavirtualcomentario) {
             dataProvider.postData("MesaVirtual/ListarDocumentoAdjunto", mesavirtualcomentario).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;
-                console.log(respuesta);
+                console.log(respuesta[0].IDAdjunto);
             }).error(function (error) {
                 //MostrarError();
             });
+
         }
         function listarDocumentoAdjuntoMesa(operacion) {
             dataProvider.postData("MesaVirtual/ListarDocumentoAdjuntoOperacion", operacion).success(function (respuesta) {
@@ -350,6 +361,7 @@ function ReadFileToBinary(control) {
         function listarComentarioMesaVirtual(operacion) {
             dataProvider.postData("MesaVirtual/ListarComentarioMesaVirtual", operacion).success(function (respuesta) {
                 context.gridComentarios.data = respuesta;
+                console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();
             });
@@ -357,6 +369,7 @@ function ReadFileToBinary(control) {
 
         function ObtenerUsuariosParticipantes(operacion) {
             dataProvider.postData("MesaVirtual/ListarUsuarioParticipanteMV", operacion).success(function (respuesta) {
+                console.log(respuesta);
                 for (var ind in respuesta) {
                     respuesta[ind].Usuario.Nombre = respuesta[ind].Usuario.NombreUsuario;
                     if (respuesta[ind].TipoParticipante == UsuarioOrganizado)

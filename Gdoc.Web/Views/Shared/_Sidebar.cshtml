@@ -35,7 +35,7 @@
                     @*<li class="active"><a href="documento_digital.html"><i class="fa fa-check"></i>Documento Digital</a></li>*@
                     <li class="active"><a href="@Url.Action("Index", "DocumentoDigital")"><i class="fa fa-check"></i>Documento Digital</a></li>
                     @*<li class="active"><a href="mesavnuevo.html"><i class="fa fa-check"></i>Mesa Virtual</a></li>*@
-                    <li class="active"><a href="@Url.Action("Index", "MesaVirtual")"><i class="fa fa-check"></i>Mesa Virtual</a></li>
+                    <li class="active"><a href="@Url.Action("Index", "MesaVirtual")"><i class="fa fa-check"></i>Grupo Virtual</a></li>
                     <li class="active"><a href="@Url.Action("Index", "Busqueda")"><i class="fa fa-check"></i>Busquedas</a></li>
                     <li class="active"><a href="@Url.Action("Index", "LogOperacion")"><i class="fa fa-check"></i>Log Administrativo</a></li>
 
@@ -114,7 +114,7 @@
             </li>
             <li>
                 <a href="@Url.Action("Index", "MesaTrabajoVirtual")">
-                    <i class="fa fa-users"></i><span>Mesas de Trabajo Virtual</span>
+                    <i class="fa fa-users"></i><span>Grupo de Trabajo Virtual</span>
                     <small class="label pull-right bg-orange">@Html.Raw(Session["CantidadMesaVirtual"].ToString())</small>
                 </a>
             </li>
