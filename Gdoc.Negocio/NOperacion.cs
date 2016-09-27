@@ -233,7 +233,10 @@ namespace Gdoc.Negocio
                 {
                     byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoOperacion.RutaFisica);
                     //documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoOperacion.NombreOriginal);
-                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}{2}", eGeneral.RutaGdocPDF, operacion.NumeroOperacion, ".pdf");
+                    var extension = documentoOperacion.NombreOriginal;
+                    var n = extension.LastIndexOf(".");
+                    var ext=extension.Substring(n);
+                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}{2}", eGeneral.RutaGdocPDF, operacion.NumeroOperacion, ext);
                     documentoOperacion.IDOperacion = operacion.IDOperacion;
                     documentoOperacion.NombreFisico = string.Empty;
                     documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;

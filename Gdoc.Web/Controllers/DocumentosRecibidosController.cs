@@ -41,13 +41,15 @@ namespace Gdoc.Web.Controllers
             
         }
 
-        public JsonResult ListarDocumentoPDF(Operacion operacion)
+        public JsonResult ListarDocumentoPDF(EOperacion operacion)
         {
             try
             {
-                
+                var extension = operacion.DocumentoDigitalOperacion.NombreOriginal;
+                var n = extension.LastIndexOf(".");
+                var ext = extension.Substring(n);
                 //var ruta = Session["RutaGdocPDF"].ToString().Substring(1)+"" + operacion.NumeroOperacion + ".pdf";
-                var ruta = "http://192.168.100.29:85/PDF/" + operacion.NumeroOperacion + ".pdf";
+                var ruta = "http://192.168.100.29:85/PDF/" + operacion.NumeroOperacion + ext;
                 return new JsonResult { Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception)

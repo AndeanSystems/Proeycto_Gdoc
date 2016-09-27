@@ -246,6 +246,7 @@ function ReadFileToBinary(control) {
             archivosSelecionados = [];
             listDocumentosAdjuntos = [];
             CKEDITOR.instances.editor1.setData("");
+            $('.nav-tabs a[href="#Datos"]').tab('show')
         }
         function listarUsuarioGrupoAutoComplete(Nombre) {
             var UsuarioGrupo = { Nombre: Nombre };

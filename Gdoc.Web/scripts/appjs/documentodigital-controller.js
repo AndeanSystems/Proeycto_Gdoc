@@ -288,7 +288,7 @@ function ReadFileToBinary(control) {
             };
             obtenerUsuarioSession();
             archivosSelecionados = [];
-            $('.nav-tabs a[href="#Referencia"]').tab('show')
+            $('.nav-tabs a[href="#Datos"]').tab('show')
         }
         
         obtenerUsuarioSession();
