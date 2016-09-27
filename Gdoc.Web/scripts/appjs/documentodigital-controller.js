@@ -136,11 +136,16 @@ function ReadFileToBinary(control) {
                 return appService.mostrarAlerta("Falta los Destinatarios", "Agregue a los destinatarios", "warning");
             }
 
+            if (context.listaReferencia == undefined || context.listaReferencia == "") {
+                return appService.mostrarAlerta("Atención", "Debe adicionar referencia", "warning");
+            }
+
             let DocumentoDigitalOperacion = context.DocumentoDigitaloOperacion;
             let listIndexacionDocumento = context.listaReferencia;
 
             let listEUsuarioGrupo = [];
             let usuarioRemitenteEnSession = false;
+
             for (var ind in context.usuarioRemitentes) {
                 if (context.usuarioRemitentes[ind].IDUsuarioGrupo == usuarioRemitenteLogueado)
                     usuarioRemitenteEnSession = true;
