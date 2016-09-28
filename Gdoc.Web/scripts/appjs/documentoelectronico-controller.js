@@ -37,6 +37,8 @@ function ReadFileToBinary(control) {
         let TipoComunicacion = "022";
         let UsuarioRemitente = "06";
         let UsuarioDestinatario = "03";
+        let Estado = "001";
+
         var context = this;
         context.operacion = {};
         context.DocumentoElectronicoOperacion = {};
@@ -68,6 +70,7 @@ function ReadFileToBinary(control) {
         LlenarConcepto(PrioridadAtencion);
         LlenarConcepto(TipoAcceso);
         LlenarConcepto(TipoComunicacion);
+        LlenarConcepto(Estado);
         
         context.operacion = {
             TipoDocumento: '02',
@@ -186,8 +189,8 @@ function ReadFileToBinary(control) {
             context.operacion = context.gridOptions.data[rowIndex];
             context.DocumentoElectronicoOperacion = context.operacion.DocumentoElectronicoOperacion;
             context.operacion.TipoComunicacion = context.operacion.TipoComunicacion.substring(0, 1);
-            //context.codigodepartamento = parseInt(context.empresa.CodigoUbigeo.substring(0, 2));
             context.operacion.AccesoOperacion = context.operacion.AccesoOperacion.substring(0, 1)
+            context.operacion.EstadoOperacion = context.operacion.EstadoOperacion.toString();
 
             //falta corregir fecha
             context.operacion.FechaVigente = appService.setFormatDate(context.operacion.FechaVigente);
@@ -195,12 +198,12 @@ function ReadFileToBinary(control) {
             context.operacion.FechaRegistro = appService.setFormatDate(context.operacion.FechaRegistro);
 
             //Estados
-            if (context.operacion.EstadoOperacion==0)
-                context.operacion.EstadoOperacion = 'CREADO'
-            else if (context.operacion.EstadoOperacion == 1)
-                context.operacion.EstadoOperacion = 'ACTIVO'
-            else
-                context.operacion.EstadoOperacion = 'INACTIVO'
+            //if (context.operacion.EstadoOperacion==0)
+            //    context.operacion.EstadoOperacion = 'CREADO'
+            //else if (context.operacion.EstadoOperacion == 1)
+            //    context.operacion.EstadoOperacion = 'ACTIVO'
+            //else
+            //    context.operacion.EstadoOperacion = 'INACTIVO'
 
             ObtenerUsuariosParticipantes(context.operacion)
 
@@ -283,6 +286,8 @@ function ReadFileToBinary(control) {
                     context.listTipoAcceso = respuesta;
                 else if (concepto.TipoConcepto == TipoComunicacion)
                     context.listTipoComunicacion = respuesta;
+                else if (concepto.TipoConcepto == Estado)
+                    context.listEstado = respuesta;
             });
         }
 

@@ -83,8 +83,11 @@
                     <div class="form-group no-margin-bottom">
                         <label class="col-md-12">Estado</label>
                         <div class="col-md-12">
-                            <input type="text" ng-model="ctrl.operacion.EstadoOperacion" ng-init="Creado" ng-disabled="true" class="form-control" placeholder="Creado" />
-                        </div>
+                            @*<input type="text" ng-model="ctrl.operacion.EstadoOperacion" ng-init="Creado" ng-disabled="true" class="form-control" placeholder="Creado" />*@
+                            <select class="form-control" ng-model="ctrl.operacion.EstadoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listEstado" disabled>
+                                @*<option value=""></option>*@
+                            </select>
+                         </div>
                     </div>
                 </div>
                 <!--asdasd-->

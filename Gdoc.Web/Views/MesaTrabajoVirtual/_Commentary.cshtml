@@ -37,14 +37,14 @@
         <div class="box box-primary" >
             <div class="box-header with-border">
                 <h3 class="box-title">Comentarios</h3>
-                <button class="btn btn-default pull-right" ng-click="ctrl.grabarComentarioMesa()"><i class="fa fa-paper-plane" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+                <button class="btn btn-default pull-right" ng-disabled="frmDatos.$invalid" ng-click="ctrl.grabarComentarioMesa()"><i class="fa fa-paper-plane" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
             </div>
 
             <div class="box-body">
                 <div class="form-group">
                     <label class="col-sm-12">Comentario</label>
                     <div class="col-sm-12">
-                        <textarea ng-model="ctrl.mesavirtualComentario.ComentarioMesaVirtual" style="resize:inherit;height:100px" class="form-control"></textarea>
+                        <textarea ng-model="ctrl.mesavirtualComentario.ComentarioMesaVirtual" style="resize:inherit;height:100px" class="form-control" required></textarea>
                     </div>
                 </div>
 
@@ -63,6 +63,10 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Historial de Comentarios</h3>
+                @*<span class="input-group-btn">
+                    <button name="search" id="search-btn"  class="btn btn-flat" ng-click="ctrl.recargarComentario()"><i class="fa fa-refresh" data-placement="top" data-toggle="tooltip" title="Refrescar"></i></button>
+                </span>*@
+                <button class="btn btn-default pull-right" ng-click="ctrl.recargarComentario()"><span class="fa fa-refresh" data-placement="top" data-toggle="tooltip" title="Refrescar"></span></button>
             </div>
             <div class="box-body no-padding">
                 <div class="grid" style="font-size: 12px; height: 200px" ui-grid="ctrl.gridComentarios"></div>

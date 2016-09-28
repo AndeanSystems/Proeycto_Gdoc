@@ -244,14 +244,14 @@ function ReadFileToBinary(control) {
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'NumeroOperacion', displayName: 'Nº Documento' },
-                { field: 'OrganizadorMV', displayName: 'Organizador' },
-                { field: 'TipoDoc.DescripcionCorta', displayName: 'Tipo' },
-                { field: 'TituloOperacion', displayName: 'Titulo' },
-                { field: 'FechaRegistro', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
-                { field: 'Prioridad.DescripcionCorta', displayName: 'Prioridad' },
+                { field: 'NumeroOperacion', width: '15%', displayName: 'Nº Documento' },
+                { field: 'OrganizadorMV', width: '10%', displayName: 'Organizador' },
+                { field: 'TipoDoc.DescripcionCorta', width: '41%', displayName: 'Tipo' },
+                { field: 'TituloOperacion', width: '9%', displayName: 'Titulo' },
+                { field: 'FechaRegistro', width: '10%', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'Prioridad.DescripcionCorta', width: '9%', displayName: 'Prioridad' },
                 {
-                    name: 'Acciones',
+                    name: 'Acciones', width: '6%',
                     cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>'
                 }
             ]
@@ -284,6 +284,9 @@ function ReadFileToBinary(control) {
             }
         }
 
+        context.recargarComentario = function () {
+            listarComentarioMesaVirtual(context.operacion);
+        }
         context.grabarComentarioMesa = function () {
             let Operacion = context.operacion;
             let MesaVirtualComentario = context.mesavirtualComentario;
