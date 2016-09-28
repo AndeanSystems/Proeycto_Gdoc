@@ -134,8 +134,9 @@ function ReadFileToBinary(control) {
             if (context.usuarioDestinatarios == undefined || context.usuarioDestinatarios == "") {
                 return appService.mostrarAlerta("Falta los Destinatarios", "Agregue a los destinatarios", "warning");
             }
-            let usuarioRemitenteEnSession = false;
+            var usuarioRemitenteEnSession = false;
             for (var ind in context.usuarioRemitentes) {
+                console.log(context.usuarioRemitentes[ind]);
                 if (context.usuarioRemitentes[ind].IDUsuarioGrupo == usuarioRemitenteLogueado)
                     usuarioRemitenteEnSession = true;
                 context.usuarioRemitentes[ind].TipoParticipante = UsuarioRemitente;
@@ -188,6 +189,7 @@ function ReadFileToBinary(control) {
 
         context.editarOperacion = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
+            console.log(context.operacion);
             context.DocumentoElectronicoOperacion = context.operacion.DocumentoElectronicoOperacion;
             context.operacion.TipoComunicacion = context.operacion.TipoComunicacion.substring(0, 1);
             context.operacion.AccesoOperacion = context.operacion.AccesoOperacion.substring(0, 1)
@@ -198,17 +200,14 @@ function ReadFileToBinary(control) {
             context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
             context.operacion.FechaRegistro = appService.setFormatDate(context.operacion.FechaRegistro);
 
-            //Estados
-            //if (context.operacion.EstadoOperacion==0)
-            //    context.operacion.EstadoOperacion = 'CREADO'
-            //else if (context.operacion.EstadoOperacion == 1)
-            //    context.operacion.EstadoOperacion = 'ACTIVO'
-            //else
-            //    context.operacion.EstadoOperacion = 'INACTIVO'
-
             ObtenerUsuariosParticipantes(context.operacion)
 
-            context.usuarioRemitentes = listRemitentes;
+            for (var ind in listRemitentes) {
+                context.usuarioRemitentes.push(listRemitentes[ind].Usuario)
+            }
+            for (var ind2 in listDestinatarios) {
+                //context.usuarioDestinatarios.push(listDestinatarios[ind2].Usuario)
+            }
             context.usuarioDestinatarios = listDestinatarios;
 
             context.CambiarVentana('CreateAndEdit');
@@ -226,8 +225,14 @@ function ReadFileToBinary(control) {
                 //obtenerUsuarioSession();
             }
         }
-        context.listarAdjunto = function () {
-            //listarAdjunto
+        context.listarAdjunto = function (operacion) {
+            dataProvider.postData("DocumentosRecibidos/ListarDocumentoAdjunto", operacion).success(function (respuesta) {
+                context.listDocumentoAdjunto = respuesta;
+                console.log(respuesta);
+                $("#modal_adjuntos").modal("show");
+            }).error(function (error) {
+                //MostrarError();
+            });
         }
         ////
         function limpiarFormulario() {
@@ -311,8 +316,10 @@ function ReadFileToBinary(control) {
                 for (var ind in respuesta) {
                     respuesta[ind].Usuario.Nombre = respuesta[ind].Usuario.NombreUsuario;
                     if (respuesta[ind].TipoParticipante == UsuarioRemitente)
-                        listRemitentes.push(respuesta[ind].Usuario);
+                        //listRemitentes.push(respuesta[ind].Usuario);
+                        listRemitentes.push(respuesta[ind]);
                     else
+                        //listDestinatarios.push(respuesta[ind]);
                         listDestinatarios.push(respuesta[ind].Usuario);
                 }
                 console.log(listDestinatarios);

@@ -55,13 +55,30 @@ namespace Gdoc.Dao
             return listDocumentoAdjunto;
             
         }
-        public Int32 GrabarDocumentoAdjunto(DocumentoAdjunto DocumentoAdjunto)
+        public short GrabarDocumentoAdjunto(DocumentoAdjunto DocumentoAdjunto)
         {
             try
             {
                 using (var db = new DataBaseContext())
                 {
                     db.DocumentoAdjuntoes.Add(DocumentoAdjunto);
+                    db.SaveChanges();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public short AnularDocumentoAdjunto(Adjunto documentoAdjunto)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var docad=db.DocumentoAdjuntoes.Find(documentoAdjunto.IDAdjunto);
+                    docad.EstadoDoctoAdjunto = documentoAdjunto.EstadoAdjunto;
                     db.SaveChanges();
                 }
                 return 1;

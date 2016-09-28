@@ -35,48 +35,32 @@ namespace Gdoc.Web.Controllers
                         {
                             operacion.FechaEnvio = DateTime.Now;
                             operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
+                            new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
                         }
-                        else
-                        {
-                            //NO ESTOY SEGURO
-                            //operacion.FechaRegistro = DateTime.Now;
-                            //operacion.FechaEmision = DateTime.Now;
-                        }
-                        respuesta = oNOperacion.EditarOperacion(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, IDusuario);
+
+                        respuesta = oNOperacion.EditarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
                     }
                     else
                     {
                         operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                         operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
 
-                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                        {
-                            //if (operacion.FechaRegistro != null)
-                            //{
-                                operacion.FechaRegistro = DateTime.Now;
-                                operacion.FechaEmision = DateTime.Now;
-                            //}
-                            operacion.FechaEnvio = DateTime.Now;
-                            operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
-                        }
-                        else
-                        {
-                            operacion.FechaRegistro = DateTime.Now;
-                            operacion.FechaEmision = DateTime.Now;
-                        }
-
                         operacion.NumeroOperacion = "DE" + DateTime.Now.Ticks.ToString();
                         operacion.NotificacionOperacion = "S";
 
-                        if (listDocumentosAdjuntos != null) 
+                        if (listDocumentosAdjuntos != null)
                             operacion.DocumentoAdjunto = "S";
                         else
                             operacion.DocumentoAdjunto = "N";
 
-                        operacion.NombreFinal = operacion.NumeroOperacion + ".pdf";
-                        //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
-                        //using (var oNOperacion = new NOperacion())
-                        //{
+                        operacion.FechaRegistro = DateTime.Now;
+                        operacion.FechaEmision = DateTime.Now;
+                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                        {
+                            operacion.FechaEnvio = DateTime.Now;
+                            operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
+                            operacion.NombreFinal = operacion.NumeroOperacion + ".pdf";
+                        }
 
                         respuesta = oNOperacion.Grabar(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
 

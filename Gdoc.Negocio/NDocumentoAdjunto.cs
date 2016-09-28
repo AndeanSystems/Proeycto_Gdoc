@@ -27,7 +27,7 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public Int32 GrabarDocumentoAdjunto(DocumentoAdjunto DocumentoAdjunto)
+        public short GrabarDocumentoAdjunto(DocumentoAdjunto DocumentoAdjunto)
         {
             try
             {

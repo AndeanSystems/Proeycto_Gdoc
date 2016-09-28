@@ -286,6 +286,8 @@ namespace Gdoc.Dao
                         NombreFinal = x.operacion.NombreFinal,
                         DocumentoElectronicoOperacion = new DocumentoElectronicoOperacion
                         {
+                            IDDoctoElectronicoOperacion=x.documentoelectronico.IDDoctoElectronicoOperacion,
+                            IDOperacion=x.documentoelectronico.IDOperacion,
                             Memo = x.documentoelectronico.Memo,
                         },
                         
@@ -480,6 +482,7 @@ namespace Gdoc.Dao
                     entidad.TipoDocumento = operacion.TipoDocumento;
                     entidad.FechaEnvio = operacion.FechaEnvio;
                     entidad.FechaVigente = operacion.FechaVigente;
+                    entidad.NombreFinal = operacion.NombreFinal;
                     db.SaveChanges();
                 }
                 return 1;

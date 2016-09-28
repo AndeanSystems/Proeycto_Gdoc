@@ -11,13 +11,30 @@ namespace Gdoc.Dao
 {
     public class DAdjunto
     {
-        public Int32 GrabarAdjunto(Adjunto Adjunto)
+        public short GrabarAdjunto(Adjunto Adjunto)
         {
             try
             {
                 using (var db = new DataBaseContext())
                 {
                     db.Adjuntoes.Add(Adjunto);
+                    db.SaveChanges();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public short AnularAdjunto(Adjunto adjunto)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var docad = db.DocumentoAdjuntoes.Find(adjunto.IDAdjunto);
+                    docad.EstadoDoctoAdjunto = adjunto.EstadoAdjunto;
                     db.SaveChanges();
                 }
                 return 1;

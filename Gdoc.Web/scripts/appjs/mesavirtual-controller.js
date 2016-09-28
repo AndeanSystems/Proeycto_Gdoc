@@ -83,13 +83,13 @@ function ReadFileToBinary(control) {
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'NumeroOperacion', displayName: 'Nº Documento' },
-                { field: 'FechaRegistro', displayName: 'Fecha Registro', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
-                { field: 'TipoDoc.DescripcionCorta', displayName: 'Tipo' },
-                { field: 'TituloOperacion', displayName: 'Titulo' },
-                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
+                { field: 'NumeroOperacion', width:'15%', displayName: 'Nº Documento' },
+                { field: 'FechaRegistro', width: '10%', displayName: 'Fecha Registro', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'TipoDoc.DescripcionCorta', width: '7%', displayName: 'Tipo' },
+                { field: 'TituloOperacion', width: '55%', displayName: 'Titulo' },
+                { field: 'Estado.DescripcionConcepto', width: '8%', displayName: 'Estado' },
                 {
-                    name: 'Acciones',
+                    name: 'Acciones', width: '5%',
                     cellTemplate: //'<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
                                 '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="top" data-toggle="tooltip" title="" data-original-title="Cerrar"></i>'
                 }

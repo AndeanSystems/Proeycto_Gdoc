@@ -43,7 +43,6 @@
                     </a>
 
                 </li>
-
                 <li>
                     <a href="@Url.Action("Index", "Busqueda")">
                         <i class="fa fa-search" data-placement="right" data-toggle="tooltip" title="Busquedas"></i>
@@ -93,17 +92,26 @@
                             <div class="text-center" >
                                 <a style="color:#ffffff" href="@Url.Action("Index", "Home")" class="btn btn-default btn-flat">Salir</a>
                             </div>
+
+
+
+                            <button class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_imagenes">Images</button>
                         </li>
                     </ul>
+                </li>
+                <li data-toggle="modal" data-target="#modal_imagenes">
+                    <a><i class="fa fa-search" data-placement="right" data-toggle="tooltip" title="Busquedas"></i></a>
                 </li>
                 <li>
                     <a href="#" data-toggle="control-sidebar">
                         <i class="fa fa-chevron-circle-left"></i>
                     </a>
                 </li>
+
             </ul>
         </div>
     </nav>
+
 
     <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->

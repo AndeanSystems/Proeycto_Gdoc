@@ -1,5 +1,11 @@
-﻿using Gdoc.Entity.Models;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Gdoc.Entity.Models;
+using Gdoc.Entity.Extension;
+using Gdoc.Common.Utilitario;
 
 namespace Gdoc.Dao
 {
