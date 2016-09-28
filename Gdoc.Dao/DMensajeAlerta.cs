@@ -34,6 +34,9 @@ namespace Gdoc.Dao
                                 // join usuariod in db.Usuarios
                                 //// on usuariopart.IDUsuario equals usuariod.IDUsuario
 
+                                 join evento in db.Conceptoes
+                                 on mensajealerta.CodigoEvento equals evento.CodiConcepto
+
                                  join tipooperacion in db.Conceptoes
                                  on operacion.TipoOperacion equals tipooperacion.CodiConcepto
 
@@ -42,10 +45,11 @@ namespace Gdoc.Dao
 
                                  where tipodocumento.TipoConcepto.Equals("012")
                                        && tipooperacion.TipoConcepto.Equals("003")
+                                       && evento.TipoConcepto.Equals("008")
                                        && mensajealerta.FechaAlerta.Value.Day == System.DateTime.Now.Day
                                        //&& (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD || x.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV)) > 0)
 
-                                 select new { mensajealerta, tipooperacion, tipodocumento, operacion }).ToList();
+                                 select new { mensajealerta, tipooperacion, tipodocumento, operacion, evento }).ToList();
 
                     list2.ForEach(x => listMensajeAlerta.Add(new EMensajeAlerta
                     {
@@ -64,6 +68,9 @@ namespace Gdoc.Dao
                         TipoDocumento = new Concepto
                         {
                             DescripcionCorta = x.tipodocumento.DescripcionCorta,
+                        },
+                        Evento = new Concepto{
+                            DescripcionConcepto=x.evento.DescripcionConcepto,
                         },
                         Operacion = new Operacion
                         {

@@ -157,6 +157,7 @@ namespace Gdoc.Negocio
                             eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                             eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
                             eMensajeAlerta.TipoAlerta = 1;
+                            eMensajeAlerta.CodigoEvento = "017";
                             eMensajeAlerta.EstadoMensajeAlerta = 1;
                             eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
 
@@ -189,6 +190,7 @@ namespace Gdoc.Negocio
                                 eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
                                 eMensajeAlerta.TipoAlerta = 1;
                                 eMensajeAlerta.EstadoMensajeAlerta = 1;
+                                eMensajeAlerta.CodigoEvento = "017";
                                 eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
 
                                 dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
@@ -284,6 +286,7 @@ namespace Gdoc.Negocio
                             eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                             eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
                             eMensajeAlerta.TipoAlerta = 1;
+                            eMensajeAlerta.CodigoEvento = "007";
                             eMensajeAlerta.EstadoMensajeAlerta = 1;
                             eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
                             dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
@@ -313,6 +316,7 @@ namespace Gdoc.Negocio
                                 eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                                 eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
                                 eMensajeAlerta.TipoAlerta = 1;
+                                eMensajeAlerta.CodigoEvento = "007";
                                 eMensajeAlerta.EstadoMensajeAlerta = 1;
                                 eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
                                 dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
@@ -450,6 +454,7 @@ namespace Gdoc.Negocio
                             eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                             eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
                             eMensajeAlerta.TipoAlerta = 1;
+                            eMensajeAlerta.CodigoEvento = "044";
                             eMensajeAlerta.EstadoMensajeAlerta = 1;
                             eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
 
@@ -480,6 +485,7 @@ namespace Gdoc.Negocio
                                 eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                                 eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
                                 eMensajeAlerta.TipoAlerta = 1;
+                                eMensajeAlerta.CodigoEvento = "044";
                                 eMensajeAlerta.EstadoMensajeAlerta = 1;
                                 eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
 
@@ -587,6 +593,7 @@ namespace Gdoc.Negocio
                          eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                          eMensajeAlerta.FechaAlerta = System.DateTime.Now;
                          eMensajeAlerta.TipoAlerta = 1;
+                         eMensajeAlerta.CodigoEvento = "009";
                          eMensajeAlerta.EstadoMensajeAlerta = 1;
                          eMensajeAlerta.IDUsuario = usuario.IDUsuario;
 

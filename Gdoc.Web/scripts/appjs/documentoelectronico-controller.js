@@ -76,6 +76,7 @@ function ReadFileToBinary(control) {
             TipoDocumento: '02',
             TipoComunicacion: '1',
             PrioridadOperacion: '02',
+            EstadoOperacion: '0',
             AccesoOperacion: '2',
             FechaVigente: sumarDias(new Date(), 5),
             FechaEnvio: new Date(),
@@ -239,6 +240,7 @@ function ReadFileToBinary(control) {
                 TipoComunicacion: '1',
                 PrioridadOperacion: '02',
                 AccesoOperacion: '2',
+                EstadoOperacion: '0',
                 FechaVigente: sumarDias(new Date(), 5),
                 FechaEnvio: new Date(),
                 FechaRegistro: new Date()
