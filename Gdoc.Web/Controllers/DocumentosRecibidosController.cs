@@ -29,7 +29,7 @@ namespace Gdoc.Web.Controllers
                     listOperacion = oOperacion.ListarDocumentosRecibidos(new UsuarioParticipante
                     {
                         IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
-                    }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico || x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital).ToList();
+                    }).Where(x => x.EstadoOperacion==Estados.EstadoOperacion.Activo && (x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico || x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital)).ToList();
                 }
                 return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
             }
@@ -49,7 +49,8 @@ namespace Gdoc.Web.Controllers
                 //var n = extension.LastIndexOf(".");
                 //var ext = extension.Substring(n);
                 //var ruta = Session["RutaGdocPDF"].ToString().Substring(1) + "" + operacion.NumeroOperacion + ".pdf";
-                var ruta = "http://192.168.100.29:85/PDF/" + operacion.NumeroOperacion + ".pdf";
+                //var ruta = "http://192.168.100.29:85/PDF/" + operacion.NumeroOperacion + ".pdf";
+                var ruta = "http://192.168.100.29:85/PDF/" + operacion.NombreFinal;
                 return new JsonResult { Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception)

@@ -16,6 +16,19 @@ namespace Gdoc.Negocio
         {
             dIndexacion = null;
         }
+
+        public List<IndexacionDocumento> ListarIndexacionDocumento()
+        {
+            try
+            {
+                return dIndexacion.ListarIndexacionDocumento();
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
         public short GrabarIndexacion(List<IndexacionDocumento> listIndexacion)
         {
             try

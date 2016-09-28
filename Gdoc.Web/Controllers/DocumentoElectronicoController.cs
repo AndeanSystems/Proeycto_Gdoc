@@ -73,11 +73,11 @@ namespace Gdoc.Web.Controllers
                         else
                             operacion.DocumentoAdjunto = "N";
 
+                        operacion.NombreFinal = operacion.NumeroOperacion + ".pdf";
                         //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                         //using (var oNOperacion = new NOperacion())
                         //{
 
-                        
                         respuesta = oNOperacion.Grabar(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
 
                         if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)

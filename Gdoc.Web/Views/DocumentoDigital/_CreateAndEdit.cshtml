@@ -3,7 +3,7 @@
 <br />
 <form role="form" name="frmDatos" novalidate>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Datos del Documento</h3>
@@ -23,7 +23,7 @@
 
                     <div class="form-group no-margin">
                         <label class="col-sm-4 ">Derivación <span class="text-danger">(*)</span></label>
-                        <md-radio-group ng-model="ctrl.DocumentoDigitaloOperacion.DerivarDocto" required>
+                        <md-radio-group ng-model="ctrl.operacion.DocumentoDigitalOperacion.DerivarDocto" required>
                             <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="S">Si</md-radio-button>
                             <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="N">No</md-radio-button>
 
@@ -33,7 +33,7 @@
                     <div class="form-group no-margin">
                         <label class="col-sm-4">Tipo de Accesso <span class="text-danger">(*)</span></label>
                         <md-radio-group ng-model="ctrl.operacion.AccesoOperacion" required>
-                            <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso">{{ta.DescripcionCorta}} </md-radio-button>
+                            <md-radio-button style="display:inline-block;margin-right:2.8em;margin-left:1em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso">{{ta.DescripcionCorta}} </md-radio-button>
                         </md-radio-group>
                     </div>
 
@@ -61,7 +61,10 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-6">
-                            <input type="text" ng-model="ctrl.operacion.EstadoOperacion" ng-init="Creado" ng-disabled="true" class="form-control" placeholder="Creado" />
+                            @*<input type="text" ng-model="ctrl.operacion.EstadoOperacion" ng-init="Creado" ng-disabled="true" class="form-control" placeholder="Creado" />*@
+                            <select class="form-control" ng-model="ctrl.operacion.EstadoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listEstado" disabled>
+                                @*<option value=""></option>*@
+                            </select>
                         </div>
                         <div class="col-sm-6">
                             <input type="date" class="form-control" ng-model="ctrl.operacion.FechaRegistro" disabled="true">
@@ -87,7 +90,7 @@
 
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Documento Digital</h3>

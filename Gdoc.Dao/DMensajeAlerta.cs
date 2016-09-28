@@ -70,6 +70,7 @@ namespace Gdoc.Dao
                             IDOperacion=x.operacion.IDOperacion,
                             NumeroOperacion = x.operacion.NumeroOperacion,
                             TipoOperacion=x.operacion.TipoOperacion,
+                            NombreFinal=x.operacion.NombreFinal,
 
                         },
                         //Usuario = new Usuario

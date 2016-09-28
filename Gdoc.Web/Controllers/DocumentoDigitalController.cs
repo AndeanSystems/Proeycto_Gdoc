@@ -27,37 +27,44 @@ namespace Gdoc.Web.Controllers
         {
             try
             {
-                //FALTA TERMINAR
-                operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
-                operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoDigital;
-                operacion.NumeroOperacion ="DD"+ DateTime.Now.Ticks.ToString();//FALTA
-
-                
-                
-
-                if (operacion.EstadoOperacion == 1)
-                {
-                    //if (operacion.FechaRegistro == null)
-                        operacion.FechaRegistro = DateTime.Now;
-                    operacion.FechaEnvio = DateTime.Now;
-                    operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
-                }
-                else
-                    operacion.FechaRegistro = DateTime.Now;
-
-                operacion.NotificacionOperacion = "S";//FALTA
-                
-                operacion.DocumentoAdjunto = "S";
-
+                Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                 using (var oOperacion = new NOperacion())
                 {
-                    Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
-                    var respuesta = oOperacion.GrabarDocumentoDigital(operacion, listDocumentoDigitalOperacion, listEUsuarioGrupo, listIndexacion, IDusuario);
-                    
+
+                    if (operacion.IDOperacion > 0)
+                    {
+                        if (operacion.EstadoOperacion == 1)
+                        {
+                            operacion.FechaEnvio = DateTime.Now;
+                            operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
+                        }
+
+                        oOperacion.EditarDocumentoDigital(operacion, listDocumentoDigitalOperacion, listEUsuarioGrupo, listIndexacion, IDusuario);
+                    }
+                    else
+                    {
+                        operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
+                        operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoDigital; 
+                        operacion.NotificacionOperacion = "S";//FALTA
+                        operacion.NumeroOperacion = "DD" + DateTime.Now.Ticks.ToString();
+                        operacion.DocumentoAdjunto = "S";
+
+                        if (operacion.EstadoOperacion == 1)
+                        {
+                            operacion.FechaRegistro = DateTime.Now;
+                            operacion.FechaEnvio = DateTime.Now;
+                            operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
+                        }
+                        else
+                            operacion.FechaRegistro = DateTime.Now;
+
+                        oOperacion.GrabarDocumentoDigital(operacion, listDocumentoDigitalOperacion, listEUsuarioGrupo, listIndexacion, IDusuario);
+
+                    }
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Operación " + operacion.NumeroOperacion + " realizada correctamente";
+                    return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
                 }
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Operación " + operacion.NumeroOperacion + " realizada correctamente";
-                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception ex)
             {
@@ -78,18 +85,44 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+        public JsonResult ListarReferencia(Operacion operacion)
+        {
+            var listReferencia = new List<IndexacionDocumento>();
+            try
+            {
+                using(var oIndexacion = new NIndexacionDocumento())
+                {
+                    listReferencia = oIndexacion.ListarIndexacionDocumento().Where(x=>x.IDOperacion==operacion.IDOperacion).ToList();
+                }
+                return new JsonResult { Data = listReferencia, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public JsonResult EliminarOperacion(Operacion operacion)
         {
-            using (var oOperacion = new NOperacion())
+            try
             {
-                operacion.EstadoOperacion = Estados.EstadoOperacion.Inactivo;
-                var respuesta = oOperacion.EliminarOperacion(operacion);
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                using (var oOperacion = new NOperacion())
+                {
+                    operacion.EstadoOperacion = Estados.EstadoOperacion.Inactivo;
+                    var respuesta = oOperacion.AnularDocumentoDigital(operacion);
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Documento Inactivo";
+                }
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
 
+        #region Metodos
         protected DateTime DateAgregarLaborales(Int32 add, DateTime FechaInicial)
         {
             if (FechaInicial.DayOfWeek == DayOfWeek.Saturday) { FechaInicial = FechaInicial.AddDays(2); }
@@ -104,5 +137,6 @@ namespace Gdoc.Web.Controllers
 
             return FechaInicial.AddDays(add);
         }
+        #endregion
 	}
 }

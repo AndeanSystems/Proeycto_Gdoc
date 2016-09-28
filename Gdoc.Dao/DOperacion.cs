@@ -139,6 +139,7 @@ namespace Gdoc.Dao
                         TipoComunicacion = x.operacion.TipoComunicacion,
                         NotificacionOperacion = x.operacion.NotificacionOperacion,
                         TipoDocumento = x.operacion.TipoDocumento,
+                        NombreFinal=x.operacion.NombreFinal,
 
                         TipoOpe = new Concepto { DescripcionCorta = x.tipooperacion.DescripcionCorta },
                         TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
@@ -156,23 +157,6 @@ namespace Gdoc.Dao
             }
             return listOperacion;
         }
-        public short Grabar(Operacion operacion)
-        {
-            try
-            {
-                using (var db = new DataBaseContext())
-                {
-                    db.Operacions.Add(operacion);
-                    db.SaveChanges();
-                }
-                return 1;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
         public List<EOperacion> ListarOperacionDigital(UsuarioParticipante eUsuarioParticipante)
         {
             var listOperacion = new List<EOperacion>();
@@ -184,8 +168,8 @@ namespace Gdoc.Dao
 
                     var list2 = (from operacion in db.Operacions
 
-                                 //join documentodigital in db.DocumentoDigitalOperacions
-                                 //on operacion.IDOperacion equals documentodigital.IDOperacion
+                                 join documentodigital in db.DocumentoDigitalOperacions
+                                 on operacion.IDOperacion equals documentodigital.IDOperacion
 
                                  //join usuariopart in db.UsuarioParticipantes
                                  //on operacion.IDOperacion equals usuariopart.IDOperacion
@@ -200,7 +184,7 @@ namespace Gdoc.Dao
                                         estado.TipoConcepto.Equals("001") &&
                                         (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && x.TipoParticipante == Constantes.TipoParticipante.EmisorDD) > 0)
 
-                                 select new { operacion, tipodocumento, /*documentodigital, usuariopart,*/ estado }).ToList();
+                                 select new { operacion, tipodocumento, documentodigital,/* usuariopart,*/ estado }).ToList();
 
                     list2.ForEach(x => listOperacion.Add(new EOperacion
                     {
@@ -222,10 +206,11 @@ namespace Gdoc.Dao
                         TipoComunicacion = x.operacion.TipoComunicacion,
                         NotificacionOperacion = x.operacion.NotificacionOperacion,
                         TipoDocumento = x.operacion.TipoDocumento,
-
-                        //DocumentoDigitalOperacion=new DocumentoDigitalOperacion{
-                        //    Comentario=x.documentodigital.Comentario,
-                        //},
+                        NombreFinal=x.operacion.NombreFinal,
+                        DocumentoDigitalOperacion = new DocumentoDigitalOperacion
+                        {
+                            DerivarDocto = x.documentodigital.DerivarDocto,
+                        },
 
 
                         TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
@@ -298,7 +283,7 @@ namespace Gdoc.Dao
                         TipoComunicacion = x.operacion.TipoComunicacion,
                         NotificacionOperacion = x.operacion.NotificacionOperacion,
                         TipoDocumento = x.operacion.TipoDocumento,
-
+                        NombreFinal = x.operacion.NombreFinal,
                         DocumentoElectronicoOperacion = new DocumentoElectronicoOperacion
                         {
                             Memo = x.documentoelectronico.Memo,
@@ -375,7 +360,7 @@ namespace Gdoc.Dao
                         TipoComunicacion = x.operacion.TipoComunicacion,
                         NotificacionOperacion = x.operacion.NotificacionOperacion,
                         TipoDocumento = x.operacion.TipoDocumento,
-
+                        NombreFinal = x.operacion.NombreFinal,
                         TipoDoc = new Concepto { DescripcionCorta = x.tipomesa.DescripcionCorta },
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
                         Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
@@ -391,7 +376,6 @@ namespace Gdoc.Dao
             }
             return listOperacion;
         }
-
         public List<EOperacion> ListarMesaTrabajoVirtual(UsuarioParticipante eUsuarioParticipante)
         {
             var listOperacion = new List<EOperacion>();
@@ -464,6 +448,23 @@ namespace Gdoc.Dao
             }
             return listOperacion;
         }
+        public short Grabar(Operacion operacion)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    db.Operacions.Add(operacion);
+                    db.SaveChanges();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
         public short EditarOperacion(Operacion operacion)
         {
             try
@@ -489,7 +490,7 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-        public Operacion EliminarOperacion(Operacion operacion)
+        public short EliminarOperacion(Operacion operacion)
         {
             try
             {
@@ -499,7 +500,7 @@ namespace Gdoc.Dao
                     ope.EstadoOperacion = operacion.EstadoOperacion;
                     db.SaveChanges();
                 }
-                return operacion;
+                return 1;
             }
             catch (Exception ex)
             {
