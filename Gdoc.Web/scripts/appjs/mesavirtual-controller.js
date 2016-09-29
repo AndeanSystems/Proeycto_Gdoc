@@ -138,7 +138,6 @@ function ReadFileToBinary(control) {
             }
 
             function enviarFomularioOK() {
-                console.log(context.DocumentoElectronicoOperacion);
                 dataProvider.postData("MesaVirtual/Grabar", { Operacion: Operacion, listAdjuntos: listDocumentosAdjuntos, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                     if (respuesta.Exitoso)
                         TipoMensaje = "success";

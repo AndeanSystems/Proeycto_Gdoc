@@ -134,6 +134,9 @@ function ReadFileToBinary(control) {
             if (context.usuarioDestinatarios == undefined || context.usuarioDestinatarios == "") {
                 return appService.mostrarAlerta("Falta los Destinatarios", "Agregue a los destinatarios", "warning");
             }
+            if (context.DocumentoElectronicoOperacion.Memo == undefined || context.DocumentoElectronicoOperacion.Memo == "") {
+                return appService.mostrarAlerta("Atención", "Agregue Contenido al Documento", "warning");
+            }
             var usuarioRemitenteEnSession = false;
             for (var ind in context.usuarioRemitentes) {
                 console.log(context.usuarioRemitentes[ind]);
