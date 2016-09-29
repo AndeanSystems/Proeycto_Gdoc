@@ -1,94 +1,72 @@
-﻿<br />
-<br />
-<br />
-<form role="form" name="frmDatos" novalidate>
-    <div class="col-md-12">
+﻿<form role="form" name="frmDatos" novalidate>
+    <div class="col-md-6 margin-top">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Mesa Virtual</h3>
-                <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
+                <h3 class="box-title">Grupo de Trabajo Virtual</h3>
+                <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Grupos de Trabajo"></i></button>
             </div>
 
             <div class="box-body">
 
                 <div class="form-group">
-                    <h3 class="col-sm-12">Titulo : {{ctrl.operacion.TituloOperacion}}</h3>
+                    <label style="font-size:20px" class="col-sm-12">{{ctrl.operacion.TituloOperacion}}<i ng-click="ctrl.mostrarAdjuntosMesa(ctrl.operacion)" class="fa fa-paperclip" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver Adjuntos"></i></label>
                 </div>
 
-                <div class="form-group margin-bottom">
-                    <label class="col-sm-12">Tipo Mesa : {{ctrl.operacion.TipoDoc.DescripcionConcepto}};      
-                                            Prioridad : {{ctrl.operacion.Prioridad.DescripcionConcepto}};         
-                                            Estado : {{ctrl.operacion.Estado.DescripcionConcepto}};
-                                            Fecha de Registro : {{ctrl.operacion.FechaEnvio | date:"dd/MM/yyyy"}};
-                                            Organizador : {{ctrl.usuarioOrganizador}}
+                <div class="form-group">
+                    <label class="col-sm-12">
+                        {{ctrl.operacion.TipoDoc.DescripcionCorta}};
+                        {{ctrl.operacion.Prioridad.DescripcionCorta}};
+                        {{ctrl.operacion.Estado.DescripcionConcepto}};
+                        {{ctrl.operacion.FechaEnvio | date:"dd/MM/yyyy HH:mm"}};
+                        Organizado por {{ctrl.usuarioOrganizador}}
+
                     </label>
                 </div>
-
                 <div class="form-group">
-                    <label class="col-sm-12">Invitados : {{ctrl.usuarioInvitados}}</label>
+                    <label class="col-sm-12">
+                        Participantes : {{ctrl.usuarioInvitados}}
+                    </label>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-12">Documento Adjunto : <i ng-click="ctrl.mostrarAdjuntosMesa(ctrl.operacion)" class="fa fa-eye" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver"></i></label>
-                    <div class="col-sm-12">
-                    </div>
-                </div>
+                @*<div class="form-group">
+                        <label class="col-sm-12">Documento Adjunto : <i ng-click="ctrl.mostrarAdjuntosMesa(ctrl.operacion)" class="fa fa-paperclip" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver"></i></label>
+                    </div>*@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 margin-top">
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Comentarios</h3>
-                <button class="btn btn-default pull-right" ng-click="ctrl.grabarComentarioMesa()"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+                <button class="btn btn-default pull-right" ng-disabled="frmDatos.$invalid" ng-click="ctrl.grabarComentarioMesa()"><i class="fa fa-paper-plane" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
             </div>
 
             <div class="box-body">
-
-                
-
-                @*<div class="form-group no-margin">
-                        <label class="col-sm-4">Tipo de Accesso <span class="text-danger">(*)</span></label>
-                        <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
-                            <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso | limitTo:2">{{ta.DescripcionConcepto}} </md-radio-button>
-                        </md-radio-group>
-                    </div>
-
-                    <div class="form-group no-margin">
-                        <label class="col-sm-4">Notificar Acciones <span class="text-danger">(*)</span></label>
-                        <md-radio-group ng-model="ctrl.operacion.NotificacionOperacion">
-                            <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="0" class="standard">Si</md-radio-button>
-                            <md-radio-button style="display:inline-block;margin-right:2em;margin-left:1em;" value="1" class="standard">No</md-radio-button>
-
-                        </md-radio-group>
-                    </div>
-
-                    *@
-
                 <div class="form-group">
                     <label class="col-sm-12">Comentario</label>
                     <div class="col-sm-12">
-                        <textarea ng-model="ctrl.mesavirtualComentario.ComentarioMesaVirtual" class="form-control"></textarea>
+                        <textarea ng-model="ctrl.mesavirtualComentario.ComentarioMesaVirtual" style="resize:inherit;height:100px" class="form-control" required></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-12">Documento Adjunto</label>
                     <div class="col-sm-12">
-                        <input type="file" class="form-control"  onchange="ReadFileToBinary(this)" id="input_file2" multiple>
+                        <input type="file" class="form-control" onchange="ReadFileToBinary(this)" id="input_file2" multiple>
                     </div>
                 </div>
-
-
-
             </div>
 
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Historial de Comentarios</h3>
+                @*<span class="input-group-btn">
+                        <button name="search" id="search-btn"  class="btn btn-flat" ng-click="ctrl.recargarComentario()"><i class="fa fa-refresh" data-placement="top" data-toggle="tooltip" title="Refrescar"></i></button>
+                    </span>*@
+                <button class="btn btn-default pull-right" ng-click="ctrl.recargarComentario()"><span class="fa fa-refresh" data-placement="top" data-toggle="tooltip" title="Refrescar"></span></button>
             </div>
             <div class="box-body no-padding">
                 <div class="grid" style="font-size: 12px; height: 200px" ui-grid="ctrl.gridComentarios"></div>
@@ -111,7 +89,7 @@
                                     <thead>
                                         <tr>
                                             <th>Nombre</th>
-                                            <th>Tipo Archivo</th>
+                                            @*<th>Tipo Archivo</th>*@
                                             <th>Abrir</th>
                                         </tr>
                                     </thead>
@@ -120,7 +98,7 @@
                                             <td>{{item.Adjunto.NombreOriginal}}</td>
                                             @*<td>{{item.Adjunto.TipoArchivo}}</td>*@
                                             <td>
-                                                <a class="fa fa-folder-open-o" ng-href="http://192.168.100.29:85/ADJUNTOS/{{item.Archivo}}" style="padding: 4px;font-size: 1.4em;" target="_blank" data-placement="top" data-toggle="tooltip" title="Abrir"></a>
+                                                <i class="fa fa-folder-open-o" ng-click="ctrl.mostrarAdjuntoWindows(item.Archivo)" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Abrir"></i>
                                             </td>
                                         </tr>
                                     </tbody>

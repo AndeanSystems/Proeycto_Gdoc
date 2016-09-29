@@ -32,14 +32,13 @@ function ReadFileToBinary(control) {
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
         let TipoMesaVirtual = "011";
+        let Estado = "001";
 
         let UsuarioOrganizado = "05";
         let UsuarioInvitado = "02";
         var context = this;
         context.operacion = {};
         context.mesavirtualComentario = {};
-        context.operacion.FechaVigente = new Date();
-        context.operacion.FechaCierre = new Date();
         context.visible = "CreateAndEdit";
         context.visible2 = "ListWork";
         context.listaUsuarioGrupo = [];
@@ -61,16 +60,19 @@ function ReadFileToBinary(control) {
         LlenarConcepto(TipoAcceso);
         LlenarConcepto(TipoMesaVirtual);
         LlenarConcepto(PrioridadAtencion);
+        LlenarConcepto(Estado);
 
-
+        var hoy = new Date()
+        
         //COMIENZO
         context.operacion = {
-            TipoDocumento: '02',
+            TipoDocumento: '90',
             PrioridadOperacion: '02',
             AccesoOperacion: '2',
             NotificacionOperacion: '0',
+            EstadoOperacion: '0',
             FechaVigente: new Date(),
-            FechaCierre: new Date(),
+            //FechaCierre: new Date(),
             FechaRegistro: new Date(),
             FechaEnvio: new Date()
         };
@@ -90,12 +92,42 @@ function ReadFileToBinary(control) {
                 { field: 'Estado.DescripcionConcepto', width: '8%', displayName: 'Estado' },
                 {
                     name: 'Acciones', width: '5%',
-                    cellTemplate: //'<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                    cellTemplate: '<i ng-click="grid.appScope.editarMiOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>' +
                                 '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="top" data-toggle="tooltip" title="" data-original-title="Cerrar"></i>'
                 }
             ]
         };
         //Eventos
+        context.editarMiOperacion = function (rowIndex) {
+            context.operacion = context.gridOptions.data[rowIndex];
+            console.log(context.operacion);
+            context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
+            //context.operacion.FechaCierre = appService.setFormatDate(context.operacion.FechaCierre);
+
+            ObtenerUsuariosParticipantes(context.operacion)
+            context.usuarioOrganizador = listOrganizador;
+            context.usuarioInvitados = listInvitados;
+            context.CambiarVentana('Commentario');
+        }
+        context.eliminarOperacion = function (rowIndex) {
+            var operacion = context.gridOptions.data[rowIndex];
+
+            operacion.FechaEnvio = appService.setFormatDate(operacion.FechaEnvio);
+            //operacion.FechaCierre = appService.setFormatDate(operacion.FechaCierre);
+            operacion.FechaRegistro = appService.setFormatDate(operacion.FechaRegistro);
+            operacion.FechaVigente = appService.setFormatDate(operacion.FechaVigente);
+
+            console.log(operacion);
+
+
+            dataProvider.postData("MesaVirtual/EliminarOperacion", operacion).success(function (respuesta) {
+                console.log(respuesta);
+                appService.mostrarAlerta("Información","Grupo de Trabajo Cerrado","warning")
+                listarOperacion();
+            }).error(function (error) {
+                //MostrarError();
+            });
+        };
         context.grabar = function (numeroboton) {
 
             let Operacion = context.operacion;
@@ -167,6 +199,9 @@ function ReadFileToBinary(control) {
             else if (context.visible == "CreateAndEdit") {
                 limpiarFormulario()
             }
+            else if (context.visible == "Commentario") {
+                listarComentarioMesaVirtual(context.operacion);
+            }
         }
         ////
         function listarUsuarioGrupoAutoComplete(Nombre, tipo) {
@@ -224,11 +259,14 @@ function ReadFileToBinary(control) {
         }
         context.editarOperacion = function (rowIndex) {
 
-            context.operacion = context.gridMesaTrabajo.data[rowIndex];
+            if (context.gridMesaTrabajo.data[rowIndex] == undefined || context.gridMesaTrabajo.data[rowIndex] == null)
+                context.operacion = context.gridOptions.data[rowIndex];
+            else
+                context.operacion = context.gridMesaTrabajo.data[rowIndex];
 
             console.log(context.operacion);
             context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
-            context.operacion.FechaCierre = appService.setFormatDate(context.operacion.FechaCierre);
+            //context.operacion.FechaCierre = appService.setFormatDate(context.operacion.FechaCierre);
 
             ObtenerUsuariosParticipantes(context.operacion)
             context.usuarioOrganizador = listOrganizador;
@@ -340,6 +378,8 @@ function ReadFileToBinary(control) {
                     context.listTipoComunicacion = respuesta;
                 else if (concepto.TipoConcepto == TipoMesaVirtual)
                     context.listTipoMesaVirtual = respuesta;
+                else if (concepto.TipoConcepto == Estado)
+                    context.listEstado = respuesta;
             });
         }
         function listarDocumentoAdjunto(mesavirtualcomentario) {
@@ -392,12 +432,13 @@ function ReadFileToBinary(control) {
             context.usuarioInvitados = [];
             context.usuarioOrganizador = [];
             context.operacion = {
-                TipoDocumento: '02',
+                TipoDocumento: '90',
                 PrioridadOperacion: '02',
                 AccesoOperacion: '2',
                 NotificacionOperacion: '0',
+                EstadoOperacion: '0',
                 FechaVigente: new Date(),
-                FechaCierre: new Date(),
+                //FechaCierre: new Date(),
                 FechaRegistro: new Date(),
                 FechaEnvio: new Date()
             };

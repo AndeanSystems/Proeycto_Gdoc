@@ -126,7 +126,7 @@ function ReadFileToBinary(control) {
             Operacion = context.operacion;
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
 
-            if (Operacion.EstadoOperacion == "ACTIVO") {
+            if (Operacion.EstadoOperacion == 1) {
                 return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
             }
             //if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {

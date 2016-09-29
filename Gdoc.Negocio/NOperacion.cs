@@ -714,7 +714,7 @@ namespace Gdoc.Negocio
             }
         }
 
-         public short AnularDocumentoDigital(Operacion operacion)
+        public short AnularDocumentoDigital(Operacion operacion)
         {
             try
             {
@@ -739,6 +739,71 @@ namespace Gdoc.Negocio
                      }
                  }
                  return 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public short AnularMesaVirtual(Operacion operacion)
+        {
+             try
+             {
+                 var eMensajeAlerta = new MensajeAlerta();
+                 var listUsuarioParticipante = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+                 //ANULAR OPERACION
+                 dOperacion.EliminarOperacion(operacion);
+                 //EDITA FECHA CIERRE
+                 operacion.FechaCierre = System.DateTime.Now;
+                 dOperacion.EditarOperacion(operacion);
+                 //GRABAR MENSAJE ALERTA A TODOS LOS PARTICIPANTES
+                 foreach (var usuario in listUsuarioParticipante)
+                 {
+                     if (usuario.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV)
+                     {
+                         eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                         eMensajeAlerta.FechaAlerta = System.DateTime.Now;
+                         eMensajeAlerta.TipoAlerta = 1;
+                         eMensajeAlerta.CodigoEvento = "038";
+                         eMensajeAlerta.EstadoMensajeAlerta = 1;
+                         eMensajeAlerta.IDUsuario = usuario.IDUsuario;
+
+                         dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                     }
+                 }
+                 return 1;
+             }
+             catch (Exception)
+             {
+
+                 throw;
+             }
+         }
+        public short AnularDocumentoElectronico(Operacion operacion)
+        {
+            try
+            {
+                var eMensajeAlerta = new MensajeAlerta();
+                var listUsuarioParticipante = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+                //ANULAR OPERACION
+                dOperacion.EliminarOperacion(operacion);
+                //GRABAR MENSAJE ALERTA A TODOS LOS PARTICIPANTES
+                foreach (var usuario in listUsuarioParticipante)
+                {
+                    if (usuario.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
+                    {
+                        eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                        eMensajeAlerta.FechaAlerta = System.DateTime.Now;
+                        eMensajeAlerta.TipoAlerta = 1;
+                        eMensajeAlerta.CodigoEvento = "040";
+                        eMensajeAlerta.EstadoMensajeAlerta = 1;
+                        eMensajeAlerta.IDUsuario = usuario.IDUsuario;
+
+                        dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                    }
+                }
+                return 1;
             }
             catch (Exception)
             {

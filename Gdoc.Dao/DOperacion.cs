@@ -365,7 +365,7 @@ namespace Gdoc.Dao
                         NombreFinal = x.operacion.NombreFinal,
                         TipoDoc = new Concepto { DescripcionCorta = x.tipomesa.DescripcionCorta },
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
-                        Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
+                        Prioridad = new Concepto { DescripcionCorta = x.prioridad.DescripcionCorta },
                     }));
 
 
@@ -482,6 +482,7 @@ namespace Gdoc.Dao
                     entidad.TipoDocumento = operacion.TipoDocumento;
                     entidad.FechaEnvio = operacion.FechaEnvio;
                     entidad.FechaVigente = operacion.FechaVigente;
+                    entidad.FechaCierre = operacion.FechaCierre; 
                     entidad.NombreFinal = operacion.NombreFinal;
                     db.SaveChanges();
                 }

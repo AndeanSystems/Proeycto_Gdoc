@@ -162,5 +162,25 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listDocumentoAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+        public JsonResult EliminarOperacion(Operacion operacion)
+        {
+            try
+            {
+                using (var oOperacion = new NOperacion())
+                {
+                    operacion.EstadoOperacion = Estados.EstadoOperacion.Inactivo;
+                    var respuesta = oOperacion.AnularMesaVirtual(operacion);
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Grupo de Trabajo Inactivo";
+                }
+                return new JsonResult { Data = mensajeRespuesta };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 	}
 }
