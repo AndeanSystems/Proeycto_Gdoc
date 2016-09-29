@@ -62,6 +62,7 @@
     <Compile Include="Extension\EUsuario.cs" />
     <Compile Include="Extension\EUsuarioFEPCMAC.cs" />
     <Compile Include="Extension\EUsuarioGrupo.cs" />
+    <Compile Include="Extension\EUsuarioParticipante.cs" />
     <Compile Include="Models\AccesoSistema.cs" />
     <Compile Include="Models\Adjunto.cs" />
     <Compile Include="Models\CentroCosto.cs" />

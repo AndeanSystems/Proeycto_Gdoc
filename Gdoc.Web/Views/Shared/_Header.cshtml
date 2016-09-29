@@ -1,115 +1,120 @@
 ﻿<input type="hidden" value="@Html.Raw(Session["IDUsuario"].ToString())" id="IDUsuario"/>
-    <nav class="navbar navbar-fixed-top" role="navigation" ng-controller="header_controller as ctrl">
-        <a href="@Url.Action("Alertas", "Alertas")" class="logo">
-            <span class="logo-mini">
-                <img width="50" height="50" src="~/resources/img/fepcmac1_mini.png" />
-            </span>
-            <span class="logo-lg">
-                <img width="200" height="50" src="~/resources/img/fepcmac1.png" />
-            </span>
-        </a>
-        <a href="#" data-toggle="offcanvas" style="color:white;">
-            <i class="fa fa-chevron-circle-left"></i>
-        </a>
-
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-                @*<li>
+    @*<nav class="navbar navbar-fixed-top" role="navigation" ng-controller="header_controller as ctrl">*@
+<nav class="navbar navbar-fixed-top" role="navigation" ng-controller="header_controller as ctrl">
+    <a href="@Url.Action("Alertas", "Alertas")" class="logo">
+        <span class="logo-mini">
+            <img width="50" height="50" src="~/resources/img/fepcmac1_mini.png" />
+        </span>
+        <span class="logo-lg">
+            <img width="200" height="50" src="~/resources/img/fepcmac1.png" />
+        </span>
+    </a>
+    <a href="#" data-toggle="offcanvas" style="color:white;">
+        <i class="fa fa-chevron-circle-left"></i>
+    </a>
+    
+    <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+            @*<li>
                     <label class="pull-left">asd</label>
                 </li>*@
-                <li>
-                    <a href="@Url.Action("Index", "Alertas")">
-                        <i style="padding: 4px;font-size: 1.4em;" class="fa fa-home" data-placement="right" data-toggle="tooltip" title="Inicio"></i>
-                    </a>
+            <li>
+                <a href="@Url.Action("Index", "Alertas")">
+                    <i style="padding: 4px;font-size: 1.4em;" class="fa fa-home" data-placement="right" data-toggle="tooltip" title="Inicio"></i>
+                </a>
 
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", "DocumentoElectronico")">
-                        <i class="fa fa-file" data-placement="right" data-toggle="tooltip" title="Documento Electronico"></i>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "DocumentoElectronico")">
+                    <i class="fa fa-file" data-placement="right" data-toggle="tooltip" title="Documento Electronico"></i>
 
-                    </a>
+                </a>
 
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", "DocumentoDigital")">
-                        <i class="fa fa-file-pdf-o" data-placement="right" data-toggle="tooltip" title="Documento Digital"></i>
-                    </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "DocumentoDigital")">
+                    <i class="fa fa-file-pdf-o" data-placement="right" data-toggle="tooltip" title="Documento Digital"></i>
+                </a>
 
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", "MesaVirtual")">
-                        <i class="fa fa-users" data-placement="right" data-toggle="tooltip" title="Grupo de Trabajo"></i>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "MesaVirtual")">
+                    <i class="fa fa-users" data-placement="right" data-toggle="tooltip" title="Grupo de Trabajo"></i>
 
-                    </a>
+                </a>
 
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", "Busqueda")">
-                        <i class="fa fa-search" data-placement="right" data-toggle="tooltip" title="Busquedas"></i>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Busqueda")">
+                    <i class="fa fa-search" data-placement="right" data-toggle="tooltip" title="Busquedas"></i>
 
-                    </a>
+                </a>
 
-                </li>
+            </li>
 
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="@Html.Raw(Session["RutaAvatar"].ToString())" class="user-image" alt="User Image" id="AvatarUser" />
-                        <span class="hidden-xs">@Html.Raw(Session["NombreUsuario"].ToString())</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="user-header" style=" background:#A20012!important">
-                            <input style="height: 35%;top: 0;position: absolute; opacity: 0;" type="file" id="fotoAvatar" accept="image/*">
-                            <img src="@Html.Raw(Session["RutaAvatar"].ToString())" class="img-circle" alt="User Image" id="AvatarUser" />
-                            <p>
-                                @Html.Raw(Session["NombreCompleto"].ToString()) - @Html.Raw(Session["CargoUsuario"].ToString())
+            <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="@Html.Raw(Session["RutaAvatar"].ToString())" class="user-image" alt="User Image" id="AvatarUser" />
+                    <span class="hidden-xs">@Html.Raw(Session["NombreUsuario"].ToString())</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="user-header" style=" background:#A20012!important">
+                        <input style="height: 35%;top: 0;position: absolute; opacity: 0;" type="file" id="fotoAvatar" accept="image/*">
+                        <img src="@Html.Raw(Session["RutaAvatar"].ToString())" class="img-circle" alt="User Image" id="AvatarUser" />
+                        <p>
+                            @Html.Raw(Session["NombreCompleto"].ToString()) - @Html.Raw(Session["CargoUsuario"].ToString())
 
-                                <small>
-                                    <script>
-                                        var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-                                        var f = new Date();
-                                        document.write(f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
-                                    </script>
-                                </small>
-                            </p>
-                        </li>
-                        <li class="user-body">
-                            <div class="col-xs-6 text-center">
-                                <a  href="@Url.Action("CambiarContraseña", "Usuario")">Cambiar Contraseña</a>
-                            </div>
-                            <div class="col-xs-6 text-center">
-                                <a  href="@Url.Action("CambiarFirmaElectronica", "Usuario")">Cambiar Firma Electronica</a>
-                            </div>
-                            <div>
-                            </div>
+                            <small>
+                                <script>
+                                    var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+                                    var f = new Date();
+                                    document.write(f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
+                                </script>
+                            </small>
+                        </p>
+                    </li>
+                    <li class="user-body">
+                        <div class="col-xs-6 text-center">
+                            <a href="@Url.Action("CambiarContraseña", "Usuario")">Cambiar Contraseña</a>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <a href="@Url.Action("CambiarFirmaElectronica", "Usuario")">Cambiar Firma Electronica</a>
+                        </div>
+                        <div>
+                        </div>
 
-                        </li>
-                        <li class="user-footer">
-                            
-                            <div class="text-center">
-                                <strong>Copyright &copy; 2015 <a href="#">AndeanSystems</a>.</strong>
-                            </div>
+                    </li>
+                    <li class="user-footer">
 
-                            <div class="text-center" >
-                                <a style="color:#ffffff" href="@Url.Action("Index", "Home")" class="btn btn-default btn-flat">Salir</a>
-                            </div>
+                        <div class="text-center">
+                            <strong>Copyright &copy; 2015 <a href="#">AndeanSystems</a>.</strong>
+                        </div>
+
+                        <div class="text-center">
+                            <a style="color:#ffffff" href="@Url.Action("Index", "Home")" class="btn btn-default btn-flat">Salir</a>
+                        </div>
 
 
 
-                        </li>
-                    </ul>
-                </li>
-                <li data-toggle="modal" data-target="#modal_imagenes">
-                    <a><i class="fa fa-search" data-placement="right" data-toggle="tooltip" title="Busquedas"></i></a>
-                </li>
-                <li>
-                    <a href="#" data-toggle="control-sidebar">
-                        <i class="fa fa-chevron-circle-left"></i>
-                    </a>
-                </li>
+                    </li>
+                </ul>
+            </li>
+            <li data-toggle="modal" data-target="#modal_imagenes">
+                <a><i class="fa fa-search" data-placement="right" data-toggle="tooltip" title="Busquedas"></i></a>
+            </li>
+            <li>
+                <a href="#" data-toggle="control-sidebar">
+                    <i class="fa fa-chevron-circle-left"></i>
+                </a>
+            </li>
 
-            </ul>
-        </div>
-    </nav>
+        </ul>
+    </div>
+</nav>
+
+
+
+
 
 
     <aside class="control-sidebar control-sidebar-dark">

@@ -146,10 +146,7 @@ namespace Gdoc.Negocio
                         eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
                         eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                         eUsuarioParticipante.ReenvioOperacion = "S";
-                        if(operacion.EstadoOperacion==Estados.EstadoOperacion.Activo)
-                            eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
-                        else
-                            eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Creado;
+                        eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                         //listEusuarioParticipante.Add(eUsuarioParticipante);
                         if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
                             listEusuarioParticipante.Add(eUsuarioParticipante);
@@ -182,10 +179,7 @@ namespace Gdoc.Negocio
                             eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
                             eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                             eUsuarioParticipante.ReenvioOperacion = "S";
-                            if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                                eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
-                            else
-                                eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Creado;
+                            eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                             if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
                                 listEusuarioParticipante.Add(eUsuarioParticipante);
 
@@ -291,60 +285,28 @@ namespace Gdoc.Negocio
                 
                 foreach (var participante in listEUsuarioGrupo)
                 {
+                    var uparticipantesguardados = dUsuarioParticipante.ListarUsuarioParticipante().Where(x=>x.IDOperacion==operacion.IDOperacion);
 
-                    var eUsuarioParticipante = new UsuarioParticipante();
-                    if (participante.Tipo.Equals(Usuario))
+                    //foreach (var guardados in uparticipantesguardados)
+                    //{
+                       
+                    //}
+                    if (participante.EstadoUsuarioParticipante != 1)
                     {
-                        
-                        //Grabar solo Usuarios
-                        eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
-                        eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
-                        eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
-                        eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
-                        eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
-                        eUsuarioParticipante.ReenvioOperacion = "S";
-                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                            eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
-                        else
-                            eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Creado;
-                        //listEusuarioParticipante.Add(eUsuarioParticipante);
-                        if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
-                            listEusuarioParticipante.Add(eUsuarioParticipante);
-
-                        //GRABAR MENSAJE ALERTA
-                        if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                        var eUsuarioParticipante = new UsuarioParticipante();
+                        if (participante.Tipo.Equals(Usuario))
                         {
-                            eMensajeAlerta.IDOperacion = operacion.IDOperacion;
-                            eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
-                            eMensajeAlerta.TipoAlerta = 1;
-                            eMensajeAlerta.CodigoEvento = "017";
-                            eMensajeAlerta.EstadoMensajeAlerta = 1;
-                            eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
 
-                            dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
-                        }
-
-
-                    }
-                    else
-                    {
-                        //Buscar usuarios por grupo
-                        var eUsuarioGrupo = new UsuarioGrupo { IDGrupo = participante.IDUsuarioGrupo };
-                        var listUsuarioGrupo = dUsuarioGrupo.listarUsuarioGrupo(eUsuarioGrupo);
-                        foreach (var usuario in listUsuarioGrupo)
-                        {
-                            eUsuarioParticipante = new UsuarioParticipante();
-                            eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
+                            //Grabar solo Usuarios
+                            eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                             eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
                             eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
                             eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
                             eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
                             eUsuarioParticipante.ReenvioOperacion = "S";
-                            if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                                eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
-                            else
-                                eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Creado;
-                            if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
+                            eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
+                            //listEusuarioParticipante.Add(eUsuarioParticipante);
+                            if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
                                 listEusuarioParticipante.Add(eUsuarioParticipante);
 
                             //GRABAR MENSAJE ALERTA
@@ -353,14 +315,49 @@ namespace Gdoc.Negocio
                                 eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                                 eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
                                 eMensajeAlerta.TipoAlerta = 1;
-                                eMensajeAlerta.EstadoMensajeAlerta = 1;
                                 eMensajeAlerta.CodigoEvento = "017";
+                                eMensajeAlerta.EstadoMensajeAlerta = 1;
                                 eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
 
                                 dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
                             }
+
+
+                        }
+                        else
+                        {
+                            //Buscar usuarios por grupo
+                            var eUsuarioGrupo = new UsuarioGrupo { IDGrupo = participante.IDUsuarioGrupo };
+                            var listUsuarioGrupo = dUsuarioGrupo.listarUsuarioGrupo(eUsuarioGrupo);
+                            foreach (var usuario in listUsuarioGrupo)
+                            {
+                                eUsuarioParticipante = new UsuarioParticipante();
+                                eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
+                                eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
+                                eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                                eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                                eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
+                                eUsuarioParticipante.ReenvioOperacion = "S";
+                                eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
+                                if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
+                                    listEusuarioParticipante.Add(eUsuarioParticipante);
+
+                                //GRABAR MENSAJE ALERTA
+                                if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                                {
+                                    eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                                    eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                                    eMensajeAlerta.TipoAlerta = 1;
+                                    eMensajeAlerta.EstadoMensajeAlerta = 1;
+                                    eMensajeAlerta.CodigoEvento = "017";
+                                    eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
+
+                                    dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                                }
+                            }
                         }
                     }
+                    
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
 

@@ -373,14 +373,18 @@ namespace Gdoc.Web.Controllers
         public JsonResult GrabarUsuarioAvatar(Usuario eUsuario) {
             using (var nUsuario = new NUsuario())
             {
-                byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(eUsuario.RutaAvatar);
-                using (MemoryStream stream = new MemoryStream(fileBytes))
+                if (!eUsuario.RutaAvatar.Contains("http:"))
                 {
-                    eUsuario.RutaAvatar = string.Format("{0}_{1}.png", "~/resources/img/", eUsuario.IDUsuario);
-                    if (System.IO.File.Exists(eUsuario.RutaAvatar))
-                        System.IO.File.Delete(eUsuario.RutaAvatar);
-                    Image.FromStream(stream).Save(@Server.MapPath(eUsuario.RutaAvatar), System.Drawing.Imaging.ImageFormat.Png);
+                    byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(eUsuario.RutaAvatar);
+                    using (MemoryStream stream = new MemoryStream(fileBytes))
+                    {
+                        eUsuario.RutaAvatar = string.Format("{0}_{1}.png", "~/resources/img/", eUsuario.IDUsuario);
+                        if (System.IO.File.Exists(eUsuario.RutaAvatar))
+                            System.IO.File.Delete(eUsuario.RutaAvatar);
+                        Image.FromStream(stream).Save(@Server.MapPath(eUsuario.RutaAvatar), System.Drawing.Imaging.ImageFormat.Png);
+                    }
                 }
+                
                 nUsuario.GrabarUsuarioAvatar(eUsuario);
             }
             mensajeRespuesta.Exitoso = true;
@@ -417,6 +421,16 @@ namespace Gdoc.Web.Controllers
             System.IO.File.Copy(sourceFile, destFile, true);
 
             
+        }
+
+        public List<string> obtenerArchivosDirectorio(string rutaArchivo)
+        {
+
+            List<string> listaRuta = new List<string>();
+
+            listaRuta = Directory.GetFiles(Path.GetDirectoryName(rutaArchivo), Path.GetFileName(rutaArchivo)).ToList();
+
+            return listaRuta;
         }
         #endregion
     }

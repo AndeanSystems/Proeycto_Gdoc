@@ -13,5 +13,6 @@ namespace Gdoc.Entity.Extension
         public string Nombre { get; set; }
         public int Estado { get; set; }
         public string TipoParticipante { get; set; }
+        public int EstadoUsuarioParticipante { get; set; }
     }
 }

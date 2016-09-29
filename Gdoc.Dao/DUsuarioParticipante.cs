@@ -1,4 +1,5 @@
-﻿using Gdoc.Entity.Models;
+﻿using Gdoc.Entity.Extension;
+using Gdoc.Entity.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace Gdoc.Dao
 {
     public class DUsuarioParticipante
     {
-        public List<UsuarioParticipante> ListarUsuarioParticipante()
+        public List<EUsuarioParticipante> ListarUsuarioParticipante()
         {
-            var listUsuarioParticipante= new List<UsuarioParticipante>();
+            var listUsuarioParticipante= new List<EUsuarioParticipante>();
             try
             {
                 using (var db = new DataBaseContext())
@@ -19,17 +20,22 @@ namespace Gdoc.Dao
                     var list = db.UsuarioParticipantes.ToList();
 
 
-                    list.ForEach(x => listUsuarioParticipante.Add(new UsuarioParticipante
+                    list.ForEach(x => listUsuarioParticipante.Add(new EUsuarioParticipante
                     {
                         IDUsuarioParticipante = x.IDUsuarioParticipante,
                         IDUsuario= x.IDUsuario,
                         IDOperacion= x.IDOperacion,
                         TipoOperacion= x.TipoOperacion,
                         TipoParticipante = x.TipoParticipante,
+                        EstadoUsuarioParticipante=x.EstadoUsuarioParticipante,
+                        Tipo="U",
+                        IDUsuarioGrupo=x.Usuario.IDUsuario,
+                        Nombre=x.Usuario.NombreUsuario,
+
 
                         Usuario = new Usuario
                         {
-                            NombreUsuario=x.Usuario.NombreUsuario,
+                            NombreUsuario = x.Usuario.NombreUsuario,
                         }
                     }));
                 }
@@ -57,13 +63,14 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-        public short Editar(List<UsuarioParticipante> listUsuarioParticipante)
+        public short Editar(UsuarioParticipante UsuarioParticipante)
         {
             try
             {
                 using (var db = new DataBaseContext())
                 {
-                    //var entidad = db.DocumentoElectronicoOperacions.Find(listUsuarioParticipante.Find())
+                    var entidad =db.UsuarioParticipantes.Find(UsuarioParticipante.IDUsuarioParticipante);
+                    entidad.EstadoUsuarioParticipante = UsuarioParticipante.EstadoUsuarioParticipante;
                     db.SaveChanges();
                 }
                 return 1;

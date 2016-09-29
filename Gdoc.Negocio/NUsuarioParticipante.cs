@@ -16,7 +16,7 @@ namespace Gdoc.Negocio
         {
             dUsuarioParticipante = null;
         }
-        public List<UsuarioParticipante> ListarUsuarioParticipante()
+        public List<EUsuarioParticipante> ListarUsuarioParticipante()
         {
             try
             {

@@ -66,6 +66,7 @@ function ReadFileToBinary(control) {
         var listRemitentes = [];
         var listDestinatarios = [];
 
+
         LlenarConcepto(TipoDocumento);
         LlenarConcepto(PrioridadAtencion);
         LlenarConcepto(TipoAcceso);
@@ -119,6 +120,9 @@ function ReadFileToBinary(control) {
             context.DocumentoElectronicoOperacion.Memo = CKEDITOR.instances.editor1.getData();
             console.log(CKEDITOR.instances.editor1.getData());
             console.log(context.DocumentoElectronicoOperacion.Memo);
+
+            console.log(context.usuarioRemitentes);
+            console.log(context.usuarioDestinatarios);
             Operacion = context.operacion;
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
 
@@ -146,9 +150,11 @@ function ReadFileToBinary(control) {
                 listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
             }
             for (var ind in context.usuarioDestinatarios) {
+                console.log(context.usuarioDestinatarios[ind]);
                 context.usuarioDestinatarios[ind].TipoParticipante = UsuarioDestinatario;
                 listEUsuarioGrupo.push(context.usuarioDestinatarios[ind]);
             }
+            console.log(listEUsuarioGrupo);
             if (numeroboton == 1){
                 Operacion.EstadoOperacion = 0;
             }
@@ -205,14 +211,10 @@ function ReadFileToBinary(control) {
 
             ObtenerUsuariosParticipantes(context.operacion)
 
-            for (var ind in listRemitentes) {
-                context.usuarioRemitentes.push(listRemitentes[ind].Usuario)
-            }
-            for (var ind2 in listDestinatarios) {
-                //context.usuarioDestinatarios.push(listDestinatarios[ind2].Usuario)
-            }
+            context.usuarioRemitentes = listRemitentes;
             context.usuarioDestinatarios = listDestinatarios;
 
+            console.log(listDestinatarios);
             context.CambiarVentana('CreateAndEdit');
             window.setTimeout(function () {
                 CKEDITOR.instances.editor1.setData(context.DocumentoElectronicoOperacion.Memo);
@@ -258,6 +260,7 @@ function ReadFileToBinary(control) {
             listDestinatarios = [];
             obtenerUsuarioSession();
             archivosSelecionados = [];
+            listEUsuarioGrupo = [];
             listDocumentosAdjuntos = [];
             CKEDITOR.instances.editor1.setData("");
             $('.nav-tabs a[href="#Datos"]').tab('show')
@@ -317,13 +320,15 @@ function ReadFileToBinary(control) {
         function ObtenerUsuariosParticipantes(operacion) {
             dataProvider.postData("DocumentoElectronico/ListarUsuarioParticipanteDE", operacion).success(function (respuesta) {
                 for (var ind in respuesta) {
-                    respuesta[ind].Usuario.Nombre = respuesta[ind].Usuario.NombreUsuario;
-                    if (respuesta[ind].TipoParticipante == UsuarioRemitente)
-                        //listRemitentes.push(respuesta[ind].Usuario);
+                    //respuesta[ind].Usuario.Nombre = respuesta[ind].Usuario.NombreUsuario;
+
+                    if (respuesta[ind].TipoParticipante == UsuarioRemitente){
                         listRemitentes.push(respuesta[ind]);
-                    else
-                        //listDestinatarios.push(respuesta[ind]);
-                        listDestinatarios.push(respuesta[ind].Usuario);
+                    }
+                    else {
+                        listDestinatarios.push(respuesta[ind]);
+                    }
+                        
                 }
                 console.log(listDestinatarios);
                 console.log(listRemitentes);
@@ -335,6 +340,5 @@ function ReadFileToBinary(control) {
 
         obtenerUsuarioSession();
         //context.usuarioDestinatarios=
-        //ObtenerUsuariosParticipantes();
     }
 })();

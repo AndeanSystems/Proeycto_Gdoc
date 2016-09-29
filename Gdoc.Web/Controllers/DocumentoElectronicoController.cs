@@ -96,7 +96,7 @@ namespace Gdoc.Web.Controllers
         [HttpPost]
         public JsonResult ListarUsuarioParticipanteDE(Operacion operacion)
         {
-            var listUsuarioParticipante= new List<UsuarioParticipante>();
+            var listUsuarioParticipante= new List<EUsuarioParticipante>();
             using (var oUsuarioParticipante = new NUsuarioParticipante())
             {
                 listUsuarioParticipante = oUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();

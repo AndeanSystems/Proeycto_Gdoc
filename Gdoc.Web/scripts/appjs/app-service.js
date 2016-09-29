@@ -109,5 +109,30 @@
                 reader.readAsBinaryString(f);
             }
         });
+
+        var context = this;
+
+        context.src = "http://192.168.100.29:85/IMAGENES/avatars/";
+        context.avatar = function (ruta) {
+
+            swal("funciona");
+
+            function enviarFomularioOK() {
+                var eUsuario = {
+                    IDUsuario: appService.obtenerUsuarioId(),
+                    RutaAvatar: ruta
+                };
+                dataProvider.postData("Usuario/GrabarUsuarioAvatar", eUsuario).success(function (respuesta) {
+                    if (respuesta.Exitoso) {
+                        appService.mostrarAlerta("Advertencia", respuesta.Mensaje, "success");
+                    } else {
+                        appService.mostrarAlerta("Advertencia", respuesta.Mensaje, "warning");
+                    }
+                }).error(function (error) {
+                    //MostrarError();
+                });
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+        }
     }
 })();
