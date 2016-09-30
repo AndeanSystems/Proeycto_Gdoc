@@ -75,7 +75,8 @@ namespace Gdoc.Web.Controllers
             }
             catch (Exception ex)
             {
-                mensajeRespuesta.Mensaje = "Operación no realizada correctamente";
+                //mensajeRespuesta.Mensaje = "Operación no realizada correctamente";
+                mensajeRespuesta.Mensaje = ex.Message;
                 mensajeRespuesta.Exitoso = false;
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }

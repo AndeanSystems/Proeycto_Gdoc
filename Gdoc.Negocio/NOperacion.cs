@@ -283,42 +283,21 @@ namespace Gdoc.Negocio
                 }
                 //EDITAR USUARIOS PARTICIPANTES
                 
-                //Borrar 
-                var uparticipantesguardados = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante!=0);
-                //if (uparticipantesguardados.Count() > listEUsuarioGrupo.Count())
-                //{
-                    var participantesactuales = listEUsuarioGrupo.Select(x => x.IDUsuarioGrupo).ToList();
-
-                    //var participantesguardados = uparticipantesguardados.Select(x => x.IDUsuarioGrupo).ToList();
-
-                    IEnumerable<EUsuarioParticipante> nuevos = uparticipantesguardados.Where(x => !participantesactuales.Contains(x.IDUsuarioGrupo));
-
-                    //IEnumerable<EUsuarioGrupo> encontrados = listEUsuarioGrupo.Where(x => !participantesguardados.Contains(x.IDUsuarioGrupo));
-
-                    foreach (var item in nuevos)
+                //DESHABILITAR USUARIOS PARTICIPANTES
+                var uparticipantesguardados = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante==1);              
+                var participantesactuales = listEUsuarioGrupo.Select(x => x.IDUsuarioGrupo).ToList();
+                IEnumerable<EUsuarioParticipante> nuevos = uparticipantesguardados.Where(x => !participantesactuales.Contains(x.IDUsuarioGrupo));
+                foreach (var item in nuevos)
+                {
+                    if (item.EstadoUsuarioParticipante != 0)
                     {
-                        if (item.EstadoUsuarioParticipante != 0)
-                        {
-                            item.EstadoUsuarioParticipante = 2;
-                            dUsuarioParticipante.Editar(item);
-                        }
+                        item.EstadoUsuarioParticipante = 2;
+                        dUsuarioParticipante.Editar(item);
                     }
-
-                    //foreach (var item in encontrados)
-                    //{
-                    //    if (item.EstadoUsuarioParticipante != 0)
-                    //    {
-                    //        var usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == item.IDUsuarioGrupo).FirstOrDefault();
-                    //        usuarioencontrado.EstadoUsuarioParticipante = 1;
-                    //        dUsuarioParticipante.Editar(usuarioencontrado);
-                    //    }
-                    //}
-                //}
+                }
 
                 foreach (var participante in listEUsuarioGrupo)
                 {
-
-                    
                     var usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault();
 
                     if(usuarioencontrado!=null){
