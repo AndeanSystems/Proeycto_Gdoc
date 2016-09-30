@@ -484,6 +484,7 @@ namespace Gdoc.Dao
                     entidad.FechaVigente = operacion.FechaVigente;
                     entidad.FechaCierre = operacion.FechaCierre; 
                     entidad.NombreFinal = operacion.NombreFinal;
+                    entidad.EstadoOperacion = operacion.EstadoOperacion;
                     db.SaveChanges();
                 }
                 return 1;
