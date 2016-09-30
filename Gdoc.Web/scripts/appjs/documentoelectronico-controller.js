@@ -126,6 +126,7 @@ function ReadFileToBinary(control) {
             Operacion = context.operacion;
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
 
+
             if (Operacion.EstadoOperacion == 1) {
                 return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
             }
@@ -188,7 +189,13 @@ function ReadFileToBinary(control) {
                 });
                 limpiarFormulario();
             }
-            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+
+            function cancelarFormulario() {
+                Operacion.EstadoOperacion = 0;
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
+
+            
         }
 
         context.nuevo = function () {

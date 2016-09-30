@@ -526,12 +526,102 @@ namespace Gdoc.Negocio
             try
             {
                 var eGeneral = dGeneral.CargaParametros(operacion.IDEmpresa);
+
+                var listEusuarioParticipante = new List<UsuarioParticipante>();
+                var eMensajeAlerta = new MensajeAlerta();
                 dOperacion.EditarOperacion(operacion);
                 //dDocumentoElectronicoOperacion.Editar(eDocumentoElectronicoOperacion);
                 var eDocumentoAdjunto = new DocumentoAdjunto();
                 //FALTA EDITAR DOCUMENTO ADJUNTO
 
                 //FALTA EDITAR USUARIOS PARTICIPANTES
+                //EDITAR USUARIOS PARTICIPANTES
+
+                //DESHABILITAR USUARIOS PARTICIPANTES
+                var uparticipantesguardados = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante == 1);
+                var participantesactuales = listEUsuarioGrupo.Select(x => x.IDUsuarioGrupo).ToList();
+                IEnumerable<EUsuarioParticipante> nuevos = uparticipantesguardados.Where(x => !participantesactuales.Contains(x.IDUsuarioGrupo));
+                foreach (var item in nuevos)
+                {
+                    if (item.EstadoUsuarioParticipante != 0)
+                    {
+                        item.EstadoUsuarioParticipante = 2;
+                        dUsuarioParticipante.Editar(item);
+                    }
+                }
+                foreach (var participante in listEUsuarioGrupo)
+                {
+                    var usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault();
+
+                    if (usuarioencontrado != null)
+                    {
+                        usuarioencontrado.EstadoUsuarioParticipante = 1;
+                        dUsuarioParticipante.Editar(usuarioencontrado);
+                    }
+                    else
+                    {
+                        if (participante.EstadoUsuarioParticipante != 1 && participante.EstadoUsuarioParticipante != 2)
+                        {
+                            var eUsuarioParticipante = new UsuarioParticipante();
+                            if (participante.Tipo.Equals(Usuario))
+                            {
+                                //Grabar solo Usuarios
+                                eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
+                                eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
+                                eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                                eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                                eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
+                                eUsuarioParticipante.ReenvioOperacion = "S";
+                                eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
+                                //listEusuarioParticipante.Add(eUsuarioParticipante);
+                                if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
+                                    listEusuarioParticipante.Add(eUsuarioParticipante);
+                            }
+                            else
+                            {
+                                //Buscar usuarios por grupo
+                                var eUsuarioGrupo = new UsuarioGrupo { IDGrupo = participante.IDUsuarioGrupo };
+                                var listUsuarioGrupo = dUsuarioGrupo.listarUsuarioGrupo(eUsuarioGrupo);
+                                foreach (var usuario in listUsuarioGrupo)
+                                {
+                                    eUsuarioParticipante = new UsuarioParticipante();
+                                    eUsuarioParticipante.IDUsuario = usuario.IDUsuario;
+                                    eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
+                                    eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                                    eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
+                                    eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
+                                    eUsuarioParticipante.ReenvioOperacion = "S";
+                                    eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
+                                    if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
+                                        listEusuarioParticipante.Add(eUsuarioParticipante);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                var uparticipantesguardados2 = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante == 1);
+
+                //SI SE ENVIA GRABA ALERTA
+                if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                {
+                    foreach (var item in uparticipantesguardados2)
+                    {
+                        //GRABAR MENSAJE ALERTA
+                        if (item.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                        {
+                            eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                            eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                            eMensajeAlerta.TipoAlerta = 1;
+                            eMensajeAlerta.CodigoEvento = "007";
+                            eMensajeAlerta.EstadoMensajeAlerta = 1;
+                            eMensajeAlerta.IDUsuario = item.IDUsuario;
+
+                            dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                        }
+                    }
+                }
+                dUsuarioParticipante.Grabar(listEusuarioParticipante);
                 return 1;
             }
             catch (Exception)

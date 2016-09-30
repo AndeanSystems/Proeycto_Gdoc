@@ -55,10 +55,16 @@
                 cancelButtonText: "Cancelar",
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Aceptar",
-                closeOnConfirm: true
+                closeOnConfirm: true,
+                closeOnCancel: true
             },
-            function () {
-                metodoOK();
+            function (isConfirm) {
+                if (isConfirm) {
+                    metodoOK();
+                } else {
+                    metodoCancel();
+                }
+                
             });
         },
         this.obtenerUsuarioId = function () {

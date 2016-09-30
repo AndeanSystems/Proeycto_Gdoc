@@ -217,7 +217,10 @@ function ReadFileToBinary(control) {
 
                 document.getElementById("input_file").value = "";
             }
-            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+            function cancelarFormulario() {
+                Operacion.EstadoOperacion = 0;
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
                       
         }
 
