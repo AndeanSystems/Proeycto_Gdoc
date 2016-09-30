@@ -24,25 +24,23 @@
                         </div>
                     </div>
 
-                    <div class="form-group no-margin-bottom">
+                    <div class="form-group margin-bottom">
                         <label class="col-md-12">Tipo de Comunicacion <span class="text-danger">(*)</span></label>
                         <div class="col-md-12">
-                            <select class="form-control" ng-model="ctrl.operacion.TipoComunicacion" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoComunicacion">
+                            <select class="form-control" style="margin-bottom: 15px;" ng-model="ctrl.operacion.TipoComunicacion" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoComunicacion">
                                 <option value="">Seleccione</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="form-group no-margin-bottom">
-                        <label style="display:block;" class="col-md-12">Accesso <span class="text-danger">(*)</span></label>
-                        <div class="col-md-12">
-                            <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
-                                <md-radio-button style="display:inline-block;margin-right:2em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso ">{{ta.DescripcionCorta}} </md-radio-button>
-                            </md-radio-group>
-                        </div>
+                    <div class="form-group no-margin">
+                        <label class="col-md-4">Accesso <span class="text-danger">(*)</span></label>
+                        <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
+                            <md-radio-button style="display:inline-block;margin-right:2.8em;margin-left:1em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso ">{{ta.DescripcionCorta}} </md-radio-button>
+                        </md-radio-group>
                     </div>
 
-                    <div class="form-group no-margin-bottom">
+                    <div class="form-group no-margin">
                         <label class="col-md-12">Prioridad de Atención <span class="text-danger">(*)</span></label>
                         <div class="col-md-12">
                             <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion ">
@@ -51,38 +49,36 @@
                         </div>
                     </div>
 
+                    <div class="form-group no-margin">
+                        <label class="col-md-6">Plazo de Confirmación</label>
+                        <label class="col-md-6">Fecha de Envio</label>
+                    </div>
+
                     <div class="form-group no-margin-bottom">
-                        <label class="col-md-12">Plazo de Confirmación</label>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             @*@Html.TextBox("StudentName", System.DateTime.Now.AddDays(5), new { @class = "form-control", disabled = "true" }) <!--FALTA TERMINAR PASAR PARAMETRO DE TABLA GENERAL-->*@
                             <input type="date" class="form-control" ng-model="ctrl.operacion.FechaVigente" disabled="true">
 
                             @*<md-datepicker ng-model="ctrl.operacion.FechaVigente" disabled></md-datepicker>*@
 
                         </div>
-                    </div>
-
-                    <div class="form-group no-margin-bottom">
-                        <label class="col-md-12">Fecha de Envio</label>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <input type="date" class="form-control" ng-model="ctrl.operacion.FechaEnvio" disabled="true">
                             @*<md-datepicker ng-model="ctrl.operacion.FechaEnvio" disabled></md-datepicker>*@
                         </div>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-md-12">Fecha de Creación</label>
-
-                        <div class="col-md-12">
-                            <input type="date" class="form-control" ng-model="ctrl.operacion.FechaRegistro" disabled="true">
-                            @*<md-datepicker ng-model="ctrl.operacion.FechaRegistro" disabled></md-datepicker>*@
-                        </div>
-
+                        <label class="col-md-6">Fecha de Creación</label>
+                        <label class="col-md-6">Estado</label>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-md-12">Estado</label>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <input type="date" class="form-control" ng-model="ctrl.operacion.FechaRegistro" disabled="true">
+                            @*<md-datepicker ng-model="ctrl.operacion.FechaRegistro" disabled></md-datepicker>*@
+                        </div>
+                        <div class="col-md-6">
                             @*<input type="text" ng-model="ctrl.operacion.EstadoOperacion" ng-init="Creado" ng-disabled="true" class="form-control" placeholder="Creado" />*@
                             <select class="form-control" ng-model="ctrl.operacion.EstadoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listEstado" disabled>
                                 @*<option value=""></option>*@
