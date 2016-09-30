@@ -114,7 +114,7 @@ namespace Gdoc.Web.Controllers
                 listMesaVirtual = oOperacion.ListarMesaTrabajoVirtual(new UsuarioParticipante
                 {
                     IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString())
-                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
+                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual && x.EstadoOperacion==Estados.EstadoOperacion.Activo).ToList();
 
                 //listMesaVirtual = oOperacion.ListarMesaVirtual().Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
 

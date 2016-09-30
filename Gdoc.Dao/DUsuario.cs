@@ -102,10 +102,14 @@ namespace Gdoc.Dao
                 using (var db = new DataBaseContext())
                 {
                     var usu = (from usuparti in db.UsuarioParticipantes
+                               join operacion in db.Operacions
+                               on usuparti.IDOperacion equals operacion.IDOperacion
+
 
                                where (usuparti.TipoParticipante =="03" ||
                                      usuparti.TipoParticipante == "08") &&
-                                     usuparti.IDUsuario==usuario.IDUsuario
+                                     usuparti.IDUsuario==usuario.IDUsuario &&
+                                     operacion.EstadoOperacion==1
                                && usuparti.FechaNotificacion.Value.Day == System.DateTime.Now.Day
                                group new { usuparti } by new
                                {
@@ -150,10 +154,12 @@ namespace Gdoc.Dao
                 using (var db = new DataBaseContext())
                 {
                     var usu = (from usuparti in db.UsuarioParticipantes
+                               join operacion in db.Operacions
+                               on usuparti.IDOperacion equals operacion.IDOperacion
 
                                where (usuparti.TipoParticipante == Constantes.TipoParticipante.OrganizadorMV || usuparti.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV) &&
                                      usuparti.IDUsuario == usuario.IDUsuario &&
-
+                                     operacion.EstadoOperacion==1 &&
                                       usuparti.FechaNotificacion.Value.Day == System.DateTime.Now.Day
 
                                group new { usuparti } by new
