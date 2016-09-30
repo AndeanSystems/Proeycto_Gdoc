@@ -607,7 +607,7 @@ namespace Gdoc.Negocio
                     foreach (var item in uparticipantesguardados2)
                     {
                         //GRABAR MENSAJE ALERTA
-                        if (item.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                        if (item.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                         {
                             eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                             eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
@@ -850,7 +850,7 @@ namespace Gdoc.Negocio
                     foreach (var item in uparticipantesguardados2)
                     {
                         //GRABAR MENSAJE ALERTA
-                        if (item.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                        if (item.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                         {
                             eMensajeAlerta.IDOperacion = operacion.IDOperacion;
                             eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
