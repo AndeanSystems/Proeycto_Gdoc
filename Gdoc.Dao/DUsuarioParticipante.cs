@@ -31,6 +31,7 @@ namespace Gdoc.Dao
                         Tipo="U",
                         IDUsuarioGrupo=x.Usuario.IDUsuario,
                         Nombre=x.Usuario.NombreUsuario,
+                        
 
 
                         Usuario = new Usuario

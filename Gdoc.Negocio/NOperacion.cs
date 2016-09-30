@@ -283,15 +283,40 @@ namespace Gdoc.Negocio
                 }
                 //EDITAR USUARIOS PARTICIPANTES
                 
+                //Borrar 
+                var uparticipantesguardados = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante!=0);
+                //if (uparticipantesguardados.Count() > listEUsuarioGrupo.Count())
+                //{
+                    var participantesactuales = listEUsuarioGrupo.Select(x => x.IDUsuarioGrupo).ToList();
+
+                    var participantesguardados = uparticipantesguardados.Select(x => x.IDUsuarioGrupo).ToList();
+
+                    IEnumerable<EUsuarioParticipante> nuevos = uparticipantesguardados.Where(x => !participantesactuales.Contains(x.IDUsuarioGrupo));
+
+                    IEnumerable<EUsuarioGrupo> encontrados = listEUsuarioGrupo.Where(x => !participantesguardados.Contains(x.IDUsuarioGrupo));
+
+                    foreach (var item in nuevos)
+                    {
+                        if (item.EstadoUsuarioParticipante != 0)
+                        {
+                            item.EstadoUsuarioParticipante = 2;
+                            dUsuarioParticipante.Editar(item);
+                        }
+                    }
+
+                    foreach (var item in encontrados)
+                    {
+                        if (item.EstadoUsuarioParticipante != 0)
+                        {
+                            UsuarioParticipante usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == item.IDUsuarioGrupo).FirstOrDefault();
+                            usuarioencontrado.EstadoUsuarioParticipante = 1;
+                            dUsuarioParticipante.Editar(usuarioencontrado);
+                        }
+                    }
+                //}
                 foreach (var participante in listEUsuarioGrupo)
                 {
-                    var uparticipantesguardados = dUsuarioParticipante.ListarUsuarioParticipante().Where(x=>x.IDOperacion==operacion.IDOperacion);
-
-                    //foreach (var guardados in uparticipantesguardados)
-                    //{
-                       
-                    //}
-                    if (participante.EstadoUsuarioParticipante != 1)
+                    if (participante.EstadoUsuarioParticipante != 1 && participante.EstadoUsuarioParticipante != 2)
                     {
                         var eUsuarioParticipante = new UsuarioParticipante();
                         if (participante.Tipo.Equals(Usuario))
@@ -356,6 +381,10 @@ namespace Gdoc.Negocio
                                 }
                             }
                         }
+                    }
+                    else
+                    {
+
                     }
                     
                 }
