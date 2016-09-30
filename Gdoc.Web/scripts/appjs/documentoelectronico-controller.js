@@ -116,6 +116,10 @@ function ReadFileToBinary(control) {
                 //MostrarError();
             });
         }
+        context.mostrarAdjuntoWindows = function (archivo) {
+            console.log(archivo);
+            window.open("http://192.168.100.29:85/ADJUNTOS/" + archivo, "mywin", "resizable=0");
+        }
         context.grabar = function (numeroboton) {
             context.DocumentoElectronicoOperacion.Memo = CKEDITOR.instances.editor1.getData();
             console.log(CKEDITOR.instances.editor1.getData());
