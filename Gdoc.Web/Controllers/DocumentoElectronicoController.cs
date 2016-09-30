@@ -35,10 +35,13 @@ namespace Gdoc.Web.Controllers
                         {
                             operacion.FechaEnvio = DateTime.Now;
                             operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
-                            new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
+                            operacion.NombreFinal = operacion.NumeroOperacion + ".pdf";
                         }
 
                         respuesta = oNOperacion.EditarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
+                        
+                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                            new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
                     }
                     else
                     {

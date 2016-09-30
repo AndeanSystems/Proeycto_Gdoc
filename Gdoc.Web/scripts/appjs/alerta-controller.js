@@ -27,7 +27,7 @@
                 { field: 'Evento.DescripcionConcepto', width: '55%', displayName: 'Detalle' },
                 {
                     name: 'Acciones', width: '7%',
-                    cellTemplate: '<i class="fa fa-paperclip" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver Operacion"></i>'
+                    cellTemplate: '<i class="fa fa-file-pdf-o" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver Operacion"></i>'
                 }
 
             ],

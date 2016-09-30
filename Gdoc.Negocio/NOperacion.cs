@@ -295,7 +295,6 @@ namespace Gdoc.Negocio
                         dUsuarioParticipante.Editar(item);
                     }
                 }
-
                 foreach (var participante in listEUsuarioGrupo)
                 {
                     var usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault();
@@ -311,7 +310,6 @@ namespace Gdoc.Negocio
                             var eUsuarioParticipante = new UsuarioParticipante();
                             if (participante.Tipo.Equals(Usuario))
                             {
-
                                 //Grabar solo Usuarios
                                 eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                                 eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
@@ -323,21 +321,6 @@ namespace Gdoc.Negocio
                                 //listEusuarioParticipante.Add(eUsuarioParticipante);
                                 if (listEusuarioParticipante.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
                                     listEusuarioParticipante.Add(eUsuarioParticipante);
-
-                                //GRABAR MENSAJE ALERTA
-                                if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                                {
-                                    eMensajeAlerta.IDOperacion = operacion.IDOperacion;
-                                    eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
-                                    eMensajeAlerta.TipoAlerta = 1;
-                                    eMensajeAlerta.CodigoEvento = "017";
-                                    eMensajeAlerta.EstadoMensajeAlerta = 1;
-                                    eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
-
-                                    dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
-                                }
-
-
                             }
                             else
                             {
@@ -356,25 +339,34 @@ namespace Gdoc.Negocio
                                     eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                                     if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
                                         listEusuarioParticipante.Add(eUsuarioParticipante);
-
-                                    //GRABAR MENSAJE ALERTA
-                                    if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                                    {
-                                        eMensajeAlerta.IDOperacion = operacion.IDOperacion;
-                                        eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
-                                        eMensajeAlerta.TipoAlerta = 1;
-                                        eMensajeAlerta.EstadoMensajeAlerta = 1;
-                                        eMensajeAlerta.CodigoEvento = "017";
-                                        eMensajeAlerta.IDUsuario = eUsuarioParticipante.IDUsuario;
-
-                                        dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
-                                    }
                                 }
                             }
                         }
                     }
                     
                     
+                }
+
+                var uparticipantesguardados2 = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante == 1);
+
+                //SI SE ENVIA GRABA ALERTA
+                if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                {
+                    foreach (var item in uparticipantesguardados2)
+                    {
+                        //GRABAR MENSAJE ALERTA
+                        if (item.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                        {
+                            eMensajeAlerta.IDOperacion = operacion.IDOperacion;
+                            eMensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                            eMensajeAlerta.TipoAlerta = 1;
+                            eMensajeAlerta.CodigoEvento = "017";
+                            eMensajeAlerta.EstadoMensajeAlerta = 1;
+                            eMensajeAlerta.IDUsuario = item.IDUsuario;
+
+                            dMensajeAlerta.GrabarMensajeAlerta(eMensajeAlerta);
+                        }
+                    }
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
 
