@@ -25,33 +25,43 @@ namespace Gdoc.Web.Controllers
         {
             try
             {
-                //FALTA TERMINAR QUITAR VALORES EN DURO
-                operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
-                operacion.TipoOperacion = Constantes.TipoOperacion.MesaVirtual;
-
-
-                if (operacion.EstadoOperacion == 1)
-                {
-                    //if (operacion.FechaRegistro == null)
-                        operacion.FechaRegistro = DateTime.Now;
-                    operacion.FechaEnvio = DateTime.Now;
-                }
-                else
-                    operacion.FechaRegistro = DateTime.Now;
-
-                operacion.NumeroOperacion = "MV"+DateTime.Now.Ticks.ToString();
-                operacion.NotificacionOperacion = "S";
-
-                if (listAdjuntos != null)
-                    operacion.DocumentoAdjunto = "S";
-                else
-                    operacion.DocumentoAdjunto = "N";
-
-                //eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
                 using (var oNOperacion = new NOperacion())
                 {
                     Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
-                    var respuesta = oNOperacion.GrabarMesaVirtual(operacion, listAdjuntos, listEUsuarioGrupo, IDusuario);
+
+                    if (operacion.IDOperacion > 0)
+                    {
+                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                        {
+                            operacion.FechaEnvio = DateTime.Now;
+                        }
+
+                        oNOperacion.EditarMesaVirtual(operacion, listAdjuntos, listEUsuarioGrupo, IDusuario);
+                        
+                    }
+                    else
+                    {
+                        operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
+                        operacion.TipoOperacion = Constantes.TipoOperacion.MesaVirtual;
+
+                        operacion.NumeroOperacion = "MV" + DateTime.Now.Ticks.ToString();
+                        operacion.NotificacionOperacion = "S";
+
+                        if (listAdjuntos != null)
+                            operacion.DocumentoAdjunto = "S";
+                        else
+                            operacion.DocumentoAdjunto = "N";
+
+
+                        operacion.FechaRegistro = DateTime.Now;
+                        if (operacion.EstadoOperacion == 1)
+                        {
+                            operacion.FechaRegistro = DateTime.Now;
+                            operacion.FechaEnvio = DateTime.Now;
+                        }
+                        oNOperacion.GrabarMesaVirtual(operacion, listAdjuntos, listEUsuarioGrupo, IDusuario);
+                    }
+                    
                 }
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Operación " + operacion.NumeroOperacion + " realizada correctamente";

@@ -27,13 +27,13 @@ namespace Gdoc.Web.Controllers
         {
             try
             {
-                Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                 using (var oOperacion = new NOperacion())
                 {
 
+                    Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                     if (operacion.IDOperacion > 0)
                     {
-                        if (operacion.EstadoOperacion == 1)
+                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                         {
                             operacion.FechaEnvio = DateTime.Now;
                             operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
