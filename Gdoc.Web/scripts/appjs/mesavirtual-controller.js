@@ -416,11 +416,10 @@ function ReadFileToBinary(control) {
             dataProvider.postData("MesaVirtual/ListarUsuarioParticipanteMV", operacion).success(function (respuesta) {
                 console.log(respuesta);
                 for (var ind in respuesta) {
-                    respuesta[ind].Usuario.Nombre = respuesta[ind].Usuario.NombreUsuario;
                     if (respuesta[ind].TipoParticipante == UsuarioOrganizado)
-                        listOrganizador.push(respuesta[ind].Usuario.Nombre);
+                        listOrganizador.push(respuesta[ind]);
                     else
-                        listInvitados.push(respuesta[ind].Usuario.Nombre);
+                        listInvitados.push(respuesta[ind]);
                 }
                 console.log(listInvitados);
                 console.log(listOrganizador);

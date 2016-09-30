@@ -104,17 +104,13 @@ function ReadFileToBinary(control) {
 
         context.mostrarPDF = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
-            if (context.operacion.EstadoOperacion == 1) {
-                dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
-                    console.log(respuesta)
-                    window.open(respuesta, "mywin", "resizable=1");
-                }).error(function (error) {
-                    //MostrarError();
-                });
-            }
-            else {
-                app.mostrarAlerta("Informacion","El documento no ha sido enviado","warning")
-            }
+            dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
+                console.log(respuesta)
+                window.open(respuesta, "mywin", "resizable=1");
+            }).error(function (error) {
+                //MostrarError();
+            });
+            
             
         }
 
