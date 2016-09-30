@@ -312,11 +312,11 @@ function ReadFileToBinary(control) {
         function ObtenerUsuariosParticipantes(operacion) {
             dataProvider.postData("DocumentoElectronico/ListarUsuarioParticipanteDE", operacion).success(function (respuesta) {
                 for (var ind in respuesta) {
-                    respuesta[ind].Usuario.Nombre = respuesta[ind].Usuario.NombreUsuario;
+
                     if (respuesta[ind].TipoParticipante == UsuarioRemitente)
-                        listRemitentes.push(respuesta[ind].Usuario);
+                        listRemitentes.push(respuesta[ind]);
                     else
-                        listDestinatarios.push(respuesta[ind].Usuario);
+                        listDestinatarios.push(respuesta[ind]);
                 }
                 console.log(listDestinatarios);
                 console.log(listRemitentes);
