@@ -207,14 +207,12 @@
                                         <thead>
                                             <tr>
                                                 <th>Nombre</th>
-                                                <th>Tipo Archivo</th>
                                                 <th>Abrir</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="item in ctrl.listDocumentoAdjunto">
                                                 <td>{{item.Adjunto.NombreOriginal}}</td>
-                                                <td>{{item.Adjunto.TipoArchivo}}</td>
                                                 <td>
                                                     @*<a class="fa fa-folder-open-o" ng-href="http://192.168.100.29:85/ADJUNTOS/{{item.Archivo}}" style="padding: 4px;font-size: 1.4em;" target="_blank" data-placement="top" data-toggle="tooltip" title="Abrir"></a>*@
                                                     <i class="fa fa-folder-open-o" ng-click="ctrl.mostrarAdjuntoWindows(item.Archivo)" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Abrir"></i>

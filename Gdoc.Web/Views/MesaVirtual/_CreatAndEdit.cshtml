@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="form-group no-margin">
-                        <label class="col-sm-4">Tipo de Accesso<span class="text-danger">(*)</span></label>
+                        <label class="col-sm-4">Accesso<span class="text-danger">(*)</span></label>
                         <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
                             <md-radio-button style="display:inline-block;margin-right:2.8em;margin-left:1em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso | limitTo:2">{{ta.DescripcionCorta}} </md-radio-button>
                         </md-radio-group>
@@ -66,12 +66,15 @@
 
                     <div class="form-group">
                         <label class="col-sm-6">Fecha de Envio</label>
-                        <label class="col-sm-6">Fecha de Cierre</label>
+                        <label class="col-sm-6">Fecha Cierre</label>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-6">
                             <input type="date" class="form-control" ng-model="ctrl.operacion.FechaEnvio" disabled>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="date" class="form-control" ng-model="ctrl.operacion.FechaCierre" disabled>
                         </div>
                         @*<div class="col-sm-6">
                             <input type="date" class="form-control" ng-model="ctrl.operacion.FechaCierre" disabled>
