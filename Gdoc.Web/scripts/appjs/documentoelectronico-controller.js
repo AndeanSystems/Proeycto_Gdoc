@@ -118,7 +118,14 @@ function ReadFileToBinary(control) {
         }
         context.mostrarAdjuntoWindows = function (archivo) {
             console.log(archivo);
-            window.open("http://192.168.100.29:85/ADJUNTOS/" + archivo, "mywin", "resizable=0");
+            dataProvider.postData("DocumentosRecibidos/ListarAdjuntos", archivo).success(function (respuesta) {
+                console.log(respuesta)
+                window.open(respuesta, "mywin", "resizable=1");
+                //window.open(respuesta, '_blank');
+            }).error(function (error) {
+                //MostrarError();
+            });
+            //window.open("http://192.168.100.29:85/ADJUNTOS/" + archivo, "mywin", "resizable=0");
         }
         context.grabar = function (numeroboton) {
             context.DocumentoElectronicoOperacion.Memo = CKEDITOR.instances.editor1.getData();

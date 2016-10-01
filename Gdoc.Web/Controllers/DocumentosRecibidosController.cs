@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Gdoc.Entity.Extension;
+using System.Configuration;
 
 namespace Gdoc.Web.Controllers
 {
@@ -45,12 +46,28 @@ namespace Gdoc.Web.Controllers
         {
             try
             {
-                //var extension = operacion.DocumentoDigitalOperacion.NombreOriginal;
-                //var n = extension.LastIndexOf(".");
-                //var ext = extension.Substring(n);
-                //var ruta = Session["RutaGdocPDF"].ToString().Substring(1) + "" + operacion.NumeroOperacion + ".pdf";
-                //var ruta = "http://192.168.100.29:85/PDF/" + operacion.NumeroOperacion + ".pdf";
-                var ruta = "http://192.168.100.29:85/PDF/" + operacion.NombreFinal;
+
+                string sWebSite = ConfigurationManager.AppSettings.Get("Documentos");
+                //var ruta = "http://192.168.100.29:85/PDF/" + operacion.NombreFinal;
+
+                var ruta = sWebSite + operacion.NombreFinal;
+                return new JsonResult { Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public JsonResult ListarAdjuntos(EDocumentoAdjunto documentoadjunto)
+        {
+            try
+            {
+
+                string sWebSite = ConfigurationManager.AppSettings.Get("Adjunto");
+                //var ruta = "http://192.168.100.29:85/ADJUNTOS/" + documentoadjunto.Archivo;
+
+                var ruta = sWebSite + documentoadjunto.Archivo;
                 return new JsonResult { Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception)
