@@ -1,6 +1,7 @@
 ﻿//Leer Archivos de de fisico a binario
 var archivosSelecionados = [];
 let TipoMensaje = "warning";
+
 function ReadFileToBinary(control) {
     archivosSelecionados = [];
     for (var i = 0, f; f = control.files[i]; i++) {
@@ -14,9 +15,12 @@ function ReadFileToBinary(control) {
                 TipoArchivo: files.type,
                 RutaBinaria: e.target.result
             });
+
+            console.log(archivosSelecionados);
         }
         reader.readAsBinaryString(f);
     }
+
 }
 //try {
 //    CKEDITOR.instances['editor1'].destroy(true);
@@ -44,7 +48,10 @@ function ReadFileToBinary(control) {
         context.DocumentoElectronicoOperacion = {};
         context.visible = "CreateAndEdit";
         context.listaUsuarioGrupo = [];
-        
+
+        context.listDocumentoAdjunto = [];
+       
+
         //Variable de autocomplete
         var Operacion = {};
         let listEUsuarioGrupo = [];
@@ -84,7 +91,6 @@ function ReadFileToBinary(control) {
             FechaRegistro: new Date()
         };
 
-        
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -176,12 +182,23 @@ function ReadFileToBinary(control) {
                 }
                 Operacion.EstadoOperacion = 1;
             }
-            for (var index in archivosSelecionados) {
+            //for (var index in archivosSelecionados) {
+            //    listDocumentosAdjuntos.push({
+            //        RutaArchivo: archivosSelecionados[index].RutaBinaria,
+            //        NombreOriginal: archivosSelecionados[index].NombreArchivo,
+            //        TamanoArchivo: archivosSelecionados[index].TamanoArchivo,
+            //        TipoArchivo: archivosSelecionados[index].TipoArchivo,
+            //    });
+            //    console.log(listDocumentosAdjuntos);
+            //}
+
+            for (var index in context.listDocumentoAdjunto) {
                 listDocumentosAdjuntos.push({
-                    RutaArchivo: archivosSelecionados[index].RutaBinaria,
-                    NombreOriginal: archivosSelecionados[index].NombreArchivo,
-                    TamanoArchivo: archivosSelecionados[index].TamanoArchivo,
-                    TipoArchivo: archivosSelecionados[index].TipoArchivo,
+                    RutaArchivo: context.listDocumentoAdjunto[index].RutaArchivo,
+                    NombreOriginal: context.listDocumentoAdjunto[index].NombreOriginal,
+                    TamanoArchivo: context.listDocumentoAdjunto[index].TamanoArchivo,
+                    TipoArchivo: context.listDocumentoAdjunto[index].TipoArchivo,
+                    EstadoAdjunto: context.listDocumentoAdjunto[index].EstadoDoctoAdjunto,
                 });
                 console.log(listDocumentosAdjuntos);
             }
@@ -233,6 +250,7 @@ function ReadFileToBinary(control) {
             context.usuarioDestinatarios = listDestinatarios;
 
             console.log(listDestinatarios);
+            listarAdjuntos(context.operacion);
             context.CambiarVentana('CreateAndEdit');
             window.setTimeout(function () {
                 CKEDITOR.instances.editor1.setData(context.DocumentoElectronicoOperacion.Memo);
@@ -248,21 +266,50 @@ function ReadFileToBinary(control) {
                 //obtenerUsuarioSession();
             }
         }
-        context.listarAdjunto = function (operacion) {
+
+        context.agregaradjunto = function () {
+            for (var ind in archivosSelecionados) {
+                var hola = true;
+                console.log(archivosSelecionados[ind].NombreArchivo);
+                for (var index in context.listDocumentoAdjunto) {
+                    if (archivosSelecionados[ind].NombreArchivo == context.listDocumentoAdjunto[index].NombreOriginal) {
+                        hola = false;
+                    }
+                }
+                if (hola == true) {
+                    context.listDocumentoAdjunto.push({
+                        RutaArchivo: archivosSelecionados[ind].RutaBinaria,
+                        NombreOriginal: archivosSelecionados[ind].NombreArchivo,
+                        TamanoArchivo: archivosSelecionados[ind].TamanoArchivo,
+                        TipoArchivo: archivosSelecionados[ind].TipoArchivo,
+                    });
+                }
+            }
+            console.log(context.listDocumentoAdjunto);
+            archivosSelecionados = [];
+            document.getElementById("input_file").value = "";
+        }
+        context.eliminarAdjunto = function (indexAdjunto) {
+            context.listDocumentoAdjunto.splice(indexAdjunto, 1);
+        }
+        context.listarAdjunto = function () {
+            $("#modal_adjuntos").modal("show");
+        }
+        ////
+        function listarAdjuntos(operacion) {
             dataProvider.postData("DocumentosRecibidos/ListarDocumentoAdjunto", operacion).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;
                 console.log(respuesta);
-                $("#modal_adjuntos").modal("show");
             }).error(function (error) {
                 //MostrarError();
             });
         }
-        ////
         function limpiarFormulario() {
             context.operacion = {};
             context.DocumentoElectronicoOperacion = {};
             context.usuarioRemitentes = [];
             context.usuarioDestinatarios = [];
+            context.listDocumentoAdjunto = [];
             context.operacion = {
                 TipoDocumento: '02',
                 TipoComunicacion: '1',

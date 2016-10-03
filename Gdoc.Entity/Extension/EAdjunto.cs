@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 namespace Gdoc.Entity.Extension
 {
     [NotMapped]
-    public class EDocumentoAdjunto:DocumentoAdjunto
+    public class EAdjunto:Adjunto
     {
-        public string Archivo { get; set; }
-        public string NombreOriginal { get; set; }
+        public DocumentoAdjunto DocumentoAdjunto { get; set; }
     }
 }

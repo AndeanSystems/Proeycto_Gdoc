@@ -41,7 +41,9 @@ namespace Gdoc.Dao
                             NombreOriginal=x.adjunto.NombreOriginal,
                             TipoArchivo=x.adjunto.TipoArchivo,
                             RutaArchivo=x.adjunto.RutaArchivo,
+                            EstadoAdjunto=x.adjunto.EstadoAdjunto,
                         },
+                        NombreOriginal = x.adjunto.NombreOriginal,
 
                         Archivo = string.Format(@"{0}_{1}", x.operacion.NumeroOperacion, x.adjunto.NombreOriginal),
                     }));
@@ -71,14 +73,14 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-        public short AnularDocumentoAdjunto(Adjunto documentoAdjunto)
+        public short EditarDocumentoAdjunto(DocumentoAdjunto documentoAdjunto)
         {
             try
             {
                 using (var db = new DataBaseContext())
                 {
-                    var docad=db.DocumentoAdjuntoes.Find(documentoAdjunto.IDAdjunto);
-                    docad.EstadoDoctoAdjunto = documentoAdjunto.EstadoAdjunto;
+                    var docad=db.DocumentoAdjuntoes.Find(documentoAdjunto.IDDocumentoAdjunto);
+                    docad.EstadoDoctoAdjunto = documentoAdjunto.EstadoDoctoAdjunto;
                     db.SaveChanges();
                 }
                 return 1;

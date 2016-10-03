@@ -82,7 +82,7 @@ namespace Gdoc.Web.Controllers
             var listDocumentoAdjunto = new List<EDocumentoAdjunto>();
             using (var oDocumentoAdjunto = new NDocumentoAdjunto())
             {
-                listDocumentoAdjunto = oDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+                listDocumentoAdjunto = oDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoDoctoAdjunto==Estados.EstadoAdjunto.Activo).ToList();
             }
             return new JsonResult { Data = listDocumentoAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

@@ -97,6 +97,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -783,7 +786,9 @@
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\ComboUsuarioGrupoController.cs" />
     <Compile Include="Controllers\ConceptoController.cs" />
-    <Compile Include="Controllers\DocumentoAdjuntoController.cs" />
+    <Compile Include="Controllers\DocumentoAdjuntoController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\DocumentoDigitalController.cs" />
     <Compile Include="Controllers\DocumentoElectronicoController.cs" />
     <Compile Include="Controllers\DocumentosRecibidosController.cs" />

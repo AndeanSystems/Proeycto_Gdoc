@@ -38,6 +38,9 @@
       <HintPath>..\packages\WolfeReiter.iTextSharp.BC.4.1.6.0\lib\net40\itextsharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -51,6 +54,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilitario\Constantes.cs" />
+    <Compile Include="Utilitario\Excel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Utilitario\MensajeConfirmacion.cs" />
     <Compile Include="Utilitario\UtilPdf.cs" />
   </ItemGroup>

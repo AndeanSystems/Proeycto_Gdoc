@@ -11,6 +11,48 @@ namespace Gdoc.Dao
 {
     public class DAdjunto
     {
+        public List<EAdjunto> ListarAdjunto()
+        {
+            var listAdjunto = new List<EAdjunto>();
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var list = db.Adjuntoes.ToList();
+
+                    var list2 = (from adjunto in db.Adjuntoes
+                                 join dadjunto in db.DocumentoAdjuntoes
+                                 on adjunto.IDAdjunto equals dadjunto.IDAdjunto
+
+
+                                 select new { dadjunto, adjunto }).ToList();
+
+                    list2.ForEach(x => listAdjunto.Add(new EAdjunto
+                    {
+                        IDAdjunto=x.adjunto.IDAdjunto,
+                        IDUsuario = x.adjunto.IDUsuario,
+                        NombreOriginal = x.adjunto.NombreOriginal,
+                        RutaArchivo = x.adjunto.RutaArchivo,
+                        TamanoArchivo = x.adjunto.TamanoArchivo,
+                        FechaRegistro = x.adjunto.FechaRegistro,
+                        EstadoAdjunto = x.adjunto.EstadoAdjunto,
+                        TipoArchivo = x.adjunto.TipoArchivo,
+
+                        DocumentoAdjunto = new DocumentoAdjunto
+                        {
+                            IDOperacion=x.dadjunto.IDOperacion,
+                        }
+                    }));
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return listAdjunto;
+
+        }
         public short GrabarAdjunto(Adjunto Adjunto)
         {
             try
@@ -27,14 +69,14 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-        public short AnularAdjunto(Adjunto adjunto)
+        public short EditarAdjunto(Adjunto adjunto)
         {
             try
             {
                 using (var db = new DataBaseContext())
                 {
-                    var docad = db.DocumentoAdjuntoes.Find(adjunto.IDAdjunto);
-                    docad.EstadoDoctoAdjunto = adjunto.EstadoAdjunto;
+                    var docad = db.Adjuntoes.Find(adjunto.IDAdjunto);
+                    docad.EstadoAdjunto = adjunto.EstadoAdjunto;
                     db.SaveChanges();
                 }
                 return 1;

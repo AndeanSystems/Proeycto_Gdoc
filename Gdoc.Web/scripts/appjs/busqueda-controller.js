@@ -28,23 +28,30 @@
             });
         }
 
+        context.exportarExcel = function () {
+            dataProvider.postData("Busqueda/ListToExcel", context.gridOptions.data).success(function (respuesta) {
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'TipoOpe.DescripcionConcepto', displayName: 'Tipo Operacion' },
+                { field: 'TipoOpe.DescripcionCorta', displayName: 'Tipo Operacion' },
                 { field: 'NumeroOperacion', displayName: 'Numero Operacion' },
                 { field: 'FechaEnvio', displayName: 'Fecha Envio', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
-                { field: 'TipoDoc.DescripcionConcepto', displayName: 'Tipo Documento/Mesa' },
+                { field: 'TipoDoc.DescripcionCorta', displayName: 'Tipo Documento/Mesa' },
                 {
                     name: 'Acciones',
                     cellTemplate: '<i  class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
                                 '<i  class="fa fa-user-plus" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Compartir"></i> ' +
                                 '<i  class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Eliminar"></i> '
                 }
-                //{ field: 'Empresa.DireccionEmpresa',displayName:'Direción Empresa' }
             ]
         };
         //Eventos

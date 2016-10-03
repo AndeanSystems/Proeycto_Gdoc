@@ -28,7 +28,6 @@ namespace Gdoc.Web.Controllers
                 using (var oNOperacion = new NOperacion())
                 {
                     Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
-                    Int32 respuesta = 0;
                     if (operacion.IDOperacion > 0)
                     {
                         if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
@@ -38,7 +37,7 @@ namespace Gdoc.Web.Controllers
                             operacion.NombreFinal = operacion.NumeroOperacion + ".pdf";
                         }
 
-                        respuesta = oNOperacion.EditarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
+                        oNOperacion.EditarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
                         
                         if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                             new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
@@ -65,7 +64,7 @@ namespace Gdoc.Web.Controllers
                             operacion.NombreFinal = operacion.NumeroOperacion + ".pdf";
                         }
 
-                        respuesta = oNOperacion.Grabar(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
+                        oNOperacion.Grabar(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
 
                         if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                             new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
