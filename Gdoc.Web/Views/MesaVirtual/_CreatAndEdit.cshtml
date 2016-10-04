@@ -189,7 +189,7 @@
                                         <tbody>
                                             <tr ng-repeat="item in ctrl.listDocumentoAdjunto">
                                                 @*<td>{{item.Adjunto.NombreOriginal}}</td>*@
-                                                <td>{{item.NombreOriginal}}</td>
+                                                <td>{{item.Adjunto.NombreOriginal}}</td>
                                                 <td>
                                                     <i class="fa fa-folder-open-o" ng-click="ctrl.mostrarAdjuntoWindows(item)" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Abrir"></i>
                                                     <i class="fa fa-times" ng-click="ctrl.eliminarAdjunto($index)" ng-show="ctrl.eliminar" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>

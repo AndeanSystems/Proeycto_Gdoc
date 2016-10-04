@@ -269,6 +269,7 @@ function ReadFileToBinary(control) {
         }
         //Adjuntos
         context.agregaradjunto = function () {
+            context.listDocumentoAdjunto = {};
             for (var ind in archivosSelecionados) {
                 var hola = true;
                 console.log(archivosSelecionados[ind].NombreArchivo);

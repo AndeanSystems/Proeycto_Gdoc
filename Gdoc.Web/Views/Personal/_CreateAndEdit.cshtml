@@ -20,7 +20,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Empresa <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <select class="form-control" ng-model="ctrl.personal.IDEmpresa" ng-options="emp.IDEmpresa as emp.RazonSocial for emp in ctrl.listEmpresa" required>
+                                                <select class="form-control" ng-model="ctrl.personal.IDEmpresa" ng-options="emp.IDEmpresa as emp.RazonSocial for emp in ctrl.listEmpresa" >
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>
@@ -29,7 +29,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Sede <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <select class="form-control" ng-model="ctrl.personal.IDSede" ng-options="sede.IDSede as sede.NombreSede for sede in ctrl.listSede" required>
+                                                <select class="form-control" ng-model="ctrl.personal.IDSede" ng-options="sede.IDSede as sede.NombreSede for sede in ctrl.listSede" >
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>
@@ -38,19 +38,19 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Nombre <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <input type="text" class="form-control" placeholder="Nombre" ng-model="ctrl.personal.NombrePers" required>
+                                                <input type="text" class="form-control" placeholder="Nombre" ng-model="ctrl.personal.NombrePers" >
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Apellido <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <input type="text" class="form-control" placeholder="Apellido" ng-model="ctrl.personal.ApellidoPersonal" required>
+                                                <input type="text" class="form-control" placeholder="Apellido" ng-model="ctrl.personal.ApellidoPersonal" >
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Sexo <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <select class="form-control" ng-model="ctrl.personal.SexoPersonal" required>
+                                                <select class="form-control" ng-model="ctrl.personal.SexoPersonal" >
                                                     <option value="">Seleccione</option>
                                                     <option value="H">HOMBRE</option>
                                                     <option value="M">MUJER</option>
@@ -67,7 +67,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Email Trabajo <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <input type="email" class="form-control" placeholder="Email Trabajo" ng-model="ctrl.personal.EmailTrabrajo" required>
+                                                <input type="email" class="form-control" placeholder="Email Trabajo" ng-model="ctrl.personal.EmailTrabrajo">
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
@@ -115,23 +115,23 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Dirección <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <input type="text" class="form-control" placeholder="Dirección" ng-model="ctrl.personal.DireccionPersonal" required>
+                                                <input type="text" class="form-control" placeholder="Dirección" ng-model="ctrl.personal.DireccionPersonal" >
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Ubigeo <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-4">
-                                                <select class="form-control" ng-model="ctrl.codigodepartamento" ng-options="dep.CodigoDepartamento as dep.DescripcionUbicacion for dep in ctrl.listDepartamento" ng-change="ctrl.obtenerProvincia(ctrl.codigodepartamento)" required>
+                                                <select class="form-control" ng-model="ctrl.codigodepartamento" ng-options="dep.CodigoDepartamento as dep.DescripcionUbicacion for dep in ctrl.listDepartamento" ng-change="ctrl.obtenerProvincia(ctrl.codigodepartamento)" >
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-4">
-                                                <select class="form-control" ng-model="ctrl.codigoprovincia" ng-options="dep.CodigoProvincia as dep.DescripcionUbicacion for dep in ctrl.listPronvincia" ng-change="ctrl.obtenerDistrito(ctrl.codigodepartamento, ctrl.codigoprovincia)" required>
+                                                <select class="form-control" ng-model="ctrl.codigoprovincia" ng-options="dep.CodigoProvincia as dep.DescripcionUbicacion for dep in ctrl.listPronvincia" ng-change="ctrl.obtenerDistrito(ctrl.codigodepartamento, ctrl.codigoprovincia)" >
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-4">
-                                                <select class="form-control" ng-model="ctrl.codigodistrito" ng-options="dep.CodigoDistrito as dep.DescripcionUbicacion for dep in ctrl.listDistrito" required>
+                                                <select class="form-control" ng-model="ctrl.codigodistrito" ng-options="dep.CodigoDistrito as dep.DescripcionUbicacion for dep in ctrl.listDistrito" >
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>
@@ -139,7 +139,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Area <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <select class="form-control" ng-model="ctrl.personal.CodigoArea" ng-options="ta.CodiConcepto as ta.DescripcionConcepto for ta in ctrl.listArea" required>
+                                                <select class="form-control" ng-model="ctrl.personal.CodigoArea" ng-options="ta.CodiConcepto as ta.DescripcionConcepto for ta in ctrl.listArea" >
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>
@@ -147,7 +147,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Cargo <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <select class="form-control" ng-model="ctrl.personal.CodigoCargo" ng-options="tca.CodiConcepto as tca.DescripcionConcepto for tca in ctrl.listTipoCargo" required>
+                                                <select class="form-control" ng-model="ctrl.personal.CodigoCargo" ng-options="tca.CodiConcepto as tca.DescripcionConcepto for tca in ctrl.listTipoCargo" >
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>
@@ -155,7 +155,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Clase <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <select class="form-control" ng-model="ctrl.personal.ClasePersonal" ng-options="ca.CodiConcepto as ca.DescripcionConcepto for ca in ctrl.listClaseUsuario" required>
+                                                <select class="form-control" ng-model="ctrl.personal.ClasePersonal" ng-options="ca.CodiConcepto as ca.DescripcionConcepto for ca in ctrl.listClaseUsuario" >
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>
@@ -164,7 +164,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Tipo de Identificacion <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <select class="form-control" ng-model="ctrl.personal.TipoIdentificacion" ng-options="ca.CodiConcepto as ca.DescripcionConcepto for ca in ctrl.listTipoIdentificacion" required>
+                                                <select class="form-control" ng-model="ctrl.personal.TipoIdentificacion" ng-options="ca.CodiConcepto as ca.DescripcionConcepto for ca in ctrl.listTipoIdentificacion" >
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>
@@ -173,7 +173,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Numero de Identificacion <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <input type="text" class="form-control" placeholder="Numero de Identificacion" ng-model="ctrl.personal.NumeroIdentificacion" required>
+                                                <input type="text" class="form-control" placeholder="Numero de Identificacion" ng-model="ctrl.personal.NumeroIdentificacion" >
                                             </div>
                                         </div>
                                        
