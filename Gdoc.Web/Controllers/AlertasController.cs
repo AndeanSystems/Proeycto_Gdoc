@@ -49,19 +49,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listMensajeAlerta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        public ActionResult Alertas()
-        {
-            return View();
-        }
-
-        public ActionResult DocumentosRecibidos()
-        {
-            return View();
-        }
-
-        public ActionResult MesaTrabajoVirtual()
-        {
-            return View();
-        }
+        
     }
 }

@@ -16,5 +16,17 @@ namespace Gdoc.Negocio
         {
             dDocumentoDigitalOperacion = null;
         }
+        public List<DocumentoDigitalOperacion> ListarDocumentoDigitalOperacion()
+        {
+            try
+            {
+                return dDocumentoDigitalOperacion.ListarDocumentoDigitalOperacion();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

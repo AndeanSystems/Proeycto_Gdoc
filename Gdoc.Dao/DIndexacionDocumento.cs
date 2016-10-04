@@ -52,5 +52,22 @@ namespace Gdoc.Dao
                 throw;
             }
         }
+        public short EditarIndexacion(IndexacionDocumento indexacionDocumento)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var indexacion = db.IndexacionDocumentoes.Find(indexacionDocumento.IDIndiceDocto);
+                    indexacion.EstadoIndice = indexacionDocumento.EstadoIndice;
+                    db.SaveChanges();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

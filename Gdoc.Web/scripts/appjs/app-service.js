@@ -88,7 +88,6 @@
 
 (function () {
     'use strict';
-
     angular.module('app').controller('header_controller', header_controller);
     header_controller.$inject = ['app_factory', 'appService'];
 

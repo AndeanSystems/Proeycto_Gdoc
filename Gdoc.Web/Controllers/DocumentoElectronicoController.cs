@@ -64,7 +64,7 @@ namespace Gdoc.Web.Controllers
                             operacion.NombreFinal = operacion.NumeroOperacion + ".pdf";
                         }
 
-                        oNOperacion.Grabar(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
+                        oNOperacion.GrabarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
 
                         if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                             new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());

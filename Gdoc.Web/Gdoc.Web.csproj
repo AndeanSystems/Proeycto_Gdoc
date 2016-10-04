@@ -781,7 +781,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccesoController.cs" />
-    <Compile Include="Controllers\AdministracionController.cs" />
     <Compile Include="Controllers\AlertasController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\ComboUsuarioGrupoController.cs" />
@@ -818,10 +817,6 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Administracion\Busqueda.cshtml" />
-    <Content Include="Views\Alertas\Alertas.cshtml" />
-    <Content Include="Views\Alertas\DocumentosRecibidos.cshtml" />
-    <Content Include="Views\Alertas\MesaTrabajoVirtual.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
@@ -850,7 +845,6 @@
     <Content Include="Views\DocumentoDigital\_CreateAndEdit.cshtml" />
     <Content Include="Views\Usuario\CambiarFirmaElectronica.cshtml" />
     <Content Include="Views\MesaVirtual\_List.cshtml" />
-    <Content Include="Views\DocumentoDigital\_Preview.cshtml" />
     <Content Include="Views\Personal\Index.cshtml" />
     <Content Include="Views\Personal\_CreateAndEdit.cshtml" />
     <Content Include="Views\Personal\_List.cshtml" />
@@ -888,7 +882,6 @@
     <Folder Include="Content\plugins\sparkline\" />
     <Folder Include="Models\" />
     <Folder Include="Views\ComboUsuarioGrupo\" />
-    <Folder Include="Views\DocumentoAdjunto\" />
     <Folder Include="Views\ModuloPaginaUrl\" />
     <Folder Include="Views\Sede\" />
     <Folder Include="Views\Ubigeo\" />

@@ -16,13 +16,8 @@
         });
     }
 </script>
-<aside class="main-sidebar navbar-fixed-top">
-    <!-- sidebar: style can be found in sidebar.less -->
+<aside class="main-sidebar navbar-fixed-top" ng-app="route">
     <section class="sidebar" style="height: auto; background-color: #A20012;">
-        <!-- Sidebar user panel -->
-        <!-- search form -->
-        <!-- /.search form -->
-        <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="header">MENU</li>
             <li class="  treeview">
@@ -30,11 +25,8 @@
                     <i class="fa fa-cubes"></i><span>Gestión</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu" >
-                    @*<li class="active"><a href="documento_electronico.html"><i class="fa fa-check"></i>Documento Electronico</a></li>*@
                     <li class="active"><a href="@Url.Action("Index", "DocumentoElectronico")"><i class="fa fa-check"></i>Documento Electrónico</a></li>
-                    @*<li class="active"><a href="documento_digital.html"><i class="fa fa-check"></i>Documento Digital</a></li>*@
                     <li class="active"><a href="@Url.Action("Index", "DocumentoDigital")"><i class="fa fa-check"></i>Documento Digital</a></li>
-                    @*<li class="active"><a href="mesavnuevo.html"><i class="fa fa-check"></i>Mesa Virtual</a></li>*@
                     <li class="active"><a href="@Url.Action("Index", "MesaVirtual")"><i class="fa fa-check"></i>Grupo de Trabajo</a></li>
                     <li class="active"><a href="@Url.Action("Index", "Busqueda")"><i class="fa fa-check"></i>Búsquedas</a></li>
                     <li class="active"><a href="@Url.Action("Index", "LogOperacion")"><i class="fa fa-check"></i>Log Administrativo</a></li>
@@ -43,16 +35,6 @@
                 </ul>
             </li>
 
-
-            @*<li class="  treeview">
-                <a href="#">
-                    <i class="fa fa-hand-o-right"></i><span>Administracion</span> <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="@Url.Action("Index", "Busqueda")"><i class="fa fa-check"></i>Busquedas</a></li>
-                    <li><a href="@Url.Action("Index", "LogOperacion")"><i class="fa fa-check"></i>Log Administrativo</a></li>
-                </ul>
-            </li>*@
             <li class="  treeview">
                 <a href="#">
                     <i class="fa fa-pencil"></i><span>Mantenimiento</span> <i class="fa fa-angle-left pull-right"></i>
@@ -71,19 +53,11 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class ="active"><a href="@Url.Action("Index", "Concepto")"><i class="fa fa-check"></i>Concepto</a></li>
-                    @*<li><a href="@Url.Action("Index", "Empresa")"><i class="fa fa-check"></i>Empresa</a></li>*@
                     <li><a href="@Url.Action("Index", "General")"><i class="fa fa-check"></i>Parámetros</a></li>
                 </ul>
             </li>
 
-            @*<li>
-                <a href="@Url.Action("Index", "Home")">
-                    <i class="fa fa-power-off" ></i><span>Cerrar Sesión</span> <i class="fa fa-angle-left pull-right"></i>
-                </a>
-            </li>*@
-
             <li>
-                @*<a data-toggle="modal" data-target="#modal_cerrarsesion">*@
                 <a onclick="cerrarSesion()">
                 <i class="fa fa-power-off"></i><span>Cerrar Sesión</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -95,10 +69,6 @@
     </section>
     <div style="height: 10px"> </div>
     <section class="sidebar" style="height: auto; background-color: #A20012;">
-        <!-- Sidebar user panel -->
-        <!-- search form -->
-        <!-- /.search form -->
-        <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li>
                 <a href="@Url.Action("Index", "Alertas")">
@@ -121,5 +91,4 @@
 
         </ul>
     </section>
-    <!-- /.sidebar -->
 </aside>

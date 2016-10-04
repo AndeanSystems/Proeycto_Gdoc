@@ -92,7 +92,7 @@ namespace Gdoc.Web.Controllers
             {
                 using(var oIndexacion = new NIndexacionDocumento())
                 {
-                    listReferencia = oIndexacion.ListarIndexacionDocumento().Where(x=>x.IDOperacion==operacion.IDOperacion).ToList();
+                    listReferencia = oIndexacion.ListarIndexacionDocumento().Where(x=>x.IDOperacion==operacion.IDOperacion && x.EstadoIndice==1).ToList();
                 }
                 return new JsonResult { Data = listReferencia, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
             }
@@ -121,7 +121,15 @@ namespace Gdoc.Web.Controllers
             }
             
         }
-
+        public JsonResult ListarDocumentoDigitalOperacion(Operacion operacion)
+        {
+            var listDocumentoDigitalOperacion= new List<DocumentoDigitalOperacion>();
+            using (var oDocumentoDigitalOperacion = new NDocumentoDigitalOperacion())
+            {
+                listDocumentoDigitalOperacion = oDocumentoDigitalOperacion.ListarDocumentoDigitalOperacion().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+            }
+            return new JsonResult { Data = listDocumentoDigitalOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
         #region Metodos
         protected DateTime DateAgregarLaborales(Int32 add, DateTime FechaInicial)
         {

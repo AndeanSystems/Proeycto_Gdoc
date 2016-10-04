@@ -20,10 +20,8 @@ function ReadFileToBinary(control) {
 }
 (function () {
     'use strict';
-
-    angular.module('app').controller('mesavirtual_controller', mesavirtual_controller); 
+    angular.module('app').controller('mesavirtual_controller', mesavirtual_controller);
     mesavirtual_controller.$inject = ['$location', 'app_factory', 'appService'];
-
     function mesavirtual_controller($location, dataProvider, appService) {
         /* jshint validthis:true */
         ///Variables
@@ -33,7 +31,6 @@ function ReadFileToBinary(control) {
         let TipoComunicacion = "022";
         let TipoMesaVirtual = "011";
         let Estado = "001";
-
         let UsuarioOrganizado = "05";
         let UsuarioInvitado = "02";
         var context = this;
@@ -42,7 +39,7 @@ function ReadFileToBinary(control) {
         context.visible = "CreateAndEdit";
         context.visible2 = "ListWork";
         context.listaUsuarioGrupo = [];
-
+        context.listDocumentoAdjunto = [];
         //Crear Combo Auto Filters
         var pendingSearch, cancelSearch = angular.noop;
         var cachedQuery, lastSearch;
@@ -50,11 +47,13 @@ function ReadFileToBinary(control) {
         context.usuarioOrganizador = [];
         context.filterSelected = true;
         context.querySearch = querySearch;
-        var usuario = {};
         var listDocumentosAdjuntos = [];
-
         var listOrganizador = [];
         var listInvitados = [];
+        let listEUsuarioGrupo = [];
+        //ng-visible
+        context.eliminar = true;
+        context.agregar = true;
 
         LlenarConcepto(TipoDocumento);
         LlenarConcepto(TipoAcceso);
@@ -62,14 +61,12 @@ function ReadFileToBinary(control) {
         LlenarConcepto(PrioridadAtencion);
         LlenarConcepto(Estado);
 
-        var hoy = new Date()
-        
         //COMIENZO
         context.operacion = {
             TipoDocumento: '90',
             PrioridadOperacion: '02',
             AccesoOperacion: '2',
-            NotificacionOperacion: '0',
+            NotificacionOperacion: 'S',
             EstadoOperacion: '0',
             FechaVigente: new Date(),
             //FechaCierre: new Date(),
@@ -85,7 +82,7 @@ function ReadFileToBinary(control) {
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'NumeroOperacion', width:'15%', displayName: 'Nº Documento' },
+                { field: 'NumeroOperacion', width: '15%', displayName: 'Nº Documento' },
                 { field: 'FechaRegistro', width: '10%', displayName: 'Fecha Registro', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 { field: 'TipoDoc.DescripcionCorta', width: '7%', displayName: 'Tipo' },
                 { field: 'TituloOperacion', width: '55%', displayName: 'Titulo' },
@@ -98,38 +95,47 @@ function ReadFileToBinary(control) {
             ]
         };
         //Eventos
+        //Mantenimiento
         context.editarMiOperacion = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
             console.log(context.operacion);
+            context.operacion.NotificacionOperacion = context.operacion.NotificacionOperacion.substring(0, 1);
+            context.operacion.AccesoOperacion = context.operacion.AccesoOperacion.substring(0, 1);
+            context.operacion.EstadoOperacion = context.operacion.EstadoOperacion.toString();
             context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
+            context.operacion.FechaRegistro = appService.setFormatDate(context.operacion.FechaRegistro);
+            context.operacion.FechaVigente = appService.setFormatDate(context.operacion.FechaVigente);
             //context.operacion.FechaCierre = appService.setFormatDate(context.operacion.FechaCierre);
-
+            listarAdjuntos(context.operacion);
+            if (context.operacion.EstadoOperacion == 1) {
+                context.eliminar = false;
+                context.agregar = false;
+            }
             ObtenerUsuariosParticipantes(context.operacion)
             context.usuarioOrganizador = listOrganizador;
             context.usuarioInvitados = listInvitados;
-            context.CambiarVentana('Commentario');
+            if (context.operacion.EstadoOperacion == 1)
+                context.CambiarVentana('Commentario');
+            else
+                context.CambiarVentana('CreateAndEdit');
         }
         context.eliminarOperacion = function (rowIndex) {
             var operacion = context.gridOptions.data[rowIndex];
-
             operacion.FechaEnvio = appService.setFormatDate(operacion.FechaEnvio);
             //operacion.FechaCierre = appService.setFormatDate(operacion.FechaCierre);
             operacion.FechaRegistro = appService.setFormatDate(operacion.FechaRegistro);
             operacion.FechaVigente = appService.setFormatDate(operacion.FechaVigente);
-
             console.log(operacion);
-
 
             dataProvider.postData("MesaVirtual/EliminarOperacion", operacion).success(function (respuesta) {
                 console.log(respuesta);
-                appService.mostrarAlerta("Información","Grupo de Trabajo Cerrado","warning")
+                appService.mostrarAlerta("Información", "Grupo de Trabajo Cerrado", "warning")
                 listarOperacion();
             }).error(function (error) {
                 //MostrarError();
             });
         };
         context.grabar = function (numeroboton) {
-
             let Operacion = context.operacion;
             if (Operacion.EstadoOperacion == "ACTIVO") {
                 return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
@@ -144,7 +150,6 @@ function ReadFileToBinary(control) {
                 return appService.mostrarAlerta("Falta los Invitados", "Agregue a los invitados", "warning");
             }
             console.log(context.operacion);
-            let listEUsuarioGrupo = [];
 
             for (var ind in context.usuarioOrganizador) {
                 context.usuarioOrganizador[ind].TipoParticipante = UsuarioOrganizado;
@@ -159,12 +164,23 @@ function ReadFileToBinary(control) {
             else if (numeroboton == 2)
                 Operacion.EstadoOperacion = 1
 
-            for (var index in archivosSelecionados) {
+            //for (var index in archivosSelecionados) {
+            //    listDocumentosAdjuntos.push({
+            //        RutaArchivo: archivosSelecionados[index].RutaBinaria,
+            //        NombreOriginal: archivosSelecionados[index].NombreArchivo,
+            //        TamanoArchivo: archivosSelecionados[index].TamanoArchivo,
+            //        TipoArchivo: archivosSelecionados[index].TipoArchivo,
+            //    });
+            //    console.log(listDocumentosAdjuntos);
+            //}
+
+            for (var index in context.listDocumentoAdjunto) {
                 listDocumentosAdjuntos.push({
-                    RutaArchivo: archivosSelecionados[index].RutaBinaria,
-                    NombreOriginal: archivosSelecionados[index].NombreArchivo,
-                    TamanoArchivo: archivosSelecionados[index].TamanoArchivo,
-                    TipoArchivo: archivosSelecionados[index].TipoArchivo,
+                    RutaArchivo: context.listDocumentoAdjunto[index].RutaArchivo,
+                    NombreOriginal: context.listDocumentoAdjunto[index].NombreOriginal,
+                    TamanoArchivo: context.listDocumentoAdjunto[index].TamanoArchivo,
+                    TipoArchivo: context.listDocumentoAdjunto[index].TipoArchivo,
+                    EstadoAdjunto: context.listDocumentoAdjunto[index].EstadoDoctoAdjunto,
                 });
                 console.log(listDocumentosAdjuntos);
             }
@@ -185,14 +201,11 @@ function ReadFileToBinary(control) {
                 Operacion.EstadoOperacion = 0;
             }
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
-
-
         }
         context.nuevo = function () {
             limpiarFormulario();
             obtenerUsuarioSession();
         }
-
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
             if (context.visible == "List") {
@@ -200,11 +213,48 @@ function ReadFileToBinary(control) {
                 listarOperacion();
             }
             else if (context.visible == "CreateAndEdit") {
-                limpiarFormulario()
+                //limpiarFormulario()
             }
             else if (context.visible == "Commentario") {
                 listarComentarioMesaVirtual(context.operacion);
             }
+        }
+        //Adjuntos
+        context.agregaradjunto = function () {
+            for (var ind in archivosSelecionados) {
+                var hola = true;
+                console.log(archivosSelecionados[ind].NombreArchivo);
+                for (var index in context.listDocumentoAdjunto) {
+                    if (archivosSelecionados[ind].NombreArchivo == context.listDocumentoAdjunto[index].NombreOriginal) {
+                        hola = false;
+                    }
+                }
+                if (hola == true) {
+                    context.listDocumentoAdjunto.push({
+                        RutaArchivo: archivosSelecionados[ind].RutaBinaria,
+                        NombreOriginal: archivosSelecionados[ind].NombreArchivo,
+                        TamanoArchivo: archivosSelecionados[ind].TamanoArchivo,
+                        TipoArchivo: archivosSelecionados[ind].TipoArchivo,
+                    });
+                }
+            }
+            console.log(context.listDocumentoAdjunto);
+            archivosSelecionados = [];
+            document.getElementById("input_file").value = "";
+        }
+        context.eliminarAdjunto = function (indexAdjunto) {
+            context.listDocumentoAdjunto.splice(indexAdjunto, 1);
+        }
+        context.listarAdjunto = function () {
+            $("#modal_adjuntos").modal("show");
+        }
+        function listarAdjuntos(operacion) {
+            dataProvider.postData("DocumentosRecibidos/ListarDocumentoAdjunto", operacion).success(function (respuesta) {
+                context.listDocumentoAdjunto = respuesta;
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
         }
         ////
         function listarUsuarioGrupoAutoComplete(Nombre, tipo) {
@@ -233,57 +283,6 @@ function ReadFileToBinary(control) {
             });
         }
         //MESA VIRTUAL COMENTARIO
-        context.mostrarAdjuntos = function (rowIndex) {
-            context.mesavirtualComentario = context.gridComentarios.data[rowIndex];
-            listarDocumentoAdjunto(context.mesavirtualComentario)
-            context.mesavirtualComentario.ComentarioMesaVirtual = "";
-            //if (context.listDocumentoAdjunto == undefined || context.listDocumentoAdjunto == undefined) {
-            //    appService.mostrarAlerta("Informacion", "No tiene Documentos Adjuntos", "warning")
-            //    return;
-            //}
-            //else {
-                
-                listarComentarioMesaVirtual(context.operacion);
-                $("#modal_adjuntos").modal("show");
-            //}
-                
-            
-            
-        }
-        context.mostrarAdjuntosMesa = function (operacion) {
-
-            listarDocumentoAdjuntoMesa(operacion);
-            $("#modal_adjuntos").modal("show");
-        }
-
-        context.mostrarAdjuntoWindows = function (archivo) {
-            console.log(archivo);
-            dataProvider.postData("DocumentosRecibidos/ListarAdjuntos", archivo).success(function (respuesta) {
-                console.log(respuesta)
-                window.open(respuesta, "mywin", "resizable=1");
-                //window.open(respuesta, '_blank');
-            }).error(function (error) {
-                //MostrarError();
-            });
-            //window.open("http://192.168.100.29:85/ADJUNTOS/"+archivo, "mywin", "resizable=0");
-        }
-        context.editarOperacion = function (rowIndex) {
-
-            if (context.gridMesaTrabajo.data[rowIndex] == undefined || context.gridMesaTrabajo.data[rowIndex] == null)
-                context.operacion = context.gridOptions.data[rowIndex];
-            else
-                context.operacion = context.gridMesaTrabajo.data[rowIndex];
-
-            console.log(context.operacion);
-            context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
-            //context.operacion.FechaCierre = appService.setFormatDate(context.operacion.FechaCierre);
-
-            ObtenerUsuariosParticipantes(context.operacion)
-            context.usuarioOrganizador = listOrganizador;
-            context.usuarioInvitados = listInvitados;
-            context.CambiarVentana2('Commentario');
-        }
-
         context.gridMesaTrabajo = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -311,7 +310,7 @@ function ReadFileToBinary(control) {
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'FechaPublicacion', width:'9%', displayName: 'Fecha', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm"' },
+                { field: 'FechaPublicacion', width: '9%', displayName: 'Fecha', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm"' },
                 { field: 'Usuario.NombreUsuario', width: '10%', displayName: 'Participante' },
                 { field: 'ComentarioMesaVirtual', width: '74%', displayName: 'Comentario' },
                 {
@@ -320,6 +319,38 @@ function ReadFileToBinary(control) {
                 }
             ]
         };
+        //Adjuntos Mesa Virtual
+        context.mostrarAdjuntos = function (rowIndex) {
+            context.mesavirtualComentario = context.gridComentarios.data[rowIndex];
+            listarDocumentoAdjunto(context.mesavirtualComentario)
+            context.mesavirtualComentario.ComentarioMesaVirtual = "";
+            //if (context.listDocumentoAdjunto == undefined || context.listDocumentoAdjunto == undefined) {
+            //    appService.mostrarAlerta("Informacion", "No tiene Documentos Adjuntos", "warning")
+            //    return;
+            //}
+            //else {
+
+            listarComentarioMesaVirtual(context.operacion);
+            $("#modal_adjuntos").modal("show");
+            //}
+
+
+
+        }
+        context.mostrarAdjuntosMesa = function (operacion) {
+            listarDocumentoAdjuntoMesa(operacion);
+            $("#modal_adjuntos").modal("show");
+        }
+        context.mostrarAdjuntoWindows = function (archivo) {
+            console.log(archivo);
+            dataProvider.postData("DocumentosRecibidos/ListarAdjuntos", archivo).success(function (respuesta) {
+                console.log(respuesta)
+                window.open(respuesta, "mywin", "resizable=1");
+                //window.open(respuesta, '_blank');
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         context.CambiarVentana2 = function (mostrarVentana) {
             context.visible2 = mostrarVentana;
             if (context.visible2 == "ListWork") {
@@ -330,14 +361,29 @@ function ReadFileToBinary(control) {
                 listarComentarioMesaVirtual(context.operacion);
             }
         }
+        context.editarOperacion = function (rowIndex) {
 
+            if (context.gridMesaTrabajo.data[rowIndex] == undefined || context.gridMesaTrabajo.data[rowIndex] == null)
+                context.operacion = context.gridOptions.data[rowIndex];
+            else
+                context.operacion = context.gridMesaTrabajo.data[rowIndex];
+
+            console.log(context.operacion);
+            context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
+            //context.operacion.FechaCierre = appService.setFormatDate(context.operacion.FechaCierre);
+
+            ObtenerUsuariosParticipantes(context.operacion)
+            context.usuarioOrganizador = listOrganizador;
+            context.usuarioInvitados = listInvitados;
+            context.CambiarVentana2('Commentario');
+        }
+        //Mantenimiento Comentario
         context.recargarComentario = function () {
             listarComentarioMesaVirtual(context.operacion);
         }
         context.grabarComentarioMesa = function () {
             let Operacion = context.operacion;
             let MesaVirtualComentario = context.mesavirtualComentario;
-
             for (var index in archivosSelecionados) {
                 listDocumentosAdjuntos.push({
                     RutaArchivo: archivosSelecionados[index].RutaBinaria,
@@ -347,9 +393,8 @@ function ReadFileToBinary(control) {
                 });
                 console.log(listDocumentosAdjuntos);
             }
-
             function enviarFomularioOK() {
-                dataProvider.postData("MesaVirtual/GrabarMesaVirtualComentario", { Operacion: Operacion, listAdjuntos: listDocumentosAdjuntos,mesaVirtualComentario:MesaVirtualComentario }).success(function (respuesta) {
+                dataProvider.postData("MesaVirtual/GrabarMesaVirtualComentario", { Operacion: Operacion, listAdjuntos: listDocumentosAdjuntos, mesaVirtualComentario: MesaVirtualComentario }).success(function (respuesta) {
                     if (respuesta.Exitoso)
                         TipoMensaje = "success";
                     appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
@@ -365,7 +410,7 @@ function ReadFileToBinary(control) {
             }
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
         }
-        
+        //Metodos
         function listarMesaTrabajo() {
             dataProvider.getData("MesaVirtual/ListarMesaTrabajoVirtual").success(function (respuesta) {
                 context.gridMesaTrabajo.data = respuesta;
@@ -374,7 +419,6 @@ function ReadFileToBinary(control) {
                 //MostrarError();
             });
         }
-
         function LlenarConcepto(tipoConcepto) {
             var concepto = { TipoConcepto: tipoConcepto };
             appService.listarConcepto(concepto).success(function (respuesta) {
@@ -418,7 +462,6 @@ function ReadFileToBinary(control) {
                 //MostrarError();
             });
         }
-
         function ObtenerUsuariosParticipantes(operacion) {
             dataProvider.postData("MesaVirtual/ListarUsuarioParticipanteMV", operacion).success(function (respuesta) {
                 console.log(respuesta);
@@ -436,15 +479,18 @@ function ReadFileToBinary(control) {
 
         }
         function limpiarFormulario() {
+            context.eliminar = true;
+            context.agregar = true;
             context.operacion = {};
             context.mesavirtualComentario = {};
             context.usuarioInvitados = [];
             context.usuarioOrganizador = [];
+            context.listDocumentoAdjunto = [];
             context.operacion = {
                 TipoDocumento: '90',
                 PrioridadOperacion: '02',
                 AccesoOperacion: '2',
-                NotificacionOperacion: '0',
+                NotificacionOperacion: 'S',
                 EstadoOperacion: '0',
                 FechaVigente: new Date(),
                 //FechaCierre: new Date(),

@@ -1,5 +1,5 @@
-﻿<input type="hidden" value="@Html.Raw(Session["IDUsuario"].ToString())" id="IDUsuario"/>
-    @*<nav class="navbar navbar-fixed-top" role="navigation" ng-controller="header_controller as ctrl">*@
+﻿<input type="hidden" value="@Html.Raw(Session["IDUsuario"].ToString())" id="IDUsuario" />
+@*<nav class="navbar navbar-fixed-top" role="navigation" ng-controller="header_controller as ctrl">*@
 <nav class="navbar navbar-fixed-top" role="navigation" ng-controller="header_controller as ctrl">
     <a href="@Url.Action("Alertas", "Alertas")" class="logo">
         <span class="logo-mini">
@@ -12,7 +12,7 @@
     <a href="#" data-toggle="offcanvas" style="color:white;">
         <i class="fa fa-chevron-circle-left"></i>
     </a>
-    
+
     <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
             @*<li>
@@ -84,10 +84,6 @@
                     </li>
                     <li class="user-footer">
 
-                        @*<div class="text-center">
-                            <strong>Copyright &copy; 2015 <a href="#">AndeanSystems</a>.</strong>
-                        </div>*@
-
                         <div class="text-center">
                             <a style="color:#ffffff" href="@Url.Action("Index", "Home")" class="btn btn-default btn-flat">Salir</a>
                         </div>
@@ -115,7 +111,7 @@
 
 
 
-    <aside class="control-sidebar control-sidebar-dark">
+<aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
         <li class="active"><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
@@ -146,10 +142,10 @@
         <div class="tab-pane active" id="control-sidebar-settings-tab">
             <h3 class="control-sidebar-heading">Configuraciones</h3>
             <div>
-                <label class="label-form">Recibir notificaciones propias<input type="checkbox" class="ios-switch green tinyswitch" checked /><div><div></div></div></label>
+                <label class="label-form">Recibir notificaciones propias<input type="checkbox" class="ios-switch green tinyswitch" checked /></label>
             </div>
             <div>
-                <label class="label-form">Enviar a correo electronico<input type="checkbox" class="ios-switch green tinyswitch" checked /><div><div></div></div></label>
+                <label class="label-form">Enviar a correo electronico<input type="checkbox" class="ios-switch green tinyswitch" checked /></label>
             </div>
         </div>
         <!-- /.tab-pane -->

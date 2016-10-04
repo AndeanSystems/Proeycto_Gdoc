@@ -18,14 +18,22 @@
                         {{ctrl.operacion.Prioridad.DescripcionCorta}};
                         {{ctrl.operacion.Estado.DescripcionConcepto}};
                         {{ctrl.operacion.FechaEnvio | date:"dd/MM/yyyy HH:mm"}};
-                        Organizado por {{ctrl.usuarioOrganizador}}
-
+                        <label>
+                            Organizado por:
+                        </label>
+                        <label ng-repeat="item in ctrl.usuarioOrganizador">
+                            {{item.Nombre}}
+                        </label>
                     </label>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-12">
-                        Participantes : {{ctrl.usuarioInvitados}}
+                        Participantes :
+                        <label ng-repeat="item in ctrl.usuarioInvitados">
+                            {{item.Nombre}} ;
+                        </label>
                     </label>
+                    
                 </div>
             </div>
             <div class="box-footer">

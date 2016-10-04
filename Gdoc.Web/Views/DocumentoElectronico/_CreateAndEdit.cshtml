@@ -212,7 +212,7 @@
                                                 <td>{{item.NombreOriginal}}</td>
                                                 <td>
                                                     <i class="fa fa-folder-open-o" ng-click="ctrl.mostrarAdjuntoWindows(item)" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Abrir"></i>
-                                                    <i class="fa fa-times" ng-click="ctrl.eliminarAdjunto($index)" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>
+                                                    <i class="fa fa-times" ng-click="ctrl.eliminarAdjunto($index)" ng-show="ctrl.eliminar" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -223,7 +223,7 @@
                                       </div>
 
                                     <div class="col-md-2">
-                                        <button class="btn btn-default pull-right" ng-click="ctrl.agregaradjunto()"><i class="fa fa-plus" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>
+                                        <button class="btn btn-default pull-right" ng-show="ctrl.agregar" ng-click="ctrl.agregaradjunto()"><i class="fa fa-plus" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>
                                     </div>
                                 </div>
                             </div>

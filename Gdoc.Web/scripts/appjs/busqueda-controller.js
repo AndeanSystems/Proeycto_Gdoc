@@ -17,7 +17,6 @@
 
         LlenarConcepto(TipoOperacion);
         LlenarConcepto(TipoDocumento);
-
      
         context.buscarOperacion = function (operacion) {
             dataProvider.postData("Busqueda/ListarOperacionBusqueda", operacion).success(function (respuesta) {
@@ -27,7 +26,6 @@
                 //MostrarError();
             });
         }
-
         context.exportarExcel = function () {
             dataProvider.postData("Busqueda/ListToExcel", context.gridOptions.data).success(function (respuesta) {
                 console.log(respuesta);
@@ -35,7 +33,6 @@
                 //MostrarError();
             });
         }
-
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
