@@ -107,12 +107,17 @@ function ReadFileToBinary(control) {
         //Visualizacion
         context.mostrarPDF = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
-            dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
-                console.log(respuesta)
-                window.open(respuesta, "mywin", "resizable=1");
-            }).error(function (error) {
-                //MostrarError();
-            });
+            if (context.operacion.EstadoOperacion == 1) {
+                dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
+                    console.log(respuesta)
+                    window.open(respuesta, "mywin", "resizable=1");
+                }).error(function (error) {
+                    //MostrarError();
+                });
+            }
+            else {
+                appService.mostrarAlerta("Información","La operacion no ha sido enviada")
+            }
         }
         context.mostrarAdjuntoWindows = function (archivo) {
             console.log(archivo);
@@ -186,8 +191,9 @@ function ReadFileToBinary(control) {
                     NombreOriginal: context.listDocumentoAdjunto[index].NombreOriginal,
                     TamanoArchivo: context.listDocumentoAdjunto[index].TamanoArchivo,
                     TipoArchivo: context.listDocumentoAdjunto[index].TipoArchivo,
-                    EstadoAdjunto: context.listDocumentoAdjunto[index].EstadoDoctoAdjunto,
+                    EstadoAdjunto: context.listDocumentoAdjunto[index].EstadoAdjunto,
                 });
+                console.log(context.listDocumentoAdjunto);
                 console.log(listDocumentosAdjuntos);
             }
             function enviarFomularioOK() {
@@ -266,6 +272,7 @@ function ReadFileToBinary(control) {
                         NombreOriginal: archivosSelecionados[ind].NombreArchivo,
                         TamanoArchivo: archivosSelecionados[ind].TamanoArchivo,
                         TipoArchivo: archivosSelecionados[ind].TipoArchivo,
+                        EstadoAdjunto:0
                     });
                 }
             }
@@ -281,7 +288,8 @@ function ReadFileToBinary(control) {
         }
         ////
         function listarAdjuntos(operacion) {
-            dataProvider.postData("DocumentosRecibidos/ListarDocumentoAdjunto", operacion).success(function (respuesta) {
+            //dataProvider.postData("DocumentosRecibidos/ListarDocumentoAdjunto", operacion).success(function (respuesta) {
+            dataProvider.postData("DocumentosRecibidos/ListarAdjunto", operacion).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;
                 console.log(respuesta);
             }).error(function (error) {

@@ -138,6 +138,14 @@
                 //MostrarError();
             });
         }
+        context.obtenerSede = function (idempresa) {
+            dataProvider.postData("Sede/ListarSede", { IDEmpresa: idempresa }).success(function (respuesta) {
+                console.log(respuesta);
+                context.listSede = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         function listarPersonal() {
             dataProvider.getData("Personal/ListarPersonal").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
@@ -202,6 +210,6 @@
         listarDepartamento();
         listarPersonal();
         listarEmpresa();
-        listarSede();
+        //listarSede();
     }
 })();

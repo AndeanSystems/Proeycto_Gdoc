@@ -147,30 +147,27 @@ namespace Gdoc.Web.Controllers
             var listComentarioMesaVirtual = new List<MesaVirtualComentario>();
             using (var oMesaVirtualComentario = new NMesaVirtualComentario())
             {
-                listComentarioMesaVirtual = oMesaVirtualComentario.ListarMesaVirtualComentario().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+                listComentarioMesaVirtual = oMesaVirtualComentario.ListarMesaVirtualComentario().Where(x => x.IDOperacion == operacion.IDOperacion).OrderByDescending(x=>x.FechaPublicacion).ToList();
             }
             return new JsonResult { Data = listComentarioMesaVirtual, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
-        public JsonResult ListarDocumentoAdjunto(MesaVirtualComentario mesaVirtualComentario)
+        public JsonResult ListarAdjuntoComentario(MesaVirtualComentario mesaVirtualComentario)
         {
-            var listDocumentoAdjunto = new List<EDocumentoAdjunto>();
-            using (var oDocumentoAdjunto = new NDocumentoAdjunto())
+            var listAdjunto = new List<EAdjunto>();
+            using (var oAdjunto = new NAdjunto())
             {
-                listDocumentoAdjunto = oDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDComentarioMesaVirtual == mesaVirtualComentario.IDComentarioMesaVirtual).ToList();
+                listAdjunto = oAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDComentarioMesaVirtual == mesaVirtualComentario.IDComentarioMesaVirtual).ToList();
             }
-            return new JsonResult { Data = listDocumentoAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            return new JsonResult { Data = listAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-
-        [HttpPost]
-        public JsonResult ListarDocumentoAdjuntoOperacion(Operacion operacion)
+        public JsonResult ListarAdjuntoOperacion(Operacion operacion)
         {
-            var listDocumentoAdjunto = new List<EDocumentoAdjunto>();
-            using (var oDocumentoAdjunto = new NDocumentoAdjunto())
+            var listAdjunto = new List<EAdjunto>();
+            using (var oAdjunto = new NAdjunto())
             {
-                listDocumentoAdjunto = oDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDOperacion == operacion.IDOperacion && x.IDComentarioMesaVirtual==null).ToList();
+                listAdjunto = oAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDOperacion == operacion.IDOperacion && x.EstadoAdjunto == Estados.EstadoAdjunto.Activo && x.DocumentoAdjunto.IDComentarioMesaVirtual==null).ToList();
             }
-            return new JsonResult { Data = listDocumentoAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            return new JsonResult { Data = listAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
         public JsonResult EliminarOperacion(Operacion operacion)
         {

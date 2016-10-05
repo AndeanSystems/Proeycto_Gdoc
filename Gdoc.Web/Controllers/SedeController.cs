@@ -18,13 +18,12 @@ namespace Gdoc.Web.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public JsonResult ListarSede()
+        public JsonResult ListarSede(Empresa empresa)
         {
             var listSede = new List<Sede>();
             using (var oSede = new NSede())
             {
-                listSede = oSede.ListarSede();
+                listSede = oSede.ListarSede().Where(x=>x.IDEmpresa==empresa.IDEmpresa).ToList();
             }
             return new JsonResult { Data = listSede, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

@@ -43,7 +43,7 @@ namespace Gdoc.Dao
                             RutaArchivo=x.adjunto.RutaArchivo,
                             EstadoAdjunto=x.adjunto.EstadoAdjunto,
                         },
-                        NombreOriginal = x.adjunto.NombreOriginal,
+                        //NombreOriginal = x.adjunto.NombreOriginal,
 
                         Archivo = string.Format(@"{0}_{1}", x.operacion.NumeroOperacion, x.adjunto.NombreOriginal),
                     }));

@@ -20,7 +20,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Empresa <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <select class="form-control" ng-model="ctrl.personal.IDEmpresa" ng-options="emp.IDEmpresa as emp.RazonSocial for emp in ctrl.listEmpresa" >
+                                                <select class="form-control" ng-model="ctrl.personal.IDEmpresa" ng-options="emp.IDEmpresa as emp.RazonSocial for emp in ctrl.listEmpresa" ng-change="ctrl.obtenerSede(ctrl.personal.IDEmpresa)">
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>

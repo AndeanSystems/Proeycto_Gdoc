@@ -52,7 +52,7 @@ function ReadFileToBinary(control) {
         context.querySearch = querySearch;
         var usuario = {};
         //var
-        let listEUsuarioGrupo = [];
+        var listEUsuarioGrupo = [];
         var listRemitentes = [];
         var listDestinatarios = [];
         var listDocumentoDigitaloOperacion = [];
@@ -174,7 +174,7 @@ function ReadFileToBinary(control) {
                 Operacion.EstadoOperacion = 1
             }
                 
-
+            listDocumentoDigitaloOperacion = [];
             console.log(listEUsuarioGrupo);
 
             console.log(archivosSelecionados);
@@ -190,9 +190,9 @@ function ReadFileToBinary(control) {
             //}
             for (var index in context.listDocumentoAdjunto) {
                 listDocumentoDigitaloOperacion.push({
-                    RutaFisica: context.listDocumentoAdjunto[index].RutaArchivo,
+                    RutaFisica: context.listDocumentoAdjunto[index].RutaFisica,
                     NombreOriginal: context.listDocumentoAdjunto[index].NombreOriginal,
-                    TamanoDocto: context.listDocumentoAdjunto[index].TamanoArchivo,
+                    TamanoDocto: context.listDocumentoAdjunto[index].TamanoDocto,
                     TipoArchivo: context.listDocumentoAdjunto[index].TipoArchivo,
                     DerivarDocto: context.operacion.DocumentoDigitalOperacion.DerivarDocto,
                 });
@@ -269,7 +269,7 @@ function ReadFileToBinary(control) {
         }
         //Adjuntos
         context.agregaradjunto = function () {
-            context.listDocumentoAdjunto = {};
+            context.listDocumentoAdjunto = [];
             for (var ind in archivosSelecionados) {
                 var hola = true;
                 console.log(archivosSelecionados[ind].NombreArchivo);
@@ -279,9 +279,9 @@ function ReadFileToBinary(control) {
                 }
                 if (hola == true) {
                     context.listDocumentoAdjunto.push({
-                        RutaArchivo: archivosSelecionados[ind].RutaBinaria,
+                        RutaFisica: archivosSelecionados[ind].RutaBinaria,
                         NombreOriginal: archivosSelecionados[ind].NombreArchivo,
-                        TamanoArchivo: archivosSelecionados[ind].TamanoArchivo,
+                        TamanoDocto: archivosSelecionados[ind].TamanoArchivo,
                         TipoArchivo: archivosSelecionados[ind].TipoArchivo,
                     });
                 }
@@ -397,6 +397,7 @@ function ReadFileToBinary(control) {
             };
             obtenerUsuarioSession();
             archivosSelecionados = [];
+            listEUsuarioGrupo = [];
             listRemitentes = [];
             listDestinatarios = [];
             $('.nav-tabs a[href="#Datos"]').tab('show')

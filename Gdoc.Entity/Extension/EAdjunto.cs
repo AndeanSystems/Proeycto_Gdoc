@@ -11,6 +11,7 @@ namespace Gdoc.Entity.Extension
     [NotMapped]
     public class EAdjunto:Adjunto
     {
+        public string Archivo { get; set; }
         public DocumentoAdjunto DocumentoAdjunto { get; set; }
     }
 }

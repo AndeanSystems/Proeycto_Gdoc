@@ -204,30 +204,30 @@ namespace Gdoc.Negocio
                 //EDITAR DOCUMENTO ELECTRONICO
                 dDocumentoElectronicoOperacion.Editar(eDocumentoElectronicoOperacion);
 
-                //EDITAR DOCUMENTO ADJUNTO Y ADJUNTO
-                //DESHABILITAR ADJUNTOS
-                //adjuntos guardados por operacion
-                var listAdjuntosGuardados = dAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDOperacion == operacion.IDOperacion);          
-                //adjuntos que voy a grabar
-                var lisAdjuntosActuales = listDocumentosAdjuntos.Select(x => x.NombreOriginal).ToList();              
-                //adjuntos que se van a anular
-                IEnumerable<Adjunto> adjuntosAnulados = listAdjuntosGuardados.Where(x => !lisAdjuntosActuales.Contains(x.NombreOriginal) && x.EstadoAdjunto==1);
-                //ANULA ADJUNTOS ELIMINADOS
-                foreach (var item in adjuntosAnulados)
-                {
-                    eDocumentoAdjunto = new DocumentoAdjunto();
-                    eDocumentoAdjunto = dDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDAdjunto == item.IDAdjunto).FirstOrDefault();
-                    item.EstadoAdjunto = 2;
-                    eDocumentoAdjunto.EstadoDoctoAdjunto = 2;
-                    dAdjunto.EditarAdjunto(item);
-                    dDocumentoAdjunto.EditarDocumentoAdjunto(eDocumentoAdjunto);
-                }
-
                 if (!Directory.Exists(eGeneral.RutaGdocAdjuntos))
                     Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
 
                 if (listDocumentosAdjuntos != null)
                 {
+                    //EDITAR DOCUMENTO ADJUNTO Y ADJUNTO
+                    //DESHABILITAR ADJUNTOS
+                    //adjuntos guardados por operacion
+                    var listAdjuntosGuardados = dAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDOperacion == operacion.IDOperacion);
+                    //adjuntos que voy a grabar
+                    var lisAdjuntosActuales = listDocumentosAdjuntos.Select(x => x.NombreOriginal).ToList();
+                    //adjuntos que se van a anular
+                    IEnumerable<Adjunto> adjuntosAnulados = listAdjuntosGuardados.Where(x => !lisAdjuntosActuales.Contains(x.NombreOriginal) && x.EstadoAdjunto == 1);
+                    //ANULA ADJUNTOS ELIMINADOS
+                    foreach (var item in adjuntosAnulados)
+                    {
+                        eDocumentoAdjunto = new DocumentoAdjunto();
+                        eDocumentoAdjunto = dDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDAdjunto == item.IDAdjunto).FirstOrDefault();
+                        item.EstadoAdjunto = 2;
+                        eDocumentoAdjunto.EstadoDoctoAdjunto = 2;
+                        dAdjunto.EditarAdjunto(item);
+                        dDocumentoAdjunto.EditarDocumentoAdjunto(eDocumentoAdjunto);
+                    }
+
                     foreach (var adjunto in listDocumentosAdjuntos)
                     {
                         var adjuntoencontrado = dAdjunto.ListarAdjunto().Where(x => x.NombreOriginal == adjunto.NombreOriginal && x.EstadoAdjunto==2).FirstOrDefault();                      
@@ -240,7 +240,7 @@ namespace Gdoc.Negocio
                             dDocumentoAdjunto.EditarDocumentoAdjunto(eDocumentoAdjunto);
                             eDocumentoAdjunto = new DocumentoAdjunto();
                         }
-                        else if(adjunto.EstadoAdjunto!=1)
+                        else if (adjunto.EstadoAdjunto != 1 && adjunto.EstadoAdjunto != 2)
                         {
                             byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(adjunto.RutaArchivo);
                             adjunto.IDUsuario = IDusuario;
@@ -290,7 +290,7 @@ namespace Gdoc.Negocio
                 }
                 foreach (var participante in listEUsuarioGrupo)
                 {
-                    var usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault();
+                    var usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == participante.IDUsuarioGrupo && x.IDOperacion==operacion.IDOperacion).FirstOrDefault();
 
                     if(usuarioencontrado!=null){
                         usuarioencontrado.EstadoUsuarioParticipante = 1;
@@ -513,44 +513,54 @@ namespace Gdoc.Negocio
                 {
                     Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
                 }
-                foreach (var documentoOperacion in listDocumentoDigitalOperacion)
+                if (listDocumentoDigitalOperacion != null)
                 {
-                    byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoOperacion.RutaFisica);
-                    //documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocAdjuntos, documentoOperacion.NombreOriginal);
-
-                    var extension = documentoOperacion.NombreOriginal;
-                    var n = extension.LastIndexOf(".");
-                    var ext = extension.Substring(n);
-
-                    operacion.NombreFinal = operacion.NumeroOperacion + ext;
-                    //GRABAR OPERACION
-                    dOperacion.EditarOperacion(operacion);
-
-                    documentoOperacion.IDDoctoDigitalOperacion = docDigiOper.IDDoctoDigitalOperacion;
-                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocPDF, operacion.NombreFinal);
-                    documentoOperacion.IDOperacion = operacion.IDOperacion;
-                    documentoOperacion.NombreFisico = string.Empty;
-                    documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;
-                    documentoOperacion.DerivarDocto = documentoOperacion.DerivarDocto;
-                    if (string.IsNullOrEmpty(documentoOperacion.TipoArchivo) || !documentoOperacion.TipoArchivo.Contains(ArchivoTXT))
+                    foreach (var documentoOperacion in listDocumentoDigitalOperacion)
                     {
-                        File.WriteAllBytes(documentoOperacion.RutaFisica, fileBytes);
-                    }
-                    else if (documentoOperacion.TipoArchivo.Contains(ArchivoTXT))
-                    {
-                        File.WriteAllText(documentoOperacion.RutaFisica, Encoding.UTF8.GetString(fileBytes));
-                    }
-                    else
-                    {
-                        using (MemoryStream stream = new MemoryStream(fileBytes))
+
+                        var documentodigitalguardado = dDocumentoDigitalOperacion.ListarDocumentoDigitalOperacion().Where(x => x.IDOperacion == operacion.IDOperacion).FirstOrDefault();
+
+
+                        var extension = documentoOperacion.NombreOriginal;
+                        var n = extension.LastIndexOf(".");
+                        var ext = extension.Substring(n);
+
+                        operacion.NombreFinal = operacion.NumeroOperacion + ext;
+                        //GRABAR OPERACION
+                        dOperacion.EditarOperacion(operacion);
+                        if (documentodigitalguardado.NombreOriginal != documentoOperacion.NombreOriginal)
                         {
-                            Image.FromStream(stream).Save(documentoOperacion.RutaFisica, System.Drawing.Imaging.ImageFormat.Jpeg);
-                        }
-                    }
-                    //EDITAR DOCUMENTODIGITALOPERACION
-                    dDocumentoDigitalOperacion.EditarDocumentoDigitalOperacion(documentoOperacion);
+                            byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoOperacion.RutaFisica);
 
+                            documentoOperacion.IDDoctoDigitalOperacion = docDigiOper.IDDoctoDigitalOperacion;
+                            documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocPDF, operacion.NombreFinal);
+                            documentoOperacion.IDOperacion = operacion.IDOperacion;
+                            documentoOperacion.NombreFisico = string.Empty;
+                            documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;
+                            documentoOperacion.DerivarDocto = documentoOperacion.DerivarDocto;
+                            if (string.IsNullOrEmpty(documentoOperacion.TipoArchivo) || !documentoOperacion.TipoArchivo.Contains(ArchivoTXT))
+                            {
+                                File.WriteAllBytes(documentoOperacion.RutaFisica, fileBytes);
+                            }
+                            else if (documentoOperacion.TipoArchivo.Contains(ArchivoTXT))
+                            {
+                                File.WriteAllText(documentoOperacion.RutaFisica, Encoding.UTF8.GetString(fileBytes));
+                            }
+                            else
+                            {
+                                using (MemoryStream stream = new MemoryStream(fileBytes))
+                                {
+                                    Image.FromStream(stream).Save(documentoOperacion.RutaFisica, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                }
+                            }
+                            //EDITAR DOCUMENTODIGITALOPERACION
+                            dDocumentoDigitalOperacion.EditarDocumentoDigitalOperacion(documentoOperacion);
+
+                        }
+                        
+                    }
                 }
+                
 
                 //EDITAR USUARIOS PARTICIPANTES
 
@@ -568,8 +578,7 @@ namespace Gdoc.Negocio
                 }
                 foreach (var participante in listEUsuarioGrupo)
                 {
-                    var usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault();
-
+                    var usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == participante.IDUsuarioGrupo && x.IDOperacion == operacion.IDOperacion).FirstOrDefault();
                     if (usuarioencontrado != null)
                     {
                         usuarioencontrado.EstadoUsuarioParticipante = 1;
@@ -808,30 +817,29 @@ namespace Gdoc.Negocio
 
                 dOperacion.EditarOperacion(operacion);
 
-                //EDITAR DOCUMENTO ADJUNTO Y ADJUNTO
-                //DESHABILITAR ADJUNTOS
-                //adjuntos guardados por operacion
-                var listAdjuntosGuardados = dAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDOperacion == operacion.IDOperacion);
-                //adjuntos que voy a grabar
-                var lisAdjuntosActuales = listDocumentosAdjuntos.Select(x => x.NombreOriginal).ToList();
-                //adjuntos que se van a anular
-                IEnumerable<Adjunto> adjuntosAnulados = listAdjuntosGuardados.Where(x => !lisAdjuntosActuales.Contains(x.NombreOriginal) && x.EstadoAdjunto == 1);
-                //ANULA ADJUNTOS ELIMINADOS
-                foreach (var item in adjuntosAnulados)
-                {
-                    eDocumentoAdjunto = new DocumentoAdjunto();
-                    eDocumentoAdjunto = dDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDAdjunto == item.IDAdjunto).FirstOrDefault();
-                    item.EstadoAdjunto = 2;
-                    eDocumentoAdjunto.EstadoDoctoAdjunto = 2;
-                    dAdjunto.EditarAdjunto(item);
-                    dDocumentoAdjunto.EditarDocumentoAdjunto(eDocumentoAdjunto);
-                }
-
                 if (!Directory.Exists(eGeneral.RutaGdocAdjuntos))
                     Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
 
                 if (listDocumentosAdjuntos != null)
                 {
+                    //EDITAR DOCUMENTO ADJUNTO Y ADJUNTO
+                    //DESHABILITAR ADJUNTOS
+                    //adjuntos guardados por operacion
+                    var listAdjuntosGuardados = dAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDOperacion == operacion.IDOperacion);
+                    //adjuntos que voy a grabar
+                    var lisAdjuntosActuales = listDocumentosAdjuntos.Select(x => x.NombreOriginal).ToList();
+                    //adjuntos que se van a anular
+                    IEnumerable<Adjunto> adjuntosAnulados = listAdjuntosGuardados.Where(x => !lisAdjuntosActuales.Contains(x.NombreOriginal) && x.EstadoAdjunto == 1);
+                    //ANULA ADJUNTOS ELIMINADOS
+                    foreach (var item in adjuntosAnulados)
+                    {
+                        eDocumentoAdjunto = new DocumentoAdjunto();
+                        eDocumentoAdjunto = dDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDAdjunto == item.IDAdjunto).FirstOrDefault();
+                        item.EstadoAdjunto = 2;
+                        eDocumentoAdjunto.EstadoDoctoAdjunto = 2;
+                        dAdjunto.EditarAdjunto(item);
+                        dDocumentoAdjunto.EditarDocumentoAdjunto(eDocumentoAdjunto);
+                    }
                     foreach (var adjunto in listDocumentosAdjuntos)
                     {
                         var adjuntoencontrado = dAdjunto.ListarAdjunto().Where(x => x.NombreOriginal == adjunto.NombreOriginal && x.EstadoAdjunto == 2).FirstOrDefault();
@@ -844,7 +852,7 @@ namespace Gdoc.Negocio
                             dDocumentoAdjunto.EditarDocumentoAdjunto(eDocumentoAdjunto);
                             eDocumentoAdjunto = new DocumentoAdjunto();
                         }
-                        else if (adjunto.EstadoAdjunto != 1)
+                        else if (adjunto.EstadoAdjunto != 1 && adjunto.EstadoAdjunto != 2)
                         {
                             byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(adjunto.RutaArchivo);
                             adjunto.IDUsuario = IDusuario;
@@ -895,8 +903,7 @@ namespace Gdoc.Negocio
                 }
                 foreach (var participante in listEUsuarioGrupo)
                 {
-                    var usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault();
-
+                    var usuarioencontrado = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDUsuario == participante.IDUsuarioGrupo && x.IDOperacion == operacion.IDOperacion).FirstOrDefault();
                     if (usuarioencontrado != null)
                     {
                         usuarioencontrado.EstadoUsuarioParticipante = 1;

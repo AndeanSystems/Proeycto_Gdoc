@@ -16,6 +16,18 @@ namespace Gdoc.Negocio
         {
             dAdjunto = null;
         }
+        public List<EAdjunto> ListarAdjunto()
+        {
+            try
+            {
+                return dAdjunto.ListarAdjunto();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public Int32 GrabarAdjunto(Adjunto Adjunto)
         {
             try

@@ -180,7 +180,7 @@ function ReadFileToBinary(control) {
                     NombreOriginal: context.listDocumentoAdjunto[index].NombreOriginal,
                     TamanoArchivo: context.listDocumentoAdjunto[index].TamanoArchivo,
                     TipoArchivo: context.listDocumentoAdjunto[index].TipoArchivo,
-                    EstadoAdjunto: context.listDocumentoAdjunto[index].EstadoDoctoAdjunto,
+                    EstadoAdjunto: context.listDocumentoAdjunto[index].EstadoAdjunto,
                 });
                 console.log(listDocumentosAdjuntos);
             }
@@ -189,6 +189,8 @@ function ReadFileToBinary(control) {
                 dataProvider.postData("MesaVirtual/Grabar", { Operacion: Operacion, listAdjuntos: listDocumentosAdjuntos, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                     if (respuesta.Exitoso)
                         TipoMensaje = "success";
+                    else
+                        TipoMensaje = "error";
                     appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
                     console.log(respuesta);
                 }).error(function (error) {
@@ -235,6 +237,7 @@ function ReadFileToBinary(control) {
                         NombreOriginal: archivosSelecionados[ind].NombreArchivo,
                         TamanoArchivo: archivosSelecionados[ind].TamanoArchivo,
                         TipoArchivo: archivosSelecionados[ind].TipoArchivo,
+                        EstadoAdjunto: 0
                     });
                 }
             }
@@ -249,7 +252,7 @@ function ReadFileToBinary(control) {
             $("#modal_adjuntos").modal("show");
         }
         function listarAdjuntos(operacion) {
-            dataProvider.postData("DocumentosRecibidos/ListarDocumentoAdjunto", operacion).success(function (respuesta) {
+            dataProvider.postData("DocumentosRecibidos/ListarAdjunto", operacion).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;
                 console.log(respuesta);
             }).error(function (error) {
@@ -371,7 +374,7 @@ function ReadFileToBinary(control) {
             console.log(context.operacion);
             context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
             //context.operacion.FechaCierre = appService.setFormatDate(context.operacion.FechaCierre);
-
+            listarDocumentoAdjuntoMesa(context.operacion);
             ObtenerUsuariosParticipantes(context.operacion)
             context.usuarioOrganizador = listOrganizador;
             context.usuarioInvitados = listInvitados;
@@ -395,9 +398,9 @@ function ReadFileToBinary(control) {
             }
             function enviarFomularioOK() {
                 dataProvider.postData("MesaVirtual/GrabarMesaVirtualComentario", { Operacion: Operacion, listAdjuntos: listDocumentosAdjuntos, mesaVirtualComentario: MesaVirtualComentario }).success(function (respuesta) {
-                    if (respuesta.Exitoso)
-                        TipoMensaje = "success";
-                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+                    //if (respuesta.Exitoso)
+                    //    TipoMensaje = "success";
+                    //appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
 
                     listarComentarioMesaVirtual(context.operacion);
                     console.log(respuesta);
@@ -436,17 +439,16 @@ function ReadFileToBinary(control) {
                     context.listEstado = respuesta;
             });
         }
-        function listarDocumentoAdjunto(mesavirtualcomentario) {
-            dataProvider.postData("MesaVirtual/ListarDocumentoAdjunto", mesavirtualcomentario).success(function (respuesta) {
+        function listarDocumentoAdjunto(mesaVirtualComentario) {
+            dataProvider.postData("MesaVirtual/ListarAdjuntoComentario", mesaVirtualComentario).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;
-                console.log(respuesta[0].IDAdjunto);
             }).error(function (error) {
                 //MostrarError();
             });
 
         }
         function listarDocumentoAdjuntoMesa(operacion) {
-            dataProvider.postData("MesaVirtual/ListarDocumentoAdjuntoOperacion", operacion).success(function (respuesta) {
+            dataProvider.postData("MesaVirtual/ListarAdjuntoOperacion", operacion).success(function (respuesta) {
                 console.log(respuesta);
                 context.listDocumentoAdjunto = respuesta;
                 //context.gridDocumentosAdjuntos.data = respuesta;
@@ -501,6 +503,7 @@ function ReadFileToBinary(control) {
             //document.getElementById("input_file2").value = "";
             //document.getElementById("input_file").value = "";
             obtenerUsuarioSession();
+            listEUsuarioGrupo = [];
             archivosSelecionados = [];
             listDocumentosAdjuntos = [];
             listOrganizador = [];

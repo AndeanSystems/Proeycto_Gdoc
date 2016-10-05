@@ -59,15 +59,14 @@ namespace Gdoc.Web.Controllers
                 throw;
             }
         }
-        public JsonResult ListarAdjuntos(EDocumentoAdjunto documentoadjunto)
+        public JsonResult ListarAdjuntos(EAdjunto adjunto)
         {
             try
             {
 
                 string sWebSite = ConfigurationManager.AppSettings.Get("Adjunto");
-                //var ruta = "http://192.168.100.29:85/ADJUNTOS/" + documentoadjunto.Archivo;
 
-                var ruta = sWebSite + documentoadjunto.Archivo;
+                var ruta = sWebSite + adjunto.Archivo;
                 return new JsonResult { Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception)
@@ -85,6 +84,16 @@ namespace Gdoc.Web.Controllers
                 listDocumentoAdjunto = oDocumentoAdjunto.ListarDocumentoAdjunto().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoDoctoAdjunto==Estados.EstadoAdjunto.Activo).ToList();
             }
             return new JsonResult { Data = listDocumentoAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+        [HttpPost]
+        public JsonResult ListarAdjunto(Operacion operacion)
+        {
+            var listAdjunto = new List<EAdjunto>();
+            using (var oAdjunto = new NAdjunto())
+            {
+                listAdjunto = oAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDOperacion == operacion.IDOperacion && x.EstadoAdjunto == Estados.EstadoAdjunto.Activo).ToList();
+            }
+            return new JsonResult { Data = listAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
     }
 }

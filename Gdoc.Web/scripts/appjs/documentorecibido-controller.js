@@ -20,8 +20,14 @@
 
         context.mostrarAdjuntos = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
-            listarDocumentoAdjunto(context.operacion);
-            $("#modal_adjuntos").modal("show");
+            if(context.operacion.TipoOperacion!="02"){
+                listarDocumentoAdjunto(context.operacion);
+                $("#modal_adjuntos").modal("show");
+            }
+            else {
+                appService.mostrarAlerta("Información","Esta Operación no tiene Adjuntos","warning")
+            }
+            
         }
 
         context.mostrarAdjuntoWindows = function (archivo) {
@@ -33,7 +39,6 @@
             }).error(function (error) {
                 //MostrarError();
             });
-            //window.open("http://192.168.100.29:85/ADJUNTOS/" + archivo, "mywin", "resizable=1");
         }
 
         context.gridOptions = {
@@ -69,8 +74,8 @@
             });
         }
 
-        function listarDocumentoAdjunto(mesavirtualcomentario) {
-            dataProvider.postData("DocumentosRecibidos/ListarDocumentoAdjunto", mesavirtualcomentario).success(function (respuesta) {
+        function listarDocumentoAdjunto(operacion) {
+            dataProvider.postData("DocumentosRecibidos/ListarAdjunto", operacion).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;
                 console.log(respuesta);
             }).error(function (error) {
