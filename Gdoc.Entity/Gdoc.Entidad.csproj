@@ -63,6 +63,9 @@
     <Compile Include="Extension\EUsuario.cs" />
     <Compile Include="Extension\EUsuarioFEPCMAC.cs" />
     <Compile Include="Extension\EUsuarioGrupo.cs" />
+    <Compile Include="Extension\EUsuarioGrupo2.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extension\EUsuarioParticipante.cs" />
     <Compile Include="Models\AccesoSistema.cs" />
     <Compile Include="Models\Adjunto.cs" />

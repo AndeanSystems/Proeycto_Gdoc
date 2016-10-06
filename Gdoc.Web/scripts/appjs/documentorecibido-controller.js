@@ -49,6 +49,7 @@
             appScopeProvider: context,
             columnDefs: [
                 { field: 'NumeroOperacion', width: '20%', displayName: 'Nº Documento' },
+                { field: 'Remitente', width: '10%', displayName: 'Remitente' },
                 { field: 'TipoOpe.DescripcionCorta', width: '10%', displayName: 'T.Oper' },
                 { field: 'TipoDoc.DescripcionCorta', width: '10%', displayName: 'T.Doc' },
                 { field: 'TituloOperacion', width: '23%', displayName: '	Titulo' },

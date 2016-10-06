@@ -679,6 +679,7 @@
     <Content Include="Content\ui-grid.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="resources\img\DocWeb_Logo2_BLANCO.png" />
     <Content Include="resources\img\fepcmac.jpg" />
     <Content Include="resources\img\fepcmac1.png" />
     <Content Include="resources\img\fepcmac1_mini.png" />

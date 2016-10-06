@@ -94,5 +94,22 @@ namespace Gdoc.Dao
                 throw;
             }
         }
+        public AccesoSistema grabarAcceso(AccesoSistema accesosistema)
+        {
+            try
+            {
+                 using (var db = new DataBaseContext())
+                {
+                    db.AccesoSistemas.Add(accesosistema);
+                    db.SaveChanges();
+                }
+                return accesosistema;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }

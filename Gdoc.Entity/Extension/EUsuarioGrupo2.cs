@@ -6,13 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Gdoc.Entity.Extension
 {
     [NotMapped]
-    public class EModuloPaginaUrl : ModuloPaginaUrl
+    public class EUsuarioGrupo2:UsuarioGrupo
     {
-        public string Asignacion { get; set; }
-        public EAccesoSistema AccesoSistema { get; set; }
+        public string Nombre { get; set; }
     }
 }

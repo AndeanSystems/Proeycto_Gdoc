@@ -48,22 +48,42 @@ namespace Gdoc.Web.Controllers
         {
             using (var oAccesosistema = new NAccesoSistema())
             {
-
-                accesosistema.EstadoAcceso = Estados.EstadoAcceso.Inactivo;
-                var respuesta = oAccesosistema.CambiarEstadoAcceso(accesosistema);
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                if (accesosistema.IDAcceso != 0)
+                {
+                    accesosistema.EstadoAcceso = Estados.EstadoAcceso.Inactivo;
+                    var respuesta = oAccesosistema.CambiarEstadoAcceso(accesosistema);
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                }
+                
             }
             return new JsonResult { Data = mensajeRespuesta };
         }
 
-        public JsonResult ActivarAcceso(AccesoSistema accesosistema)
+        public JsonResult ActivarAcceso(EAccesoSistema accesosistema)
         {
             using (var oAccesosistema = new NAccesoSistema())
             {
-               
-                accesosistema.EstadoAcceso = Estados.EstadoAcceso.Activo;
-                var respuesta = oAccesosistema.CambiarEstadoAcceso(accesosistema);
+
+                var acceso = new AccesoSistema();
+                if (accesosistema.IDAcceso != 0)
+                {
+                    acceso.IDUsuario = accesosistema.IDUsuario;
+                    acceso.IDAcceso = accesosistema.IDAcceso;
+                    acceso.IDModuloPagina = accesosistema.IDModuloPagina;
+                    acceso.EstadoAcceso = Estados.EstadoAcceso.Activo;
+                    oAccesosistema.CambiarEstadoAcceso(acceso);
+                }
+                else
+                {
+                    //accesosistema.IDAcceso = null;
+                    acceso.IDUsuario = accesosistema.IDUsuario;
+                    acceso.IDModuloPagina = accesosistema.IDModuloPagina2;
+                    acceso.IdeUsuarioRegistro = Session["NombreUsuario"].ToString();
+                    acceso.FechaModificacion = System.DateTime.Now;
+                    acceso.EstadoAcceso = 1;
+                    oAccesosistema.grabarAcceso(acceso);
+                }
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitoso";
             }

@@ -248,6 +248,24 @@ function ReadFileToBinary(control) {
                 CKEDITOR.instances.editor1.setData(context.DocumentoElectronicoOperacion.Memo);
             }, 2000);
         };
+        context.eliminarOperacion = function (rowIndex) {
+            var operacion = context.gridOptions.data[rowIndex];
+
+            function enviarFomularioOK() {
+                dataProvider.postData("DocumentoElectronico/EliminarOperacion", operacion).success(function (respuesta) {
+                    console.log(respuesta);
+                    appService.mostrarAlerta("Información", "Documento Electronico Inactivo", "warning")
+                    listarOperacion();
+                }).error(function (error) {
+                    //MostrarError();
+                });
+            }
+            function cancelarFormulario() {
+                //Operacion.EstadoOperacion = 0;
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
+
+        };
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
             if (context.visible == "List") {

@@ -127,13 +127,22 @@ function ReadFileToBinary(control) {
             operacion.FechaVigente = appService.setFormatDate(operacion.FechaVigente);
             console.log(operacion);
 
-            dataProvider.postData("MesaVirtual/EliminarOperacion", operacion).success(function (respuesta) {
-                console.log(respuesta);
-                appService.mostrarAlerta("Información", "Grupo de Trabajo Cerrado", "warning")
-                listarOperacion();
-            }).error(function (error) {
-                //MostrarError();
-            });
+
+            function enviarFomularioOK() {
+                dataProvider.postData("MesaVirtual/EliminarOperacion", operacion).success(function (respuesta) {
+                    console.log(respuesta);
+                    appService.mostrarAlerta("Información", "Grupo de Trabajo Cerrado", "warning")
+                    listarOperacion();
+                }).error(function (error) {
+                    //MostrarError();
+                });
+            }
+            function cancelarFormulario() {
+                //Operacion.EstadoOperacion = 0;
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
+
+
         };
         context.grabar = function (numeroboton) {
             let Operacion = context.operacion;

@@ -1,4 +1,5 @@
 ﻿using Gdoc.Dao;
+using Gdoc.Entity.Extension;
 using Gdoc.Entity.Models;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public List<UsuarioGrupo> listarUsuarioG()
+        public List<EUsuarioGrupo2> listarUsuarioG()
         {
             try
             {
@@ -44,6 +45,19 @@ namespace Gdoc.Negocio
             try
             {
                 dUsuarioGrupo.GrabarUsuarioGrupo(eUsuarioGrupo);
+                return 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public short EditarUsuarioGrupo(UsuarioGrupo eUsuarioGrupo)
+        {
+            try
+            {
+                dUsuarioGrupo.Editar(eUsuarioGrupo);
                 return 1;
             }
             catch (Exception)

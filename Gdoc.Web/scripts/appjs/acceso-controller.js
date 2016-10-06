@@ -17,7 +17,6 @@
         //AUTOCOMPLETE //
         context.simulateQuery = false;
         context.isDisabled = false;
-
         context.repos = loadAll();
         context.querySearch = querySearch;
         context.selectedItemChange = selectedItemChange;
@@ -34,12 +33,10 @@
                 return results;
             }
         }
-
         function searchTextChange(text) {
             context.usuario.NombreUsuario = text;
             context.usuario.NombreCompleto = text.NombreCompleto;
         }
-
         function selectedItemChange(item) {
             if (item != undefined) {
                 context.usuario.NombreUsuario = item.NombreUsuario;
@@ -84,10 +81,11 @@
 
         context.activarAcceso = function (rowIndex) {
             var acceso = context.gridAccesos.data[rowIndex];
-
+            var usuario = context.usuario;
+            console.log(acceso);
             dataProvider.postData("Acceso/ActivarAcceso", acceso).success(function (respuesta) {
                 console.log(respuesta);
-                context.buscarAccesoSistema(acceso);
+                context.buscarAccesoSistema(usuario);
             }).error(function (error) {
                 //MostrarError();
             });
@@ -95,9 +93,9 @@
             
         context.desactivarAcceso = function (rowIndex) {
             var acceso = context.gridAccesos.data[rowIndex];
-
+            var usuario = context.usuario;
             dataProvider.postData("Acceso/DesactivarAcceso", acceso).success(function (respuesta) {
-                context.buscarAccesoSistema(acceso);
+                context.buscarAccesoSistema(usuario);
             }).error(function (error) {
                 //MostrarError();
             });
@@ -125,21 +123,10 @@
             ],
             multiSelect: false,
             modifierKeysToMultiSelect: false,
-            //onRegisterApi : function( gridApi ) {
-            //    context.gridApi = gridApi;
-            //    gridApi.selection.on.rowSelectionChanged(context, function (row) {
-            //        var msg = 'row selected ' + row.isSelected;
-            //        console.log(msg);
-            //    });
-            //}
         };
 
         //Eventos
         context.buscarAccesoSistema = function (usuario) {
-            //if (usuario == null) {
-            //    alert("Ingrese el Nombre Usuario");
-            //}
-            //else {
             dataProvider.postData("ModuloPaginaUrl/ListarModuloPaginaUrl", usuario).success(function (respuesta) {
                     //context.accesosistema = respuesta[0];
                     context.gridAccesos.data = respuesta;
@@ -174,6 +161,5 @@
 
         
         //Carga
-        //listarAccesoSistema();
     }
 })();

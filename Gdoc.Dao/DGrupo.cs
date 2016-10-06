@@ -46,15 +46,13 @@ namespace Gdoc.Dao
 
                     list2.ForEach(x => listGrupo.Add(new EGrupo
                     {
-                        IDGrupo=x.IDGrupo,
+                        IDGrupo = x.IDGrupo,
                         CodigoGrupo = x.CodigoGrupo,
                         NombreGrupo = x.NombreGrupo,
                         ComentarioGrupo = x.ComentarioGrupo,
                         EstadoGrupo = x.EstadoGrupo,
-                        Estado= new Concepto{DescripcionConcepto=x.DescripcionConcepto},
-                        CantidadUsuarios=x.Count,
-                        
-
+                        Estado = new Concepto { DescripcionConcepto = x.DescripcionConcepto },
+                        CantidadUsuarios = x.Count,
                     }));
                 }
             }

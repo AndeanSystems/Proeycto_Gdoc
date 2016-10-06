@@ -253,12 +253,21 @@ function ReadFileToBinary(control) {
         }
         context.eliminarOperacion = function (rowIndex) {
             var operacion = context.gridOptions.data[rowIndex];
-            dataProvider.postData("DocumentoDigital/EliminarOperacion", operacion).success(function (respuesta) {
-                console.log(respuesta);
-                listarOperacion();
-            }).error(function (error) {
-                //MostrarError();
-            });
+
+            function enviarFomularioOK() {
+                dataProvider.postData("DocumentoDigital/EliminarOperacion", operacion).success(function (respuesta) {
+                    console.log(respuesta);
+                    appService.mostrarAlerta("Información", "Documento Digital Inactivo", "warning")
+                    listarOperacion();
+                }).error(function (error) {
+                    //MostrarError();
+                });
+            }
+            function cancelarFormulario() {
+                //Operacion.EstadoOperacion = 0;
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
+
         };
         context.CambiarVentana = function (mostrarVentana) {        
             context.visible = mostrarVentana;

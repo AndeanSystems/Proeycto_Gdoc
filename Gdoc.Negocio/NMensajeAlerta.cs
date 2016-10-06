@@ -20,7 +20,8 @@ namespace Gdoc.Negocio
         {
             try
             {
-                return dMensajeAlerta.ListarMensajeAlerta().Where(x => x.IDUsuario == IDUsuario).ToList();
+                //return dMensajeAlerta.ListarMensajeAlerta().Where(x => x.IDUsuario == IDUsuario).ToList();
+                return dMensajeAlerta.ListarMensajeAlerta(IDUsuario);
             }
             catch (Exception)
             {

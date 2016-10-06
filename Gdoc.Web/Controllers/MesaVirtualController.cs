@@ -64,12 +64,15 @@ namespace Gdoc.Web.Controllers
                     
                 }
                 mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Operación " + operacion.NumeroOperacion + " realizada correctamente";
+                if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                    mensajeRespuesta.Mensaje = "La operación " + operacion.NumeroOperacion + " se envió correctamente";
+                else
+                    mensajeRespuesta.Mensaje = "La operacion " + operacion.NumeroOperacion + " se grabó correctamente";
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception ex)
             {
-                mensajeRespuesta.Mensaje = "Operación no realizada correctamente";
+                mensajeRespuesta.Mensaje = ex.Message;
                 mensajeRespuesta.Exitoso = false;
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }

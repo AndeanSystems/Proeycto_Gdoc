@@ -13,5 +13,6 @@ namespace Gdoc.Entity.Extension
     {
         public Personal Persona { get; set; }
         public string NombreCompleto { get; set; }
+        public long IDModuloPagina2 { get; set; }
     }
 }

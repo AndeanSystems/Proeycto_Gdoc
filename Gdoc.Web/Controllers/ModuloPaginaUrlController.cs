@@ -21,7 +21,7 @@ namespace Gdoc.Web.Controllers
             var listModuloPaginaUrl = new List<EModuloPaginaUrl>();
             using (var nModuloPaginaUrl = new NModuloPaginaUrl())
             {
-                listModuloPaginaUrl = nModuloPaginaUrl.ObtenerPaginaModuloUrl(eUsuario);
+                listModuloPaginaUrl = nModuloPaginaUrl.ObtenerPaginaModuloUrl(eUsuario).OrderBy(x=>x.IDModuloPagina).ToList();
             }
             return new JsonResult { Data = listModuloPaginaUrl, MaxJsonLength = int.MaxValue };
         }

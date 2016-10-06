@@ -18,6 +18,9 @@ namespace Gdoc.Dao
                 using (var db = new DataBaseContext())
                 {
                     var query = (from modulo in db.ModuloPaginaUrls.Include("AccesoSistema")
+
+                                    
+
                                    select new { modulo }).ToList();
 
                     foreach (var eModuloPaginaUrl in query)
@@ -34,16 +37,27 @@ namespace Gdoc.Dao
                         //        Usuario = eUsuario
                         //    });
                         //}
+                        var AccesosSistema = eModuloPaginaUrl.modulo.AccesoSistemas.Where(x => x.IDUsuario == eUsuario.IDUsuario);
+                        long idAcceso = 0;
+                        var idUsuario = eUsuario.IDUsuario;
+                        if (AccesosSistema.Count() > 0)
+                            idAcceso = AccesosSistema.FirstOrDefault().IDAcceso;
                         listModuloPaginaUrl.Add(new EModuloPaginaUrl
                         {
-                            Asignacion = eModuloPaginaUrl.modulo.AccesoSistemas.Count(x => x.IDUsuario == eUsuario.IDUsuario) > 0?"Asignado":"No Asignado",
+                            Asignacion = eModuloPaginaUrl.modulo.AccesoSistemas.Count(x => x.IDUsuario == eUsuario.IDUsuario && x.EstadoAcceso==1) > 0?"Asignado":"No Asignado",
                             CodigoPaginaPadre = eModuloPaginaUrl.modulo.CodigoPaginaPadre,
                             ComentarioPagina = eModuloPaginaUrl.modulo.ComentarioPagina,
                             DireccionFisicaPagina = eModuloPaginaUrl.modulo.DireccionFisicaPagina,
                             EstadoPagina = eModuloPaginaUrl.modulo.EstadoPagina,
                             IDModuloPagina = eModuloPaginaUrl.modulo.IDModuloPagina,
                             ModuloSistema = eModuloPaginaUrl.modulo.ModuloSistema,
-                            NombrePagina = eModuloPaginaUrl.modulo.NombrePagina
+                            NombrePagina = eModuloPaginaUrl.modulo.NombrePagina,
+                            
+                            AccesoSistema = new EAccesoSistema{
+                                IDAcceso = idAcceso,
+                                IDUsuario = idUsuario,
+                                IDModuloPagina2 = eModuloPaginaUrl.modulo.IDModuloPagina,
+                            },
                         });
                     }
                 }

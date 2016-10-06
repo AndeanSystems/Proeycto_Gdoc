@@ -73,13 +73,15 @@ namespace Gdoc.Web.Controllers
                     }
                     
                 }
-                mensajeRespuesta.Mensaje = "Operación "+operacion.NumeroOperacion+" realizada correctamente";
+                if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                    mensajeRespuesta.Mensaje = "La operación " + operacion.NumeroOperacion + " se envió correctamente";
+                else
+                    mensajeRespuesta.Mensaje = "La operacion " + operacion.NumeroOperacion + " se grabó correctamente";
                 mensajeRespuesta.Exitoso = true;
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception ex)
             {
-                //mensajeRespuesta.Mensaje = "Operación no realizada correctamente";
                 mensajeRespuesta.Mensaje = ex.Message;
                 mensajeRespuesta.Exitoso = false;
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
@@ -97,7 +99,6 @@ namespace Gdoc.Web.Controllers
 
             return new JsonResult { Data = listDocumentoElectronico, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-
         [HttpPost]
         public JsonResult ListarUsuarioParticipanteDE(Operacion operacion)
         {
@@ -122,7 +123,26 @@ namespace Gdoc.Web.Controllers
 
             return FechaInicial.AddDays(add);
         }
+        public JsonResult EliminarOperacion(Operacion operacion)
+        {
+            try
+            {
+                using (var oOperacion = new NOperacion())
+                {
+                    operacion.EstadoOperacion = Estados.EstadoOperacion.Inactivo;
+                    var respuesta = oOperacion.AnularDocumentoElectronico(operacion);
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Documento Electronico Inactivo";
+                }
+                return new JsonResult { Data = mensajeRespuesta };
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+
+        }
         protected void EnviarCorreo()
         {
             /*-------------------------MENSAJE DE CORREO----------------------*/

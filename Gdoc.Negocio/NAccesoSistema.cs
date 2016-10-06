@@ -39,5 +39,17 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public AccesoSistema grabarAcceso(AccesoSistema accesosistema)
+        {
+            try
+            {
+                return dAccesoSistema.grabarAcceso(accesosistema);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }

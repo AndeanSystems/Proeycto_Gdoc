@@ -1,4 +1,5 @@
-﻿using Gdoc.Entity.Models;
+﻿using Gdoc.Entity.Extension;
+using Gdoc.Entity.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,9 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-
-        public List<UsuarioGrupo> listarUsuarioG( )
+        public List<EUsuarioGrupo2> listarUsuarioG()
         {
-            var listUsuarioGrupo = new List<UsuarioGrupo>();
+            var listUsuarioGrupo = new List<EUsuarioGrupo2>();
             try
             {
                 using (var db = new DataBaseContext())
@@ -32,7 +32,7 @@ namespace Gdoc.Dao
                     var list = db.UsuarioGrupoes.ToList();
 
 
-                    list.ForEach(x => listUsuarioGrupo.Add(new UsuarioGrupo
+                    list.ForEach(x => listUsuarioGrupo.Add(new EUsuarioGrupo2
                     {
                         IDUsuarioGrupo=x.IDUsuarioGrupo,
                         IDUsuario=x.IDUsuario,
@@ -40,6 +40,8 @@ namespace Gdoc.Dao
                         UsuarioRegistro=x.UsuarioRegistro,
                         FechaRegistro = x.FechaRegistro,
                         EstadoUsuarioGrupo=x.EstadoUsuarioGrupo,
+
+                        Nombre = x.Usuario.NombreUsuario,
 
                         Usuario = new Usuario
                         {
@@ -68,6 +70,24 @@ namespace Gdoc.Dao
             }
             catch (Exception ex)
             {
+                throw;
+            }
+        }
+        public short Editar(UsuarioGrupo UsuarioGrupo)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var entidad = db.UsuarioGrupoes.Find(UsuarioGrupo.IDUsuarioGrupo);
+                    entidad.EstadoUsuarioGrupo = UsuarioGrupo.EstadoUsuarioGrupo;
+                    db.SaveChanges();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+
                 throw;
             }
         }

@@ -19,7 +19,6 @@ namespace Gdoc.Web.Controllers
         {
             return View();
         }
-
         [HttpGet]
         public JsonResult ListarGrupo()
         {
@@ -30,15 +29,14 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listGrupo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
         public JsonResult ListarUsuarioGrupo(Grupo grupo)
         {
-            var listUsuarioGrupo = new List<UsuarioGrupo>();
+            var listUsuarioGrupo = new List<EUsuarioGrupo2>();
             try
             {
                 using (var oUsuarioGrupo = new NUsuarioGrupo())
                 {
-                    listUsuarioGrupo = oUsuarioGrupo.listarUsuarioG().Where(x => x.IDGrupo == grupo.IDGrupo).ToList();
+                    listUsuarioGrupo = oUsuarioGrupo.listarUsuarioG().Where(x => x.IDGrupo == grupo.IDGrupo && x.EstadoUsuarioGrupo == Constantes.EstadoParticipante.Activo).ToList();
                 }
                 return new JsonResult { Data = listUsuarioGrupo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
             }
@@ -49,7 +47,7 @@ namespace Gdoc.Web.Controllers
             }
            
         }
-        public JsonResult GrabarGrupoUsuarios(Grupo grupo, List<EUsuarioGrupo> listUsuarioGrupo)
+        public JsonResult GrabarGrupoUsuarios(Grupo grupo, List<UsuarioGrupo> listUsuarioGrupo)
         {
             try
             {
@@ -60,14 +58,52 @@ namespace Gdoc.Web.Controllers
 
                     grupo.FechaModifica = System.DateTime.Now;
                     grupo.UsuarioModifica = Session["NombreUsuario"].ToString();
-                    grupo.EstadoGrupo = 1;
+                    //grupo.EstadoGrupo = 1;
 
                     //Grupo respuesta = null;
-                    Grupo respuesta2;
                     short respuesta = 1;
 
                     if (grupo.IDGrupo > 0)
-                        respuesta2 = oGrupo.EditarGrupo(grupo);
+                    {
+                        oGrupo.EditarGrupo(grupo);
+
+                        var ugrupoguardados = oUsuarioGrupo.listarUsuarioG().Where(x => x.IDGrupo == grupo.IDGrupo && x.EstadoUsuarioGrupo == 1);
+                        var usuariosactuales = listUsuarioGrupo.Select(x => x.IDUsuarioGrupo).ToList();
+                        IEnumerable<UsuarioGrupo> nuevos = ugrupoguardados.Where(x => !usuariosactuales.Contains(x.IDUsuarioGrupo));
+                        foreach (var item in nuevos)
+                        {
+                            if (item.EstadoUsuarioGrupo != 0)
+                            {
+                                item.EstadoUsuarioGrupo = 2;
+                                oUsuarioGrupo.EditarUsuarioGrupo(item);
+                            }
+                        }
+                        foreach (var participante in listUsuarioGrupo)
+                        {
+                            var eUsuarioGrupo = new UsuarioGrupo();
+
+                            var usuarioencontrado = oUsuarioGrupo.listarUsuarioG().Where(x => x.IDUsuarioGrupo == participante.IDUsuarioGrupo).FirstOrDefault();
+
+                            if (usuarioencontrado != null)
+                            {
+                                usuarioencontrado.EstadoUsuarioGrupo = 1;
+                                oUsuarioGrupo.EditarUsuarioGrupo(usuarioencontrado);
+                            }
+                            else 
+                            {
+                                if (participante.EstadoUsuarioGrupo != 1 && participante.EstadoUsuarioGrupo != 2)
+                                {
+                                    eUsuarioGrupo.IDUsuario = participante.IDUsuarioGrupo;
+                                    eUsuarioGrupo.IDGrupo = grupo.IDGrupo;
+                                    eUsuarioGrupo.UsuarioRegistro = Session["NombreUsuario"].ToString();
+                                    eUsuarioGrupo.FechaRegistro = System.DateTime.Now;
+                                    eUsuarioGrupo.EstadoUsuarioGrupo = 1;
+                                    listEusuarioGrupo.Add(eUsuarioGrupo);
+                                }
+                            }
+                        }
+                        oUsuarioGrupo.GrabarUsuarioGrupo(listEusuarioGrupo);
+                    }
                     else
                     {
                         respuesta = oGrupo.GrabarGrupoUsuarios(grupo);
@@ -82,9 +118,7 @@ namespace Gdoc.Web.Controllers
                             eUsuarioGrupo.FechaRegistro = System.DateTime.Now;
                             eUsuarioGrupo.EstadoUsuarioGrupo = 1;
                             listEusuarioGrupo.Add(eUsuarioGrupo);
-
                         }
-
                         oUsuarioGrupo.GrabarUsuarioGrupo(listEusuarioGrupo);
                     }
 
@@ -110,7 +144,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = mensajeRespuesta };
         }
-        [HttpPost]
         public JsonResult BuscarGrupo(EGrupo grupo)
         {
             var listConcepto = new List<EGrupo>();

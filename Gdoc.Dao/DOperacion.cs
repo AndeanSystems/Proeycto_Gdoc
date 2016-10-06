@@ -95,7 +95,21 @@ namespace Gdoc.Dao
             {
                 using (var db = new DataBaseContext())
                 {
-                    var list = db.Operacions.ToList();
+                    var remitentes = new List<String>();
+                    var listremitentes = (from remitente in db.UsuarioParticipantes
+
+                                          join usuario in db.Usuarios
+                                          on remitente.IDUsuario equals usuario.IDUsuario
+
+                                          join operacion in db.Operacions
+                                          on remitente.IDOperacion equals operacion.IDOperacion
+
+                                          where 
+
+                                           (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario 
+                                            && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)) > 0)
+                                            && remitente.TipoParticipante==Constantes.TipoParticipante.RemitenteDE
+                                          select new { usuario}).ToList();
 
                     var list2 = (from operacion in db.Operacions
 
@@ -115,38 +129,82 @@ namespace Gdoc.Dao
                                         estado.TipoConcepto.Equals("001") &&
                                         tipooperacion.TipoConcepto.Equals("003") &&
                                         prioridad.TipoConcepto.Equals("005") &&
-                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)) > 0)
+                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario 
+                                            && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)) > 0)
 
                                  select new { operacion, tipodocumento, estado, tipooperacion, prioridad }).ToList();
 
-                    list2.ForEach(x => listOperacion.Add(new EOperacion
+                    
+                    foreach (var item in listremitentes)
                     {
-                        IDOperacion = x.operacion.IDOperacion,
-                        IDEmpresa = x.operacion.IDEmpresa,
-                        TipoOperacion = x.operacion.TipoOperacion,
-                        FechaEmision = x.operacion.FechaEmision,
-                        NumeroOperacion = x.operacion.NumeroOperacion,
-                        TituloOperacion = x.operacion.TituloOperacion,
-                        AccesoOperacion = x.operacion.AccesoOperacion,
-                        EstadoOperacion = x.operacion.EstadoOperacion,
-                        DescripcionOperacion = x.operacion.DescripcionOperacion,
-                        PrioridadOperacion = x.operacion.PrioridadOperacion,
-                        FechaCierre = x.operacion.FechaCierre,
-                        FechaRegistro = x.operacion.FechaRegistro,
-                        FechaEnvio = x.operacion.FechaEnvio,
-                        FechaVigente = x.operacion.FechaVigente,
-                        DocumentoAdjunto = x.operacion.DocumentoAdjunto,
-                        TipoComunicacion = x.operacion.TipoComunicacion,
-                        NotificacionOperacion = x.operacion.NotificacionOperacion,
-                        TipoDocumento = x.operacion.TipoDocumento,
-                        NombreFinal=x.operacion.NombreFinal,
+                        remitentes.Add(item.usuario.NombreUsuario);
+                    }
 
-                        TipoOpe = new Concepto { DescripcionCorta = x.tipooperacion.DescripcionCorta },
-                        TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
-                        Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
-                        Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
-                    }));
+                    foreach (var item in list2)
+                    {
+                        listOperacion.Add(new EOperacion
+                        {
+                            IDOperacion = item.operacion.IDOperacion,
+                            IDEmpresa = item.operacion.IDEmpresa,
+                            TipoOperacion = item.operacion.TipoOperacion,
+                            FechaEmision = item.operacion.FechaEmision,
+                            NumeroOperacion = item.operacion.NumeroOperacion,
+                            TituloOperacion = item.operacion.TituloOperacion,
+                            AccesoOperacion = item.operacion.AccesoOperacion,
+                            EstadoOperacion = item.operacion.EstadoOperacion,
+                            DescripcionOperacion = item.operacion.DescripcionOperacion,
+                            PrioridadOperacion = item.operacion.PrioridadOperacion,
+                            FechaCierre = item.operacion.FechaCierre,
+                            FechaRegistro = item.operacion.FechaRegistro,
+                            FechaEnvio = item.operacion.FechaEnvio,
+                            FechaVigente = item.operacion.FechaVigente,
+                            DocumentoAdjunto = item.operacion.DocumentoAdjunto,
+                            TipoComunicacion = item.operacion.TipoComunicacion,
+                            NotificacionOperacion = item.operacion.NotificacionOperacion,
+                            TipoDocumento = item.operacion.TipoDocumento,
+                            NombreFinal = item.operacion.NombreFinal,
 
+                            TipoOpe = new Concepto { DescripcionCorta = item.tipooperacion.DescripcionCorta },
+                            TipoDoc = new Concepto { DescripcionCorta = item.tipodocumento.DescripcionCorta },
+                            Estado = new Concepto { DescripcionConcepto = item.estado.DescripcionConcepto },
+                            Prioridad = new Concepto { DescripcionConcepto = item.prioridad.DescripcionConcepto },
+
+
+                            Remitente = string.Join(",",remitentes.ToArray()),
+                        });
+                    }
+                        //list2.ForEach(x => listOperacion.Add(new EOperacion
+                        //{
+                        //    IDOperacion = x.operacion.IDOperacion,
+                        //    IDEmpresa = x.operacion.IDEmpresa,
+                        //    TipoOperacion = x.operacion.TipoOperacion,
+                        //    FechaEmision = x.operacion.FechaEmision,
+                        //    NumeroOperacion = x.operacion.NumeroOperacion,
+                        //    TituloOperacion = x.operacion.TituloOperacion,
+                        //    AccesoOperacion = x.operacion.AccesoOperacion,
+                        //    EstadoOperacion = x.operacion.EstadoOperacion,
+                        //    DescripcionOperacion = x.operacion.DescripcionOperacion,
+                        //    PrioridadOperacion = x.operacion.PrioridadOperacion,
+                        //    FechaCierre = x.operacion.FechaCierre,
+                        //    FechaRegistro = x.operacion.FechaRegistro,
+                        //    FechaEnvio = x.operacion.FechaEnvio,
+                        //    FechaVigente = x.operacion.FechaVigente,
+                        //    DocumentoAdjunto = x.operacion.DocumentoAdjunto,
+                        //    TipoComunicacion = x.operacion.TipoComunicacion,
+                        //    NotificacionOperacion = x.operacion.NotificacionOperacion,
+                        //    TipoDocumento = x.operacion.TipoDocumento,
+                        //    NombreFinal = x.operacion.NombreFinal,
+
+                        //    TipoOpe = new Concepto { DescripcionCorta = x.tipooperacion.DescripcionCorta },
+                        //    TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
+                        //    Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
+                        //    Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
+
+
+                        //    Remitente = remitentes,
+
+                        //}));
+                    
 
                 }
 

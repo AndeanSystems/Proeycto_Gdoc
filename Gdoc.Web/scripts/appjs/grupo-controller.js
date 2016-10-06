@@ -29,8 +29,6 @@
 
         context.editarGrupo = function (rowIndex) {
             context.grupo = context.gridOptions.data[rowIndex];
-            
-
             ObtenerUsuariosGrupo(context.grupo)
             context.participantesGrupo = listUsuariosGrupo;
             context.CambiarVentana('CreateAndEdit');
@@ -133,7 +131,7 @@
                 }).error(function (error) {
                     //MostrarError();
                 });
-
+                context.CambiarVentana("List");
                 limpiarFormulario();
             }
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
@@ -165,8 +163,7 @@
         function ObtenerUsuariosGrupo(grupo) {
             dataProvider.postData("Grupo/ListarUsuarioGrupo", grupo).success(function (respuesta) {
                 for (var ind in respuesta) {
-                    respuesta[ind].Usuario.Nombre = respuesta[ind].Usuario.NombreUsuario;
-                    listUsuariosGrupo.push(respuesta[ind].Usuario);
+                    listUsuariosGrupo.push(respuesta[ind]);
                 }
             }).error(function (error) {
                 //MostrarError();
