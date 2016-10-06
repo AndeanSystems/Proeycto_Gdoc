@@ -723,6 +723,7 @@
     <Content Include="scripts\appjs\logoperacion-controller.js" />
     <Content Include="scripts\appjs\mesavirtual-controller.js" />
     <Content Include="scripts\appjs\personal-controller.js" />
+    <Content Include="scripts\appjs\sede-controller.js" />
     <Content Include="scripts\appjs\usuario-controller.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -767,6 +768,11 @@
     <Content Include="scripts\jquery-3.1.0.min.js" />
     <Content Include="scripts\jquery-3.1.0.slim.js" />
     <Content Include="scripts\jquery-3.1.0.slim.min.js" />
+    <None Include="scripts\jquery.validate-vsdoc.js" />
+    <Content Include="scripts\jquery.validate.js" />
+    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\ui-grid.js" />
     <Content Include="scripts\ui-grid.min.js" />
     <Content Include="Librerias\Seguridadv2.dll" />
@@ -774,6 +780,8 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\MesaVirtual\_CreatAndEdit.cshtml" />
+    <Content Include="Views\Sede\Index.cshtml" />
+    <Content Include="Views\Sede\_CreateAndEdit.cshtml" />
     <Content Include="Views\Usuario\CambiarContraseña.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -884,7 +892,6 @@
     <Folder Include="Models\" />
     <Folder Include="Views\ComboUsuarioGrupo\" />
     <Folder Include="Views\ModuloPaginaUrl\" />
-    <Folder Include="Views\Sede\" />
     <Folder Include="Views\Ubigeo\" />
   </ItemGroup>
   <ItemGroup>

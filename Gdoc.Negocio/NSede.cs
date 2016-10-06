@@ -28,5 +28,43 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public Sede GrabarSede(Sede sede)
+        {
+            try
+            {
+                return dSede.GrabarSede(sede);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public Sede EliminarSede(Sede sede)
+        {
+            try
+            {
+                return dSede.EliminarSede(sede);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public Sede EditarSede(Sede sede)
+        {
+            try
+            {
+                return dSede.EditarSede(sede);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

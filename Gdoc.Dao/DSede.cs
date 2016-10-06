@@ -41,5 +41,66 @@ namespace Gdoc.Dao
             }
             return listSede;
         }
+        public Sede GrabarSede(Sede sede)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    db.Sedes.Add(sede);
+                    db.SaveChanges();
+                }
+                return sede;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public Sede EditarSede(Sede sede)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var entidad = db.Sedes.Find(sede.IDSede);
+                    entidad.CodigoSede = sede.CodigoSede;
+                    entidad.IDEmpresa = sede.IDEmpresa;
+                    entidad.NombreSede = sede.NombreSede;
+                    entidad.CodigoUbigeo = sede.CodigoUbigeo;
+                    entidad.DireccionSede = sede.DireccionSede;
+                    entidad.TelefonoSede = sede.TelefonoSede;
+                    entidad.UsuarioModifica = sede.UsuarioModifica;
+                    entidad.FechaModifica = sede.FechaModifica;
+                    entidad.EstadoSede = sede.EstadoSede;
+                    db.SaveChanges();
+                }
+                return sede;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public Sede EliminarSede(Sede sede)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var entidad = db.Sedes.Find(sede.IDSede);
+                    entidad.EstadoSede = sede.EstadoSede;
+                    db.SaveChanges();
+                }
+                return sede;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
