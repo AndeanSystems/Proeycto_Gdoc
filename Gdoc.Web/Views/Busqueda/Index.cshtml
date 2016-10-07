@@ -1,12 +1,18 @@
-﻿<section class="content-header">
+﻿@model Gdoc.Entity.Models.Operacion
+<section class="content-header">
     <section class="content" ng-controller="busqueda_controller as ctrl" ng-cloak>
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary margin-top">
                     <div class="box-header with-border">
                         <h3 class="box-title">Búsqueda</h3>
-                        <button class="btn btn-default btn-sm pull-right" ng-click="ctrl.buscarOperacion(ctrl.operacion)" ><i data-placement="top" data-toggle="tooltip" title="Buscar" class="fa fa-search"></i></button>
-                        <button class="btn btn-default btn-sm pull-right" ng-click="ctrl.exportarExcel()"><i data-placement="top" data-toggle="tooltip" title="Excel" class="fa fa-file-excel-o"></i></button>
+                        <button class="btn btn-default btn-sm pull-right" ng-click="ctrl.buscarOperacion(ctrl.operacion)"><i data-placement="top" data-toggle="tooltip" title="Buscar" class="fa fa-search"></i></button>
+
+                         @using (Html.BeginForm("DescargarExcel", "Busqueda", FormMethod.Post))
+                        {
+                             <button class="btn btn-default btn-sm pull-right" type="submit"><i data-placement="top" data-toggle="tooltip" title="Excel" class="fa fa-file-excel-o"></i></button>
+                        }
+                        
                     </div>
 
                     <div class="box-body" >
@@ -52,7 +58,7 @@
                                 <input type="text" class="form-control" placeholder="Remitente">
                             </div>*@
 
-                            <div class="col-md-3">
+                            @*<div class="col-md-3">
                                 <label style="font-weight: normal;">Remitente</label>
                                 <md-content>
                                     <form ng-submit="$event.preventDefault()">
@@ -74,14 +80,14 @@
                                     </form>
                                 </md-content>
 
-                            </div>
+                            </div>*@
 
                             @*<div class="col-sm-3">
                                 <label style="font-weight: normal;">Destinatario</label>
                                 <input type="email" class="form-control" id="Email1" placeholder="Destinatario">
                             </div>*@
 
-                            <div class="col-md-3">
+                            @*<div class="col-md-3">
                                 <label style="font-weight: normal;">Destinatario</label>
                                 <md-content>
                                     <form ng-submit="$event.preventDefault()">
@@ -108,11 +114,11 @@
                             <div class="col-sm-3">
                                 <label style="font-weight: normal;">Título</label>
                                 <input ng-model="ctrl.operacion.TipoDocumento" type="text" class="form-control" placeholder="Título">
-                            </div>
+                            </div>*@
                         </div>
                         
                     </div>
-                    <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination></div>
+                    <div  class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination></div>
                 </div>
             </div>
 

@@ -67,6 +67,7 @@ namespace Gdoc.Dao
                         TipoComunicacion = x.operacion.TipoComunicacion,
                         NotificacionOperacion = x.operacion.NotificacionOperacion,
                         TipoDocumento = x.operacion.TipoDocumento,
+                        NombreFinal=x.operacion.NombreFinal,
 
                         //DocumentoDigitalOperacion=new DocumentoDigitalOperacion{
                         //    Comentario=x.documentodigital.Comentario,

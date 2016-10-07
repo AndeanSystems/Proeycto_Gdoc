@@ -1,4 +1,6 @@
-﻿(function () {
+﻿
+
+(function () {
     'use strict';
 
     angular.module('app').controller('busqueda_controller', busqueda_controller);
