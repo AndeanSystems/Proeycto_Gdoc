@@ -8,6 +8,7 @@
         var context = this;
         context.operacion = {};
 
+        context.FechaBusqueda=new Date();
         context.mostrarPDF = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
             dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
@@ -41,6 +42,15 @@
             });
         }
 
+        context.FechaAnterior = function (archivo) {
+            context.FechaBusqueda.setDate(context.FechaBusqueda.getDate() - 1);
+            listarOperacionPorFecha(context.FechaBusqueda);
+        }
+
+        context.FechaPosterior = function (archivo) {
+            context.FechaBusqueda.setDate(context.FechaBusqueda.getDate() + 1);
+            listarOperacionPorFecha(context.FechaBusqueda);
+        }
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -78,6 +88,22 @@
         function listarDocumentoAdjunto(operacion) {
             dataProvider.postData("DocumentosRecibidos/ListarAdjunto", operacion).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+
+        function listarOperacionPorFecha(fecha) {
+            console.log(fecha);
+            var dia = fecha.getDate();
+            var mes = fecha.getMonth();
+            var año = fecha.getFullYear();
+
+            var fechaformato = dia + "/" + mes + "/" + año;
+            console.log(fechaformato);
+            dataProvider.postData("DocumentosRecibidos/ListarOperacionPorFecha", fecha).success(function (respuesta) {
+                context.gridOptions.data = respuesta;
                 console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();

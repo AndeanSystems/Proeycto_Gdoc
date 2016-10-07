@@ -5,6 +5,11 @@
                 <div class="box box-primary margin-top">
                     <div class="box-header with-border">
                         <h3 class="box-title">Documentos Recibidos</h3>
+                        <div class="pull-right">
+                            <button ng-click="ctrl.FechaAnterior()" type="button" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                            <label ng-model="crtl.FechaBusqueda">{{ctrl.FechaBusqueda | date:"dd MMM yyyy "}}</label>
+                            <button ng-click="ctrl.FechaPosterior()" type="button" class="btn btn-default"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                        </div>
                     </div>
                     <div class="box-body no-padding">
                         <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination></div>

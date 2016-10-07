@@ -60,14 +60,14 @@ function ReadFileToBinary(control) {
         context.eliminar = true;
         context.agregar = true;
 
-        LlenarConcepto(TipoDocumento);
+        //LlenarConcepto(TipoDocumento);
         LlenarConcepto(TipoAcceso);
         LlenarConcepto(PrioridadAtencion);
         LlenarConcepto(Estado);
 
         //COMIENZO
         context.operacion = {
-            TipoDocumento: '02',
+            TipoDocumento: '41',
             AccesoOperacion: '2',
             PrioridadOperacion: '02',
             TipoComunicacion: '1',
@@ -347,6 +347,15 @@ function ReadFileToBinary(control) {
                     context.listEstado = respuesta;
             });
         }
+        function LlenarConceptoTipoDocumento() {
+            var concepto = { TipoConcepto: TipoDocumento, TextoUno: "DD" }
+            dataProvider.postData("Concepto/ListarConceptoTipoDocumento", concepto).success(function (respuesta) {
+                console.log(respuesta);
+                context.listTipoDocumento = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         function listarOperacion() {
             dataProvider.getData("DocumentoDigital/ListarOperacion").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
@@ -390,7 +399,7 @@ function ReadFileToBinary(control) {
             context.listaReferencia = [];
             context.listDocumentoAdjunto = [];
             context.operacion = {
-                TipoDocumento: '02',
+                TipoDocumento: '41',
                 AccesoOperacion: '2',
                 PrioridadOperacion: '02',
                 TipoComunicacion: '1',
@@ -413,5 +422,6 @@ function ReadFileToBinary(control) {
         }
         
         obtenerUsuarioSession();
+        LlenarConceptoTipoDocumento();
     }
 })();

@@ -55,15 +55,15 @@ function ReadFileToBinary(control) {
         context.eliminar = true;
         context.agregar = true;
 
-        LlenarConcepto(TipoDocumento);
+        //LlenarConcepto(TipoDocumento);
         LlenarConcepto(TipoAcceso);
-        LlenarConcepto(TipoMesaVirtual);
+        //LlenarConcepto(TipoMesaVirtual);
         LlenarConcepto(PrioridadAtencion);
         LlenarConcepto(Estado);
 
         //COMIENZO
         context.operacion = {
-            TipoDocumento: '90',
+            TipoDocumento: '81',
             PrioridadOperacion: '02',
             AccesoOperacion: '2',
             NotificacionOperacion: 'S',
@@ -229,6 +229,15 @@ function ReadFileToBinary(control) {
             else if (context.visible == "Commentario") {
                 listarComentarioMesaVirtual(context.operacion);
             }
+        }
+        function LlenarConceptoTipoDocumento() {
+            var concepto = { TipoConcepto: TipoDocumento, TextoUno: "MV" }
+            dataProvider.postData("Concepto/ListarConceptoTipoDocumento", concepto).success(function (respuesta) {
+                console.log(respuesta);
+                context.listTipoDocumento = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
         }
         //Adjuntos
         context.agregaradjunto = function () {
@@ -498,7 +507,7 @@ function ReadFileToBinary(control) {
             context.usuarioOrganizador = [];
             context.listDocumentoAdjunto = [];
             context.operacion = {
-                TipoDocumento: '90',
+                TipoDocumento: '81',
                 PrioridadOperacion: '02',
                 AccesoOperacion: '2',
                 NotificacionOperacion: 'S',
@@ -520,5 +529,6 @@ function ReadFileToBinary(control) {
         }
         listarMesaTrabajo();
         obtenerUsuarioSession();
+        LlenarConceptoTipoDocumento();
     }
 })();

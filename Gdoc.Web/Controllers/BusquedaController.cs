@@ -26,9 +26,53 @@ namespace Gdoc.Web.Controllers
             var listOperacion = new List<EOperacion>();
             using (var oOperacion = new NOperacion())
             {
-                listOperacion = oOperacion.ListarOperacionBusqueda().
-                    Where(x=>x.TipoOperacion==operacion.TipoOperacion || x.TipoDocumento==operacion.TipoDocumento 
-                            || x.FechaRegistro==operacion.FechaRegistro || x.FechaCierre==operacion.FechaCierre).ToList();
+
+                //var tipoOepracion = operacion.TipoOperacion;
+                var fechaDesde = operacion.FechaEmision;
+                var fechaHasta = operacion.FechaRegistro;
+
+
+                //switch(operacion.TipoDocumento.Length){
+                //    case 0 : oOperacion.ListarOperacionBusqueda();
+                //        break;
+                //    default: 
+                        
+                //        oOperacion.ListarOperacionBusqueda().Where(x => x.TipoOperacion == operacion.TipoOperacion);
+                //        break;
+                //}
+                if (operacion.TipoOperacion != null)
+                {
+                    if (operacion.TipoDocumento != null)
+                    {
+                        if (operacion.TituloOperacion!=null )
+                        {
+                            listOperacion = oOperacion.ListarOperacionBusqueda().
+                                Where(x => x.TipoOperacion == operacion.TipoOperacion 
+                                    && x.TipoDocumento == operacion.TipoDocumento 
+                                    && x.TituloOperacion.Contains(operacion.TituloOperacion)).ToList();
+                        }
+                        else
+                        {
+                            listOperacion = oOperacion.ListarOperacionBusqueda().
+                                Where(x => x.TipoOperacion == operacion.TipoOperacion 
+                                    && x.TipoDocumento == operacion.TipoDocumento).ToList();
+
+                        }
+                        
+                    }
+                    else
+                    {
+                        listOperacion = oOperacion.ListarOperacionBusqueda().
+                            Where(x => x.TipoOperacion == operacion.TipoOperacion).ToList();
+                    }
+                }
+                else
+                {
+                    listOperacion = oOperacion.ListarOperacionBusqueda().Where(x => x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).ToList();
+                }
+
+                
+                
             }
             return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

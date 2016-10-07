@@ -66,7 +66,7 @@ function ReadFileToBinary(control) {
         context.eliminar = true;
         context.agregar = true;
 
-        LlenarConcepto(TipoDocumento);
+        //LlenarConcepto(TipoDocumento);
         LlenarConcepto(PrioridadAtencion);
         LlenarConcepto(TipoAcceso);
         LlenarConcepto(TipoComunicacion);
@@ -378,6 +378,15 @@ function ReadFileToBinary(control) {
                     context.listEstado = respuesta;
             });
         }
+        function LlenarConceptoTipoDocumento() {
+            var concepto = { TipoConcepto: TipoDocumento, TextoUno: "DE" }
+            dataProvider.postData("Concepto/ListarConceptoTipoDocumento", concepto).success(function (respuesta) {
+                console.log(respuesta);
+                context.listTipoDocumento = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         function listarOperacion() {
             dataProvider.getData("DocumentoElectronico/ListarOperacion").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
@@ -406,5 +415,6 @@ function ReadFileToBinary(control) {
 
         }
         obtenerUsuarioSession();
+        LlenarConceptoTipoDocumento();
     }
 })();

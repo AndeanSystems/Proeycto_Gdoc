@@ -14,11 +14,73 @@
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
         context.operacion = {};
+        context.operacion.FechaRegistro = new Date();
+        context.operacion.FechaEmision = new Date();
 
         LlenarConcepto(TipoOperacion);
-        LlenarConcepto(TipoDocumento);
-     
+        //LlenarConcepto(TipoDocumento);
+
+        
+        //AUTOCOMPLETE //
+        context.simulateQuery = false;
+        context.isDisabled = false;
+
+        context.repos = loadAll();
+        context.querySearch = querySearch;
+        context.selectedItemChange = selectedItemChange;
+        context.searchTextChange = searchTextChange;
+
+        function querySearch(query) {
+            var results = query ? context.repos.filter(createFilterFor(query)) : context.repos,
+                deferred;
+            if (context.simulateQuery) {
+                deferred = $q.defer();
+                $timeout(function () { deferred.resolve(results); }, Math.random() * 1000, false);
+                return deferred.promise;
+            } else {
+                return results;
+            }
+        }
+
+        function searchTextChange(text) {
+            //context.usuario.NombreUsuario = text;
+            //context.usuario.NombreCompleto = text.NombreCompleto;
+        }
+
+        function selectedItemChange(item) {
+            if (item != undefined) {
+                //context.usuario.NombreUsuario = item.NombreUsuario;
+                //context.usuario.NombreCompleto = item.NombreCompleto;
+            }
+        }
+
+        function loadAll() {
+            dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
+                context.repos = respuesta;
+                console.log(respuesta);
+                return context.repos.map(function (repo) {
+                    repo.value = repo.NombreUsuario.toLowerCase();
+                    console.log(repo.value);
+                    return repo.value;
+                });
+            }).error(function (error) {
+                //MostrarError();
+            });
+
+
+        }
+
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+
+            return function filterFn(state) {
+                return (state.value.indexOf(lowercaseQuery) === 0);
+            };
+
+        }
+        //FIN AUTOCOMPLETE
         context.buscarOperacion = function (operacion) {
+            console.log(context.FechaDesde);
             dataProvider.postData("Busqueda/ListarOperacionBusqueda", operacion).success(function (respuesta) {
                 console.log(respuesta);
                 context.gridOptions.data = respuesta;
@@ -42,15 +104,32 @@
                 { field: 'TipoOpe.DescripcionCorta', displayName: 'Tipo Operacion' },
                 { field: 'NumeroOperacion', displayName: 'Numero Operacion' },
                 { field: 'FechaEnvio', displayName: 'Fecha Envio', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
-                { field: 'TipoDoc.DescripcionCorta', displayName: 'Tipo Documento/Mesa' },
-                {
-                    name: 'Acciones',
-                    cellTemplate: '<i  class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
-                                '<i  class="fa fa-user-plus" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Compartir"></i> ' +
-                                '<i  class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Eliminar"></i> '
-                }
+                { field: 'TipoDoc.DescripcionCorta', displayName: 'Tipo Documento/Mesa' }
+                //{
+                    //name: 'Acciones',
+                    //cellTemplate: '<i  class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                    //            '<i  class="fa fa-user-plus" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Compartir"></i> ' +
+                    //            '<i  class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Eliminar"></i> '
+                //}
             ]
         };
+        context.obtenerTipoDocumento = function (tipooperacion) {
+            var texto = "";
+            if (tipooperacion == "02")
+                texto = "DD";
+            else if (tipooperacion == "03")
+                texto = "DE";
+            else if (tipooperacion == "04")
+                texto = "MV";
+            var concepto = { TipoConcepto: TipoDocumento, TextoUno: texto }
+            console.log(concepto);
+            dataProvider.postData("Concepto/ListarConceptoTipoDocumento", concepto).success(function (respuesta) {
+                console.log(respuesta);
+                context.listTipoDocumento = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         //Eventos
         //Metodos
         function LlenarConcepto(tipoConcepto) {
@@ -68,6 +147,12 @@
                     context.listTipoOperacion = respuesta;
             });
         }
+
+        function FechasInicio() {
+            var fechainicio = context.operacion.FechaEmision;
+            context.operacion.FechaEmision.setDate(context.operacion.FechaEmision.getDate() - 30);
+        }
         //Carga
+        FechasInicio();
     }
 })();

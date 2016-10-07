@@ -41,6 +41,28 @@ namespace Gdoc.Web.Controllers
             }
             
         }
+        public JsonResult ListarOperacionPorFecha(DateTime fecha)
+        {
+            try
+            {
+                var listOperacion = new List<EOperacion>();
+                using (var oOperacion = new NOperacion())
+                {
+                    listOperacion = oOperacion.ListarDocumentosRecibidos(new UsuarioParticipante
+                    {
+                        IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
+                    }).Where(x => x.EstadoOperacion == Estados.EstadoOperacion.Activo && 
+                        (x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico || x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital) && x.FechaEnvio==fecha).ToList();
+                }
+                return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 
         public JsonResult ListarDocumentoPDF(EOperacion operacion)
         {
