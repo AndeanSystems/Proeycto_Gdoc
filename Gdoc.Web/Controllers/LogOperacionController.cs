@@ -16,7 +16,13 @@ namespace Gdoc.Web.Controllers
         //
         public ActionResult Index()
         {
-            return View();
+            var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 6 && x.EstadoAcceso == 1).FirstOrDefault();
+
+            if (listAcceso != null)
+                return View();
+            else
+                //return View("../Alertas/Index");
+                return RedirectToAction("Index", "Blanco");
         }
         [HttpPost]
         public JsonResult ListarLogOperacion(Operacion operacion)

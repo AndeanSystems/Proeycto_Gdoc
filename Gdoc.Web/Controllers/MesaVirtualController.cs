@@ -18,7 +18,13 @@ namespace Gdoc.Web.Controllers
         #endregion
         public ActionResult Index()
         {
-            return View();
+            var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 4 && x.EstadoAcceso == 1).FirstOrDefault();
+
+            if (listAcceso != null)
+                return View();
+            else
+                //return View("../Alertas/Index");
+                return RedirectToAction("Index", "Blanco");
         }
         [HttpPost]
         public JsonResult Grabar(Operacion operacion,List<Adjunto> listAdjuntos, List<EUsuarioGrupo> listEUsuarioGrupo)

@@ -683,6 +683,10 @@
     <Content Include="resources\img\fepcmac.jpg" />
     <Content Include="resources\img\fepcmac1.png" />
     <Content Include="resources\img\fepcmac1_mini.png" />
+    <Content Include="resources\img\fondo_docweb1b.png" />
+    <Content Include="resources\img\fondo_docweb1c.png" />
+    <Content Include="resources\img\fondo_docweb2b.png" />
+    <Content Include="resources\img\fondo_docweb3b.png" />
     <Content Include="resources\img\incognito.png" />
     <Content Include="resources\img\logo.png" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
@@ -776,6 +780,7 @@
     <Content Include="scripts\ui-grid.js" />
     <Content Include="scripts\ui-grid.min.js" />
     <Content Include="Librerias\Seguridadv2.dll" />
+    <Content Include="Views\Blanco\Index.cshtml" />
     <Content Include="Views\Grupo\Index.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -791,6 +796,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccesoController.cs" />
     <Compile Include="Controllers\AlertasController.cs" />
+    <Compile Include="Controllers\BlancoController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\ComboUsuarioGrupoController.cs" />
     <Compile Include="Controllers\ConceptoController.cs" />

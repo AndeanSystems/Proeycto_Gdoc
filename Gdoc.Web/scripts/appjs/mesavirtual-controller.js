@@ -82,16 +82,17 @@ function ReadFileToBinary(control) {
             data: [],
             appScopeProvider: context,
             columnDefs: [
+                {
+                    name: 'Acciones', width: '7%',
+                    cellTemplate: '<i ng-click="grid.appScope.editarMiOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>' +
+                                '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="top" data-toggle="tooltip" title="" data-original-title="Cerrar"></i>'
+                },
                 { field: 'NumeroOperacion', width: '15%', displayName: 'Nº Documento' },
                 { field: 'FechaRegistro', width: '10%', displayName: 'Fecha Registro', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 { field: 'TipoDoc.DescripcionCorta', width: '7%', displayName: 'Tipo' },
-                { field: 'TituloOperacion', width: '55%', displayName: 'Titulo' },
-                { field: 'Estado.DescripcionConcepto', width: '8%', displayName: 'Estado' },
-                {
-                    name: 'Acciones', width: '5%',
-                    cellTemplate: '<i ng-click="grid.appScope.editarMiOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>' +
-                                '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="top" data-toggle="tooltip" title="" data-original-title="Cerrar"></i>'
-                }
+                { field: 'TituloOperacion', width: '53%', displayName: 'Titulo' },
+                { field: 'Estado.DescripcionConcepto', width: '8%', displayName: 'Estado' }
+                
             ]
         };
         //Eventos
@@ -311,16 +312,17 @@ function ReadFileToBinary(control) {
             data: [],
             appScopeProvider: context,
             columnDefs: [
+                {
+                    name: 'Acciones', width: '6%',
+                    cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>'
+                },
                 { field: 'NumeroOperacion', width: '15%', displayName: 'Nº Documento' },
                 { field: 'OrganizadorMV', width: '10%', displayName: 'Organizador' },
                 { field: 'TipoDoc.DescripcionCorta', width: '41%', displayName: 'Tipo' },
                 { field: 'TituloOperacion', width: '9%', displayName: 'Titulo' },
                 { field: 'FechaRegistro', width: '10%', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
-                { field: 'Prioridad.DescripcionCorta', width: '9%', displayName: 'Prioridad' },
-                {
-                    name: 'Acciones', width: '6%',
-                    cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>'
-                }
+                { field: 'Prioridad.DescripcionCorta', width: '9%', displayName: 'Prioridad' }
+                
             ]
         };
 

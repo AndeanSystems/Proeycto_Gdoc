@@ -34,7 +34,15 @@ namespace Gdoc.Web.Controllers
                 //---
                 if (CantidadMesaVirtual != null) Session["CantidadMesaVirtual"] = CantidadMesaVirtual.CantidadMesasVirtual;
                 else Session["CantidadMesaVirtual"] = 0;
-                return View();
+
+                var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 18 && x.EstadoAcceso == 1).FirstOrDefault();
+
+                if (listAcceso != null)
+
+                    return View();
+                else
+                    //return View("../Alertas/Index");
+                    return RedirectToAction("Index", "Blanco");
             }
             
         }

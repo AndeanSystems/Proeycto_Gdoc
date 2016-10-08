@@ -77,6 +77,34 @@ namespace Gdoc.Dao
             }
             return listAccesoSistema;
         }
+        public List<AccesoSistema> ListarAccesos()
+        {
+            var listAccesoSistema = new List<AccesoSistema>();
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+
+                    var list = db.AccesoSistemas.ToList();
+
+                    list.ForEach(x => listAccesoSistema.Add(new AccesoSistema
+                    {
+                        IDAcceso = x.IDAcceso,
+                        IDUsuario = x.IDUsuario,
+                        IDModuloPagina = x.IDModuloPagina,
+                        IdeUsuarioRegistro = x.IdeUsuarioRegistro,
+                        FechaModificacion = x.FechaModificacion,
+                        EstadoAcceso = x.EstadoAcceso,
+
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return listAccesoSistema;
+        }
         public AccesoSistema CambiarEstadoAcceso(AccesoSistema accesosistema)
         {
             try

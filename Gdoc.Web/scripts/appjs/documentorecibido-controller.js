@@ -58,18 +58,19 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'NumeroOperacion', width: '20%', displayName: 'Nº Documento' },
-                { field: 'Remitente', width: '10%', displayName: 'Remitente' },
-                { field: 'TipoOpe.DescripcionCorta', width: '10%', displayName: 'T.Oper' },
-                { field: 'TipoDoc.DescripcionCorta', width: '10%', displayName: 'T.Doc' },
-                { field: 'TituloOperacion', width: '23%', displayName: '	Titulo' },
-                { field: 'FechaRegistro', width: '15%', displayName: 'Fecha Emisión', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
-                { field: 'FechaVigente', width: '15%', displayName: '	Fecha Vigencia', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 {
                     name: 'Acciones', width: '7%',
                     cellTemplate: '<i class="fa fa-file-pdf-o" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver Documento pdf"></i>' +
                             '<i class="fa fa-paperclip" ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;"  data-placement="bottom" data-toggle="tooltip" title="Ver Adjuntos"></i>'
-                }
+                },
+                { field: 'NumeroOperacion', width: '20%', displayName: 'Nº Documento' },
+                { field: 'Remitente', width: '10%', displayName: 'Remitente' },
+                //{ field: 'TipoOpe.DescripcionCorta', width: '10%', displayName: 'T.Oper' },
+                { field: 'TipoDoc.DescripcionCorta', width: '10%', displayName: 'T.Doc' },
+                { field: 'TituloOperacion', width: '23%', displayName: '	Titulo' },
+                { field: 'FechaRegistro', width: '15%', displayName: 'Fecha Emisión', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'FechaVigente', width: '15%', displayName: '	Fecha Vigencia', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' }
+                
             ]
         };
         //Eventos

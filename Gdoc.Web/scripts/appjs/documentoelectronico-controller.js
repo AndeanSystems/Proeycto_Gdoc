@@ -90,17 +90,18 @@ function ReadFileToBinary(control) {
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'NumeroOperacion', width: '15%', displayName: 'Nº Documento' },
-                { field: 'FechaRegistro', width: '10%', displayName: 'Fecha Registro', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
-                { field: 'TipoDoc.DescripcionCorta', width: '5%', displayName: 'T.Doc' },
-                { field: 'TituloOperacion', width: '55%', displayName: 'Titulo' },
-                { field: 'Estado.DescripcionConcepto', width: '8%', displayName: 'Estado' },
                 {
                     name: 'Acciones', width: '7%',
                     cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>' +
                                 '<i ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-file-pdf-o" data-placement="bottom" data-toggle="tooltip"  data-original-title="Ver Documento"></i>' +
                                 '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="bottom" data-toggle="tooltip" title="" data-original-title="Desactivar"></i>'
-                }
+                },
+                { field: 'NumeroOperacion', width: '15%', displayName: 'Nº Documento' },
+                { field: 'FechaRegistro', width: '10%', displayName: 'Fecha Registro', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'TipoDoc.DescripcionCorta', width: '5%', displayName: 'T.Doc' },
+                { field: 'TituloOperacion', width: '55%', displayName: 'Titulo' },
+                { field: 'Estado.DescripcionConcepto', width: '8%', displayName: 'Estado' }
+                
             ]
         };
         //Eventos

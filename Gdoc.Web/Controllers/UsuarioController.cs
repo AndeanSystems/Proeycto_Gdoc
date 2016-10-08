@@ -45,15 +45,33 @@ namespace Gdoc.Web.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 8 && x.EstadoAcceso == 1).FirstOrDefault();
+
+            if (listAcceso != null)
+                return View();
+            else
+                //return View("../Alertas/Index");
+                return RedirectToAction("Index", "Blanco");
         }
         public ActionResult CambiarContraseña()
         {
-            return View();
+            var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 20 && x.EstadoAcceso == 1).FirstOrDefault();
+
+            if (listAcceso != null)
+                return View();
+            else
+                //return View("../Alertas/Index");
+                return RedirectToAction("Index", "Blanco");
         }
         public ActionResult CambiarFirmaElectronica()
         {
-            return View();
+            var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 21 && x.EstadoAcceso == 1).FirstOrDefault();
+
+            if (listAcceso != null)
+                return View();
+            else
+                //return View("../Alertas/Index");
+                return RedirectToAction("Index", "Blanco");
         }
         public ActionResult Login(EUsuario usuario)
         {
@@ -92,6 +110,15 @@ namespace Gdoc.Web.Controllers
                             else Session["CantidadMesaVirtual"] = 0;
                             //--
 
+                            //ACCESO SISTEMA
+                            using (var NAcceso= new NAccesoSistema())
+                            {
+                                var CargarAccesos = NAcceso.ListarAccesos().Where(x => x.IDUsuario == UsuarioEncontrado.IDUsuario);
+
+                                Session["ListaAccesos"] = CargarAccesos.ToList();
+
+                            }
+
                             //PARAMETROS GENERALES
                             using (var NGeneral = new NGeneral())
                             {
@@ -115,7 +142,7 @@ namespace Gdoc.Web.Controllers
 
                             }
 
-                            return RedirectToAction("Index", "Alertas");
+                            return RedirectToAction("Index", "Blanco");
                         }
                         else
                         {
