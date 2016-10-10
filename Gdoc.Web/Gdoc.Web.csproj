@@ -686,6 +686,7 @@
     <Content Include="resources\img\fondo_docweb1b.png" />
     <Content Include="resources\img\fondo_docweb1c.png" />
     <Content Include="resources\img\fondo_docweb2b.png" />
+    <Content Include="resources\img\fondo_docweb3c.png" />
     <Content Include="resources\img\incognito.png" />
     <Content Include="resources\img\logo.png" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />

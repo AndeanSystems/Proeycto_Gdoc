@@ -15,6 +15,9 @@ namespace Gdoc.Web.Controllers
     {
         #region "Variables"
         private MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
+        private NUsuario nUsuario = new NUsuario();
+        private NPersonal nPersonal = new NPersonal();
+        private NOperacion nOperacion = new NOperacion();
         #endregion
         //
         // GET: /DocumentoElectronico/
@@ -33,9 +36,12 @@ namespace Gdoc.Web.Controllers
             //EnviarCorreo();
             try
             {
+                var remitentes = new List<string>();
+                var destinatarios = new List<string>();
                 using (var oNOperacion = new NOperacion())
                 {
                     Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
+                   
                     if (operacion.IDOperacion > 0)
                     {
                         if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
@@ -46,9 +52,8 @@ namespace Gdoc.Web.Controllers
                         }
 
                         oNOperacion.EditarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
-                        
-                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                            new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
+
+                        GenerarPdfDatos(oNOperacion,operacion,eDocumentoElectronicoOperacion,listEUsuarioGrupo);
                     }
                     else
                     {
@@ -74,8 +79,7 @@ namespace Gdoc.Web.Controllers
 
                         oNOperacion.GrabarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
 
-                        if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                            new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString());
+                        GenerarPdfDatos(oNOperacion, operacion, eDocumentoElectronicoOperacion, listEUsuarioGrupo);
                     }
                     
                 }
@@ -224,6 +228,29 @@ namespace Gdoc.Web.Controllers
             //WebMail.Password = "anderson147";
             //WebMail.Send(to: "apacaya1@gmail.com", subject: eMailSubject, body: eMailMessage);
             
+        }
+
+
+        protected void GenerarPdfDatos(NOperacion oNOperacion, Operacion operacion, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo)
+        {
+            var remitentes = new List<string>();
+            var destinatarios = new List<string>();
+            foreach (var item in listEUsuarioGrupo)
+            {
+                var usuario = nUsuario.ListarUsuario().Where(x => x.NombreUsuario == item.Nombre).FirstOrDefault();
+
+                var personal = nPersonal.ListarPersonal().Where(x => x.IDPersonal == usuario.IDPersonal).FirstOrDefault();
+
+                if (item.TipoParticipante == Constantes.TipoParticipante.RemitenteDE)
+                    remitentes.Add(string.Format(@"{0} {1} {2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
+                else
+                    destinatarios.Add(string.Format(@"{0} {1} {2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
+            }
+            var tipodocumento = oNOperacion.ListarOperacionBusqueda().Where(x => x.IDOperacion == operacion.IDOperacion).FirstOrDefault().TipoDoc.DescripcionCorta;
+
+            if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
+                new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString(), tipodocumento, string.Join(Environment.NewLine, destinatarios.ToArray()), string.Join(",", remitentes.ToArray()), operacion.TituloOperacion);
+                    
         }
 	}
 }

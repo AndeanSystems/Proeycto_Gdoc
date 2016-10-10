@@ -463,10 +463,10 @@ namespace Gdoc.Dao
                                  join usuario in db.Usuarios
                                  on organizador.IDUsuario equals usuario.IDUsuario
 
-                                 where tipomesa.TipoConcepto.Equals("011") &&
+                                 where tipomesa.TipoConcepto.Equals("012") &&
                                         estado.TipoConcepto.Equals("001") &&
                                         prioridad.TipoConcepto.Equals("005") &&
-                                        //(operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario &&  (x.TipoParticipante == Constantes.TipoParticipante.OrganizadorMV || x.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV)) > 0)
+                                        //(operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && (x.TipoParticipante == Constantes.TipoParticipante.OrganizadorMV || x.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV)) > 0)
                                         (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) > 0)
                                         && organizador.TipoParticipante.Equals(Constantes.TipoParticipante.OrganizadorMV)
                                  select new { operacion, tipomesa,  /*usuariopart,*/ estado /*,usuario*/, prioridad,organizador,usuario }).ToList();
