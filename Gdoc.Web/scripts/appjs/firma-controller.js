@@ -68,25 +68,24 @@ function ReadFileToBinary(control) {
 
                 function enviarFomularioOK() {
                     console.log(usuario);
-                    dataProvider.postData("GrabarUsuario", usuario).success(function (respuesta) {
-                        console.log(respuesta);
-                    }).error(function (error) {
-                        //MostrarError();
-                    });
                     console.log(listoFirmas);
-                    dataProvider.postData("MoverFirma", listoFirmas).success(function (respuesta) {
+                    dataProvider.postData("GrabarUsuario", {usuario:usuario, listFirmas:listoFirmas}).success(function (respuesta) {
                         console.log(respuesta);
+                        //appService.mostrarAlerta("Información", "se grabo correctamente", "success");
+                        location.href = "CambiarFirmaElectronica";
                     }).error(function (error) {
                         //MostrarError();
                     });
-                    context.usuario = {};
-                    usuario = {};
-                    document.getElementById("input_file").value = "";
-                    listarUsuario();
-                    appService.mostrarAlerta("Información", "se grabo correctamente", "success");
-                    location.href = "CambiarFirmaElectronica";
+                    //context.usuario = {};
+                    //document.getElementById("input_file").value = "";
+                    //listarUsuario();
+                    //listarFirma();
+                    //location.href = "CambiarFirmaElectronica";
                 }
-                appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+                function cancelarFormulario() {
+                    //Operacion.EstadoOperacion = 0;
+                }
+                appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK,cancelarFormulario);
 
                 
                 
@@ -104,7 +103,17 @@ function ReadFileToBinary(control) {
                 //MostrarError();
             });
         }
+        function listarFirma() {
+            dataProvider.postData("ListarFirma").success(function (respuesta) {
+                context.imagen = respuesta;
+                console.log(context.imagen);
+                context.listUsuario = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         //Carga
         listarUsuario();
+        listarFirma();
     }
 })();

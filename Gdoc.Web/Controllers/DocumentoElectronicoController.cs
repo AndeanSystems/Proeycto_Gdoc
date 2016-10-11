@@ -235,21 +235,37 @@ namespace Gdoc.Web.Controllers
         {
             var remitentes = new List<string>();
             var destinatarios = new List<string>();
+            var listfirmaUsuario = new List<string>();
+            var listremitentes = new List<string>();
             foreach (var item in listEUsuarioGrupo)
             {
                 var usuario = nUsuario.ListarUsuario().Where(x => x.NombreUsuario == item.Nombre).FirstOrDefault();
 
                 var personal = nPersonal.ListarPersonal().Where(x => x.IDPersonal == usuario.IDPersonal).FirstOrDefault();
 
-                if (item.TipoParticipante == Constantes.TipoParticipante.RemitenteDE)
+                if (item.TipoParticipante == Constantes.TipoParticipante.RemitenteDE){
                     remitentes.Add(string.Format(@"{0} {1} {2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
+                    listfirmaUsuario.Add(usuario.NombreUsuario + ".jpg");
+                    listremitentes.Add(string.Format(@"{0} {1} {2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
+                }
                 else
                     destinatarios.Add(string.Format(@"{0} {1} {2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
             }
-            var tipodocumento = oNOperacion.ListarOperacionBusqueda().Where(x => x.IDOperacion == operacion.IDOperacion).FirstOrDefault().TipoDoc.DescripcionCorta;
+            var documento = (string.Format(@"{0} {1}", oNOperacion.ListarOperacionBusqueda().Where(x => x.IDOperacion == operacion.IDOperacion).FirstOrDefault().TipoDoc.DescripcionCorta,operacion.NumeroOperacion));
 
             if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
-                new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, "Electronico", eDocumentoElectronicoOperacion.Memo, operacion.IDEmpresa, Session["RutaGdocPDF"].ToString(), tipodocumento, string.Join(Environment.NewLine, destinatarios.ToArray()), string.Join(",", remitentes.ToArray()), operacion.TituloOperacion);
+                new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, 
+                    eDocumentoElectronicoOperacion.Memo, 
+                    operacion.IDEmpresa, 
+                    Session["RutaGdocPDF"].ToString(), 
+                    documento, 
+                    string.Join(Environment.NewLine, destinatarios.ToArray()), 
+                    string.Join(",", remitentes.ToArray()), 
+                    operacion.TituloOperacion, 
+                    operacion.AccesoOperacion,
+                    listremitentes,
+                    Session["RutaGdocImagenes"].ToString(),
+                    listfirmaUsuario);
                     
         }
 	}

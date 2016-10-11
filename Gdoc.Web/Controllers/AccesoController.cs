@@ -52,16 +52,84 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult DesactivarAcceso(AccesoSistema accesosistema)
         {
+            try
+            {
+                using (var oAccesosistema = new NAccesoSistema())
+                {
+                    if (accesosistema.IDAcceso != 0)
+                    {
+                        accesosistema.EstadoAcceso = Estados.EstadoAcceso.Inactivo;
+                        var respuesta = oAccesosistema.CambiarEstadoAcceso(accesosistema);
+                        mensajeRespuesta.Exitoso = true;
+                        mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                    }
+
+                }
+                return new JsonResult { Data = mensajeRespuesta };
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
+        }
+        public JsonResult DesactivarTodosAcceso(List<EModuloPaginaUrl> accesosistema)
+        {
+            try
+            {
+                using (var oAccesosistema = new NAccesoSistema())
+                {
+                    foreach (var item in accesosistema)
+                    {
+                        if (item.AccesoSistema.IDAcceso != 0)
+                        {
+                            item.AccesoSistema.EstadoAcceso = Estados.EstadoAcceso.Inactivo;
+                            var respuesta = oAccesosistema.CambiarEstadoAcceso(item.AccesoSistema);
+                            mensajeRespuesta.Exitoso = true;
+                            mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                        }
+                    }
+
+
+                }
+                return new JsonResult { Data = mensajeRespuesta };
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
+        }
+        public JsonResult ActivarTodosAcceso(List<EModuloPaginaUrl> accesosistema)
+        {
             using (var oAccesosistema = new NAccesoSistema())
             {
-                if (accesosistema.IDAcceso != 0)
+                foreach (var item in accesosistema)
                 {
-                    accesosistema.EstadoAcceso = Estados.EstadoAcceso.Inactivo;
-                    var respuesta = oAccesosistema.CambiarEstadoAcceso(accesosistema);
-                    mensajeRespuesta.Exitoso = true;
-                    mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                    var acceso = new AccesoSistema();
+                    if (item.AccesoSistema.IDAcceso != 0)
+                    {
+                        acceso.IDUsuario = item.AccesoSistema.IDUsuario;
+                        acceso.IDAcceso = item.AccesoSistema.IDAcceso;
+                        acceso.IDModuloPagina = item.IDModuloPagina;
+                        acceso.EstadoAcceso = Estados.EstadoAcceso.Activo;
+                        oAccesosistema.CambiarEstadoAcceso(acceso);
+                    }
+                    else
+                    {
+                        //accesosistema.IDAcceso = null;
+                        acceso.IDUsuario = item.AccesoSistema.IDUsuario;
+                        acceso.IDModuloPagina = item.AccesoSistema.IDModuloPagina2;
+                        acceso.IdeUsuarioRegistro = Session["NombreUsuario"].ToString();
+                        acceso.FechaModificacion = System.DateTime.Now;
+                        acceso.EstadoAcceso = 1;
+                        oAccesosistema.grabarAcceso(acceso);
+                    }
                 }
-                
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Grabación Exitoso";
             }
             return new JsonResult { Data = mensajeRespuesta };
         }

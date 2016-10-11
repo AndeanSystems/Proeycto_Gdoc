@@ -122,7 +122,7 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public short MoverFirma(List<EFirma> listFirmas)
+        public short MoverFirma(List<EFirma> listFirmas,Usuario usuario)
         {
             try
             {
@@ -134,7 +134,12 @@ namespace Gdoc.Negocio
                 foreach (var documentoOperacion in listFirmas)
                 {
                     byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(documentoOperacion.RutaFisica);
-                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocImagenes, documentoOperacion.NombreOriginal);
+                    //documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocImagenes, documentoOperacion.NombreOriginal);
+                    var extension = documentoOperacion.NombreOriginal;
+                    var n = extension.LastIndexOf(".");
+                    var tipoimagen= extension.Substring(n);
+
+                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}{2}", eGeneral.RutaGdocImagenes, usuario.NombreUsuario, tipoimagen);
 
                     documentoOperacion.NombreFisico = string.Empty;
                     documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;

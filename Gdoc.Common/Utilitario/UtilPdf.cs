@@ -13,7 +13,18 @@ namespace Gdoc.Common.Utilitario
     public class UtilPdf
     {
 
-        public void GenerarArchivoPDF(string sNumeroDocumentoElectronico, string sCarpetaOrigen, string sBodyTexto, int IDEmpresa, string rutaPDF,string tipodocumento,string destinatario,string remitente, string asunto)
+        public void GenerarArchivoPDF(string sNumeroDocumentoElectronico, 
+            string sBodyTexto, 
+            int IDEmpresa, 
+            string rutaPDF,
+            string tipodocumento,
+            string destinatario,
+            string remitente, 
+            string asunto,
+            string acceso,
+            List<string> listremitentes,
+            string rutaFirma,
+            List<string> listfirmaUsuario)
         {
             string sFEPCMAC = ConfigurationManager.AppSettings.Get("FooterPDF1");
             string sDireccion = ConfigurationManager.AppSettings.Get("FooterPDF2");
@@ -31,7 +42,10 @@ namespace Gdoc.Common.Utilitario
             PdfWriter.GetInstance(document, ms);
             //Traer ruta de imagenes.. logos 
             document.Header = GenerarHeader(IDEmpresa, "FEPCMAC_Logo2.jpg", rutaPDF, tipodocumento, destinatario, remitente,  asunto);
-            document.Footer = GenerarFooter(sFooter); ;
+            if (acceso !="1")
+            {
+                document.Footer = GenerarFooter(sFooter, rutaFirma, listfirmaUsuario, listremitentes); ;
+            }
 
             document.Open();
             GenerarBody(ref document, sBodyTexto);
@@ -43,7 +57,7 @@ namespace Gdoc.Common.Utilitario
             ms.Flush();
             ms.Close();
 
-            SubirArchivoFTP(sCarpetaOrigen, sNumeroDocumentoElectronico, ".pdf", byteArray, rutaPDF, IDEmpresa);
+            SubirArchivoFTP(sNumeroDocumentoElectronico, ".pdf", byteArray, rutaPDF, IDEmpresa);
         }
         protected HeaderFooter GenerarHeader(int IDEmpresa, string sNameImagen,string logoRuta,string tipodocumento,string destinatarios,string remitentes, string asuntos)
         {
@@ -76,7 +90,6 @@ namespace Gdoc.Common.Utilitario
 
 
             Chunk tipoDocumento = new Chunk(tipodocumento, fontTitulo);
-            Chunk tipoDocumento2 = new Chunk(tipodocumento, fontTitulo2);
 
             PdfPCell cell = new PdfPCell(new Phrase(tipoDocumento));
             cell.Colspan = 2;
@@ -148,18 +161,50 @@ namespace Gdoc.Common.Utilitario
 
             return header;
         }
-        protected HeaderFooter GenerarFooter(string[] sTexto)
+        protected HeaderFooter GenerarFooter(string[] sTexto, string rutaFirma, List<string> nombreFirma, List<string> remitente)
         {
             iTextSharp.text.Font fontTexto1 = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.BOLD, new iTextSharp.text.Color(System.Drawing.Color.Red));
             iTextSharp.text.Font fontTexto2 = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.NORMAL, new iTextSharp.text.Color(System.Drawing.Color.Gray));
+            iTextSharp.text.Font fontdestinatario = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.NORMAL, new iTextSharp.text.Color(System.Drawing.Color.Black));
+
+            Phrase sPhrase = new Phrase();
+            foreach (var item in nombreFirma)
+            {
+                foreach (var rem in remitente)
+                {
+                    //firmas
+                    iTextSharp.text.Image sFirma = iTextSharp.text.Image.GetInstance(Path.Combine(rutaFirma, item));
+                    sFirma.ScaleAbsolute(100, 100);
+
+                    //remitentes
+                    Chunk chkFirma = new Chunk(sFirma, 0, 0, true);
+                    Chunk chkremitente = new Chunk(rem, fontdestinatario);
+
+
+                    Paragraph firma = new Paragraph();
+                    firma.Add(chkFirma);
+                    firma.Add("\n");
+                    firma.Add(chkremitente);
+                    //firma.Alignment = Element.ALIGN_LEFT;
+
+                    
+
+                    sPhrase.Add(firma);
+                    
+                }
+                
+            }
 
             Chunk chkTexto1 = new Chunk(@sTexto[0], fontTexto1);
             Chunk chkTexto2 = new Chunk(@sTexto[1], fontTexto2);
 
-            Phrase sPhrase = new Phrase();
-            sPhrase.Add(chkTexto1);
+            Phrase final = new Phrase();
+            final.Add(chkTexto1);
+            final.Add("\n");
+            final.Add(chkTexto2);
+
             sPhrase.Add("\n");
-            sPhrase.Add(chkTexto2);
+            sPhrase.Add(final); 
 
             HeaderFooter footer = new HeaderFooter(sPhrase, false);
             footer.SetAlignment("center");
@@ -174,7 +219,7 @@ namespace Gdoc.Common.Utilitario
             worker.EndDocument();
             worker.Close();
         }
-        protected string SubirArchivoFTP(string sNombreCarpeta, string sNombreArchivo, string sExtencionArchivo, byte[] sbyteContent, string rutaPDF, int IDEmpresa)
+        protected string SubirArchivoFTP(string sNombreArchivo, string sExtencionArchivo, byte[] sbyteContent, string rutaPDF, int IDEmpresa)
         {
             string _MensajeError = string.Empty;
 
@@ -203,5 +248,6 @@ namespace Gdoc.Common.Utilitario
 
             return _MensajeError;
         }
+
     }
 }

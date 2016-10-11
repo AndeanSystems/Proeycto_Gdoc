@@ -195,11 +195,10 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listUsuarioGrupo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        public JsonResult GrabarUsuario(Usuario usuario)
+        public JsonResult GrabarUsuario(Usuario usuario, List<EFirma> listFirmas)
         {
             try
             {
-                //CopiarFirma("","","");
                 using (var oUsuario = new NUsuario())
                 {
                     Usuario respuesta = null;
@@ -207,6 +206,8 @@ namespace Gdoc.Web.Controllers
                     {
                         usuario.FechaModifica = System.DateTime.Now;
                         respuesta = oUsuario.EditarUsuario(usuario);
+                        if(listFirmas!=null)
+                            oUsuario.MoverFirma(listFirmas, usuario);
                     }
                     else
                     {
@@ -378,19 +379,34 @@ namespace Gdoc.Web.Controllers
             return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
 
-        public JsonResult MoverFirma(List<EFirma> listFirmas)
+        public JsonResult MoverFirma(List<EFirma> listFirmas,Usuario usuario)
         {
             try
             {
                 using (var oUsuario = new NUsuario())
                 {
-                    var respuesta = oUsuario.MoverFirma(listFirmas);
+                    var respuesta = oUsuario.MoverFirma(listFirmas,usuario);
                 }
                 mensajeRespuesta.Exitoso = true;
                 mensajeRespuesta.Mensaje = "Grabación Exitosa";
                 return new JsonResult { Data = mensajeRespuesta };
             }
             catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public JsonResult ListarFirma()
+        {
+            try
+            {
+                string sWebSite = ConfigurationManager.AppSettings.Get("Imagenes");
+
+                var ruta = sWebSite + Session["NombreUsuario"].ToString() + ".jpg";
+                return new JsonResult { Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception)
             {
 
                 throw;

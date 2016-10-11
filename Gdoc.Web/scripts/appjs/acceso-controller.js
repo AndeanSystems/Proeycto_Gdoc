@@ -90,7 +90,28 @@
                 //MostrarError();
             });
         };
-            
+        
+        context.activartodosAcceso = function () {
+            var acceso = context.gridAccesos.data;
+            var usuario = context.usuario;
+            console.log(acceso);
+            dataProvider.postData("Acceso/ActivarTodosAcceso", acceso).success(function (respuesta) {
+                console.log(respuesta);
+                context.buscarAccesoSistema(usuario);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        };
+        context.desactivartodosAcceso = function () {
+            var acceso = context.gridAccesos.data;
+            var usuario = context.usuario;
+            console.log(acceso);
+            dataProvider.postData("Acceso/DesactivarTodosAcceso", acceso).success(function (respuesta) {
+                context.buscarAccesoSistema(usuario);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        };
         context.desactivarAcceso = function (rowIndex) {
             var acceso = context.gridAccesos.data[rowIndex];
             var usuario = context.usuario;
@@ -102,6 +123,7 @@
         
         };
         context.gridAccesos = {
+            enableSorting: true,
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             //enableFiltering: true,
@@ -109,7 +131,7 @@
             appScopeProvider: context,
 
             columnDefs: [
-                { field: 'ModuloSistema', displayName: 'Modulo de Sistema' },
+                { field: 'ModuloSistema',width: '20%', displayName: 'Modulo de Sistema' },
                 { field: 'NombrePagina', displayName: 'Nombre de Pagina' },
                 { field: 'DireccionFisicaPagina', displayName: 'Direccion de la Pagina' },
                 { field: 'CodigoPaginaPadre', displayName: 'Pagina Origen' },
@@ -134,8 +156,6 @@
                     //MostrarError();
                 });
             //}
-
-            
 
         }
 

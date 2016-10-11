@@ -103,16 +103,15 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
+                {
+                    name: 'Acciones',
+                    cellTemplate: '<i class="fa fa-file-pdf-o" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver Documento pdf"></i>' +
+                            '<i class="fa fa-paperclip" ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;"  data-placement="bottom" data-toggle="tooltip" title="Ver Adjuntos"></i>'
+                },
                 { field: 'TipoOpe.DescripcionCorta', displayName: 'Tipo Operacion' },
                 { field: 'NumeroOperacion', displayName: 'Numero Operacion' },
                 { field: 'FechaEnvio', displayName: 'Fecha Envio', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
                 { field: 'TipoDoc.DescripcionCorta', displayName: 'Tipo Documento/Mesa' }
-                //{
-                    //name: 'Acciones',
-                    //cellTemplate: '<i  class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
-                    //            '<i  class="fa fa-user-plus" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Compartir"></i> ' +
-                    //            '<i  class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Eliminar"></i> '
-                //}
             ]
         };
         context.obtenerTipoDocumento = function (tipooperacion) {
@@ -128,6 +127,36 @@
             dataProvider.postData("Concepto/ListarConceptoTipoDocumento", concepto).success(function (respuesta) {
                 console.log(respuesta);
                 context.listTipoDocumento = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+        context.mostrarPDF = function (rowIndex) {
+            context.operacion = context.gridOptions.data[rowIndex];
+            dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
+                console.log(respuesta)
+                window.open(respuesta, "mywin", "resizable=1");
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+        context.mostrarAdjuntos = function (rowIndex) {
+            context.operacion = context.gridOptions.data[rowIndex];
+            if (context.operacion.TipoOperacion != "02") {
+                listarDocumentoAdjunto(context.operacion);
+                $("#modal_adjuntos").modal("show");
+            }
+            else {
+                appService.mostrarAlerta("Información", "Esta Operación no tiene Adjuntos", "warning")
+            }
+
+        }
+        context.mostrarAdjuntoWindows = function (archivo) {
+            console.log(archivo);
+            dataProvider.postData("DocumentosRecibidos/ListarAdjuntos", archivo).success(function (respuesta) {
+                console.log(respuesta)
+                window.open(respuesta, "mywin", "resizable=1");
+                //window.open(respuesta, '_blank');
             }).error(function (error) {
                 //MostrarError();
             });
@@ -149,7 +178,14 @@
                     context.listTipoOperacion = respuesta;
             });
         }
-
+        function listarDocumentoAdjunto(operacion) {
+            dataProvider.postData("DocumentosRecibidos/ListarAdjunto", operacion).success(function (respuesta) {
+                context.listDocumentoAdjunto = respuesta;
+                console.log(context.listDocumentoAdjunto);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         function FechasInicio() {
             var fechainicio = context.operacion.FechaEmision;
             context.operacion.FechaEmision.setDate(context.operacion.FechaEmision.getDate() - 30);
