@@ -52,6 +52,7 @@ function ReadFileToBinary(control) {
         var listInvitados = [];
         let listEUsuarioGrupo = [];
         //ng-visible
+        context.mostrar = false;
         context.eliminar = true;
         context.agregar = true;
 
@@ -111,6 +112,7 @@ function ReadFileToBinary(control) {
             if (context.operacion.EstadoOperacion == 1) {
                 context.eliminar = false;
                 context.agregar = false;
+                context.mostrar = true;
             }
             ObtenerUsuariosParticipantes(context.operacion)
             context.usuarioOrganizador = listOrganizador;
@@ -503,6 +505,7 @@ function ReadFileToBinary(control) {
         function limpiarFormulario() {
             context.eliminar = true;
             context.agregar = true;
+            context.mostrar = false;
             context.operacion = {};
             context.mesavirtualComentario = {};
             context.usuarioInvitados = [];

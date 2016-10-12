@@ -226,7 +226,18 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box box-primary">
-                                <table class="table table-hover table-bordered table-striped">
+
+                                <div class="margin">
+                                    <div class="col-md-10">
+                                        <input type="file" id="input_file" onchange="ReadFileToBinary(this)" accept="application/pdf" class="form-control" style="display:initial;">
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button class="btn btn-default pull-right" ng-show="ctrl.agregar" ng-click="ctrl.agregaradjunto()"><i class="fa fa-plus" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <table class="table table-hover table-bordered table-striped margin-top">
                                     <thead>
                                         <tr>
                                             <th style="width:90%">Nombre</th>
@@ -238,20 +249,12 @@
                                             @*<td>{{item.Adjunto.NombreOriginal}}</td>*@
                                             <td>{{item.NombreOriginal}}</td>
                                             <td>
-                                                <i class="fa fa-folder-open-o" ng-click="ctrl.mostrarAdjuntoWindows(item)" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Abrir"></i>
+                                                <i class="fa fa-folder-open-o" ng-click="ctrl.mostrarAdjuntoWindows(item)" ng-show="ctrl.mostrar" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Abrir"></i>
                                                 <i class="fa fa-times" ng-click="ctrl.eliminarAdjunto($index)" ng-show="ctrl.eliminar" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-
-                                <div class="col-md-10">
-                                    <input type="file" id="input_file" onchange="ReadFileToBinary(this)" accept="application/pdf" class="form-control" style="display:initial;">
-                                </div>
-
-                                <div class="col-md-2">
-                                    <button class="btn btn-default pull-right" ng-show="ctrl.agregar" ng-click="ctrl.agregaradjunto()"><i class="fa fa-plus" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>
-                                </div>
                             </div>
                         </div>
                     </div>

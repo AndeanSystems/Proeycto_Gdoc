@@ -171,38 +171,38 @@
             </div>
         </div>
 
-        <div id="modal_imagenes" class="modal fade" ng-controller="header_controller as ctrl">
-            <div class="modal-dialog modal-lg" style="width:28%;">
+        <div id="modal_imagenes" class="modal fade" ng-controller="header_controller as ctrl" >
+            <div class="modal-dialog modal-lg" style="width: 30%; height: auto;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">Seleccione su avatar</h4>
                     </div>
                     <div class="modal-body">
-                            <div class="col-md-12 margin-bottom">
-                                <img ng-src="{{ctrl.src}}1.png" ng-click="ctrl.avatar(ctrl.src+'1.png')" style="width: auto; height: 70px;" class="img-responsive col-md-4">
-                                <img ng-src="{{ctrl.src}}2.png" ng-click="ctrl.avatar(ctrl.src+'2.png')" style="width: auto; height: 70px;" class="img-responsive col-md-4">
-                                <img ng-src="{{ctrl.src}}3.png" ng-click="ctrl.avatar(ctrl.src+'3.png')" style="width: auto; height: 70px;" class="img-responsive col-md-4">
-                            </div>
-                            <div class="col-md-12 margin-bottom">
-                                <img ng-src="{{ctrl.src}}4.png" ng-click="ctrl.avatar(ctrl.src+'4.png')" style="width: auto; height: 70px;" class="img-responsive col-md-4">
-                                <img ng-src="{{ctrl.src}}5.jpg" ng-click="ctrl.avatar(ctrl.src+'5.jpg')" style="width: auto; height: 70px;" class="img-responsive col-md-4">
-                                <img ng-src="{{ctrl.src}}6.png" ng-click="ctrl.avatar(ctrl.src+'6.png')" style="width: auto; height: 70px;" class="img-responsive col-md-4">
-                            </div>
-                            <div class="col-md-12 margin-bottom">
-                                <img ng-src="{{ctrl.src}}7.jpg" ng-click="ctrl.avatar(ctrl.src+'7.jpg')" style="width: auto; height: 70px;" class="img-responsive col-md-4">
-                                <img ng-src="{{ctrl.src}}8.png" ng-click="ctrl.avatar(ctrl.src+'8.png')" style="width: auto; height: 70px;" class="img-responsive col-md-4">
-                                <img ng-src="{{ctrl.src}}9.png" ng-click="ctrl.avatar(ctrl.src+'9.png')" style="width: auto; height: 70px;" class="img-responsive col-md-4">
-                            </div>
-                            <div class="col-md-12 margin-bottom">
-                                <img ng-src="{{ctrl.src}}incognito.png" ng-click="ctrl.avatar(ctrl.src+'incognito.png')" style="width: auto; height: 70px;" class="img-responsive col-md-4">
-                            </div>
+                        <div class="col-md-12 margin-bottom">
+                            <img ng-src="{{ctrl.src}}1.png" ng-click="ctrl.avatar(ctrl.src+'1.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
+                            <img ng-src="{{ctrl.src}}2.png" ng-click="ctrl.avatar(ctrl.src+'2.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
+                            <img ng-src="{{ctrl.src}}3.png" ng-click="ctrl.avatar(ctrl.src+'3.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
+                        </div>
+                        <div class="col-md-12 margin-bottom">
+                            <img ng-src="{{ctrl.src}}4.png" ng-click="ctrl.avatar(ctrl.src+'4.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
+                            <img ng-src="{{ctrl.src}}5.jpg" ng-click="ctrl.avatar(ctrl.src+'5.jpg')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
+                            <img ng-src="{{ctrl.src}}6.png" ng-click="ctrl.avatar(ctrl.src+'6.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
+                        </div>
+                        <div class="col-md-12 margin-bottom">
+                            <img ng-src="{{ctrl.src}}7.jpg" ng-click="ctrl.avatar(ctrl.src+'7.jpg')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
+                            <img ng-src="{{ctrl.src}}8.png" ng-click="ctrl.avatar(ctrl.src+'8.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
+                            <img ng-src="{{ctrl.src}}9.png" ng-click="ctrl.avatar(ctrl.src+'9.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
+                        </div>
+                        <div class="col-md-12 margin-bottom">
+                            <img ng-src="{{ctrl.src}}incognito.png" ng-click="ctrl.avatar(ctrl.src+'incognito.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
+                        </div>
 
 
 
                     </div>
-                        
-                    <div class="modal-footer">
+
+                    <div class="modal-footer" style="max-width: 100%; height: auto;">
                         <input type="file" class="filestyle" id="fotoAvatar" accept="image/*">
                     </div>
                 </div>

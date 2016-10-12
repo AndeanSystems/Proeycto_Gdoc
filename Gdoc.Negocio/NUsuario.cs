@@ -139,7 +139,7 @@ namespace Gdoc.Negocio
                     var n = extension.LastIndexOf(".");
                     var tipoimagen= extension.Substring(n);
 
-                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}{2}", eGeneral.RutaGdocImagenes, usuario.NombreUsuario, tipoimagen);
+                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}{2}", eGeneral.RutaGdocImagenes, usuario.NombreUsuario, ".jpg");
 
                     documentoOperacion.NombreFisico = string.Empty;
                     documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;

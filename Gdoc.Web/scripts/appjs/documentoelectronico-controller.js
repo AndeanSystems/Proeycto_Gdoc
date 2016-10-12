@@ -65,6 +65,7 @@ function ReadFileToBinary(control) {
         //ng-visible
         context.eliminar = true;
         context.agregar = true;
+        context.mostrar = false;
 
         //LlenarConcepto(TipoDocumento);
         LlenarConcepto(PrioridadAtencion);
@@ -86,6 +87,7 @@ function ReadFileToBinary(control) {
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
+            enableSorting: true,
             enableFiltering: true,
             data: [],
             appScopeProvider: context,
@@ -232,6 +234,7 @@ function ReadFileToBinary(control) {
             if (context.operacion.EstadoOperacion == 1) {
                 context.eliminar = false;
                 context.agregar = false;
+                context.mostrar = true;
             }
             //falta corregir fecha
             context.operacion.FechaVigente = appService.setFormatDate(context.operacion.FechaVigente);
@@ -270,8 +273,8 @@ function ReadFileToBinary(control) {
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
             if (context.visible == "List") {
-                limpiarFormulario();
                 listarOperacion();
+                limpiarFormulario();
             } else {
                 //obtenerUsuarioSession();
             }
@@ -318,6 +321,7 @@ function ReadFileToBinary(control) {
         function limpiarFormulario() {
             context.eliminar = true;
             context.agregar = true;
+            context.mostrar = false;
             context.operacion = {};
             context.DocumentoElectronicoOperacion = {};
             context.usuarioRemitentes = [];

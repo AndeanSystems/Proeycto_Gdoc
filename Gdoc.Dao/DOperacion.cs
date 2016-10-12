@@ -394,7 +394,7 @@ namespace Gdoc.Dao
                                  join prioridad in db.Conceptoes
                                  on operacion.PrioridadOperacion equals prioridad.CodiConcepto
 
-                                 where tipomesa.TipoConcepto.Equals("011") &&
+                                 where tipomesa.TipoConcepto.Equals("012") &&
                                         estado.TipoConcepto.Equals("001") &&
                                         prioridad.TipoConcepto.Equals("005") &&
                                         (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario &&  x.TipoParticipante == Constantes.TipoParticipante.OrganizadorMV ) > 0)

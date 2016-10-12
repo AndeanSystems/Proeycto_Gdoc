@@ -131,7 +131,7 @@
             appScopeProvider: context,
 
             columnDefs: [
-                { field: 'ModuloSistema',width: '20%', displayName: 'Modulo de Sistema' },
+                { field: 'ModuloSistema', displayName: 'Modulo de Sistema' },
                 { field: 'NombrePagina', displayName: 'Nombre de Pagina' },
                 { field: 'DireccionFisicaPagina', displayName: 'Direccion de la Pagina' },
                 { field: 'CodigoPaginaPadre', displayName: 'Pagina Origen' },

@@ -12,12 +12,14 @@ using System.Data;
 using System.IO;
 using System.Web.UI.WebControls;
 using System.Web.UI;
+using System.Configuration;
 namespace Gdoc.Web.Controllers
 {
     public class BusquedaController : Controller
     {
         #region "Variables"
         private MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
+        private NUsuarioParticipante nUsuarioParticipante = new NUsuarioParticipante();
         #endregion
         // GET: /Busqueda/
         public ActionResult Index()
@@ -27,8 +29,10 @@ namespace Gdoc.Web.Controllers
             if (listAcceso != null)
                 return View();
             else
-                //return View("../Alertas/Index");
+            {
+                TempData["Message"] = 1;
                 return RedirectToAction("Index", "Blanco");
+            }
         }
         public JsonResult ListarOperacionBusqueda(Operacion operacion)
         {
@@ -78,7 +82,32 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+        public JsonResult ListarDocumentoPDF(EOperacion operacion)
+        {
+            try
+            {
+                var ruta = "vacio";
+                string sWebSite = ConfigurationManager.AppSettings.Get("Documentos");
+                if (operacion.AccesoOperacion == "1 ")
+                {
+                    var listparticipantes = nUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+                    foreach (var item in listparticipantes)
+                    {
+                        if (item.IDUsuario == Convert.ToInt32(Session["IDUsuario"]))
+                            ruta = sWebSite + operacion.NombreFinal;
+                    }
+                }
+                else
+                    ruta = sWebSite + operacion.NombreFinal;
 
+                return new JsonResult { Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         [HttpGet]
         public virtual ActionResult Download(string file)
         {

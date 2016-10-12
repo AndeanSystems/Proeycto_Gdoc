@@ -32,23 +32,19 @@ namespace Gdoc.Common.Utilitario
             string sWebSite = ConfigurationManager.AppSettings.Get("FooterPDF4");
             string[] sFooter = { sFEPCMAC, (sDireccion + sTelefono + sWebSite) };
 
-
-            iTextSharp.text.Document descripcion = new iTextSharp.text.Document();
-            //iTextSharp.text.Document document = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4);
-
-            iTextSharp.text.Document document = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4);
+            iTextSharp.text.Document document = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 90,90,50,50);
 
             MemoryStream ms = new MemoryStream();
             PdfWriter.GetInstance(document, ms);
             //Traer ruta de imagenes.. logos 
             document.Header = GenerarHeader(IDEmpresa, "FEPCMAC_Logo2.jpg", rutaPDF, tipodocumento, destinatario, remitente,  asunto);
             if (acceso !="1")
-            {
-                document.Footer = GenerarFooter(sFooter, rutaFirma, listfirmaUsuario, listremitentes); ;
-            }
+                document.Footer = GenerarFooter(sFooter); ;
 
             document.Open();
+            GenerarCabecera(ref document, tipodocumento, destinatario, remitente, asunto);
             GenerarBody(ref document, sBodyTexto);
+            GenerarFirmas(ref document,listremitentes,rutaFirma,listfirmaUsuario);
             document.Close();
 
             byte[] byteArray = ms.ToArray();
@@ -68,26 +64,164 @@ namespace Gdoc.Common.Utilitario
             Chunk chkLogoFepcmac = new Chunk(sFepcmac, -10, -10, true);
             
             Phrase sPhrase = new Phrase();
-
             Paragraph imagen = new Paragraph();
             imagen.Add(chkLogoFepcmac);
             imagen.Alignment = Element.ALIGN_LEFT;
             imagen.Add("\n");
             
-            //Paragraph Titulo = new Paragraph();
+            
 
+            //iTextSharp.text.Font fontTitulo = FontFactory.GetFont(FontFactory.HELVETICA, 14, iTextSharp.text.Font.BOLD, new iTextSharp.text.Color(System.Drawing.Color.Black));
+            //iTextSharp.text.Font fonttabla = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.NORMAL, new iTextSharp.text.Color(System.Drawing.Color.Black));
+            
+            ////tabla
+            //float[] columnWidths = { 3, 17 };
+            //PdfPTable tblPrueba = new PdfPTable(columnWidths);
+            //tblPrueba.WidthPercentage = 100;
+
+            //Chunk tipoDocumento = new Chunk(tipodocumento, fontTitulo);
+
+            //PdfPCell cell = new PdfPCell(new Phrase(tipoDocumento));
+            //cell.Colspan = 2;
+            //cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+            //cell.Border = 0;
+            //cell.BorderWidthTop = 0.75f;
+            //cell.PaddingTop = 20;
+            //cell.PaddingBottom = 30;
+            //tblPrueba.AddCell(cell);
+
+            //PdfPCell space2 = new PdfPCell(new Phrase("Para", fonttabla));
+            //space2.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+            //space2.Border = 0;
+            //tblPrueba.AddCell(space2);
+
+            //PdfPCell destinatario = new PdfPCell(new Phrase(":" + destinatarios, fonttabla));
+            //destinatario.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+            //destinatario.Border = 0;
+            //tblPrueba.AddCell(destinatario);
+
+            //PdfPCell de = new PdfPCell(new Phrase("De", fonttabla));
+            //de.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+            //de.Border = 0;
+            //tblPrueba.AddCell(de);
+
+            //PdfPCell remitente = new PdfPCell(new Phrase(":" + remitentes, fonttabla));
+            //remitente.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+            //remitente.Border = 0;
+            //tblPrueba.AddCell(remitente);
+
+            //PdfPCell tres = new PdfPCell(new Phrase("Asunto", fonttabla));
+            //tres.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+            //tres.Border = 0;
+            //tblPrueba.AddCell(tres);
+
+            //PdfPCell asunto = new PdfPCell(new Phrase(":" + asuntos, fonttabla));
+            //asunto.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+            //asunto.Border = 0;
+            //tblPrueba.AddCell(asunto);
+
+            //PdfPCell fecha = new PdfPCell(new Phrase("Fecha", fonttabla));
+            //fecha.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+            //fecha.Border = 0;
+            //fecha.PaddingBottom = 10;
+            //fecha.BorderWidthBottom = 1.00f;
+            //tblPrueba.AddCell(fecha);
+
+            //PdfPCell hoy = new PdfPCell(new Phrase(":" + System.DateTime.Now.ToLongDateString(), fonttabla));
+            //hoy.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+            //hoy.Border = 0;
+            //hoy.PaddingBottom = 10;
+            //hoy.BorderWidthBottom = 1.00f;
+            //tblPrueba.AddCell(hoy);
+
+            sPhrase.Add(imagen);
+            //sPhrase.Add(tblPrueba);
+            sPhrase.Add("\n");
+
+            HeaderFooter header = new HeaderFooter(sPhrase, false);
+            header.Border = 0;
+
+            return header;
+        }
+        protected HeaderFooter GenerarFooter(string[] sTexto)
+        {
+            iTextSharp.text.Font fontTexto1 = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.BOLD, new iTextSharp.text.Color(System.Drawing.Color.Red));
+            iTextSharp.text.Font fontTexto2 = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.NORMAL, new iTextSharp.text.Color(System.Drawing.Color.Gray));
+            Phrase sPhrase = new Phrase();
+
+            Chunk chkTexto1 = new Chunk(@sTexto[0], fontTexto1);
+            Chunk chkTexto2 = new Chunk(@sTexto[1], fontTexto2);
+
+            Phrase final = new Phrase();
+            final.Add(chkTexto1);
+            final.Add("\n");
+            final.Add(chkTexto2);
+
+            sPhrase.Add(final); 
+
+            HeaderFooter footer = new HeaderFooter(sPhrase, false);
+            footer.SetAlignment("center");
+            footer.Border = 0;
+            return footer;
+        }
+        protected void GenerarFirmas(ref iTextSharp.text.Document document,List<string> listremitentes,string rutaFirma,List<string> listfirmaUsuario)
+        {
+            try
+            {
+                PdfPTable tabla2 = new PdfPTable(2);
+                tabla2.WidthPercentage = 100;
+
+                iTextSharp.text.Font fontdestinatario = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.NORMAL, new iTextSharp.text.Color(System.Drawing.Color.Black));
+                for (int i = 0; i <= 3; i++)
+                {
+                    if (listfirmaUsuario.Count() >= i + 1 && listfirmaUsuario[i] != null)
+                    {
+                        iTextSharp.text.Image sFirma = iTextSharp.text.Image.GetInstance(Path.Combine(rutaFirma, listfirmaUsuario[i]));
+                        sFirma.ScaleAbsolute(200, 100);
+                        Chunk chkFirma = new Chunk(sFirma, 0, 0, true);
+
+                        Chunk chkremitente = new Chunk(listremitentes[i], fontdestinatario);
+
+                        Phrase firma1 = new Phrase();
+                        firma1.Add(chkFirma);
+                        firma1.Add("\n");
+                        firma1.Add(chkremitente);
+
+                        PdfPCell cell = new PdfPCell(firma1);
+                        cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        cell.Border = 0;
+                        cell.PaddingTop = 50;
+
+                        tabla2.AddCell(cell);
+                    }
+                    else
+                    {
+                        PdfPCell cell = new PdfPCell(new Phrase(" "));
+                        cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                        cell.Border = 0;
+                        cell.PaddingTop = 50;
+                        tabla2.AddCell(cell);
+                    }
+
+                }
+                document.Add(tabla2);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
+        }
+        protected void GenerarCabecera(ref iTextSharp.text.Document document,string tipodocumento,string destinatarios,string remitentes, string asuntos)
+        {
             iTextSharp.text.Font fontTitulo = FontFactory.GetFont(FontFactory.HELVETICA, 14, iTextSharp.text.Font.BOLD, new iTextSharp.text.Color(System.Drawing.Color.Black));
-
-            iTextSharp.text.Font fontTitulo2 = FontFactory.GetFont(FontFactory.HELVETICA, 14, iTextSharp.text.Font.UNDERLINE, new iTextSharp.text.Color(System.Drawing.Color.Black));
-            //Chunk chkTexto1 = new Chunk("TITULO", fontTitulo);
-            //Titulo.Add(chkTexto1);
-            //Titulo.Alignment = Element.ALIGN_CENTER;
+            iTextSharp.text.Font fonttabla = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.NORMAL, new iTextSharp.text.Color(System.Drawing.Color.Black));
 
             //tabla
-            PdfPTable tblPrueba = new PdfPTable(2);
+            float[] columnWidths = { 3, 17 };
+            PdfPTable tblPrueba = new PdfPTable(columnWidths);
             tblPrueba.WidthPercentage = 100;
-
-
 
             Chunk tipoDocumento = new Chunk(tipodocumento, fontTitulo);
 
@@ -100,116 +234,52 @@ namespace Gdoc.Common.Utilitario
             cell.PaddingBottom = 30;
             tblPrueba.AddCell(cell);
 
-            PdfPCell space2 = new PdfPCell(new Phrase("Para"));
+            PdfPCell space2 = new PdfPCell(new Phrase("Para", fonttabla));
             space2.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             space2.Border = 0;
-            //space2.Width = 20;
             tblPrueba.AddCell(space2);
 
-            PdfPCell destinatario = new PdfPCell(new Phrase(":" + destinatarios));
+            PdfPCell destinatario = new PdfPCell(new Phrase(":" + destinatarios, fonttabla));
             destinatario.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             destinatario.Border = 0;
             tblPrueba.AddCell(destinatario);
 
-            PdfPCell de = new PdfPCell(new Phrase("De"));
+            PdfPCell de = new PdfPCell(new Phrase("De", fonttabla));
             de.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             de.Border = 0;
             tblPrueba.AddCell(de);
 
-            PdfPCell remitente = new PdfPCell(new Phrase(":" + remitentes));
+            PdfPCell remitente = new PdfPCell(new Phrase(":" + remitentes, fonttabla));
             remitente.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             remitente.Border = 0;
             tblPrueba.AddCell(remitente);
 
-            PdfPCell tres = new PdfPCell(new Phrase("Asunto"));
+            PdfPCell tres = new PdfPCell(new Phrase("Asunto", fonttabla));
             tres.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             tres.Border = 0;
             tblPrueba.AddCell(tres);
 
-            PdfPCell asunto = new PdfPCell(new Phrase(":" + asuntos));
+            PdfPCell asunto = new PdfPCell(new Phrase(":" + asuntos, fonttabla));
             asunto.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             asunto.Border = 0;
             tblPrueba.AddCell(asunto);
 
-            PdfPCell fecha = new PdfPCell(new Phrase("Fecha"));
+            PdfPCell fecha = new PdfPCell(new Phrase("Fecha", fonttabla));
             fecha.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             fecha.Border = 0;
             fecha.PaddingBottom = 10;
             fecha.BorderWidthBottom = 1.00f;
             tblPrueba.AddCell(fecha);
 
-            PdfPCell hoy = new PdfPCell(new Phrase(":"+System.DateTime.Now.ToLongDateString()));
+            PdfPCell hoy = new PdfPCell(new Phrase(":" + System.DateTime.Now.ToLongDateString(), fonttabla));
             hoy.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             hoy.Border = 0;
             hoy.PaddingBottom = 10;
             hoy.BorderWidthBottom = 1.00f;
             tblPrueba.AddCell(hoy);
 
-            sPhrase.Add(imagen);
-            //sPhrase.Add(Titulo);
-            sPhrase.Add(tblPrueba);
 
-
-            sPhrase.Add("\n");
-
-            //HeaderFooter header = new HeaderFooter(new Phrase(chkLogoFepcmac), false);
-            HeaderFooter header = new HeaderFooter(sPhrase, false);
-            //header.Alignment = 2;
-            //header.Alignment = Element.ALIGN_LEFT;
-            header.Border = 0;
-            //header.BorderWidthBottom = 0.75f;
-
-            return header;
-        }
-        protected HeaderFooter GenerarFooter(string[] sTexto, string rutaFirma, List<string> nombreFirma, List<string> remitente)
-        {
-            iTextSharp.text.Font fontTexto1 = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.BOLD, new iTextSharp.text.Color(System.Drawing.Color.Red));
-            iTextSharp.text.Font fontTexto2 = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.NORMAL, new iTextSharp.text.Color(System.Drawing.Color.Gray));
-            iTextSharp.text.Font fontdestinatario = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.NORMAL, new iTextSharp.text.Color(System.Drawing.Color.Black));
-
-            Phrase sPhrase = new Phrase();
-            foreach (var item in nombreFirma)
-            {
-                foreach (var rem in remitente)
-                {
-                    //firmas
-                    iTextSharp.text.Image sFirma = iTextSharp.text.Image.GetInstance(Path.Combine(rutaFirma, item));
-                    sFirma.ScaleAbsolute(100, 100);
-
-                    //remitentes
-                    Chunk chkFirma = new Chunk(sFirma, 0, 0, true);
-                    Chunk chkremitente = new Chunk(rem, fontdestinatario);
-
-
-                    Paragraph firma = new Paragraph();
-                    firma.Add(chkFirma);
-                    firma.Add("\n");
-                    firma.Add(chkremitente);
-                    //firma.Alignment = Element.ALIGN_LEFT;
-
-                    
-
-                    sPhrase.Add(firma);
-                    
-                }
-                
-            }
-
-            Chunk chkTexto1 = new Chunk(@sTexto[0], fontTexto1);
-            Chunk chkTexto2 = new Chunk(@sTexto[1], fontTexto2);
-
-            Phrase final = new Phrase();
-            final.Add(chkTexto1);
-            final.Add("\n");
-            final.Add(chkTexto2);
-
-            sPhrase.Add("\n");
-            sPhrase.Add(final); 
-
-            HeaderFooter footer = new HeaderFooter(sPhrase, false);
-            footer.SetAlignment("center");
-            footer.Border = 0;
-            return footer;
+            document.Add(tblPrueba);
         }
         protected void GenerarBody(ref iTextSharp.text.Document sBody, string sBodyTexto)
         {

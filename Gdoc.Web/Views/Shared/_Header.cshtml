@@ -1,7 +1,7 @@
 ﻿<input type="hidden" value="@Html.Raw(Session["IDUsuario"].ToString())" id="IDUsuario" />
 @*<nav class="navbar navbar-fixed-top" role="navigation" ng-controller="header_controller as ctrl">*@
 <nav class="navbar navbar-fixed-top" role="navigation" ng-controller="header_controller as ctrl">
-    <a href="@Url.Action("Alertas", "Alertas")" class="logo">
+    <a href="@Url.Action("Index", "Blanco")" class="logo">
         <span class="logo-mini">
             <img width="50" height="50" src="~/resources/img/fepcmac1_mini.png" />
         </span>
@@ -78,7 +78,7 @@
                             <a href="@Url.Action("CambiarContraseña", "Usuario")">Cambiar Contraseña</a>
                         </div>*@
                         <div class="col-xs-12 text-center">
-                            <a href="@Url.Action("CambiarFirmaElectronica", "Usuario")">Cambiar Firma Electronica</a>
+                            <a href="@Url.Action("CambiarFirmaElectronica", "Usuario")">Firma Electronica</a>
                         </div>
 
                     </li>

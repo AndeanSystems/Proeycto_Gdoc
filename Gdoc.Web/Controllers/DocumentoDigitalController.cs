@@ -25,8 +25,10 @@ namespace Gdoc.Web.Controllers
             if (listAcceso != null)
                 return View();
             else
-                //return View("../Alertas/Index");
+            {
+                TempData["Message"] = 1;
                 return RedirectToAction("Index", "Blanco");
+            }
         }
         [HttpPost]
         public JsonResult Grabar(Operacion operacion, List<DocumentoDigitalOperacion> listDocumentoDigitalOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, List<IndexacionDocumento> listIndexacion)

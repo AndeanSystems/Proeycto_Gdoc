@@ -21,8 +21,10 @@ namespace Gdoc.Web.Controllers
             if (listAcceso != null)
                 return View();
             else
-                //return View("../Alertas/Index");
+            {
+                TempData["Message"] = 1;
                 return RedirectToAction("Index", "Blanco");
+            }
         }
         [HttpPost]
         public JsonResult ListarLogOperacion(Operacion operacion)

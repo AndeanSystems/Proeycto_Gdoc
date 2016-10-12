@@ -133,6 +133,7 @@
                     } else {
                         appService.mostrarAlerta("Advertencia", respuesta.Mensaje, "warning");
                     }
+                    $("#modal_imagenes").modal("hide");
                 }).error(function (error) {
                     //MostrarError();
                 });

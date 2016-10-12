@@ -83,9 +83,11 @@
         //FIN AUTOCOMPLETE
         context.buscarOperacion = function (operacion) {
             console.log(context.FechaDesde);
+            console.log(operacion);
             dataProvider.postData("Busqueda/ListarOperacionBusqueda", operacion).success(function (respuesta) {
                 console.log(respuesta);
                 context.gridOptions.data = respuesta;
+                limpiarFormulario();
             }).error(function (error) {
                 //MostrarError();
             });
@@ -133,9 +135,12 @@
         }
         context.mostrarPDF = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
-            dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
+            dataProvider.postData("Busqueda/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
                 console.log(respuesta)
-                window.open(respuesta, "mywin", "resizable=1");
+                if (respuesta!="vacio") 
+                    window.open(respuesta, "mywin", "resizable=1");
+                else
+                    appService.mostrarAlerta("Información","Esta Operacion es privada no tiene acceso","warning");
             }).error(function (error) {
                 //MostrarError();
             });
@@ -189,6 +194,12 @@
         function FechasInicio() {
             var fechainicio = context.operacion.FechaEmision;
             context.operacion.FechaEmision.setDate(context.operacion.FechaEmision.getDate() - 30);
+        }
+        function limpiarFormulario() {
+            context.operacion = {};
+            context.operacion.FechaRegistro = new Date();
+            context.operacion.FechaEmision = new Date();
+            FechasInicio();
         }
         //Carga
         FechasInicio();

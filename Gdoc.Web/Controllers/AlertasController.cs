@@ -41,8 +41,10 @@ namespace Gdoc.Web.Controllers
 
                     return View();
                 else
-                    //return View("../Alertas/Index");
+                {
+                    TempData["Message"] = 1;
                     return RedirectToAction("Index", "Blanco");
+                }
             }
             
         }

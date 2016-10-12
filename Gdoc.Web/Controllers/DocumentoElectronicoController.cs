@@ -28,8 +28,10 @@ namespace Gdoc.Web.Controllers
             if (listAcceso != null)
                 return View();
             else
-                //return View("../Alertas/Index");
+            {
+                TempData["Message"] = 1;
                 return RedirectToAction("Index", "Blanco");
+            }
         }
         [HttpPost]
         public JsonResult Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos,DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo) {
@@ -245,8 +247,11 @@ namespace Gdoc.Web.Controllers
 
                 if (item.TipoParticipante == Constantes.TipoParticipante.RemitenteDE){
                     remitentes.Add(string.Format(@"{0} {1} {2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
-                    listfirmaUsuario.Add(usuario.NombreUsuario + ".jpg");
-                    listremitentes.Add(string.Format(@"{0} {1} {2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
+                    if (usuario.FirmaElectronica != null || usuario.FirmaElectronica != string.Empty)
+                    {
+                        listfirmaUsuario.Add(usuario.NombreUsuario + ".jpg");
+                        listremitentes = remitentes;
+                    }
                 }
                 else
                     destinatarios.Add(string.Format(@"{0} {1} {2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
@@ -259,8 +264,8 @@ namespace Gdoc.Web.Controllers
                     operacion.IDEmpresa, 
                     Session["RutaGdocPDF"].ToString(), 
                     documento, 
-                    string.Join(Environment.NewLine, destinatarios.ToArray()), 
-                    string.Join(",", remitentes.ToArray()), 
+                    string.Join(Environment.NewLine, destinatarios.ToArray()),
+                    string.Join(Environment.NewLine + Environment.NewLine, remitentes.ToArray()), 
                     operacion.TituloOperacion, 
                     operacion.AccesoOperacion,
                     listremitentes,

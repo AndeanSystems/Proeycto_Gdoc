@@ -22,8 +22,10 @@ namespace Gdoc.Web.Controllers
             if (listAcceso != null)
                 return View();
             else
-                //return View("../Alertas/Index");
+            {
+                TempData["Message"] = 1;
                 return RedirectToAction("Index", "Blanco");
+            }
         }
 
         public JsonResult ListarOperacion()
@@ -74,11 +76,9 @@ namespace Gdoc.Web.Controllers
         {
             try
             {
-
                 string sWebSite = ConfigurationManager.AppSettings.Get("Documentos");
-                //var ruta = "http://192.168.100.29:85/PDF/" + operacion.NombreFinal;
-
                 var ruta = sWebSite + operacion.NombreFinal;
+
                 return new JsonResult { Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
             }
             catch (Exception)

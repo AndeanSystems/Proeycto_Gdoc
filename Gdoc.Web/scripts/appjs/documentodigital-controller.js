@@ -57,6 +57,7 @@ function ReadFileToBinary(control) {
         var listDestinatarios = [];
         var listDocumentoDigitaloOperacion = [];
         //ng-visible
+        context.mostrar = false;
         context.eliminar = true;
         context.agregar = true;
 
@@ -231,6 +232,7 @@ function ReadFileToBinary(control) {
             if (context.operacion.EstadoOperacion == 1) {
                 context.eliminar = false;
                 context.agregar = false;
+                context.mostrar = true;
             }
             //falta corregir fecha
             context.operacion.FechaEmision = appService.setFormatDate(context.operacion.FechaEmision);
@@ -392,6 +394,7 @@ function ReadFileToBinary(control) {
         function limpiarFormulario() {
             context.eliminar = true;
             context.agregar = true;
+            context.mostrar = false;
             context.operacion = {};
             context.usuarioDestinatarios = [];
             context.usuarioRemitentes = [];
