@@ -22,18 +22,22 @@
     @*<link rel="stylesheet" href="~/Content/plugins/iCheck/square/blue.css">*@
     <!--SweetAlert-->
     <link href="~/Content/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
+
+
+    <script src="~/Content/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="~/Content/plugins/filestyle/bootstrap-filestyle.min.js"></script>
 </head>
-<body class="hold-transition login-page" style="background-image: url('/resources/img/fondo_docweb3c.png'); background-size: cover; background-repeat:no-repeat" >
+<body class="hold-transition login-page" style="background-image: url('/resources/img/fondo_docweb3c.png'); background-repeat: no-repeat; background-size: cover; background-position: center;" >
     <div class="login-box">
         @if (TempData["Message2"] != null)
         {
             <script>
-                alert("Usuario incorrecto");
+                swal("Usuario no pertenece al dominio");
             </script>
         }@if (TempData["Message"] != null)
         {
             <script>
-                alert("Usuario incorrecto");
+                swal("Usuario no se encuentra registrado");
             </script>
         }
         @using (Html.BeginForm("Login", "Usuario", FormMethod.Post))
@@ -78,7 +82,6 @@
     <script src="~/scripts/jquery-3.1.0.min.js"></script>
     <script src="~/scripts/bootstrap.min.js"></script>
     @*<script src="~/Content/plugins/iCheck/icheck.min.js"></script>*@
-    <script src="~/Content/plugins/sweetalert/sweetalert.min.js"></script>
     @*<script>
             $(function () {
                 $('input').iCheck({

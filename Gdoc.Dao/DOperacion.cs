@@ -110,7 +110,7 @@ namespace Gdoc.Dao
                                            (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario 
                                             && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)) > 0)
                                             && remitente.TipoParticipante==Constantes.TipoParticipante.RemitenteDE
-                                          select new { usuario}).ToList();
+                                          select new { usuario,operacion}).ToList();
 
                     var list2 = (from operacion in db.Operacions
 
@@ -136,13 +136,14 @@ namespace Gdoc.Dao
                                  select new { operacion, tipodocumento, estado, tipooperacion, prioridad }).ToList();
 
                     
-                    foreach (var item in listremitentes)
-                    {
-                        remitentes.Add(item.usuario.NombreUsuario);
-                    }
+                    
 
                     foreach (var item in list2)
                     {
+                        foreach (var x in listremitentes.Where(y => y.operacion.IDOperacion == item.operacion.IDOperacion))
+                        {
+                            remitentes.Add(x.usuario.NombreUsuario);
+                        }
                         listOperacion.Add(new EOperacion
                         {
                             IDOperacion = item.operacion.IDOperacion,
@@ -173,6 +174,7 @@ namespace Gdoc.Dao
 
                             Remitente = string.Join(",",remitentes.ToArray()),
                         });
+                        remitentes = new List<String>();
                     }
                         //list2.ForEach(x => listOperacion.Add(new EOperacion
                         //{

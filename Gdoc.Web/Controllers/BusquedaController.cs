@@ -114,7 +114,6 @@ namespace Gdoc.Web.Controllers
             string fullPath = Path.Combine(Server.MapPath("~/MyFiles"), file);
             return File(fullPath, "application/vnd.ms-excel", file);
         }
-
         public ActionResult DescargarExcel()
         {
             try
@@ -180,62 +179,6 @@ namespace Gdoc.Web.Controllers
 
             return RedirectToAction("Index", "Busqueda"); 
         }
-        public JsonResult ListToExcel(List<Operacion> operacion)
-        {
-            try
-            {
-                List<EListaExcel> listOperacion = new List<EListaExcel>();
-
-                foreach (var item in operacion)
-                {
-                    var listaExcel=new EListaExcel();
-                    listaExcel.IDEmpresa = item.IDEmpresa;
-                    listaExcel.TipoOperacion = item.TipoOperacion;
-
-
-                    listOperacion.Add(listaExcel);
-                }
-
-                Excel converter = new Excel();
-                DataTable dt = converter.ToDataTable(listOperacion);
-
-                string attachment = "attachment; filename=Resultado.xls";
-                Response.ClearContent();
-                Response.AddHeader("content-disposition", attachment);
-                Response.ContentType = "application/vnd.ms-excel";
-                string tab = "";
-                foreach (DataColumn dc in dt.Columns)
-                {
-                    Response.Write(tab + dc.ColumnName);
-                    tab = "\t";
-                }
-                Response.Write("\n");
-                int i;
-                foreach (DataRow dr in dt.Rows)
-                {
-                    tab = "";
-                    for (i = 0; i < dt.Columns.Count; i++)
-                    {
-                        Response.Write(tab + dr[i].ToString());
-                        tab = "\t";
-                    }
-                    Response.Write("\n");
-                }
-                Response.End();
-
-                mensajeRespuesta.Mensaje = "Se exporto Correctamente";
-                mensajeRespuesta.Exitoso = true;
-                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
-            }
-            catch (Exception ex)
-            {
-                mensajeRespuesta.Mensaje = ex.Message;
-                mensajeRespuesta.Exitoso = true;
-                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
-            }
-           
-        }
-
         public class Export
         {
             public void ToExcel(HttpResponseBase Response, object clientsList)

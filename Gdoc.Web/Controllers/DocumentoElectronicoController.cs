@@ -35,7 +35,7 @@ namespace Gdoc.Web.Controllers
         }
         [HttpPost]
         public JsonResult Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos,DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo) {
-            //EnviarCorreo();
+            EnviarCorreo();
             try
             {
                 var remitentes = new List<string>();
@@ -194,8 +194,8 @@ namespace Gdoc.Web.Controllers
 
             //Lo siguiente es obligatorio si enviamos el mensaje desde Gmail
 
-            cliente.Port = 25;
-            cliente.EnableSsl = false;
+            cliente.Port = 587;
+            cliente.EnableSsl = true;
             cliente.Host = "smtp.office365.com"; //Para Gmail "smtp.gmail.com"; 
             /*-------------------------ENVIO DE CORREO----------------------*/
 
@@ -231,8 +231,6 @@ namespace Gdoc.Web.Controllers
             //WebMail.Send(to: "apacaya1@gmail.com", subject: eMailSubject, body: eMailMessage);
             
         }
-
-
         protected void GenerarPdfDatos(NOperacion oNOperacion, Operacion operacion, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo)
         {
             var remitentes = new List<string>();

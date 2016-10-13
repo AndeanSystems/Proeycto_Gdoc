@@ -2,8 +2,7 @@
     <div class="box box-primary margin-top">
         <div class="box-header with-border">
             <h3 class="box-title">Mis Documentos Electronicos</h3>
-            <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('CreateAndEdit')"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
-            
+            <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('CreateAndEdit')"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>      
         </div>
         <div class="box-body no-padding">
                 @*<br>
@@ -20,28 +19,7 @@
                     <button class="btn btn-default" ng-click="ctrl.CambiarVentana('CreateAndEdit')"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
                 </div>
                 <div class="col-md-2"></div>*@
-            <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
-            @*<table class="table table-hover table-striped">
-                <thead>
-                <th>Nº Documento <i class="fa fa-sort"></i></th>
-                <th>Fecha Creación <i class="fa fa-sort"></i></th>
-                <th>Remitente (De) <i class="fa fa-sort"></i></th>
-
-
-                <th>Acciones</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="mailbox-date">DE0001-2015-FPC-GPD </td>
-                        <td class="mailbox-subject">11/07/2015</td>
-                        <td class="mailbox-subject">JSANCHEZ, Registro de Documento Electronico</td>
-                        <td>
-                            <i class="fa fa-pencil-square-o  " data-placement="top" data-toggle="tooltip" title="Editar"></i>
-                            <i class="fa fa-times  " data-placement="top" data-toggle="tooltip" title="Borrar"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>*@
+            <div class="grid" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
         </div>
     </div>
 </div>

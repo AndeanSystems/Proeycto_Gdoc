@@ -8,7 +8,6 @@ function ReadFileToBinary(control) {
         let files = f;
         var reader = new FileReader();
         reader.onloadend = function (e) {
-            console.log(files);
             archivosSelecionados.push({
                 NombreArchivo: files.name,
                 TamanoArchivo: files.size,
@@ -112,7 +111,6 @@ function ReadFileToBinary(control) {
             context.operacion = context.gridOptions.data[rowIndex];
             if (context.operacion.EstadoOperacion == 1) {
                 dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
-                    console.log(respuesta)
                     window.open(respuesta, "mywin", "resizable=1");
                 }).error(function (error) {
                     //MostrarError();
@@ -123,9 +121,7 @@ function ReadFileToBinary(control) {
             }
         }
         context.mostrarAdjuntoWindows = function (archivo) {
-            console.log(archivo);
             dataProvider.postData("DocumentosRecibidos/ListarAdjuntos", archivo).success(function (respuesta) {
-                console.log(respuesta)
                 window.open(respuesta, "mywin", "resizable=1");
             }).error(function (error) {
                 //MostrarError();
@@ -224,7 +220,6 @@ function ReadFileToBinary(control) {
         }
         context.editarOperacion = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
-            console.log(context.operacion);
             context.DocumentoElectronicoOperacion = context.operacion.DocumentoElectronicoOperacion;
             context.operacion.TipoComunicacion = context.operacion.TipoComunicacion.substring(0, 1);
             context.operacion.AccesoOperacion = context.operacion.AccesoOperacion.substring(0, 1)
@@ -246,7 +241,6 @@ function ReadFileToBinary(control) {
             context.usuarioRemitentes = listRemitentes;
             context.usuarioDestinatarios = listDestinatarios;
 
-            console.log(listDestinatarios);
             context.CambiarVentana('CreateAndEdit');
             window.setTimeout(function () {
                 CKEDITOR.instances.editor1.setData(context.DocumentoElectronicoOperacion.Memo);
@@ -254,10 +248,8 @@ function ReadFileToBinary(control) {
         };
         context.eliminarOperacion = function (rowIndex) {
             var operacion = context.gridOptions.data[rowIndex];
-
             function enviarFomularioOK() {
                 dataProvider.postData("DocumentoElectronico/EliminarOperacion", operacion).success(function (respuesta) {
-                    console.log(respuesta);
                     appService.mostrarAlerta("Información", "Documento Electronico Inactivo", "warning")
                     listarOperacion();
                 }).error(function (error) {
@@ -283,7 +275,6 @@ function ReadFileToBinary(control) {
         context.agregaradjunto = function () {
             for (var ind in archivosSelecionados) {
                 var hola = true;
-                console.log(archivosSelecionados[ind].NombreArchivo);
                 for (var index in context.listDocumentoAdjunto) {
                     if (archivosSelecionados[ind].NombreArchivo == context.listDocumentoAdjunto[index].NombreOriginal)
                         hola = false;
@@ -298,7 +289,6 @@ function ReadFileToBinary(control) {
                     });
                 }
             }
-            console.log(context.listDocumentoAdjunto);
             archivosSelecionados = [];
             document.getElementById("input_file").value = "";
         }
@@ -313,7 +303,6 @@ function ReadFileToBinary(control) {
             //dataProvider.postData("DocumentosRecibidos/ListarDocumentoAdjunto", operacion).success(function (respuesta) {
             dataProvider.postData("DocumentosRecibidos/ListarAdjunto", operacion).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;
-                console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();
             });
@@ -350,22 +339,18 @@ function ReadFileToBinary(control) {
         function listarUsuarioGrupoAutoComplete(Nombre) {
             var UsuarioGrupo = { Nombre: Nombre };
             appService.buscarUsuarioGrupoAutoComplete(UsuarioGrupo).success(function (respuesta) {
-                //context.listaUsuario = respuesta;
-                //console.log(respuesta);
                 context.listaUsuarioGrupo = respuesta;
             });
         }
         function obtenerUsuarioSession() {
             var usuarioGrupo = { IDUsuarioGrupo: appService.obtenerUsuarioId() };
             appService.buscarUsuarioGrupoAutoComplete(usuarioGrupo).success(function (respuesta) {
-                console.log(respuesta);
                 context.usuarioRemitentes = respuesta;
             });
         }
         function querySearch(criteria) {
             listarUsuarioGrupoAutoComplete(criteria);
             cachedQuery = cachedQuery || criteria;
-            console.log(context.listaUsuarioGrupo);
             return cachedQuery ? context.listaUsuarioGrupo : [];
         }
         function LlenarConcepto(tipoConcepto) {
@@ -386,7 +371,6 @@ function ReadFileToBinary(control) {
         function LlenarConceptoTipoDocumento() {
             var concepto = { TipoConcepto: TipoDocumento, TextoUno: "DE" }
             dataProvider.postData("Concepto/ListarConceptoTipoDocumento", concepto).success(function (respuesta) {
-                console.log(respuesta);
                 context.listTipoDocumento = respuesta;
             }).error(function (error) {
                 //MostrarError();
@@ -412,8 +396,6 @@ function ReadFileToBinary(control) {
                     else
                         listDestinatarios.push(respuesta[ind]);
                 }
-                console.log(listDestinatarios);
-                console.log(listRemitentes);
             }).error(function (error) {
                 //MostrarError();
             });

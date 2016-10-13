@@ -35,13 +35,10 @@ namespace Gdoc.Web.Controllers
                 _eUsuario._Contrasena = FNSeguridad.EncriptarConClave(usuario.ClaveUsuario, "11254125852587458124587485215895");
                 //eUsuario._Aceso_Pagina = "99";
                 Session["CredencialesAD"] = _eUsuario;
-
                 return true;
             }
             else
-            {
                 return false;
-            }
         }
         public ActionResult Index()
         {
@@ -63,8 +60,10 @@ namespace Gdoc.Web.Controllers
             if (listAcceso != null)
                 return View();
             else
-                //return View("../Alertas/Index");
+            {
+                TempData["Message"] = 1;
                 return RedirectToAction("Index", "Blanco");
+            }
         }
         public ActionResult CambiarFirmaElectronica()
         {
@@ -73,8 +72,10 @@ namespace Gdoc.Web.Controllers
             if (listAcceso != null)
                 return View();
             else
-                //return View("../Alertas/Index");
+            {
+                TempData["Message"] = 1;
                 return RedirectToAction("Index", "Blanco");
+            }
         }
         public ActionResult Login(EUsuario usuario)
         {
@@ -98,7 +99,7 @@ namespace Gdoc.Web.Controllers
                             Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
                             Session["IDUsuario"] = UsuarioEncontrado.IDUsuario;
                             Session["ClaveUsuario"] = UsuarioEncontrado.ClaveUsuario;
-                            Session["NombreCompleto"] = string.Format("{0} {1}", FormatoNombre(UsuarioEncontrado.Personal.NombrePers), FormatoNombre(UsuarioEncontrado.Personal.ApellidoPersonal));
+                            Session["NombreCompleto"] = string.Format("{0} {1}", UsuarioEncontrado.Personal.NombrePers, UsuarioEncontrado.Personal.ApellidoPersonal);
                             Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);
                             Session["RutaAvatar"] = string.IsNullOrEmpty(UsuarioEncontrado.RutaAvatar) ? "/resources/img/incognito.png" : UsuarioEncontrado.RutaAvatar.Replace("~", string.Empty);
 
@@ -381,7 +382,6 @@ namespace Gdoc.Web.Controllers
 
             return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-
         public JsonResult MoverFirma(List<EFirma> listFirmas,Usuario usuario)
         {
             try
@@ -415,7 +415,6 @@ namespace Gdoc.Web.Controllers
                 throw;
             }
         }
-
         public JsonResult GrabarUsuarioAvatar(Usuario eUsuario) {
             using (var nUsuario = new NUsuario())
             {
@@ -448,35 +447,6 @@ namespace Gdoc.Web.Controllers
 
             nombre_orig = nombre_orig.Replace(nombre_orig[0], nombre_may[0]);
             return nombre_orig;
-        }
-
-        public void CopiarFirma(string file,string ruta,string rutafin)
-        {
-            file = "firma.jpg";
-            ruta = @"C:\Users\ANDEAN\Desktop\firmas";
-            rutafin = @"C:\Users\ANDEAN\Desktop\firmas\destino";
-
-            string sourceFile = System.IO.Path.Combine(ruta, file);
-            string destFile = System.IO.Path.Combine(rutafin, file);
-
-            if (!System.IO.Directory.Exists(rutafin))
-            {
-                System.IO.Directory.CreateDirectory(rutafin);
-            }
-
-            System.IO.File.Copy(sourceFile, destFile, true);
-
-            
-        }
-
-        public List<string> obtenerArchivosDirectorio(string rutaArchivo)
-        {
-
-            List<string> listaRuta = new List<string>();
-
-            listaRuta = Directory.GetFiles(Path.GetDirectoryName(rutaArchivo), Path.GetFileName(rutaArchivo)).ToList();
-
-            return listaRuta;
         }
         #endregion
     }

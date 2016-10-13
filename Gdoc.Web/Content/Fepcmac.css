@@ -1,0 +1,73 @@
+﻿span.select2 {
+    width: 100% !important;
+}
+
+.sidebar-menu li > a {
+    position: relative;
+    font-size: 13px;
+}
+
+.sidebar-menu .treeview-menu > li > a {
+    padding: 5px 5px 5px 15px;
+    display: block;
+    font-size: 13px;
+}
+
+.modal-content {
+    border-radius: 5px;
+}
+
+label {
+    font-family: 'Source Sans Pro',sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 2;
+}
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+}
+
+.form-control {
+    font-size: 12px;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0px !important;
+}
+/**Estilos Angular Material*/
+.md-chips {
+    display: block;
+    font-family: Roboto,Helvetica Neue,sans-serif;
+    font-size: 12px;
+    padding: 0 0 8px 3px;
+    vertical-align: middle;
+}
+
+md-icon {
+    min-height: 20px;
+    min-width: 20px;
+}
+md-radio-button {
+    box-sizing: border-box;
+    display: block;
+    margin-bottom: 16px;
+    white-space: nowrap;
+    cursor: pointer;
+    position: relative;
+    font-size: 10px;
+}
+md-radio-button.md-default-theme.md-checked .md-off, md-radio-button.md-checked .md-off {
+    border-color: #E83333;
+}
+
+md-radio-button.md-default-theme .md-on, md-radio-button .md-on {
+    background-color: #E83333;
+}
+
+/*Angular Grid*/
+.grid{
+    font-size: 12px; 
+    height: 400px;
+}

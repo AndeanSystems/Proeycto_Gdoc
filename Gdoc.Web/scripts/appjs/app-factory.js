@@ -2,7 +2,7 @@
 
     'use strict';
 
-    angular.module('app', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection', 'ui.grid.autoResize', 'ui.grid.resizeColumns', 'ui.grid.moveColumns', 'ngMaterial']).factory('app_factory', app_factory);
+    angular.module('app', ['ngAnimate', 'ui.grid', 'ui.grid.pagination', 'ui.grid.selection', 'ui.grid.autoResize', 'ui.grid.resizeColumns', 'ui.grid.moveColumns', 'ngMaterial']).factory('app_factory', app_factory);
 
     app_factory.$inject = ['$http'];
 

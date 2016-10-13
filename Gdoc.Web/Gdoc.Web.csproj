@@ -161,6 +161,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Fepcmac.css" />
     <Content Include="Content\plugins\ckeditor\adapters\jquery.js" />
     <Content Include="Content\plugins\ckeditor\build-config.js" />
     <Content Include="Content\plugins\ckeditor\ckeditor.js" />
@@ -687,6 +688,9 @@
     <Content Include="resources\img\fondo_docweb1c.png" />
     <Content Include="resources\img\fondo_docweb2b.png" />
     <Content Include="resources\img\fondo_docweb3c.png" />
+    <Content Include="resources\img\icon_green.png" />
+    <Content Include="resources\img\icon_orange.png" />
+    <Content Include="resources\img\icon_red.png" />
     <Content Include="resources\img\incognito.png" />
     <Content Include="resources\img\logo.png" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
@@ -781,6 +785,8 @@
     <Content Include="scripts\ui-grid.min.js" />
     <Content Include="Librerias\Seguridadv2.dll" />
     <Content Include="Views\Blanco\Index.cshtml" />
+    <Content Include="Views\DocumentosRecibidos\_ComentarioProveido.cshtml" />
+    <Content Include="Views\DocumentosRecibidos\_List.cshtml" />
     <Content Include="Views\Grupo\Index.cshtml">
       <SubType>Code</SubType>
     </Content>

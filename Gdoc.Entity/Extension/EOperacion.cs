@@ -21,5 +21,6 @@ namespace Gdoc.Entity.Extension
         public Concepto Prioridad { get; set; }
         public string OrganizadorMV { get; set; }
         public string Remitente { get; set; }
+        public string Prioridoc { get; set; }
     }
 }

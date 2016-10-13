@@ -49,18 +49,28 @@ namespace Gdoc.Web.Controllers
             }
             
         }
-        public JsonResult ListarOperacionPorFecha(DateTime fecha)
+        public JsonResult ListarUsuarioParticipanteDE(Operacion operacion)
+        {
+            var listUsuarioParticipante = new List<EUsuarioParticipante>();
+            using (var oUsuarioParticipante = new NUsuarioParticipante())
+            {
+                listUsuarioParticipante = oUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+            }
+            return new JsonResult { Data = listUsuarioParticipante, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
+        public JsonResult ListarOperacionPorFecha(Nullable<System.DateTime> fecha)
         {
             try
             {
+                DateTime a123 = Convert.ToDateTime(fecha);
                 var listOperacion = new List<EOperacion>();
                 using (var oOperacion = new NOperacion())
                 {
                     listOperacion = oOperacion.ListarDocumentosRecibidos(new UsuarioParticipante
                     {
                         IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
-                    }).Where(x => x.EstadoOperacion == Estados.EstadoOperacion.Activo && 
-                        (x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico || x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital) && x.FechaEnvio==fecha).ToList();
+                    }).Where(x => x.EstadoOperacion == Estados.EstadoOperacion.Activo &&
+                        (x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico || x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital) && Convert.ToDateTime(x.FechaEnvio).ToString("dd/MM/yyyy") == Convert.ToDateTime(fecha).ToString("dd/MM/yyyy")).ToList();
                 }
                 return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
             }
@@ -71,7 +81,6 @@ namespace Gdoc.Web.Controllers
             }
 
         }
-
         public JsonResult ListarDocumentoPDF(EOperacion operacion)
         {
             try

@@ -1,6 +1,4 @@
-﻿
-
-(function () {
+﻿(function () {
     'use strict';
 
     angular.module('app').controller('busqueda_controller', busqueda_controller);
@@ -88,13 +86,6 @@
                 console.log(respuesta);
                 context.gridOptions.data = respuesta;
                 limpiarFormulario();
-            }).error(function (error) {
-                //MostrarError();
-            });
-        }
-        context.exportarExcel = function () {
-            dataProvider.postData("Busqueda/ListToExcel", context.gridOptions.data).success(function (respuesta) {
-                console.log(respuesta);
             }).error(function (error) {
                 //MostrarError();
             });
