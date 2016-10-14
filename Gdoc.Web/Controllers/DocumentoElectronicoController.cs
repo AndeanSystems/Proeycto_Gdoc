@@ -111,6 +111,31 @@ namespace Gdoc.Web.Controllers
 
             return new JsonResult { Data = listDocumentoElectronico, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+        public JsonResult ListarOperacionReferencia(Operacion operacion)
+        {
+            try
+            {
+                var DocumentoReferencia = new EOperacion();
+                var listAdjunto = new List<EAdjunto>();
+                using (var oOperacion = new NOperacion())
+                {
+                    DocumentoReferencia = oOperacion.ListarOperacionBusqueda().Where(x => x.NumeroOperacion == operacion.NumeroOperacion).FirstOrDefault();
+                }
+
+                using (var oAdjunto = new NAdjunto())
+                {
+                    listAdjunto = oAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDOperacion == DocumentoReferencia.IDOperacion && x.EstadoAdjunto == Estados.EstadoAdjunto.Activo).ToList();
+                }
+
+                return new JsonResult { Data = listAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+       
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
         [HttpPost]
         public JsonResult ListarUsuarioParticipanteDE(Operacion operacion)
         {

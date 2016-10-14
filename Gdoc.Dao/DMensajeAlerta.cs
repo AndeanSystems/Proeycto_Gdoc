@@ -30,8 +30,8 @@ namespace Gdoc.Dao
                                           where
 
                                            (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == IDUsuario
-                                            && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)) > 0)
-                                            && remitente.TipoParticipante == Constantes.TipoParticipante.RemitenteDE
+                                            && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioProveido)) > 0)
+                                            && (remitente.TipoParticipante == Constantes.TipoParticipante.RemitenteDE || remitente.TipoParticipante==Constantes.TipoParticipante.RemitenteProveido)
                                           select new { usuario,operacion }).ToList();
 
                     var list2 = (from mensajealerta in db.MensajeAlertas

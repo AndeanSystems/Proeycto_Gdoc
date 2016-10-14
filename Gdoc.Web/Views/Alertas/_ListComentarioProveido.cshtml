@@ -1,0 +1,12 @@
+﻿<div class="col-md-12">
+    <div class="box box-primary margin-top">
+        <div class="box-header with-border">
+            <h3 class="box-title">Historial de Comentarios</h3>
+            <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><span class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Refrescar"></span></button>
+            @*<button class="btn btn-default pull-right" ng-click="ctrl.recargarComentario()"><span class="fa fa-refresh" data-placement="top" data-toggle="tooltip" title="Refrescar"></span></button>*@
+        </div>
+        <div class="box-body no-padding">
+            <div class="grid" style="font-size: 12px; height: 200px" ui-grid="ctrl.gridComentarios"></div>
+        </div>
+    </div>
+</div>

@@ -37,13 +37,29 @@
                     </label>
 
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-12">Comentario</label>
-                <div class="col-sm-12">
-                    <textarea ng-model="ctrl.mesavirtualComentario.ComentarioMesaVirtual" style="resize:inherit;height:60px" class="form-control" required></textarea>
+
+                <div class="form-group">
+                    <label class="col-sm-12">Destinatarios</label>
+                    <div class="col-sm-12">
+                        <md-content class="autocomplete" layout="column">
+                            <md-contact-chips ng-model="ctrl.destinatarios"
+                                              md-contacts="ctrl.querySearch($query, 'U')"
+                                              md-contact-name="Nombre"
+                                              md-highlight-flags="i"
+                                              filter-selected="ctrl.filterSelected"
+                                              placeholder="Destinatario">
+                            </md-contact-chips>
+                        </md-content>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-12">Comentario</label>
+                    <div class="col-sm-12">
+                        <textarea ng-model="ctrl.mesavirtualComentario.ComentarioMesaVirtual" style="resize:inherit;height:60px" class="form-control" required></textarea>
+                    </div>
                 </div>
             </div>
+            
 
 
 

@@ -130,6 +130,15 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="col-sm-12">Documento Adjunto Referenciados</label>
+                                    <div class="col-sm-12">
+                                        <label>{{ctrl.listDocumentoAdjuntoR.length}} adjuntos</label>
+                                        @*<input type="file" id="input_file" onchange="ReadFileToBinary(this)" multiple style="display:initial;">*@
+                                        <button class="btn btn-default pull-right" ng-click="ctrl.listarAdjuntoR()" ng-disabled="false"><i class="fa fa-forward" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label class="col-sm-12">Remitente <span class="text-danger">(*)</span></label>
                                     <div style="font-size:12px" class="col-sm-12">
                                         <md-content class="autocomplete" layout="column">
@@ -222,6 +231,77 @@
                                                 <td>
                                                     <i class="fa fa-folder-open-o" ng-click="ctrl.mostrarAdjuntoWindows(item)" ng-show="ctrl.mostrar" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Abrir"></i>
                                                     <i class="fa fa-times" ng-click="ctrl.eliminarAdjunto($index)" ng-show="ctrl.eliminar" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--MODAL ADJUNTOS REFERENCIADOS-->
+        <div class="modal fade" id="modal_adjuntosR">
+            <div class="modal-dialog modal-lg" style="width:50%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Documentos Adjuntos Referenciados</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-primary">
+                                    <div class="margin">
+                                        <div class="col-md-10">
+                                            <div class="col-md-3">
+                                                <h5 class="pull-right">Documento</h5>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control" ng-model="ctrl.operacion.NumeroOperacion" placeholder="Usuario">
+                                                @*<md-content>
+                                                    <form ng-submit="$event.preventDefault()">
+                                                        <md-autocomplete ng-disabled="ctrl.isDisabled"
+                                                                         md-no-cache="ctrl.noCache"
+                                                                         md-selected-item="ctrl.selectedItem"
+                                                                         md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                                                                         md-search-text="ctrl.searchText"
+                                                                         md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                                         md-items="item in ctrl.querySearch(ctrl.searchText)"
+                                                                         md-item-text="item.NumeroOperarcion"
+                                                                         md-min-length="0"
+                                                                         placeholder="Usuario"
+                                                                         md-menu-class="autocomplete-custom-template">
+                                                            <md-item-template>
+                                                                <span>{{item.NumeroOperarcion}}</span>
+                                                            </md-item-template>
+                                                        </md-autocomplete>
+                                                    </form>
+                                                </md-content>*@
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <button class="btn btn-default pull-right" ng-show="ctrl.agregar" ng-click="ctrl.agregaradjuntoR(ctrl.operacion)"><i class="fa fa-plus" data-placement="top" data-toggle="tooltip" title="Agregar Referenciados"></i></button>
+                                        </div>
+                                    </div>
+                                    <table class="table table-hover table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:90%">Nombre</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in ctrl.listDocumentoAdjuntoR">
+                                                @*<td>{{item.Adjunto.NombreOriginal}}</td>*@
+                                                <td>{{item.NombreOriginal}}</td>
+                                                <td>
+                                                    <i class="fa fa-folder-open-o" ng-click="ctrl.mostrarAdjuntoWindows(item)" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Abrir"></i>
+                                                    <i class="fa fa-times" ng-click="ctrl.eliminarAdjuntoR($index)" ng-show="ctrl.eliminar" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>
                                                 </td>
                                             </tr>
                                         </tbody>

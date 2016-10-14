@@ -59,6 +59,15 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listMensajeAlerta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+        public JsonResult ListarComentarioProveido(Operacion operacion)
+        {
+            var listComentarioProveido = new List<MesaVirtualComentario>();
+            using (var oMesaVirtualComentario = new NMesaVirtualComentario())
+            {
+                listComentarioProveido = oMesaVirtualComentario.ListarMesaVirtualComentario().Where(x => x.IDOperacion == operacion.IDOperacion).OrderByDescending(x => x.FechaPublicacion).ToList();
+            }
+            return new JsonResult { Data = listComentarioProveido, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
         
     }
 }

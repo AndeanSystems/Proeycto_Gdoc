@@ -23,6 +23,8 @@ namespace Gdoc.Common.Utilitario
             public const string RemitenteDE = "06";
             public const string EmisorDD = "07";
             public const string DestinatarioDD = "08";
+            public const string RemitenteProveido = "09";
+            public const string DestinatarioProveido = "10";
         }
         public struct EstadoParticipante
         {

@@ -28,5 +28,18 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public short Grabar(List<UsuarioParticipante> listUsuarioParticipante)
+        {
+            try
+            {
+                dUsuarioParticipante.Grabar(listUsuarioParticipante);
+                return 1;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }

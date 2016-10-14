@@ -1,4 +1,5 @@
-﻿(function () {
+﻿let TipoMensaje = "warning";
+(function () {
     'use strict';
     angular.module('app').controller('documentorecibido_controller', documentorecibido_controller);
     documentorecibido_controller.$inject = ['$location', 'app_factory', 'appService'];
@@ -9,11 +10,23 @@
 
         let UsuarioRemitente = "06";
         let UsuarioDestinatario = "03";
+        let UsuarioRemitenteProveido = "09";
+        let UsuarioDestinatarioProveido = "10";
         var listRemitente = [];
         var listDestinatarios = [];
+        let listEUsuarioGrupo = [];
         context.operacion = {};
         context.visible = "List";
-        context.FechaBusqueda=new Date();
+        context.listaUsuarioGrupo = [];
+        context.FechaBusqueda = new Date();
+        //Crear Combo Auto Filters
+        var pendingSearch, cancelSearch = angular.noop;
+        var cachedQuery, lastSearch;
+        context.destinatarios = [];
+        context.filterSelected = true;
+        context.querySearch = querySearch;
+
+
         context.mostrarPDF = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
             dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
@@ -76,8 +89,37 @@
             context.usuarioInvitados = listDestinatarios;
             context.CambiarVentana("ComentarioProveido");
         }
-        //var OrganizadorMV = "";
-        //context.prioridad = '<i class="fa fa-certificate" style="padding: 4px;font-size: 1.4em; color:red;"></i>';
+        context.grabarComentarioProveido = function () {
+            let Operacion = context.operacion;
+            let MesaVirtualComentario = context.mesavirtualComentario;
+
+            if (context.destinatarios == undefined || context.destinatarios == "") {
+                return appService.mostrarAlerta("Falta los Destinatarios", "Agregue a los destinatarios", "warning");
+            }
+
+            for (var ind in context.destinatarios) {
+                console.log(context.destinatarios[ind]);
+                context.destinatarios[ind].TipoParticipante = UsuarioDestinatarioProveido;
+                listEUsuarioGrupo.push(context.destinatarios[ind]);
+            }
+            console.log(listEUsuarioGrupo);
+
+            function enviarFomularioOK() {
+                dataProvider.postData("DocumentosRecibidos/GrabarComentarioProveido", { Operacion: Operacion, mesaVirtualComentario: MesaVirtualComentario, listUsuariosDestinatarios: listEUsuarioGrupo }).success(function (respuesta) {
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+                    limpiarFormulario();
+                    //listarComentarioMesaVirtual(context.operacion);
+                    console.log(respuesta);
+                }).error(function (error) {
+                    //MostrarError();
+                });
+
+                context.mesavirtualComentario = {};
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+        }
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
@@ -132,6 +174,19 @@
         //Eventos
 
         //Metodos
+        function listarUsuarioGrupoAutoComplete(Nombre, tipo) {
+            var UsuarioGrupo = { Nombre: Nombre, Tipo: tipo };
+            appService.buscarUsuarioGrupoAutoComplete(UsuarioGrupo).success(function (respuesta) {
+                //context.listaUsuario = respuesta;
+                context.listaUsuarioGrupo = respuesta;
+            });
+        }
+
+        function querySearch(criteria, tipo) {
+            listarUsuarioGrupoAutoComplete(criteria, tipo);
+            cachedQuery = cachedQuery || criteria;
+            return cachedQuery ? context.listaUsuarioGrupo : [];
+        }
         function ObtenerUsuariosParticipantes(operacion) {
             dataProvider.postData("DocumentosRecibidos/ListarUsuarioParticipanteDE", operacion).success(function (respuesta) {
                 console.log(respuesta);
@@ -191,6 +246,15 @@
             }).error(function (error) {
                 //MostrarError();
             });
+        }
+        function limpiarFormulario() {
+            listRemitente = [];
+            listDestinatarios = [];
+            listEUsuarioGrupo = [];
+            context.operacion = {};
+            context.listaUsuarioGrupo = [];
+            context.FechaBusqueda = new Date();
+            context.destinatarios = [];
         }
         //Carga
         listarOperacion();

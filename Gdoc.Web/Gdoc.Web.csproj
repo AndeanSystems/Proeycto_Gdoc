@@ -784,6 +784,11 @@
     <Content Include="scripts\ui-grid.js" />
     <Content Include="scripts\ui-grid.min.js" />
     <Content Include="Librerias\Seguridadv2.dll" />
+    <Content Include="Views\Alertas\Index.cshtml" />
+    <Content Include="Views\Alertas\_List.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Alertas\_ListComentarioProveido.cshtml" />
     <Content Include="Views\Blanco\Index.cshtml" />
     <Content Include="Views\DocumentosRecibidos\_ComentarioProveido.cshtml" />
     <Content Include="Views\DocumentosRecibidos\_List.cshtml" />
@@ -857,7 +862,6 @@
     <Content Include="Views\Empresa\_CreateAndEdit.cshtml" />
     <Content Include="Views\Grupo\_CreateAnEdit.cshtml" />
     <Content Include="Views\Usuario\_CreateAndEdit.cshtml" />
-    <Content Include="Views\Alertas\Index.cshtml" />
     <Content Include="Views\General\Index.cshtml" />
     <Content Include="Views\DocumentoElectronico\_CreateAndEdit.cshtml" />
     <Content Include="Views\DocumentoElectronico\_List.cshtml" />
@@ -906,6 +910,7 @@
     <Folder Include="Models\" />
     <Folder Include="Views\ComboUsuarioGrupo\" />
     <Folder Include="Views\ModuloPaginaUrl\" />
+    <Folder Include="Views\NewFolder1\" />
     <Folder Include="Views\Ubigeo\" />
   </ItemGroup>
   <ItemGroup>

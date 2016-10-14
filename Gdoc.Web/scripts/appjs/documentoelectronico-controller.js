@@ -46,6 +46,7 @@ function ReadFileToBinary(control) {
         context.visible = "CreateAndEdit";
         context.listaUsuarioGrupo = [];
         context.listDocumentoAdjunto = [];
+        context.listDocumentoAdjuntoR = [];
 
         var Operacion = {};
         var listRemitentes = [];
@@ -71,6 +72,64 @@ function ReadFileToBinary(control) {
         LlenarConcepto(TipoAcceso);
         LlenarConcepto(TipoComunicacion);
         LlenarConcepto(Estado);
+
+        //AUTOCOMPLETE //
+        context.simulateQuery = false;
+        context.isDisabled = false;
+        context.repos = loadAll();
+        context.querySearch = querySearch;
+        context.selectedItemChange = selectedItemChange;
+        context.searchTextChange = searchTextChange;
+
+        function querySearch(query) {
+            var results = query ? context.repos.filter(createFilterFor(query)) : context.repos,
+                deferred;
+            if (context.simulateQuery) {
+                deferred = $q.defer();
+                $timeout(function () { deferred.resolve(results); }, Math.random() * 1000, false);
+                return deferred.promise;
+            } else {
+                return results;
+            }
+        }
+        function searchTextChange(text) {
+            context.operacion.NumeroOperacion = text;
+        }
+        function selectedItemChange(item) {
+            if (item != undefined) {
+                context.operacion.NumeroOperacion = item.NumeroOperacion;
+            }
+        }
+        function loadAll() {
+            dataProvider.getData("Busqueda/ListarOperacionBusqueda").success(function (respuesta) {
+                context.repos = respuesta;
+                console.log(respuesta);
+
+                return context.repos.map(function (repo) {
+                    //return {
+                    //    value: state.toLowerCase(),
+                    //    display: state
+                    //};
+
+                    repo.value = repo.NumeroOperacion.toLowerCase();
+                    return repo.value;
+                });
+            }).error(function (error) {
+                //MostrarError();
+            });
+
+
+        }
+
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+
+            return function filterFn(state) {
+                return (state.value.indexOf(lowercaseQuery) === 0);
+            };
+
+        }
+        //FIN AUTOCOMPLETE
 
         context.operacion = {
             TipoDocumento: '02',
@@ -195,6 +254,17 @@ function ReadFileToBinary(control) {
                 console.log(context.listDocumentoAdjunto);
                 console.log(listDocumentosAdjuntos);
             }
+            for (var index in context.listDocumentoAdjuntoR) {
+                listDocumentosAdjuntos.push({
+                    RutaArchivo: context.listDocumentoAdjuntoR[index].RutaArchivo,
+                    NombreOriginal: context.listDocumentoAdjuntoR[index].NombreOriginal,
+                    TamanoArchivo: context.listDocumentoAdjuntoR[index].TamanoArchivo,
+                    TipoArchivo: context.listDocumentoAdjuntoR[index].TipoArchivo,
+                    EstadoAdjunto: context.listDocumentoAdjuntoR[index].EstadoAdjunto,
+                });
+                console.log(context.listDocumentoAdjuntoR);
+                console.log(listDocumentosAdjuntos);
+            }
             function enviarFomularioOK() {
                 dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, listDocumentosAdjuntos: listDocumentosAdjuntos, eDocumentoElectronicoOperacion: context.DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                     console.log(Operacion);
@@ -292,17 +362,40 @@ function ReadFileToBinary(control) {
             archivosSelecionados = [];
             document.getElementById("input_file").value = "";
         }
+        context.agregaradjuntoR = function (operacion) {
+            
+            obtenerDocumentoReferencia(operacion);
+
+            
+        }
         context.eliminarAdjunto = function (indexAdjunto) {
             context.listDocumentoAdjunto.splice(indexAdjunto, 1);
         }
+        context.eliminarAdjuntoR = function (indexAdjunto) {
+            context.listDocumentoAdjuntoR.splice(indexAdjunto, 1);
+        }
         context.listarAdjunto = function () {
             $("#modal_adjuntos").modal("show");
+        }
+
+        context.listarAdjuntoR = function () {
+            $("#modal_adjuntosR").modal("show");
         }
         ////
         function listarAdjuntos(operacion) {
             //dataProvider.postData("DocumentosRecibidos/ListarDocumentoAdjunto", operacion).success(function (respuesta) {
             dataProvider.postData("DocumentosRecibidos/ListarAdjunto", operacion).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+        function obtenerDocumentoReferencia(operacion) {
+
+            console.log(operacion);
+            dataProvider.postData("DocumentoElectronico/ListarOperacionReferencia", operacion).success(function (respuesta) {
+                console.log(respuesta);
+                context.listDocumentoAdjuntoR = respuesta;
             }).error(function (error) {
                 //MostrarError();
             });
@@ -316,6 +409,7 @@ function ReadFileToBinary(control) {
             context.usuarioRemitentes = [];
             context.usuarioDestinatarios = [];
             context.listDocumentoAdjunto = [];
+            context.listDocumentoAdjuntoR = [];
             context.operacion = {
                 TipoDocumento: '02',
                 TipoComunicacion: '1',
