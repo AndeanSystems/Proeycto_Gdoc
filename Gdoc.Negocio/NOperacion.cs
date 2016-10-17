@@ -26,6 +26,8 @@ namespace Gdoc.Negocio
         protected DLogOperacion dLogOperacion = new DLogOperacion();
         protected DDocumentoAdjunto dDocumentoAdjunto = new DDocumentoAdjunto();
         protected DMensajeAlerta dMensajeAlerta = new DMensajeAlerta();
+        protected DUsuario dUsuario = new DUsuario();
+        protected DConcepto dConcepto = new DConcepto();
 
         protected string Usuario = "U";
         protected string Grupo = "G";
@@ -170,6 +172,9 @@ namespace Gdoc.Negocio
                         if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE && operacion.EstadoOperacion==Estados.EstadoOperacion.Activo)
                         {
                             GrabarMensajeAlerta("017", operacion, eUsuarioParticipante.IDUsuario);
+
+                            //var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault().Personal.EmailTrabrajo;
+                            //EnviarCorreo(correo, operacion.TituloOperacion, "017");
                         }
                     }
                     else {
@@ -193,6 +198,8 @@ namespace Gdoc.Negocio
                             if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE &&  operacion.EstadoOperacion==Estados.EstadoOperacion.Activo)
                             {
                                 GrabarMensajeAlerta("017", operacion, eUsuarioParticipante.IDUsuario);
+                                //var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault().Personal.EmailTrabrajo;
+                                //EnviarCorreo(correo,operacion.TituloOperacion,"017");
                             }
                         }
                     }
@@ -369,6 +376,7 @@ namespace Gdoc.Negocio
                         //GRABAR MENSAJE ALERTA
                         if (item.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                             GrabarMensajeAlerta("017", operacion, item.IDUsuario);
+
                     }
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
@@ -1124,6 +1132,85 @@ namespace Gdoc.Negocio
             }
         }
         #region Metodos
+        protected void EnviarCorreo(string correoDestinatario,string asuntoCorreo, string codigoEvento)
+        {
+            /*-------------------------MENSAJE DE CORREO----------------------*/
+
+            //Creamos un nuevo Objeto de mensaje
+            System.Net.Mail.MailMessage mmsg = new System.Net.Mail.MailMessage();
+
+            //Direccion de correo electronico a la que queremos enviar el mensaje
+            //mmsg.To.Add("andersonberrocal94@gmail.com");
+            mmsg.To.Add(correoDestinatario);
+
+            //Nota: La propiedad To es una colección que permite enviar el mensaje a más de un destinatario
+
+            //Asunto
+            mmsg.Subject = asuntoCorreo;
+            mmsg.SubjectEncoding = System.Text.Encoding.UTF8;
+
+            //Busca Descripcion del Evento
+            var body = dConcepto.ListarConcepto().Where(x => x.TipoConcepto == "008" && x.CodiConcepto == codigoEvento).FirstOrDefault().DescripcionConcepto;
+            //Direccion de correo electronico que queremos que reciba una copia del mensaje
+            //mmsg.Bcc.Add("destinatariocopia@servidordominio.com"); //Opcional
+
+            //Cuerpo del Mensaje
+            mmsg.Body = body;
+            mmsg.BodyEncoding = System.Text.Encoding.UTF8;
+            mmsg.IsBodyHtml = false; //Si no queremos que se envíe como HTML
+
+            //Correo electronico desde la que enviamos el mensaje
+            mmsg.From = new System.Net.Mail.MailAddress("jmorales@fpcmac.org.pe");
+
+
+            /*-------------------------CLIENTE DE CORREO----------------------*/
+
+            //Creamos un objeto de cliente de correo
+            System.Net.Mail.SmtpClient cliente = new System.Net.Mail.SmtpClient();
+
+            //Hay que crear las credenciales del correo emisor
+            cliente.Credentials =
+                new System.Net.NetworkCredential("jmorales@fpcmac.org.pe", "Peru2015");
+
+            //Lo siguiente es obligatorio si enviamos el mensaje desde Gmail
+
+            cliente.Port = 587;
+            cliente.EnableSsl = true;
+            cliente.Host = "smtp.office365.com"; //Para Gmail "smtp.gmail.com"; 
+            /*-------------------------ENVIO DE CORREO----------------------*/
+
+            try
+            {
+                //Enviamos el mensaje      
+                cliente.Send(mmsg);
+            }
+            catch (System.Net.Mail.SmtpException ex)
+            {
+                //Aquí gestionamos los errores al intentar enviar el correo
+            }
+            //var eMailSent = false;
+
+            //eMailSent = true;
+            //var eMailSubject = Request["subject"];
+            //if (eMailSubject == null)
+            //{
+            //    eMailSubject = "Asunto vacío";
+            //}
+            //var eMailMessage = Request["message"];
+            //if (eMailMessage == null)
+            //{
+            //    eMailMessage = "Mensaje vacío";
+            //}
+
+            //WebMail.SmtpServer = "smtp.gmail.com";
+            //WebMail.SmtpPort = 587;
+            //WebMail.EnableSsl = true;
+            //WebMail.UserName = "andersonberrocal94@gmail.com";
+            //WebMail.From = "andersonberrocal94@gmail.com";
+            //WebMail.Password = "anderson147";
+            //WebMail.Send(to: "apacaya1@gmail.com", subject: eMailSubject, body: eMailMessage);
+
+        }
         protected void GrabarLogOperacion(string codigoevento, Operacion operacion, Int64 IDusuario)
         {
             try
@@ -1160,6 +1247,9 @@ namespace Gdoc.Negocio
                 mensajeAlerta.IDUsuario = IDusuario;
 
                 dMensajeAlerta.GrabarMensajeAlerta(mensajeAlerta);
+                //Envia Correo
+                var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == IDusuario).FirstOrDefault().Personal.EmailTrabrajo;
+                EnviarCorreo(correo, operacion.TituloOperacion, codigoevento);
             }
             catch (Exception)
             {
