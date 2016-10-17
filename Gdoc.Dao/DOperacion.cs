@@ -318,11 +318,15 @@ namespace Gdoc.Dao
                                  join estado in db.Conceptoes
                                  on operacion.EstadoOperacion.ToString() equals estado.CodiConcepto
 
+                                 join prioridad in db.Conceptoes
+                                 on operacion.PrioridadOperacion equals prioridad.CodiConcepto
+
                                  where tipodocumento.TipoConcepto.Equals("012") &&
                                         estado.TipoConcepto.Equals("001") &&
+                                        prioridad.TipoConcepto.Equals("005") &&
                                         (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && x.TipoParticipante == Constantes.TipoParticipante.RemitenteDE ) > 0)
                                         
-                                 select new { operacion, tipodocumento, documentoelectronico, /*usuariopart,*/ estado /*,usuario*/ }).ToList();
+                                 select new { operacion, tipodocumento, documentoelectronico, /*usuariopart,*/ estado /*,usuario*/,prioridad }).ToList();
 
                     list.ForEach(x => listOperacion.Add(new EOperacion
                     {
@@ -363,6 +367,7 @@ namespace Gdoc.Dao
                         //    NombreUsuario=x.usuario.NombreUsuario,
                         //},
                         TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
+                        Prioridad= new Concepto{DescripcionConcepto=x.prioridad.DescripcionConcepto},
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
                     }));
 

@@ -87,7 +87,11 @@
             ObtenerUsuariosParticipantes(context.operacion);
             context.usuarioOrganizador = listRemitente;
             context.usuarioInvitados = listDestinatarios;
+            listarComentarioProveido(context.operacion);
             context.CambiarVentana("ComentarioProveido");
+        }
+        context.recargarComentario = function () {
+            listarComentarioProveido(context.operacion);
         }
         context.grabarComentarioProveido = function () {
             let Operacion = context.operacion;
@@ -110,7 +114,10 @@
                         TipoMensaje = "success";
                     appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
                     limpiarFormulario();
+
+                    context.CambiarVentana("List");
                     //listarComentarioMesaVirtual(context.operacion);
+
                     console.log(respuesta);
                 }).error(function (error) {
                     //MostrarError();
@@ -137,12 +144,10 @@
                             return 'yellow';
                         else if (grid.getCellValue(row, col) === 'rojo')
                             return 'red';
-
                     },
                     name: ' ',
                 },
                 {
-                    
                     name: 'Acciones',
                     cellTemplate: '<i class="fa fa-file-pdf-o" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver Documento pdf"></i>' +
                             '<i class="fa fa-paperclip" ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;"  data-placement="bottom" data-toggle="tooltip" title="Ver Adjuntos"></i>' +
@@ -156,18 +161,24 @@
                 { field: 'TipoDoc.DescripcionCorta', displayName: 'T.Doc' },
                 { field: 'TituloOperacion', displayName: '	Titulo' },
                 { field: 'FechaRegistro', displayName: 'Fecha Emisión', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
-                { field: 'FechaVigente', displayName: 'Fecha Vigencia', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'FechaVigente', displayName: 'Fecha Vigencia', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' }
+
+            ]
+        };
+        context.gridComentarios = {
+            paginationPageSizes: [25, 50, 75],
+            paginationPageSize: 25,
+            enableSorting: true,
+            //enableFiltering: true,
+            data: [],
+            appScopeProvider: context,
+            columnDefs: [
+                { field: 'FechaPublicacion', displayName: 'Fecha', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm"' },
+                { field: 'Usuario.NombreUsuario', displayName: 'Participante' },
+                { field: 'ComentarioMesaVirtual', displayName: 'Comentario' }
                 //{
-                //    field: 'Prioridoc',
-                //    cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                //        if (grid.getCellValue(row, col) === 'verde') 
-                //            return 'green';
-                //        else if (grid.getCellValue(row, col) === 'amarillo') 
-                //            return 'yellow';
-                //        else if (grid.getCellValue(row, col) === 'rojo') 
-                //            return 'red';
-                //    },
-                //    displayName: 'Prioridad'
+                //    name: 'Adjuntos', width: '7%',
+                //    cellTemplate: '<i ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-paperclip" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver"></i>'
                 //}
             ]
         };
@@ -229,7 +240,14 @@
                 //MostrarError();
             });
         }
-
+        function listarComentarioProveido(operacion) {
+            dataProvider.postData("Alertas/ListarComentarioProveido", operacion).success(function (respuesta) {
+                context.gridComentarios.data = respuesta;
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         function listarOperacionPorFecha(fecha) {
             dataProvider.postData("DocumentosRecibidos/ListarOperacionPorFecha", { fecha: fecha }).success(function (respuesta) {
 

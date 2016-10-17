@@ -790,6 +790,7 @@
     </Content>
     <Content Include="Views\Alertas\_ListComentarioProveido.cshtml" />
     <Content Include="Views\Blanco\Index.cshtml" />
+    <Content Include="Views\DocumentoElectronico\_ComentarioProveido.cshtml" />
     <Content Include="Views\DocumentosRecibidos\_ComentarioProveido.cshtml" />
     <Content Include="Views\DocumentosRecibidos\_List.cshtml" />
     <Content Include="Views\Grupo\Index.cshtml">
@@ -910,7 +911,6 @@
     <Folder Include="Models\" />
     <Folder Include="Views\ComboUsuarioGrupo\" />
     <Folder Include="Views\ModuloPaginaUrl\" />
-    <Folder Include="Views\NewFolder1\" />
     <Folder Include="Views\Ubigeo\" />
   </ItemGroup>
   <ItemGroup>

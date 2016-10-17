@@ -30,6 +30,7 @@
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
+            enableSorting: true,
             //enableFiltering: true,
             data: [],
             appScopeProvider: context,
@@ -53,6 +54,7 @@
         context.gridComentarios = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
+            enableSorting: true,
             //enableFiltering: true,
             data: [],
             appScopeProvider: context,
@@ -73,7 +75,7 @@
             console.log(context.operacion);
             if (context.operacion.Operacion.TipoOperacion == "04") {
 
-                return appService.mostrarAlerta("","","error")
+                return appService.mostrarAlerta("Información","La operación no Posee Documento PDF","warning")
             }
             else {
                 dataProvider.postData("DocumentosRecibidos/ListarDocumentoPDF", context.operacion).success(function (respuesta) {

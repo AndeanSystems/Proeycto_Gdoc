@@ -80,6 +80,7 @@ function ReadFileToBinary(control) {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             enableFiltering: true,
+            enableSorting: true,
             data: [],
             appScopeProvider: context,
             columnDefs: [
@@ -311,6 +312,7 @@ function ReadFileToBinary(control) {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             enableFiltering: true,
+            enableSorting: true,
             data: [],
             appScopeProvider: context,
             columnDefs: [

@@ -148,7 +148,7 @@ namespace Gdoc.Web.Controllers
             var listUsuarioParticipante= new List<EUsuarioParticipante>();
             using (var oUsuarioParticipante = new NUsuarioParticipante())
             {
-                listUsuarioParticipante = oUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante==Constantes.EstadoParticipante.Activo).ToList();
+                listUsuarioParticipante = oUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante==Constantes.EstadoParticipante.Activo && x.TipoParticipante!=Constantes.TipoParticipante.DestinatarioProveido && x.TipoParticipante!=Constantes.TipoParticipante.RemitenteProveido).ToList();
             }
             return new JsonResult { Data = listUsuarioParticipante, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

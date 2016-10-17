@@ -85,6 +85,7 @@ function ReadFileToBinary(control) {
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
+            enableSorting: true,
             enableFiltering: true,//FILTRO
             data: [],
             appScopeProvider: context,

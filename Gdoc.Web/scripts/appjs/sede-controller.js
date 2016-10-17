@@ -38,6 +38,7 @@
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
+            enableSorting: true,
             //enableFiltering: true,
             data: [],
             appScopeProvider: context,
