@@ -49,18 +49,27 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult EditarGeneralParametros(General general)
         {
-            using (var oGeneral = new NGeneral())
+            try
             {
-                General respuesta = null;
-                if (general.IDCodigoParametro > 0)
-                    respuesta = oGeneral.EditarGeneralParametros(general);
-                else
-                    respuesta = oGeneral.GrabarGeneralParametros(general);
+                using (var oGeneral = new NGeneral())
+                {
+                    General respuesta = null;
+                    if (general.IDCodigoParametro > 0)
+                        respuesta = oGeneral.EditarGeneralParametros(general);
+                    else
+                        respuesta = oGeneral.GrabarGeneralParametros(general);
 
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                }
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception ex)
+            {
+                mensajeRespuesta.Exitoso = false;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
+            }
         }
 	}
 }

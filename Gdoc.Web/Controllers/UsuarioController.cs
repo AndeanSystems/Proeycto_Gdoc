@@ -189,7 +189,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listUsuario, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
         public JsonResult ListarUsuarioGrupo(Usuario usuario)
         {
             var listUsuarioGrupo = new List<EUsuario>();
@@ -212,6 +211,7 @@ namespace Gdoc.Web.Controllers
                         respuesta = oUsuario.EditarUsuario(usuario);
                         if(listFirmas!=null)
                             oUsuario.MoverFirma(listFirmas, usuario);
+                        mensajeRespuesta.Mensaje = "Actualización Exitosa";
                     }
                     else
                     {
@@ -232,16 +232,17 @@ namespace Gdoc.Web.Controllers
                         usuario.FechaExpiraFirma = System.DateTime.Now.AddDays(90);//falta terminar traer el valor de dias de experacion de firmas de la tabla general
 
                         respuesta = oUsuario.GrabarUsuario(usuario);
+                        mensajeRespuesta.Mensaje = "Grabación Exitosa";
                     }
                     mensajeRespuesta.Exitoso = true;
-                    mensajeRespuesta.Mensaje = "Grabación Exitosa";
                 }
                 return new JsonResult { Data = mensajeRespuesta };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                mensajeRespuesta.Exitoso = false;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
             }
             
         }
@@ -254,18 +255,18 @@ namespace Gdoc.Web.Controllers
                     usuario.EstadoUsuario = Estados.EstadoEmpresa.Inactivo;
                     var respuesta = oUsuario.EliminarUsuario(usuario);
                     mensajeRespuesta.Exitoso = true;
-                    mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                    mensajeRespuesta.Mensaje = "Anulacion Exitosa";
                 }
                 return new JsonResult { Data = mensajeRespuesta };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                mensajeRespuesta.Exitoso = false;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
             }
             
         }
-        [HttpPost]
         public JsonResult BuscarUsuarioNombre(Usuario usuario)
         {
             try
@@ -288,7 +289,6 @@ namespace Gdoc.Web.Controllers
             }
             
         }
-        [HttpPost]
         public JsonResult BuscarUsuarioPersonal(Usuario usuario)
         {
             var listUsuario = new List<EUsuario>();
@@ -371,7 +371,6 @@ namespace Gdoc.Web.Controllers
                 throw;
             }
         }
-        [HttpGet]
         public JsonResult BuscarUsuarioNombreClave()
         {
             var listUsuario = new List<EUsuario>();
@@ -436,7 +435,7 @@ namespace Gdoc.Web.Controllers
             mensajeRespuesta.Mensaje = "OK";
             return new JsonResult { Data = mensajeRespuesta };
         }
-
+  
         #region "Metodos"
         public string FormatoNombre(string nombre)
         {

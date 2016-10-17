@@ -101,6 +101,8 @@ namespace Gdoc.Web.Controllers
                     if (concepto.IDEmpresa > 0)
                     {
                         respuesta = oConcepto.EditarConcepto(concepto);
+                        mensajeRespuesta.Exitoso = true;
+                        mensajeRespuesta.Mensaje = "Actualizacón Exitosa";
                     }
                     else if (concepto.IDEmpresa < 1)
                     {
@@ -113,14 +115,13 @@ namespace Gdoc.Web.Controllers
                             concepto.EditarRegistro = 0;
                         }
 
-                        concepto.EditarRegistro = 1;//por terminar
+                        concepto.EditarRegistro = 1;
                         concepto.UsuarioModifica = Session["NombreUsuario"].ToString();
                         concepto.FechaModifica = System.DateTime.Now;
                         respuesta = oConcepto.GrabarConcepto(concepto);
+                        mensajeRespuesta.Exitoso = true;
+                        mensajeRespuesta.Mensaje = "Grabación Exitosa";
                     }
-
-                    mensajeRespuesta.Exitoso = true;
-                    mensajeRespuesta.Mensaje = "Grabación Exitoso";
                 }
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
@@ -134,14 +135,24 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult EliminarConcepto(Concepto concepto)
         {
-            using (var oConcepto = new NConcepto())
+            try
             {
-                concepto.EstadoConcepto = Estados.EstadoEmpresa.Inactivo;
-                var respuesta = oConcepto.EliminarConcepto(concepto);
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                using (var oConcepto = new NConcepto())
+                {
+                    concepto.EstadoConcepto = Estados.EstadoEmpresa.Inactivo;
+                    var respuesta = oConcepto.EliminarConcepto(concepto);
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Anulación exitosa";
+                }
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception ex)
+            {
+                mensajeRespuesta.Exitoso = false;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
+            }
+            
         }
     }
 }

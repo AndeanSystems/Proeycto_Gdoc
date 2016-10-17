@@ -61,7 +61,7 @@ namespace Gdoc.Web.Controllers
                             listOperacion = oOperacion.ListarOperacionBusqueda().
                                 Where(x => x.TipoOperacion == operacion.TipoOperacion 
                                     && x.TipoDocumento == operacion.TipoDocumento
-                                    && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).ToList();
+                                    && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x=>x.FechaEnvio).ToList();
 
                         //}
                         
@@ -69,12 +69,12 @@ namespace Gdoc.Web.Controllers
                     else
                     {
                         listOperacion = oOperacion.ListarOperacionBusqueda().
-                            Where(x => x.TipoOperacion == operacion.TipoOperacion && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).ToList();
+                            Where(x => x.TipoOperacion == operacion.TipoOperacion && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x => x.FechaEnvio).ToList();
                     }
                 }
                 else
                 {
-                    listOperacion = oOperacion.ListarOperacionBusqueda().Where(x => x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).ToList();
+                    listOperacion = oOperacion.ListarOperacionBusqueda().Where(x => x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x => x.FechaEnvio).ToList();
                 }
 
                 Session["listBusqueda"] = listOperacion;

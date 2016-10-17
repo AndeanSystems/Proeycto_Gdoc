@@ -46,18 +46,25 @@ namespace Gdoc.Web.Controllers
                 {
                     Personal respuesta = null;
                     if (personal.IDPersonal > 0)
+                    {
                         respuesta = oPersonal.EditarPersonal(personal);
+                        mensajeRespuesta.Exitoso = true;
+                        mensajeRespuesta.Mensaje = "Actualización Exitosa";
+                    }
                     else
+                    {
                         respuesta = oPersonal.GrabarPersonal(personal);
-                    mensajeRespuesta.Exitoso = true;
-                    mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                        mensajeRespuesta.Exitoso = true;
+                        mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                    }
                 }
                 return new JsonResult { Data = mensajeRespuesta };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                 mensajeRespuesta.Exitoso = false;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
             }
             
         }

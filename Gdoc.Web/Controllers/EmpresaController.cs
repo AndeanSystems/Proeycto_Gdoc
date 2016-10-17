@@ -42,30 +42,56 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult GrabarEmpresa(Empresa empresa)
         {
-            using (var oEmpresa = new NEmpresa())
+            try
             {
-                empresa.FechaRegistro = System.DateTime.Now;
-                empresa.UsuarioRegistro = Session["NombreUsuario"].ToString();
-                Empresa respuesta = null;
-                if (empresa.IDEmpresa > 0)
-                    respuesta = oEmpresa.EditarEmpresa(empresa);
-                else
-                    respuesta = oEmpresa.GrabarEmpresa(empresa);
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                using (var oEmpresa = new NEmpresa())
+                {
+                    empresa.FechaRegistro = System.DateTime.Now;
+                    empresa.UsuarioRegistro = Session["NombreUsuario"].ToString();
+                    Empresa respuesta = null;
+                    if (empresa.IDEmpresa > 0)
+                    {
+                        respuesta = oEmpresa.EditarEmpresa(empresa);
+                        mensajeRespuesta.Exitoso = true;
+                        mensajeRespuesta.Mensaje = "Actualización Exitosa";
+                    }
+                    else
+                    {
+                        respuesta = oEmpresa.GrabarEmpresa(empresa);
+                        mensajeRespuesta.Exitoso = true;
+                        mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                    }
+                }
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception ex)
+            {
+                mensajeRespuesta.Exitoso = false;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
+            }
+            
         }
         public JsonResult EliminarEmpresa(Empresa empresa)
         {
-            using (var oEmpresa = new NEmpresa())
+            try
             {
-                empresa.EstadoEmpresa = Estados.EstadoEmpresa.Inactivo;
-                var respuesta = oEmpresa.EliminarEmpresa(empresa);
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                using (var oEmpresa = new NEmpresa())
+                {
+                    empresa.EstadoEmpresa = Estados.EstadoEmpresa.Inactivo;
+                    var respuesta = oEmpresa.EliminarEmpresa(empresa);
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                }
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception ex)
+            {
+                mensajeRespuesta.Exitoso = false;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
+            }
+            
         }
 
 	}

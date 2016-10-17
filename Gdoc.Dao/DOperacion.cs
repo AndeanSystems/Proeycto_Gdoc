@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
 using Gdoc.Entity.Models;
 using Gdoc.Entity.Extension;
 using Gdoc.Common.Utilitario;
+using System.Data;
 
 namespace Gdoc.Dao
 {
@@ -575,6 +577,35 @@ namespace Gdoc.Dao
             }
             catch (Exception ex)
             {
+                throw;
+            }
+        }
+        public string NumeroOperacion(Int64 IDUsuario,string tipooperacion)
+        {
+            try
+            {
+                using (var db = new DataBaseContext())
+                {
+                    var iCodiUsu = new SqlParameter { ParameterName = "@iCodiUsu", Value = IDUsuario };
+                    var cTipoOper = new SqlParameter { ParameterName = "@cTipoOper", Value = tipooperacion };
+                    var out_cNumeroOperacion = new SqlParameter
+                    {
+                        ParameterName = "@out_cNumeroOperacion",
+                        Value = "",
+                        Direction = ParameterDirection.Output };
+                    //var out_cNumeroOperacion = new SqlParameter("@out_cNumeroOperacion", SqlDbType.VarChar) { Direction = System.Data.ParameterDirection.Output };
+               
+                    var numero=db.Database.SqlQuery<String>("gdoc_NumeraOperacion @iCodiUsu, @cTipoOper, @out_cNumeroOperacion out", iCodiUsu, cTipoOper, out_cNumeroOperacion);
+
+                    //var NumeroOperacion = (string)out_cNumeroOperacion.Value;
+
+                    var OperacionNumero = numero.First();
+                    return OperacionNumero;
+                }
+            }
+            catch (Exception)
+            {
+                
                 throw;
             }
         }

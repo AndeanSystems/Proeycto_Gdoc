@@ -55,7 +55,7 @@ namespace Gdoc.Web.Controllers
             using (var oMensajeAlerta = new NMensajeAlerta())
             {
                 Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
-                listMensajeAlerta = oMensajeAlerta.ListarMensajeAlerta(IDusuario);
+                listMensajeAlerta = oMensajeAlerta.ListarMensajeAlerta(IDusuario).OrderByDescending(x=>x.FechaAlerta).ToList();
             }
             return new JsonResult { Data = listMensajeAlerta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

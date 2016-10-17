@@ -111,6 +111,9 @@ namespace Gdoc.Web.Controllers
                             }
                         }
                         oUsuarioGrupo.GrabarUsuarioGrupo(listEusuarioGrupo);
+
+                        mensajeRespuesta.Exitoso = true;
+                        mensajeRespuesta.Mensaje = "Actualización Exitosa";
                     }
                     else
                     {
@@ -128,29 +131,41 @@ namespace Gdoc.Web.Controllers
                             listEusuarioGrupo.Add(eUsuarioGrupo);
                         }
                         oUsuarioGrupo.GrabarUsuarioGrupo(listEusuarioGrupo);
-                    }
 
-                    mensajeRespuesta.Exitoso = true;
-                    mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                        mensajeRespuesta.Exitoso = true;
+                        mensajeRespuesta.Mensaje = "Grabación Exitosa";
+                    }
                 }
 
                 return new JsonResult { Data = mensajeRespuesta };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                mensajeRespuesta.Exitoso = false;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
             }
         }
         public JsonResult EliminarGrupo(Grupo grupo)
         {
-            using (var oGrupo = new NGrupo())
+            try
             {
-                grupo.EstadoGrupo = Estados.EstadoEmpresa.Inactivo;
-                var respuesta = oGrupo.EliminarGrupo(grupo);
-                mensajeRespuesta.Exitoso = true;
-                mensajeRespuesta.Mensaje = "Grabación Exitoso";
+                using (var oGrupo = new NGrupo())
+                {
+                    grupo.EstadoGrupo = Estados.EstadoEmpresa.Inactivo;
+                    var respuesta = oGrupo.EliminarGrupo(grupo);
+                    mensajeRespuesta.Exitoso = true;
+                    mensajeRespuesta.Mensaje = "Anulación Exitosa";
+                }
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception ex)
+            {
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
+            }
+            
         }
         public JsonResult BuscarGrupo(EGrupo grupo)
         {

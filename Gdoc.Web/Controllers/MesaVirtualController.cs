@@ -52,7 +52,8 @@ namespace Gdoc.Web.Controllers
                         operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                         operacion.TipoOperacion = Constantes.TipoOperacion.MesaVirtual;
 
-                        operacion.NumeroOperacion = "MV" + DateTime.Now.Ticks.ToString();
+                        //operacion.NumeroOperacion = "MV" + DateTime.Now.Ticks.ToString();
+                        operacion.NumeroOperacion = oNOperacion.NumeroOperacion(IDusuario, Constantes.TipoOperacion.MesaVirtual);
                         //operacion.NotificacionOperacion = "S";
 
                         if (listAdjuntos != null)
@@ -105,9 +106,9 @@ namespace Gdoc.Web.Controllers
                 mensajeRespuesta.Mensaje = "Comentario realizado correctamente";
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                mensajeRespuesta.Mensaje = "Operación no realizada correctamente";
+                mensajeRespuesta.Mensaje = ex.Message;
                 mensajeRespuesta.Exitoso = false;
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
@@ -120,7 +121,7 @@ namespace Gdoc.Web.Controllers
                 listMesaVirtual = oOperacion.ListarMesaVirtual(new UsuarioParticipante
                 {
                     IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString())
-                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
+                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).OrderByDescending(x => x.FechaEnvio).ToList();
 
                 //listMesaVirtual = oOperacion.ListarMesaVirtual().Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
 
@@ -135,7 +136,7 @@ namespace Gdoc.Web.Controllers
                 listMesaVirtual = oOperacion.ListarMesaTrabajoVirtual(new UsuarioParticipante
                 {
                     IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString())
-                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual && x.EstadoOperacion==Estados.EstadoOperacion.Activo).ToList();
+                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual && x.EstadoOperacion == Estados.EstadoOperacion.Activo).OrderByDescending(x => x.FechaEnvio).ToList();
 
                 //listMesaVirtual = oOperacion.ListarMesaVirtual().Where(x => x.TipoOperacion == Constantes.TipoOperacion.MesaVirtual).ToList();
 
@@ -193,10 +194,11 @@ namespace Gdoc.Web.Controllers
                 }
                 return new JsonResult { Data = mensajeRespuesta };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                mensajeRespuesta.Exitoso = false;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
             }
 
         }

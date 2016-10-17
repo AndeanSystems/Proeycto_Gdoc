@@ -73,10 +73,10 @@ namespace Gdoc.Web.Controllers
                     return new JsonResult { Data = mensajeRespuesta };
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 mensajeRespuesta.Exitoso = false;
-                mensajeRespuesta.Mensaje = "Erroe en la Grabacion";
+                mensajeRespuesta.Mensaje = ex.Message;
                 return new JsonResult { Data = mensajeRespuesta };
                 throw;
             }

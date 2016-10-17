@@ -1111,7 +1111,18 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-
+        public String NumeroOperacion(Int64 IDUsuario, string tipooperacion)
+        {
+            try
+            {
+                return dOperacion.NumeroOperacion(IDUsuario, tipooperacion);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
         #region Metodos
         protected void GrabarLogOperacion(string codigoevento, Operacion operacion, Int64 IDusuario)
         {

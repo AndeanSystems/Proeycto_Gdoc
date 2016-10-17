@@ -44,7 +44,9 @@ namespace Gdoc.Web.Controllers
                     listOperacion = oOperacion.ListarDocumentosRecibidos(new UsuarioParticipante
                     {
                         IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
-                    }).Where(x => x.EstadoOperacion==Estados.EstadoOperacion.Activo && (x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico || x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital) && x.FechaRegistro.Value.Day==System.DateTime.Now.Day).ToList();
+                    }).Where(x => x.EstadoOperacion==Estados.EstadoOperacion.Activo && 
+                        (x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico || x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital)
+                        && x.FechaRegistro.Value.Day == System.DateTime.Now.Day).OrderByDescending(x => x.FechaEnvio).ToList();
                 }
                 return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
             }

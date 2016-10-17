@@ -15,7 +15,7 @@ namespace Gdoc.Entity.Models.Mapping
                 .HasMaxLength(5);
 
             this.Property(t => t.NumeroOperacion)
-                .HasMaxLength(20);
+                .HasMaxLength(25);
 
             this.Property(t => t.TituloOperacion)
                 .HasMaxLength(100);

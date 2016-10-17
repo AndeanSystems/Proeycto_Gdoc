@@ -88,6 +88,7 @@ namespace Gdoc.Dao
                     entidad.RutaGdocPDF = general.RutaGdocPDF;
                     entidad.RutaGdocAdjuntos = general.RutaGdocAdjuntos;
                     entidad.RutaGdocExternos = general.RutaGdocExternos;
+                    entidad.Servidor = general.Servidor;
                     db.SaveChanges();
                 }
                 return general;

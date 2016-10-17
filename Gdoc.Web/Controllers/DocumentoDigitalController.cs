@@ -54,7 +54,8 @@ namespace Gdoc.Web.Controllers
                         operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                         operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoDigital; 
                         operacion.NotificacionOperacion = "S";//FALTA
-                        operacion.NumeroOperacion = "DD" + DateTime.Now.Ticks.ToString();
+                        operacion.NumeroOperacion = oOperacion.NumeroOperacion(IDusuario, Constantes.TipoOperacion.DocumentoDigital);
+                        //operacion.NumeroOperacion = "DD" + DateTime.Now.Ticks.ToString();
                         operacion.DocumentoAdjunto = "S";
 
                         if (operacion.EstadoOperacion == 1)
@@ -92,7 +93,7 @@ namespace Gdoc.Web.Controllers
                 listOperacion = oOperacion.ListarOperacionDigital(new UsuarioParticipante
                 {
                     IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
-                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital).ToList();
+                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital).OrderByDescending(x => x.FechaEnvio).ToList();
             }
             return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

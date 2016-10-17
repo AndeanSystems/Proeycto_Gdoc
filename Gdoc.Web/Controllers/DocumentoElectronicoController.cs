@@ -62,7 +62,8 @@ namespace Gdoc.Web.Controllers
                         operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                         operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
 
-                        operacion.NumeroOperacion = "DE" + DateTime.Now.Ticks.ToString();
+                        operacion.NumeroOperacion = oNOperacion.NumeroOperacion(IDusuario, Constantes.TipoOperacion.DocumentoElectronico);
+                        //operacion.NumeroOperacion = "DE" + DateTime.Now.Ticks.ToString();
                         operacion.NotificacionOperacion = "S";
 
                         if (listDocumentosAdjuntos != null)
@@ -106,7 +107,7 @@ namespace Gdoc.Web.Controllers
             {
                 listDocumentoElectronico = oOperacion.ListarOperacionElectronico(new UsuarioParticipante {
                     IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
-                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico).ToList();
+                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoElectronico).OrderByDescending(x => x.FechaEnvio).ToList();
             }
 
             return new JsonResult { Data = listDocumentoElectronico, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
