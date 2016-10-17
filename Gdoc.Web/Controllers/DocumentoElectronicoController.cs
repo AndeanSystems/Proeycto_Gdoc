@@ -117,6 +117,7 @@ namespace Gdoc.Web.Controllers
             {
                 var DocumentoReferencia = new EOperacion();
                 var listAdjunto = new List<EAdjunto>();
+                var AdjuntoPDF = new EAdjunto();
                 using (var oOperacion = new NOperacion())
                 {
                     DocumentoReferencia = oOperacion.ListarOperacionBusqueda().Where(x => x.NumeroOperacion == operacion.NumeroOperacion).FirstOrDefault();
@@ -126,6 +127,11 @@ namespace Gdoc.Web.Controllers
                 {
                     listAdjunto = oAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDOperacion == DocumentoReferencia.IDOperacion && x.EstadoAdjunto == Estados.EstadoAdjunto.Activo).ToList();
                 }
+
+                AdjuntoPDF.NombreOriginal = DocumentoReferencia.NombreFinal;
+                AdjuntoPDF.RutaArchivo = string.Format(@"{0}\{1}", Session["RutaGdocPDF"].ToString(), DocumentoReferencia.NombreFinal);
+                AdjuntoPDF.TipoArchivo = "application/pdf";
+                listAdjunto.Add(AdjuntoPDF);
 
                 return new JsonResult { Data = listAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
        

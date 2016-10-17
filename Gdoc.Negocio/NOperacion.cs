@@ -90,34 +90,56 @@ namespace Gdoc.Negocio
                 {
                     foreach (var adjunto in listDocumentosAdjuntos)
                     {
+                        
                         //GuardarImagen(adjunto, IDusuario, eGeneral, operacion);
-                        byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(adjunto.RutaArchivo);
-                        adjunto.IDUsuario = IDusuario;
-                        adjunto.NombreOriginal = adjunto.NombreOriginal;
-                        adjunto.RutaArchivo = string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, adjunto.NombreOriginal);
-                        adjunto.TamanoArchivo = adjunto.TamanoArchivo;
-                        adjunto.FechaRegistro = System.DateTime.Now;
-
-                        adjunto.EstadoAdjunto = Estados.EstadoAdjunto.Activo;
-
-                        if (string.IsNullOrEmpty(adjunto.TipoArchivo) || !adjunto.TipoArchivo.Contains(ArchivoTXT))
+                        if (adjunto.RutaArchivo.Contains(eGeneral.RutaGdocAdjuntos) || adjunto.RutaArchivo.Contains(eGeneral.RutaGdocPDF))
                         {
-                            File.WriteAllBytes(adjunto.RutaArchivo, fileBytes);
-                        }
-                        else if (adjunto.TipoArchivo.Contains(ArchivoTXT))
-                        {
-                            File.WriteAllText(adjunto.RutaArchivo, Encoding.UTF8.GetString(fileBytes));
+                            if (adjunto.RutaArchivo.Contains(eGeneral.RutaGdocPDF))
+                                System.IO.File.Copy(adjunto.RutaArchivo, string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, adjunto.NombreOriginal), true);
+                            else
+                                System.IO.File.Copy(adjunto.RutaArchivo, string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, adjunto.NombreOriginal), true);
+                           
+                           adjunto.IDUsuario = IDusuario;
+                           adjunto.NombreOriginal = adjunto.NombreOriginal;
+                           adjunto.RutaArchivo = string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, adjunto.NombreOriginal);
+                           adjunto.TamanoArchivo = adjunto.TamanoArchivo;
+                           adjunto.FechaRegistro = System.DateTime.Now;
+
+                           adjunto.EstadoAdjunto = Estados.EstadoAdjunto.Activo;
+
+
                         }
                         else
                         {
-                            using (MemoryStream stream = new MemoryStream(fileBytes))
+                            byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(adjunto.RutaArchivo);
+
+                            adjunto.IDUsuario = IDusuario;
+                            adjunto.NombreOriginal = adjunto.NombreOriginal;
+                            adjunto.RutaArchivo = string.Format(@"{0}\{1}_{2}", eGeneral.RutaGdocAdjuntos, operacion.NumeroOperacion, adjunto.NombreOriginal);
+                            adjunto.TamanoArchivo = adjunto.TamanoArchivo;
+                            adjunto.FechaRegistro = System.DateTime.Now;
+
+                            adjunto.EstadoAdjunto = Estados.EstadoAdjunto.Activo;
+
+                            if (string.IsNullOrEmpty(adjunto.TipoArchivo) || !adjunto.TipoArchivo.Contains(ArchivoTXT))
                             {
-                                Image.FromStream(stream).Save(adjunto.RutaArchivo, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                File.WriteAllBytes(adjunto.RutaArchivo, fileBytes);
+                            }
+                            else if (adjunto.TipoArchivo.Contains(ArchivoTXT))
+                            {
+                                File.WriteAllText(adjunto.RutaArchivo, Encoding.UTF8.GetString(fileBytes));
+                            }
+                            else
+                            {
+                                using (MemoryStream stream = new MemoryStream(fileBytes))
+                                {
+                                    Image.FromStream(stream).Save(adjunto.RutaArchivo, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                }
                             }
                         }
+
                         //GRABAR ADJUNTO
                         dAdjunto.GrabarAdjunto(adjunto);
-
                         //GRABAR DOCUMENTO ADJUNTO
                         eDocumentoAdjunto = new DocumentoAdjunto();
                         eDocumentoAdjunto.IDOperacion = operacion.IDOperacion;

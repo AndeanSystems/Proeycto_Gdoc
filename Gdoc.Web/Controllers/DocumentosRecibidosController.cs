@@ -106,8 +106,14 @@ namespace Gdoc.Web.Controllers
         {
             try
             {
-
-                string sWebSite = ConfigurationManager.AppSettings.Get("Adjunto");
+                string sWebSite = string.Empty;
+                if (adjunto.Archivo == null)
+                {
+                    sWebSite = ConfigurationManager.AppSettings.Get("Documentos");
+                    adjunto.Archivo = adjunto.NombreOriginal;
+                }
+                else
+                    sWebSite = ConfigurationManager.AppSettings.Get("Adjunto");
 
                 var ruta = sWebSite + adjunto.Archivo;
                 return new JsonResult { Data = ruta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };

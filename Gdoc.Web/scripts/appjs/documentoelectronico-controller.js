@@ -65,7 +65,8 @@ function ReadFileToBinary(control) {
         //ng-visible
         context.eliminar = true;
         context.agregar = true;
-        context.mostrar = false;
+        context.mostrar = false
+        context.referencia = true;
 
         //LlenarConcepto(TipoDocumento);
         LlenarConcepto(PrioridadAtencion);
@@ -301,6 +302,8 @@ function ReadFileToBinary(control) {
                 context.agregar = false;
                 context.mostrar = true;
             }
+
+            context.referencia = false;
             //falta corregir fecha
             context.operacion.FechaVigente = appService.setFormatDate(context.operacion.FechaVigente);
             context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
@@ -404,6 +407,7 @@ function ReadFileToBinary(control) {
             context.eliminar = true;
             context.agregar = true;
             context.mostrar = false;
+            context.referencia = true;
             context.operacion = {};
             context.DocumentoElectronicoOperacion = {};
             context.usuarioRemitentes = [];
