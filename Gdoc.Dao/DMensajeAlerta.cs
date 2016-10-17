@@ -62,6 +62,7 @@ namespace Gdoc.Dao
                     {
                         foreach (var item in listremitentes.Where(y=>y.operacion.IDOperacion==x.operacion.IDOperacion))
                         {
+                            
                             remitentes.Add(item.usuario.NombreUsuario);
                         }
                             listMensajeAlerta.Add(new EMensajeAlerta

@@ -1240,7 +1240,7 @@ namespace Gdoc.Negocio
                 var mensajeAlerta = new MensajeAlerta();
 
                 mensajeAlerta.IDOperacion = operacion.IDOperacion;
-                mensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                mensajeAlerta.FechaAlerta = System.DateTime.Now;
                 mensajeAlerta.TipoAlerta = 1;
                 mensajeAlerta.EstadoMensajeAlerta = 1;
                 mensajeAlerta.CodigoEvento = codigoevento;

@@ -107,10 +107,10 @@
             function enviarFomularioOK() {
                 dataProvider.postData("Concepto/GrabarConcepto", context.concepto).success(function (respuesta) {
                     console.log(respuesta);
-                    //listarConcepto();
-                    //if (respuesta.Exitoso)
-                    //    TipoMensaje = "success";
-                    //appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+                    listarConcepto();
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
                     context.concepto = {};
                     $("#modal_contenido").modal("hide");
                 }).error(function (error) {

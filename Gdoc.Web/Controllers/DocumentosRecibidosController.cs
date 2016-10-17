@@ -194,7 +194,7 @@ namespace Gdoc.Web.Controllers
                         //GRABAR MENSAJE ALERTA
                         if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioProveido && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                         {
-                            GrabarMensajeAlerta("021", operacion, eUsuarioParticipante.IDUsuario,4);
+                            GrabarMensajeAlerta("047", operacion, eUsuarioParticipante.IDUsuario,4);
                         }
                     }
                     else
@@ -218,7 +218,7 @@ namespace Gdoc.Web.Controllers
                             //GRABAR MENSAJE ALERTA
                             if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioProveido && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                             {
-                                GrabarMensajeAlerta("017", operacion, eUsuarioParticipante.IDUsuario,4);
+                                GrabarMensajeAlerta("047", operacion, eUsuarioParticipante.IDUsuario,4);
                             }
                         }
                     }
