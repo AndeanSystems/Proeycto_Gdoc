@@ -20,6 +20,7 @@ namespace Gdoc.Web.Controllers
         protected NUsuarioParticipante dUsuarioParticipante = new NUsuarioParticipante();
         protected NMensajeAlerta dMensajeAlerta = new NMensajeAlerta();
         protected NUsuarioGrupo dUsuarioGrupo = new NUsuarioGrupo();
+        protected NUsuario dUsuario = new NUsuario();
         // GET: /DocumentosRecibidos/
         public ActionResult Index()
         {
@@ -165,6 +166,7 @@ namespace Gdoc.Web.Controllers
             {
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
                 var eUsuarioParticipante = new UsuarioParticipante();
+                var eUsuarioRemitente = new List<UsuarioParticipante>();
 
                 mesaVirtualComentario.FechaPublicacion = System.DateTime.Now;
                 mesaVirtualComentario.EstadoComentario = 1;
@@ -186,7 +188,7 @@ namespace Gdoc.Web.Controllers
                 eUsuarioParticipante.ReenvioOperacion = "S";
                 eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                 listEusuarioParticipante.Add(eUsuarioParticipante);
-
+                eUsuarioRemitente.Add(eUsuarioParticipante);
                 foreach (var participante in listUsuariosDestinatarios)
                 {
                     if (participante.Tipo.Equals(Usuario))
@@ -207,7 +209,7 @@ namespace Gdoc.Web.Controllers
                         //GRABAR MENSAJE ALERTA
                         if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioProveido && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                         {
-                            GrabarMensajeAlerta("047", operacion, eUsuarioParticipante.IDUsuario, 4, mesaVirtualComentario);
+                            GrabarMensajeAlerta("047", operacion, eUsuarioParticipante.IDUsuario, 4, mesaVirtualComentario, eUsuarioRemitente);
                         }
                     }
                     else
@@ -231,7 +233,7 @@ namespace Gdoc.Web.Controllers
                             //GRABAR MENSAJE ALERTA
                             if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioProveido && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                             {
-                                GrabarMensajeAlerta("047", operacion, eUsuarioParticipante.IDUsuario,4,mesaVirtualComentario);
+                                GrabarMensajeAlerta("047", operacion, eUsuarioParticipante.IDUsuario, 4, mesaVirtualComentario, eUsuarioRemitente);
                             }
                         }
                     }
@@ -248,11 +250,17 @@ namespace Gdoc.Web.Controllers
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
         }
-        protected void GrabarMensajeAlerta(string codigoevento, Operacion operacion, Int64 IDusuario,int tipoalerta, MesaVirtualComentario mesaVirtualComentario)
+        protected void GrabarMensajeAlerta(string codigoevento, Operacion operacion, Int64 IDusuario,int tipoalerta, MesaVirtualComentario mesaVirtualComentario, List<UsuarioParticipante> listRemitente)
         {
             try
             {
                 var mensajeAlerta = new MensajeAlerta();
+                var eUsuario = new List<string>();
+                foreach (var item in listRemitente)
+	            {
+                    eUsuario.Add(dUsuario.ListarUsuario().Where(x => x.IDUsuario == item.IDUsuario).FirstOrDefault().NombreUsuario);
+		 
+	            }
 
                 mensajeAlerta.IDOperacion = operacion.IDOperacion;
                 if (codigoevento == "047")
@@ -263,6 +271,7 @@ namespace Gdoc.Web.Controllers
                 mensajeAlerta.EstadoMensajeAlerta = 1;
                 mensajeAlerta.CodigoEvento = codigoevento;
                 mensajeAlerta.IDUsuario = IDusuario;
+                mensajeAlerta.Remitente = string.Join(",", eUsuario.ToArray());
 
                 dMensajeAlerta.GrabarMensajeAlerta(mensajeAlerta);
             }

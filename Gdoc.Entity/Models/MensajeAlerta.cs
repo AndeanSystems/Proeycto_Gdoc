@@ -12,6 +12,7 @@ namespace Gdoc.Entity.Models
         public string CodigoEvento { get; set; }
         public Nullable<int> EstadoMensajeAlerta { get; set; }
         public Nullable<long> IDUsuario { get; set; }
+        public string Remitente { get; set; }
         public virtual Operacion Operacion { get; set; }
         public virtual Usuario Usuario { get; set; }
     }

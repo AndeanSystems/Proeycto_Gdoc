@@ -23,6 +23,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.CodigoEvento).HasColumnName("CodigoEvento");
             this.Property(t => t.EstadoMensajeAlerta).HasColumnName("EstadoMensajeAlerta");
             this.Property(t => t.IDUsuario).HasColumnName("IDUsuario");
+            this.Property(t => t.Remitente).HasColumnName("Remitente");
 
             // Relationships
             this.HasOptional(t => t.Operacion)

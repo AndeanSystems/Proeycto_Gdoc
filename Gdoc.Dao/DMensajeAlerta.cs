@@ -91,6 +91,7 @@ namespace Gdoc.Dao
                             CodigoEvento = x.mensajealerta.CodigoEvento,
                             EstadoMensajeAlerta = x.mensajealerta.EstadoMensajeAlerta,
                             IDUsuario = x.mensajealerta.IDUsuario,
+                            Remitente=x.mensajealerta.Remitente,
 
                             TipoOperacion = new Concepto
                             {
@@ -111,7 +112,7 @@ namespace Gdoc.Dao
                                 TipoOperacion = x.operacion.TipoOperacion,
                                 NombreFinal = x.operacion.NombreFinal,
                             },
-                            Remitente = string.Join(",", remitentes.ToArray()),
+                            //Remitentes = string.Join(",", remitentes.ToArray()),
                         });
                         remitentes = new List<String>();
                     }

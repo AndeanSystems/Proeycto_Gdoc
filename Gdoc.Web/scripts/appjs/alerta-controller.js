@@ -23,9 +23,15 @@
         
         context.comentarioProveido = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
+            console.log(context.operacion);
             context.operacion.FechaAlerta = appService.setFormatDate(context.operacion.FechaAlerta);
-            listarComentarioProveido(context.operacion);
-            context.CambiarVentana("ListComentarioProveido");
+            if (context.operacion.TipoAlerta == 1)
+                appService.mostrarAlerta("Información", "La alerta no posee Comentario", "warning");
+            else
+            {
+                listarComentarioProveido(context.operacion);
+                context.CambiarVentana("ListComentarioProveido");
+            }
         }
         //Eventos
         context.gridOptions = {
