@@ -176,8 +176,8 @@ namespace Gdoc.Negocio
                         {
                             GrabarMensajeAlerta("017", operacion, eUsuarioParticipante.IDUsuario, eUsuarioRemitente);
 
-                            //var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault().Personal.EmailTrabrajo;
-                            //EnviarCorreo(correo, operacion.TituloOperacion, "017");
+                            var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault().Personal.EmailTrabrajo;
+                            EnviarCorreo(correo, operacion.TituloOperacion, "017", operacion.NumeroOperacion, operacion.TipoOperacion, participante.IDUsuarioGrupo);
                         }
                     }
                     else {
@@ -203,8 +203,8 @@ namespace Gdoc.Negocio
                             if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE &&  operacion.EstadoOperacion==Estados.EstadoOperacion.Activo)
                             {
                                 GrabarMensajeAlerta("017", operacion, eUsuarioParticipante.IDUsuario, eUsuarioRemitente);
-                                //var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault().Personal.EmailTrabrajo;
-                                //EnviarCorreo(correo,operacion.TituloOperacion,"017");
+                                var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault().Personal.EmailTrabrajo;
+                                EnviarCorreo(correo, operacion.TituloOperacion, "017", operacion.NumeroOperacion,operacion.TipoOperacion,usuario.IDUsuario);
                             }
                         }
                     }
@@ -1171,7 +1171,7 @@ namespace Gdoc.Negocio
             }
         }
         #region Metodos
-        protected void EnviarCorreo(string correoDestinatario,string asuntoCorreo, string codigoEvento)
+        protected void EnviarCorreo(string correoDestinatario,string Titulo, string codigoEvento,string numerooperacion,string tipooperacion,long idusuario)
         {
             /*-------------------------MENSAJE DE CORREO----------------------*/
 
@@ -1185,15 +1185,48 @@ namespace Gdoc.Negocio
             //Nota: La propiedad To es una colección que permite enviar el mensaje a más de un destinatario
 
             //Asunto
-            mmsg.Subject = asuntoCorreo;
+            var ope = string.Empty;
+            if (tipooperacion == Constantes.TipoOperacion.DocumentoElectronico)
+                ope = " DOC-E ";
+            else if (tipooperacion == Constantes.TipoOperacion.DocumentoElectronico)
+                ope = " DOC-D ";
+            else
+                ope = " GRUPO-V ";
+
+            var destinatario = dUsuario.ListarUsuario().Where(x => x.IDUsuario == idusuario).FirstOrDefault().NombreUsuario;
+            mmsg.Subject = "Notificación DocWeb :" + ope + numerooperacion;
             mmsg.SubjectEncoding = System.Text.Encoding.UTF8;
 
             //Busca Descripcion del Evento
-            var body = dConcepto.ListarConcepto().Where(x => x.TipoConcepto == "008" && x.CodiConcepto == codigoEvento).FirstOrDefault().DescripcionConcepto;
+            var evento = dConcepto.ListarConcepto().Where(x => x.TipoConcepto == "008" && x.CodiConcepto == codigoEvento).FirstOrDefault().DescripcionConcepto;
+            
             //Direccion de correo electronico que queremos que reciba una copia del mensaje
+
             //mmsg.Bcc.Add("destinatariocopia@servidordominio.com"); //Opcional
 
             //Cuerpo del Mensaje
+            var body = "Sr.(ita).  " + destinatario + 
+                        Environment.NewLine +
+                        Environment.NewLine +
+                        evento +
+                        Environment.NewLine +
+                        Environment.NewLine +
+                        "Asunto: " + Titulo +
+                        Environment.NewLine +
+                        Environment.NewLine +
+                        "Pulse Click en el siguiente link " + 
+                        "http://192.168.100.29:90" + 
+                        " para ingresar al sistema DocWeb, usando sus credenciales de red."+
+                        Environment.NewLine +
+                        Environment.NewLine +
+                        "Att." +
+                        Environment.NewLine +
+                        Environment.NewLine +
+                        "Administrador – DocWeb" +
+                        Environment.NewLine +
+                        "FEPCMAC" +
+                        Environment.NewLine +
+                        "Lima, Perú";
             mmsg.Body = body;
             mmsg.BodyEncoding = System.Text.Encoding.UTF8;
             mmsg.IsBodyHtml = false; //Si no queremos que se envíe como HTML
@@ -1227,27 +1260,6 @@ namespace Gdoc.Negocio
             {
                 //Aquí gestionamos los errores al intentar enviar el correo
             }
-            //var eMailSent = false;
-
-            //eMailSent = true;
-            //var eMailSubject = Request["subject"];
-            //if (eMailSubject == null)
-            //{
-            //    eMailSubject = "Asunto vacío";
-            //}
-            //var eMailMessage = Request["message"];
-            //if (eMailMessage == null)
-            //{
-            //    eMailMessage = "Mensaje vacío";
-            //}
-
-            //WebMail.SmtpServer = "smtp.gmail.com";
-            //WebMail.SmtpPort = 587;
-            //WebMail.EnableSsl = true;
-            //WebMail.UserName = "andersonberrocal94@gmail.com";
-            //WebMail.From = "andersonberrocal94@gmail.com";
-            //WebMail.Password = "anderson147";
-            //WebMail.Send(to: "apacaya1@gmail.com", subject: eMailSubject, body: eMailMessage);
 
         }
         protected void GrabarLogOperacion(string codigoevento, Operacion operacion, Int64 IDusuario)
