@@ -1166,7 +1166,6 @@ namespace Gdoc.Negocio
             }
             catch (Exception)
             {
-                
                 throw;
             }
         }
