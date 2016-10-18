@@ -52,7 +52,7 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'NombreGrupo', displayName: 'Grupo' },
+                { field: 'NombreGrupo', displayName: 'Listas' },
                 { field: 'CantidadUsuarios', displayName: 'Participantes' },
                 { field: 'ComentarioGrupo', displayName: 'Comentario' },
                 { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },

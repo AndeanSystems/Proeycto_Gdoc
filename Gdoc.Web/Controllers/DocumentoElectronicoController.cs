@@ -276,7 +276,7 @@ namespace Gdoc.Web.Controllers
                 var personal = nPersonal.ListarPersonal().Where(x => x.IDPersonal == usuario.IDPersonal).FirstOrDefault();
 
                 if (item.TipoParticipante == Constantes.TipoParticipante.RemitenteDE){
-                    remitentes.Add(string.Format(@"{0} {1} {2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
+                    remitentes.Add(string.Format(@"{0} {1}{2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
                     if (usuario.FirmaElectronica != null || usuario.FirmaElectronica != string.Empty)
                     {
                         listfirmaUsuario.Add(usuario.NombreUsuario + ".jpg");
@@ -284,7 +284,7 @@ namespace Gdoc.Web.Controllers
                     }
                 }
                 else
-                    destinatarios.Add(string.Format(@"{0} {1} {2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
+                    destinatarios.Add(string.Format(@"{0} {1}{2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
             }
             var documento = (string.Format(@"{0} {1}", oNOperacion.ListarOperacionBusqueda().Where(x => x.IDOperacion == operacion.IDOperacion).FirstOrDefault().TipoDoc.DescripcionCorta,operacion.NumeroOperacion));
 
@@ -293,11 +293,11 @@ namespace Gdoc.Web.Controllers
                     eDocumentoElectronicoOperacion.Memo, 
                     operacion.IDEmpresa, 
                     Session["RutaGdocPDF"].ToString(), 
-                    documento, 
-                    string.Join(Environment.NewLine, destinatarios.ToArray()),
+                    documento,
+                    string.Join(Environment.NewLine + Environment.NewLine, destinatarios.ToArray()),
                     string.Join(Environment.NewLine + Environment.NewLine, remitentes.ToArray()), 
                     operacion.TituloOperacion, 
-                    operacion.AccesoOperacion,
+                    operacion.TipoComunicacion,
                     listremitentes,
                     Session["RutaGdocImagenes"].ToString(),
                     listfirmaUsuario);
