@@ -241,7 +241,7 @@
             });
         }
         function listarComentarioProveido(operacion) {
-            dataProvider.postData("Alertas/ListarComentarioProveido", operacion).success(function (respuesta) {
+            dataProvider.postData("DocumentosRecibidos/ListarComentarioProveido", operacion).success(function (respuesta) {
                 context.gridComentarios.data = respuesta;
                 console.log(respuesta);
             }).error(function (error) {

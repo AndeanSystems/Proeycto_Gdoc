@@ -170,13 +170,17 @@ namespace Gdoc.Common.Utilitario
             {
                 PdfPTable tabla2 = new PdfPTable(2);
                 tabla2.WidthPercentage = 100;
-
+                iTextSharp.text.Image sFirma = null;
                 iTextSharp.text.Font fontdestinatario = FontFactory.GetFont(FontFactory.HELVETICA, 10, iTextSharp.text.Font.NORMAL, new iTextSharp.text.Color(System.Drawing.Color.Black));
                 for (int i = 0; i <= 3; i++)
                 {
                     if (listfirmaUsuario.Count() >= i + 1 && listfirmaUsuario[i] != null)
                     {
-                        iTextSharp.text.Image sFirma = iTextSharp.text.Image.GetInstance(Path.Combine(rutaFirma, listfirmaUsuario[i]));
+                        if (File.Exists(Path.Combine(rutaFirma, listfirmaUsuario[i])))
+                            sFirma = iTextSharp.text.Image.GetInstance(Path.Combine(rutaFirma, listfirmaUsuario[i]));
+                        else
+                            sFirma = iTextSharp.text.Image.GetInstance(Path.Combine(rutaFirma, "sinfirma.jpg"));
+
                         sFirma.ScaleAbsolute(200, 100);
                         Chunk chkFirma = new Chunk(sFirma, 0, 0, true);
 

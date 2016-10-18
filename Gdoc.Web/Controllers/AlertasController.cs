@@ -59,12 +59,24 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listMensajeAlerta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        public JsonResult ListarComentarioProveido(Operacion operacion)
+        public JsonResult ListarComentarioProveido(EMensajeAlerta alerta)
         {
             var listComentarioProveido = new List<MesaVirtualComentario>();
             using (var oMesaVirtualComentario = new NMesaVirtualComentario())
             {
-                listComentarioProveido = oMesaVirtualComentario.ListarMesaVirtualComentario().Where(x => x.IDOperacion == operacion.IDOperacion).OrderByDescending(x => x.FechaPublicacion).ToList();
+                if (alerta.TipoAlerta == 1)
+                {
+                    listComentarioProveido = oMesaVirtualComentario.ListarMesaVirtualComentario().
+                       Where(x => x.IDOperacion == alerta.Operacion.IDOperacion).
+                       OrderByDescending(x => x.FechaPublicacion).ToList();
+                }
+                else
+                {
+                    listComentarioProveido = oMesaVirtualComentario.ListarMesaVirtualComentario().
+                       Where(x => x.IDOperacion == alerta.Operacion.IDOperacion && x.FechaPublicacion <= alerta.FechaAlerta).
+                       OrderByDescending(x => x.FechaPublicacion).ToList();
+                }
+                
             }
             return new JsonResult { Data = listComentarioProveido, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

@@ -19,6 +19,7 @@ namespace Gdoc.Dao
                 using (var db = new DataBaseContext())
                 {
                     var remitentes = new List<String>();
+
                     var listremitentes = (from remitente in db.UsuarioParticipantes
 
                                           join usuario in db.Usuarios
@@ -32,7 +33,7 @@ namespace Gdoc.Dao
                                            (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == IDUsuario
                                             && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioProveido || x.TipoParticipante==Constantes.TipoParticipante.ColaboradorMV)) > 0)
                                             && (remitente.TipoParticipante == Constantes.TipoParticipante.RemitenteDE || remitente.TipoParticipante==Constantes.TipoParticipante.RemitenteProveido || remitente.TipoParticipante==Constantes.TipoParticipante.OrganizadorMV)
-                                          select new { usuario,operacion }).ToList();
+                                          select new { usuario,operacion,remitente }).ToList();
 
                     var list2 = (from mensajealerta in db.MensajeAlertas
 
@@ -60,75 +61,60 @@ namespace Gdoc.Dao
                     
                     foreach (var x in list2)
                     {
-                        foreach (var item in listremitentes.Where(y=>y.operacion.IDOperacion==x.operacion.IDOperacion))
+                        foreach (var item in listremitentes.Where(y => y.operacion.IDOperacion == x.operacion.IDOperacion))
                         {
-                            
-                            remitentes.Add(item.usuario.NombreUsuario);
-                        }
-                            listMensajeAlerta.Add(new EMensajeAlerta
+                            if (x.mensajealerta.TipoAlerta == 4)
                             {
-                                IDMensajeAlerta = x.mensajealerta.IDMensajeAlerta,
-                                IDOperacion = x.mensajealerta.IDOperacion,
-                                FechaAlerta = x.mensajealerta.FechaAlerta,
-                                TipoAlerta = x.mensajealerta.TipoAlerta,
-                                CodigoEvento = x.mensajealerta.CodigoEvento,
-                                EstadoMensajeAlerta = x.mensajealerta.EstadoMensajeAlerta,
-                                IDUsuario = x.mensajealerta.IDUsuario,
+                                if (item.remitente.TipoParticipante == Constantes.TipoParticipante.RemitenteProveido)
+                                {
+                                    var lisProveidos = (from proveidos in db.MesaVirtualComentarios
+                                                        where proveidos.IDOperacion == x.operacion.IDOperacion
+                                                        && proveidos.IDUsuario == item.remitente.IDUsuario
+                                                        select new { proveidos }).FirstOrDefault();
 
-                                TipoOperacion = new Concepto
-                                {
-                                    DescripcionCorta = x.tipooperacion.DescripcionCorta,
-                                },
-                                TipoDocumento = new Concepto
-                                {
-                                    DescripcionCorta = x.tipodocumento.DescripcionCorta,
-                                },
-                                Evento = new Concepto
-                                {
-                                    DescripcionConcepto = x.evento.DescripcionConcepto,
-                                },
-                                Operacion = new Operacion
-                                {
-                                    IDOperacion = x.operacion.IDOperacion,
-                                    NumeroOperacion = x.operacion.NumeroOperacion,
-                                    TipoOperacion = x.operacion.TipoOperacion,
-                                    NombreFinal = x.operacion.NombreFinal,
-                                },
-                                Remitente = string.Join(",", remitentes.ToArray()),
-                            });
-                            remitentes = new List<String>();
-                       
+                                    if (item.remitente.TipoParticipante == Constantes.TipoParticipante.RemitenteProveido && x.mensajealerta.FechaAlerta == lisProveidos.proveidos.FechaPublicacion)
+                                        remitentes.Add(item.usuario.NombreUsuario);
+                                }
+                            }
+                            else
+                            {
+                                if (item.remitente.TipoParticipante != Constantes.TipoParticipante.RemitenteProveido)
+                                    remitentes.Add(item.usuario.NombreUsuario);
+                            }
+                        }
+                        listMensajeAlerta.Add(new EMensajeAlerta
+                        {
+                            IDMensajeAlerta = x.mensajealerta.IDMensajeAlerta,
+                            IDOperacion = x.mensajealerta.IDOperacion,
+                            FechaAlerta = x.mensajealerta.FechaAlerta,
+                            TipoAlerta = x.mensajealerta.TipoAlerta,
+                            CodigoEvento = x.mensajealerta.CodigoEvento,
+                            EstadoMensajeAlerta = x.mensajealerta.EstadoMensajeAlerta,
+                            IDUsuario = x.mensajealerta.IDUsuario,
+
+                            TipoOperacion = new Concepto
+                            {
+                                DescripcionCorta = x.tipooperacion.DescripcionCorta,
+                            },
+                            TipoDocumento = new Concepto
+                            {
+                                DescripcionCorta = x.tipodocumento.DescripcionCorta,
+                            },
+                            Evento = new Concepto
+                            {
+                                DescripcionConcepto = x.evento.DescripcionConcepto,
+                            },
+                            Operacion = new Operacion
+                            {
+                                IDOperacion = x.operacion.IDOperacion,
+                                NumeroOperacion = x.operacion.NumeroOperacion,
+                                TipoOperacion = x.operacion.TipoOperacion,
+                                NombreFinal = x.operacion.NombreFinal,
+                            },
+                            Remitente = string.Join(",", remitentes.ToArray()),
+                        });
+                        remitentes = new List<String>();
                     }
-                    //list2.ForEach(x => listMensajeAlerta.Add(new EMensajeAlerta
-                    //{
-                    //    IDMensajeAlerta = x.mensajealerta.IDMensajeAlerta,
-                    //    IDOperacion = x.mensajealerta.IDOperacion,
-                    //    FechaAlerta = x.mensajealerta.FechaAlerta,
-                    //    TipoAlerta = x.mensajealerta.TipoAlerta,
-                    //    CodigoEvento = x.mensajealerta.CodigoEvento,
-                    //    EstadoMensajeAlerta = x.mensajealerta.EstadoMensajeAlerta,
-                    //    IDUsuario = x.mensajealerta.IDUsuario,
-
-                    //    TipoOperacion = new Concepto
-                    //    {
-                    //        DescripcionCorta = x.tipooperacion.DescripcionCorta,
-                    //    },
-                    //    TipoDocumento = new Concepto
-                    //    {
-                    //        DescripcionCorta = x.tipodocumento.DescripcionCorta,
-                    //    },
-                    //    Evento = new Concepto{
-                    //        DescripcionConcepto=x.evento.DescripcionConcepto,
-                    //    },
-                    //    Operacion = new Operacion
-                    //    {
-                    //        IDOperacion=x.operacion.IDOperacion,
-                    //        NumeroOperacion = x.operacion.NumeroOperacion,
-                    //        TipoOperacion=x.operacion.TipoOperacion,
-                    //        NombreFinal=x.operacion.NombreFinal,
-
-                    //    },
-                    //}));
                 }
             }
             catch (Exception ex)

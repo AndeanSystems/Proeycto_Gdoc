@@ -62,7 +62,9 @@ namespace Gdoc.Web.Controllers
             var listUsuarioParticipante = new List<EUsuarioParticipante>();
             using (var oUsuarioParticipante = new NUsuarioParticipante())
             {
-                listUsuarioParticipante = oUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+                listUsuarioParticipante = oUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion 
+                    && x.TipoParticipante!=Constantes.TipoParticipante.DestinatarioProveido
+                    && x.TipoParticipante!=Constantes.TipoParticipante.RemitenteProveido).ToList();
             }
             return new JsonResult { Data = listUsuarioParticipante, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
@@ -146,6 +148,17 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+        public JsonResult ListarComentarioProveido(Operacion alerta)
+        {
+            var listComentarioProveido = new List<MesaVirtualComentario>();
+            using (var oMesaVirtualComentario = new NMesaVirtualComentario())
+            {
+                listComentarioProveido = oMesaVirtualComentario.ListarMesaVirtualComentario().
+                    Where(x => x.IDOperacion == alerta.IDOperacion).
+                    OrderByDescending(x => x.FechaPublicacion).ToList();
+            }
+            return new JsonResult { Data = listComentarioProveido, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
         public JsonResult GrabarComentarioProveido(Operacion operacion, MesaVirtualComentario mesaVirtualComentario, List<EUsuarioGrupo> listUsuariosDestinatarios)
         {
             try
@@ -184,7 +197,7 @@ namespace Gdoc.Web.Controllers
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
                         eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
                         eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
-                        eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
+                        eUsuarioParticipante.FechaNotificacion = System.DateTime.Now;
                         eUsuarioParticipante.ReenvioOperacion = "S";
                         eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                         //listEusuarioParticipante.Add(eUsuarioParticipante);
@@ -194,7 +207,7 @@ namespace Gdoc.Web.Controllers
                         //GRABAR MENSAJE ALERTA
                         if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioProveido && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                         {
-                            GrabarMensajeAlerta("047", operacion, eUsuarioParticipante.IDUsuario,4);
+                            GrabarMensajeAlerta("047", operacion, eUsuarioParticipante.IDUsuario, 4, mesaVirtualComentario);
                         }
                     }
                     else
@@ -209,7 +222,7 @@ namespace Gdoc.Web.Controllers
                             eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
                             eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
                             eUsuarioParticipante.TipoParticipante = participante.TipoParticipante;
-                            eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
+                            eUsuarioParticipante.FechaNotificacion = System.DateTime.Now;
                             eUsuarioParticipante.ReenvioOperacion = "S";
                             eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
                             if (listEusuarioParticipante.Count(x => x.IDUsuario == usuario.IDUsuario) == 0)
@@ -218,7 +231,7 @@ namespace Gdoc.Web.Controllers
                             //GRABAR MENSAJE ALERTA
                             if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioProveido && operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                             {
-                                GrabarMensajeAlerta("047", operacion, eUsuarioParticipante.IDUsuario,4);
+                                GrabarMensajeAlerta("047", operacion, eUsuarioParticipante.IDUsuario,4,mesaVirtualComentario);
                             }
                         }
                     }
@@ -235,14 +248,17 @@ namespace Gdoc.Web.Controllers
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
         }
-        protected void GrabarMensajeAlerta(string codigoevento, Operacion operacion, Int64 IDusuario,int tipoalerta)
+        protected void GrabarMensajeAlerta(string codigoevento, Operacion operacion, Int64 IDusuario,int tipoalerta, MesaVirtualComentario mesaVirtualComentario)
         {
             try
             {
                 var mensajeAlerta = new MensajeAlerta();
 
                 mensajeAlerta.IDOperacion = operacion.IDOperacion;
-                mensajeAlerta.FechaAlerta = operacion.FechaEnvio;
+                if (codigoevento == "047")
+                    mensajeAlerta.FechaAlerta = mesaVirtualComentario.FechaPublicacion;
+                else 
+                    mensajeAlerta.FechaAlerta = System.DateTime.Now;
                 mensajeAlerta.TipoAlerta = tipoalerta;
                 mensajeAlerta.EstadoMensajeAlerta = 1;
                 mensajeAlerta.CodigoEvento = codigoevento;

@@ -23,6 +23,7 @@
         
         context.comentarioProveido = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
+            context.operacion.FechaAlerta = appService.setFormatDate(context.operacion.FechaAlerta);
             listarComentarioProveido(context.operacion);
             context.CambiarVentana("ListComentarioProveido");
         }
@@ -41,7 +42,7 @@
                         '<i class="fa fa-commenting" ng-click="grid.appScope.comentarioProveido(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Proveido"></i>'
                 },
                 { field: 'Operacion.NumeroOperacion',width:'14%', displayName: 'Nº Operación' },
-                { field: 'FechaAlerta', width: '12%', displayName: 'Fecha Operación', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
+                { field: 'FechaAlerta', width: '12%', displayName: 'Fecha Alerta', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 { field: 'Remitente', width: '13%', displayName: 'Remitente' },
                 { field: 'TipoDocumento.DescripcionCorta', width: '6%', displayName: 'T.Doc.' },
                 { field: 'Evento.DescripcionConcepto', width: '50%', displayName: 'Detalle' }
