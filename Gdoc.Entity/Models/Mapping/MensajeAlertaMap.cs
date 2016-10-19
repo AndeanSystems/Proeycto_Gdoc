@@ -24,6 +24,7 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.EstadoMensajeAlerta).HasColumnName("EstadoMensajeAlerta");
             this.Property(t => t.IDUsuario).HasColumnName("IDUsuario");
             this.Property(t => t.Remitente).HasColumnName("Remitente");
+            this.Property(t => t.IDComentarioMesaVirtual).HasColumnName("IDComentarioMesaVirtual");
 
             // Relationships
             this.HasOptional(t => t.Operacion)
@@ -32,6 +33,9 @@ namespace Gdoc.Entity.Models.Mapping
             this.HasOptional(t => t.Usuario)
                 .WithMany(t => t.MensajeAlertas)
                 .HasForeignKey(d => d.IDUsuario);
+            this.HasOptional(t => t.MesaVirtualComentario)
+                .WithMany(t => t.MensajeAlertas)
+                .HasForeignKey(d => d.IDComentarioMesaVirtual);
 
         }
     }

@@ -8,6 +8,7 @@ namespace Gdoc.Entity.Models
         public MesaVirtualComentario()
         {
             this.DocumentoAdjuntoes = new List<DocumentoAdjunto>();
+            this.MensajeAlertas = new List<MensajeAlerta>();
         }
 
         public long IDComentarioMesaVirtual { get; set; }
@@ -17,6 +18,7 @@ namespace Gdoc.Entity.Models
         public Nullable<long> IDOperacion { get; set; }
         public Nullable<long> IDUsuario { get; set; }
         public virtual ICollection<DocumentoAdjunto> DocumentoAdjuntoes { get; set; }
+        public virtual ICollection<MensajeAlerta> MensajeAlertas { get; set; }
         public virtual Operacion Operacion { get; set; }
         public virtual Usuario Usuario { get; set; }
     }

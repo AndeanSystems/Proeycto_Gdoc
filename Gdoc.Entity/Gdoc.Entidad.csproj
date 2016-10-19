@@ -58,6 +58,7 @@
     <Compile Include="Extension\EListaExcel.cs" />
     <Compile Include="Extension\ELogOperacion.cs" />
     <Compile Include="Extension\EMensajeAlerta.cs" />
+    <Compile Include="Extension\EMesaVirtualComentario.cs" />
     <Compile Include="Extension\EModuloPaginaUrl.cs" />
     <Compile Include="Extension\EOperacion.cs" />
     <Compile Include="Extension\EPersonal.cs" />

@@ -175,7 +175,7 @@ namespace Gdoc.Web.Controllers
             var listUsuario = new List<EUsuario>();
             using (var oUsuario = new NUsuario())
             {
-                listUsuario = oUsuario.ListarUsuario();
+                listUsuario = oUsuario.ListarUsuario().OrderBy(x=>x.NombreUsuario).ToList();
             }
             return new JsonResult { Data = listUsuario, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
@@ -216,6 +216,7 @@ namespace Gdoc.Web.Controllers
                     else
                     {
                         //POR TERMINAR
+                        usuario.NombreUsuario = usuario.NombreUsuario.ToUpper();
                         usuario.IDPersonal = usuario.Personal.IDPersonal;
                         usuario.ClaveUsuario = "";
                         usuario.FechaRegistro = System.DateTime.Now;

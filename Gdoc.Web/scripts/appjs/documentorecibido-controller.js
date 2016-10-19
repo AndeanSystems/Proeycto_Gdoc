@@ -175,7 +175,8 @@
             columnDefs: [
                 { field: 'FechaPublicacion', displayName: 'Fecha', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm"' },
                 { field: 'Usuario.NombreUsuario', displayName: 'Remitente' },
-                { field: 'ComentarioMesaVirtual', displayName: 'Comentario' }
+                { field: 'ComentarioMesaVirtual', displayName: 'Comentario' },
+                { field: 'Destinatarios', displayName: 'Destinatarios' }
                 //{
                 //    name: 'Adjuntos', width: '7%',
                 //    cellTemplate: '<i ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-paperclip" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver"></i>'

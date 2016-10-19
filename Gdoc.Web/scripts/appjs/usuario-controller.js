@@ -107,6 +107,7 @@
             dataProvider.postData("Usuario/BuscarUsuarioPersonal", { NombreUsuario: user, Personal: personal }).success(function (respuesta) {
 
                 context.usuario.Personal = respuesta[0];
+                context.usuario.NombreUsuario = context.usuario.Personal.EmailTrabrajo;
                 context.usuario.Personal.NombrePers = context.usuario.Personal.NombrePers + " " + context.usuario.Personal.ApellidoPersonal;
                 console.log(respuesta);
                 //context.usuario = respuesta[0];
@@ -155,8 +156,8 @@
                 { field: 'NombreUsuario', displayName: 'ID Usuario' },
                 { field: 'NombreCompleto', displayName: 'Apellidos y Nombres' },
                 { field: 'TipoUsuario.DescripcionConcepto', displayName: 'Tipo Usuario' },
-                { field: 'Cargo.DescripcionConcepto', displayName: 'Cargo' },
-                { field: 'Area.DescripcionConcepto', displayName: 'Área' },
+                //{ field: 'Cargo.DescripcionConcepto', displayName: 'Cargo' },
+                //{ field: 'Area.DescripcionConcepto', displayName: 'Área' },
                 { field: 'Personal.EmailTrabrajo', displayName: 'Email Trabajo' },
                 { field: 'Estado.DescripcionConcepto', displayName: 'Estado' }
                 //{ field: 'Personal.TelefonoPersonal', displayName: 'Telefono Personal' },
@@ -175,41 +176,20 @@
             else if (numeroboton == 2)
                 usuario.EstadoUsuario = 1
 
-            //swal({
-            //    title: "Confirmacion de Credencial!",
-            //    text: "Ingrese su clave de Usuario",
-            //    type: "input",
-            //    showCancelButton: true,
-            //    closeOnConfirm: false,
-            //    animation: "slide-from-top",
-            //    inputPlaceholder: "Write something"
-            //},
-            //function (inputValue) {
-                //if (inputValue === false) return false;
-                //if (inputValue === "") {
-                //    swal.showInputError("Por favor Digite su clave de Usuario");
-                //    return false;
-                //}
-                //if (inputValue != "hola") {
-                //    swal.showInputError("Clave Incorrecta");
-                //    return false;
-                //}
-
-                function enviarFomularioOK() {
-                    dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
-                        console.log(respuesta);
-                        swal("¡Bien!", "Usuario Registrado Correctamente", "success");
-                        listarUsuario();
-                        $("#modal_contenido").modal("hide");
-                    }).error(function (error) {
-                        //MostrarError();
-                    });
-                }
-                appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
-            //});
-           
-
-                
+            function enviarFomularioOK() {
+                dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
+                    console.log(respuesta);
+                    swal("¡Bien!", "Usuario Registrado Correctamente", "success");
+                    listarUsuario();
+                    $("#modal_contenido").modal("hide");
+                }).error(function (error) {
+                    //MostrarError();
+                });
+            }
+            function cancelarFormulario() {
+                context.usuario = {};
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
         }
 
         context.listPronvincia = function (CodigoDepartamento) {

@@ -111,7 +111,7 @@ namespace Gdoc.Dao
 
                                            (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario 
                                             && (x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE || x.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)) > 0)
-                                            && remitente.TipoParticipante==Constantes.TipoParticipante.RemitenteDE
+                                            && (remitente.TipoParticipante==Constantes.TipoParticipante.RemitenteDE || remitente.TipoParticipante==Constantes.TipoParticipante.EmisorDD)
                                           select new { usuario,operacion}).ToList();
 
                     var list2 = (from operacion in db.Operacions

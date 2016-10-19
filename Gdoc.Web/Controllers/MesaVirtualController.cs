@@ -156,7 +156,7 @@ namespace Gdoc.Web.Controllers
         [HttpPost]
         public JsonResult ListarComentarioMesaVirtual(Operacion operacion)
         {
-            var listComentarioMesaVirtual = new List<MesaVirtualComentario>();
+            var listComentarioMesaVirtual = new List<EMesaVirtualComentario>();
             using (var oMesaVirtualComentario = new NMesaVirtualComentario())
             {
                 listComentarioMesaVirtual = oMesaVirtualComentario.ListarMesaVirtualComentario().Where(x => x.IDOperacion == operacion.IDOperacion).OrderByDescending(x=>x.FechaPublicacion).ToList();

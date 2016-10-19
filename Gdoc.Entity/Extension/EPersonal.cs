@@ -14,6 +14,6 @@ namespace Gdoc.Entity.Extension
         public Concepto Estado { get; set; }
         public Concepto Cargo { get; set; }
         public Concepto Area { get; set; }
-        
+        public string Usuario { get; set; }
     }
 }

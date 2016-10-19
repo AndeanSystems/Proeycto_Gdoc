@@ -59,6 +59,8 @@ namespace Gdoc.Dao
                         Cargo = new Concepto { DescripcionConcepto = x.cargo.DescripcionConcepto },
                         Area = new Concepto { DescripcionConcepto = x.area.DescripcionConcepto },
 
+                        //Usuario = x.personal.EmailTrabrajo.Substring(0, x.personal.EmailTrabrajo.IndexOf("@")),
+
                     }));
                 }
             }

@@ -10,37 +10,79 @@ namespace Gdoc.Dao
 {
     public class DMesaVirtualComentario
     {
-        public List<MesaVirtualComentario> ListarMesaVirtualComentario()
+        public List<EMesaVirtualComentario> ListarMesaVirtualComentario()
         {
-            var listMesaVirtualComentario = new List<MesaVirtualComentario>();
+            var listMesaVirtualComentario = new List<EMesaVirtualComentario>();
             try
             {
                 using (var db = new DataBaseContext())
                 {
+                    var destinatarios = new List<String>();
                     var list = db.MesaVirtualComentarios.ToList();
 
                     var list2 = (from comentario in db.MesaVirtualComentarios
 
+                                 //join alerta in db.MensajeAlertas
+                                 //on comentario.IDComentarioMesaVirtual equals alerta.IDComentarioMesaVirtual 
+
                                  join usuario in db.Usuarios
                                  on comentario.IDUsuario equals usuario.IDUsuario
 
-                                 select new { comentario,usuario}).ToList();
+                                 select new { comentario, usuario }).ToList();
 
 
-                    list2.ForEach(x => listMesaVirtualComentario.Add(new MesaVirtualComentario
+                    var listDestinatariosAlertas = (from alerta in db.MensajeAlertas
+
+                                                    join comentario in db.MesaVirtualComentarios
+                                                    on alerta.IDComentarioMesaVirtual equals comentario.IDComentarioMesaVirtual
+
+                                                    join usuario in db.Usuarios
+                                                    on alerta.IDUsuario equals usuario.IDUsuario
+
+                                                    select new { alerta, comentario, usuario }).ToList();
+
+
+                    foreach (var x in list2)
                     {
-                        IDComentarioMesaVirtual=x.comentario.IDComentarioMesaVirtual,
-                        ComentarioMesaVirtual=x.comentario.ComentarioMesaVirtual,
-                        FechaPublicacion=x.comentario.FechaPublicacion,
-                        EstadoComentario=x.comentario.EstadoComentario,
-                        IDOperacion=x.comentario.IDOperacion,
-                        IDUsuario=x.comentario.IDUsuario,
+                        foreach (var item in listDestinatariosAlertas.Where(y => y.comentario.IDOperacion == x.comentario.IDOperacion 
+                            && y.comentario.IDComentarioMesaVirtual == x.comentario.IDComentarioMesaVirtual && y.alerta.TipoAlerta == 4))
+                        {
+                            destinatarios.Add(item.usuario.NombreUsuario);
+                        }
+                        listMesaVirtualComentario.Add(new EMesaVirtualComentario
+                        {
+                            IDComentarioMesaVirtual = x.comentario.IDComentarioMesaVirtual,
+                            ComentarioMesaVirtual = x.comentario.ComentarioMesaVirtual,
+                            FechaPublicacion = x.comentario.FechaPublicacion,
+                            EstadoComentario = x.comentario.EstadoComentario,
+                            IDOperacion = x.comentario.IDOperacion,
+                            IDUsuario = x.comentario.IDUsuario,
 
-                        Usuario=new Usuario{
-                            NombreUsuario=x.usuario.NombreUsuario,
-                        },
+                            Usuario = new Usuario
+                            {
+                                NombreUsuario = x.usuario.NombreUsuario,
+                            },
 
-                    }));
+                            //Destinatarios = string.Join(", ", x.alerta.Usuario.NombreUsuario.ToArray()),
+                            Destinatarios = string.Join(", ", destinatarios.ToArray()),
+                        });
+                        destinatarios = new List<String>();
+                    }
+                    //list2.ForEach(x => listMesaVirtualComentario.Add(new MesaVirtualComentario
+                    //{
+                    //    IDComentarioMesaVirtual = x.comentario.IDComentarioMesaVirtual,
+                    //    ComentarioMesaVirtual = x.comentario.ComentarioMesaVirtual,
+                    //    FechaPublicacion = x.comentario.FechaPublicacion,
+                    //    EstadoComentario = x.comentario.EstadoComentario,
+                    //    IDOperacion = x.comentario.IDOperacion,
+                    //    IDUsuario = x.comentario.IDUsuario,
+
+                    //    Usuario = new Usuario
+                    //    {
+                    //        NombreUsuario = x.usuario.NombreUsuario,
+                    //    },
+
+                    //}));
                 }
             }
             catch (Exception ex)

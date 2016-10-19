@@ -151,7 +151,7 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult ListarComentarioProveido(Operacion alerta)
         {
-            var listComentarioProveido = new List<MesaVirtualComentario>();
+            var listComentarioProveido = new List<EMesaVirtualComentario>();
             using (var oMesaVirtualComentario = new NMesaVirtualComentario())
             {
                 listComentarioProveido = oMesaVirtualComentario.ListarMesaVirtualComentario().
@@ -272,6 +272,7 @@ namespace Gdoc.Web.Controllers
                 mensajeAlerta.CodigoEvento = codigoevento;
                 mensajeAlerta.IDUsuario = IDusuario;
                 mensajeAlerta.Remitente = string.Join(",", eUsuario.ToArray());
+                mensajeAlerta.IDComentarioMesaVirtual = mesaVirtualComentario.IDComentarioMesaVirtual;
 
                 dMensajeAlerta.GrabarMensajeAlerta(mensajeAlerta);
             }

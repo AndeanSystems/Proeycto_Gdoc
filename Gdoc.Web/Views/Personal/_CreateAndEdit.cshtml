@@ -60,14 +60,14 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Fecha de Nacimiento <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                @*<input type="text" class="form-control" placeholder="Abreviatura" ng-model="ctrl.personal.FechaNacimiento">*@
-                                                <md-datepicker ng-model="ctrl.personal.FechaNacimiento"></md-datepicker>
+                                                <input type="datetime-local" class="form-control" placeholder="Abreviatura" ng-model="ctrl.personal.FechaNacimiento">
+                                                @*<md-datepicker ng-model="ctrl.personal.FechaNacimiento"></md-datepicker>*@
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Email Trabajo <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <input type="email" class="form-control" placeholder="Email Trabajo" ng-model="ctrl.personal.EmailTrabrajo">
+                                                <input type="email" class="form-control" placeholder="Email Trabajo" ng-model="ctrl.personal.EmailTrabrajo" required>
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
@@ -115,7 +115,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Dirección <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <input type="text" class="form-control" placeholder="Dirección" ng-model="ctrl.personal.DireccionPersonal" >
+                                                <input type="text" class="form-control" placeholder="Dirección" ng-model="ctrl.personal.DireccionPersonal" required>
                                             </div>
                                         </div>
                                         <div class="form-group no-margin-bottom">
@@ -173,7 +173,7 @@
                                         <div class="form-group no-margin-bottom">
                                             <label class="col-sm-12">Numero de Identificacion <span class="text-danger">(*)</span></label>
                                             <div class="col-sm-12">
-                                                <input type="text" class="form-control" placeholder="Numero de Identificacion" ng-model="ctrl.personal.NumeroIdentificacion" >
+                                                <input type="text" class="form-control" placeholder="Numero de Identificacion" ng-model="ctrl.personal.NumeroIdentificacion" required>
                                             </div>
                                         </div>
                                        

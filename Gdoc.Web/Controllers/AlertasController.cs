@@ -61,7 +61,7 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult ListarComentarioProveido(EMensajeAlerta alerta)
         {
-            var listComentarioProveido = new List<MesaVirtualComentario>();
+            var listComentarioProveido = new List<EMesaVirtualComentario>();
             using (var oMesaVirtualComentario = new NMesaVirtualComentario())
             {
                 if (alerta.TipoAlerta == 1)

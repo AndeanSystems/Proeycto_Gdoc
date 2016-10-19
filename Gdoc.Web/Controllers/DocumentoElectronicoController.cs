@@ -219,7 +219,7 @@ namespace Gdoc.Web.Controllers
                     documento,
                     string.Join(Environment.NewLine + Environment.NewLine, destinatarios.ToArray()),
                     string.Join(Environment.NewLine + Environment.NewLine, remitentes.ToArray()), 
-                    operacion.TituloOperacion, 
+                    operacion.DescripcionOperacion, 
                     operacion.TipoComunicacion,
                     listremitentes,
                     Session["RutaGdocImagenes"].ToString(),

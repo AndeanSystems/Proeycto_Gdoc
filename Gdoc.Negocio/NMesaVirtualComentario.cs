@@ -25,7 +25,7 @@ namespace Gdoc.Negocio
         {
             dMesaVirtualComentario = null;
         }
-        public List<MesaVirtualComentario> ListarMesaVirtualComentario()
+        public List<EMesaVirtualComentario> ListarMesaVirtualComentario()
         {
             try
             {

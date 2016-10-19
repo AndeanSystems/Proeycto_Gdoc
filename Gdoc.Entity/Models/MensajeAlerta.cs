@@ -13,7 +13,9 @@ namespace Gdoc.Entity.Models
         public Nullable<int> EstadoMensajeAlerta { get; set; }
         public Nullable<long> IDUsuario { get; set; }
         public string Remitente { get; set; }
+        public Nullable<long> IDComentarioMesaVirtual { get; set; }
         public virtual Operacion Operacion { get; set; }
+        public virtual MesaVirtualComentario MesaVirtualComentario { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }
