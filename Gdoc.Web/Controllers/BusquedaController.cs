@@ -17,6 +17,7 @@ namespace Gdoc.Web.Controllers
 {
     public class BusquedaController : Controller
     {
+
         #region "Variables"
         private MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
         private NUsuarioParticipante nUsuarioParticipante = new NUsuarioParticipante();
