@@ -885,6 +885,7 @@
     <Content Include="Views\MesaTrabajoVirtual\_Commentary.cshtml" />
     <Content Include="Views\MesaTrabajoVirtual\_ListWork.cshtml" />
     <Content Include="Views\DocumentosRecibidos\Index.cshtml" />
+    <Content Include="Views\DocumentoDigital\_ComentarioProveido.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

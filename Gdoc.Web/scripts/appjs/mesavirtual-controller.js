@@ -318,7 +318,7 @@ function ReadFileToBinary(control) {
             columnDefs: [
                 {
                     name: 'Acciones', width: '6%',
-                    cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>'
+                    cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-commenting-o" data-placement="bottom" data-toggle="tooltip" title="Comentar"></i>'
                 },
                 { field: 'NumeroOperacion', width: '15%', displayName: 'Nº Documento' },
                 { field: 'OrganizadorMV', width: '10%', displayName: 'Organizador' },

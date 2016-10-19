@@ -31,8 +31,10 @@ function ReadFileToBinary(control) {
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
         let Estado = "001";
-        let UsuarioRemitente = "07";//falta
+        let UsuarioRemitente = "07";
         let UsuarioDestinatario = "08";
+        let UsuarioRemitenteProveido = "09";
+        let UsuarioDestinatarioProveido = "10";
         var context = this;
         context.operacion = {};
         context.operacion.FechaEmision = new Date();
@@ -48,6 +50,7 @@ function ReadFileToBinary(control) {
         var cachedQuery, lastSearch;
         context.usuarioRemitentes = [];
         context.usuarioDestinatarios = [];
+        context.destinatariosProveidos = [];
         context.filterSelected = true;
         context.querySearch = querySearch;
         var usuario = {};
@@ -79,6 +82,24 @@ function ReadFileToBinary(control) {
             FechaEnvio: new Date(),
             FechaVigente: new Date()
         };
+        context.gridComentarios = {
+            paginationPageSizes: [25, 50, 75],
+            paginationPageSize: 25,
+            enableSorting: true,
+            //enableFiltering: true,
+            data: [],
+            appScopeProvider: context,
+            columnDefs: [
+                { field: 'FechaPublicacion', displayName: 'Fecha', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm"' },
+                { field: 'Usuario.NombreUsuario', displayName: 'Participante' },
+                { field: 'ComentarioMesaVirtual', displayName: 'Comentario' },
+                { field: 'Destinatarios', displayName: 'Destinatarios' }
+                //{
+                //    name: 'Adjuntos', width: '7%',
+                //    cellTemplate: '<i ng-click="grid.appScope.mostrarAdjuntos(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-paperclip" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver"></i>'
+                //}
+            ]
+        };
         context.operacion.DocumentoDigitalOperacion = {
             DerivarDocto: 'S'
         };
@@ -94,6 +115,7 @@ function ReadFileToBinary(control) {
                     name: 'Acciones', width: '7%',
                     cellTemplate: '<i ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-file-pdf-o" data-placement="top" data-toggle="tooltip" title="Ver"></i>' +
                                 '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-pencil-square-o" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                '<i class="fa fa-commenting-o" ng-click="grid.appScope.ComentarioProveido(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Proveido"></i>' +
                                 '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="top" data-toggle="tooltip" title="" data-original-title="Borrar"></i>'
                 },
                 { field: 'NumeroOperacion', width : '15%', displayName: 'Nº Documento' },
@@ -104,6 +126,55 @@ function ReadFileToBinary(control) {
                 
             ]
         };
+        //Comentario Proveido
+        context.ComentarioProveido = function (rowIndex) {
+            context.operacion = context.gridOptions.data[rowIndex];
+            console.log(context.operacion);
+            context.operacion.FechaEnvio = appService.setFormatDate(context.operacion.FechaEnvio);
+            ObtenerUsuariosParticipantes(context.operacion);
+            context.usuarioOrganizador = listRemitentes;
+            context.usuarioInvitados = listDestinatarios;
+            listarComentarioProveido(context.operacion);
+            context.CambiarVentana("ComentarioProveido");
+        }
+        context.recargarComentario = function () {
+            listarComentarioProveido(context.operacion);
+        }
+        context.grabarComentarioProveido = function () {
+            let Operacion = context.operacion;
+            let MesaVirtualComentario = context.mesavirtualComentario;
+
+            if (context.destinatariosProveidos == undefined || context.destinatariosProveidos == "") {
+                return appService.mostrarAlerta("Falta los Destinatarios", "Agregue a los destinatarios", "warning");
+            }
+
+            for (var ind in context.destinatariosProveidos) {
+                console.log(context.destinatariosProveidos[ind]);
+                context.destinatariosProveidos[ind].TipoParticipante = UsuarioDestinatarioProveido;
+                listEUsuarioGrupo.push(context.destinatariosProveidos[ind]);
+            }
+            console.log(listEUsuarioGrupo);
+
+            function enviarFomularioOK() {
+                dataProvider.postData("DocumentosRecibidos/GrabarComentarioProveido", { Operacion: Operacion, mesaVirtualComentario: MesaVirtualComentario, listUsuariosDestinatarios: listEUsuarioGrupo }).success(function (respuesta) {
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+                    //listarComentarioProveido();
+                    //limpiarFormulario();
+
+                    context.CambiarVentana("List");
+                    //listarComentarioMesaVirtual(context.operacion);
+
+                    console.log(respuesta);
+                }).error(function (error) {
+                    //MostrarError();
+                });
+
+                context.mesavirtualComentario = {};
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+        }
         //Eventos
         context.mostrarPDF = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
@@ -310,6 +381,14 @@ function ReadFileToBinary(control) {
             $("#modal_adjuntos").modal("show");
         }
         ////
+        function listarComentarioProveido(operacion) {
+            dataProvider.postData("DocumentosRecibidos/ListarComentarioProveido", operacion).success(function (respuesta) {
+                context.gridComentarios.data = respuesta;
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
         function listarAdjuntos(operacion) {
             dataProvider.postData("DocumentoDigital/ListarDocumentoDigitalOperacion", operacion).success(function (respuesta) {
                 context.listDocumentoAdjunto = respuesta;
@@ -403,6 +482,7 @@ function ReadFileToBinary(control) {
             context.referencia = {};
             context.listaReferencia = [];
             context.listDocumentoAdjunto = [];
+            context.destinatariosProveidos = [];
             context.operacion = {
                 TipoDocumento: '41',
                 AccesoOperacion: '2',
