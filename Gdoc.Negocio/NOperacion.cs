@@ -177,8 +177,8 @@ namespace Gdoc.Negocio
                         {
                             GrabarMensajeAlerta("017", operacion, eUsuarioParticipante.IDUsuario, eUsuarioRemitente);
 
-                            var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault().Personal.EmailTrabrajo;
-                            EnviarCorreo(correo, operacion.TituloOperacion, "017", operacion.NumeroOperacion, operacion.TipoOperacion, participante.IDUsuarioGrupo);
+                            //var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault().Personal.EmailTrabrajo;
+                            //EnviarCorreo(correo, operacion.TituloOperacion, "017", operacion.NumeroOperacion, operacion.TipoOperacion, participante.IDUsuarioGrupo);
                         }
                     }
                     else {
@@ -204,8 +204,8 @@ namespace Gdoc.Negocio
                             if (eUsuarioParticipante.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE &&  operacion.EstadoOperacion==Estados.EstadoOperacion.Activo)
                             {
                                 GrabarMensajeAlerta("017", operacion, eUsuarioParticipante.IDUsuario, eUsuarioRemitente);
-                                var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault().Personal.EmailTrabrajo;
-                                EnviarCorreo(correo, operacion.TituloOperacion, "017", operacion.NumeroOperacion,operacion.TipoOperacion,usuario.IDUsuario);
+                                //var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == participante.IDUsuarioGrupo).FirstOrDefault().Personal.EmailTrabrajo;
+                                //EnviarCorreo(correo, operacion.TituloOperacion, "017", operacion.NumeroOperacion,operacion.TipoOperacion,usuario.IDUsuario);
                             }
                         }
                     }
@@ -1307,7 +1307,8 @@ namespace Gdoc.Negocio
                 dMensajeAlerta.GrabarMensajeAlerta(mensajeAlerta);
                 //Envia Correo
                 var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == IDusuario).FirstOrDefault().Personal.EmailTrabrajo;
-                EnviarCorreo(correo, operacion.TituloOperacion, codigoevento);
+                EnviarCorreo(correo, operacion.TituloOperacion, "017", operacion.NumeroOperacion, operacion.TipoOperacion, IDusuario);
+                        
             }
             catch (Exception)
             {
