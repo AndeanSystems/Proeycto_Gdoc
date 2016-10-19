@@ -41,6 +41,7 @@ namespace Gdoc.Dao
                         RutaGdocPDF=x.RutaGdocPDF,
                         RutaGdocAdjuntos = x.RutaGdocAdjuntos,
                         RutaGdocExternos=x.RutaGdocExternos,
+                        Servidor=x.Servidor,
 
                     }));
                 }

@@ -18,7 +18,7 @@
 
                                             <div class="form-group no-margin-bottom">
                                                 <label>Empresa</label>
-                                                <select class="form-control" ng-model="ctrl.general.IDEmpresa" ng-options="emp.IDEmpresa as emp.RazonSocial for emp in ctrl.listEmpresa" ng-change="ctrl.obtenerParametros(ctrl.general.IDEmpresa)">
+                                                <select class="form-control" ng-model="ctrl.general.IDEmpresa" ng-options="emp.IDEmpresa as emp.RazonSocial for emp in ctrl.listEmpresa" ng-change="ctrl.obtenerParametros(ctrl.general.IDEmpresa)" disabled>
                                                     <option value="">Seleccione</option>
                                                 </select>
                                             </div>

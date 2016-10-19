@@ -52,17 +52,18 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
+                {
+                    name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.editarPersonal(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                                  '<i ng-click="grid.appScope.eliminarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' 
+                },
                 { field: 'IDEmpresa', displayName: 'ID Empresa' },
                 { field: 'NombrePers', displayName: 'Nombres' },
                 { field: 'ApellidoPersonal', displayName: 'Apellidos' },
                 { field: 'CodigoCargo', displayName: 'Cargo' },
-                { field: 'NumeroIdentificacion', displayName: 'Numero de Identificacion' },
+                { field: 'NumeroIdentificacion', displayName: 'Numero de Identificacion' }
                 //{ field: 'Personal.TelefonoPersonal', displayName: 'Telefono Personal' },
                 //{ field: 'ClaseUsu.DescripcionConcepto', displayName: 'Clase Usuario' },
-                {
-                    name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.editarPersonal(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
-                                                  '<i ng-click="grid.appScope.eliminarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' 
-                }
+                
 
             ],
         };

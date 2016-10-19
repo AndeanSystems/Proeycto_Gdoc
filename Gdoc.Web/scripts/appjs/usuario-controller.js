@@ -20,7 +20,14 @@
 
         var usuario = {};
         context.usuario = {};
+        context.usuario = {
+            ClaseUsuario:'0',
+            CodigoTipoUsua:'04'
+
+        };
         context.listDepartamento = [];
+
+        context.editar = false;
 
         context.usuario.ExpiraFirma=0;
         //AUTOCOMPLETE //
@@ -85,7 +92,9 @@
         context.editarUsuario = function (rowIndex) {
             context.usuario = context.gridOptions.data[rowIndex];
             console.log(context.usuario);
-            console.log(context.usuario.Personal.NombrePers);
+            console.log(context.usuario.Personal.Cargo.DescripcionConcepto)
+            context.usuario.Personal.NombrePers = context.usuario.Personal.NombrePers + " " + context.usuario.Personal.ApellidoPersonal;
+            context.editar = true;
             $("#modal_contenido").modal("show");
         };
 
@@ -98,6 +107,7 @@
             dataProvider.postData("Usuario/BuscarUsuarioPersonal", { NombreUsuario: user, Personal: personal }).success(function (respuesta) {
 
                 context.usuario.Personal = respuesta[0];
+                context.usuario.Personal.NombrePers = context.usuario.Personal.NombrePers + " " + context.usuario.Personal.ApellidoPersonal;
                 console.log(respuesta);
                 //context.usuario = respuesta[0];
                 console.log(context.usuario)
@@ -137,20 +147,21 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
+                {
+                    name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.editarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
+                                                  '<i ng-click="grid.appScope.eliminarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' 
+                    //'<i ng-click="grid.appScope.abrirAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="glyphicon glyphicon-list-alt" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Accesos"></i> '
+                },
                 { field: 'NombreUsuario', displayName: 'ID Usuario' },
                 { field: 'NombreCompleto', displayName: 'Apellidos y Nombres' },
                 { field: 'TipoUsuario.DescripcionConcepto', displayName: 'Tipo Usuario' },
                 { field: 'Cargo.DescripcionConcepto', displayName: 'Cargo' },
                 { field: 'Area.DescripcionConcepto', displayName: 'Área' },
                 { field: 'Personal.EmailTrabrajo', displayName: 'Email Trabajo' },
-                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
+                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' }
                 //{ field: 'Personal.TelefonoPersonal', displayName: 'Telefono Personal' },
                 //{ field: 'ClaseUsu.DescripcionConcepto', displayName: 'Clase Usuario' },
-                {
-                    name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.editarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
-                                                  '<i ng-click="grid.appScope.eliminarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' 
-                                                  //'<i ng-click="grid.appScope.abrirAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="glyphicon glyphicon-list-alt" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Accesos"></i> '
-                }
+                
 
             ],
         };
@@ -244,6 +255,11 @@
             context.listDepartamento = [];
             context.listPronvincia = [];
             context.listDistrito = [];
+            context.usuario = {
+                ClaseUsuario: '0',
+                CodigoTipoUsua: '04'
+            };
+            context.editar = false;
         }
 
         function listarUsuario() {

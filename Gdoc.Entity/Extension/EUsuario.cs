@@ -12,6 +12,7 @@ namespace Gdoc.Entity.Extension
         public Concepto ClaseUsu { get; set; }
         public Concepto Estado { get; set; }
         public Empresa RazoSocial { get; set; }
+        public EPersonal EPersonal { get; set; }
         public string NombreCompleto { get; set; }
         public int CantidadAlerta { get; set; }
         public int CantidadDocumentosRecibidos { get; set; }

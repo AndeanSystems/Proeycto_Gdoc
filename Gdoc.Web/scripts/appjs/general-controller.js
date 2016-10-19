@@ -9,7 +9,7 @@
         ///Variables
         var context = this;
         context.general = {};
-
+        context.general.IDEmpresa = 1001;
         //Eventos
         context.editar= function () {
             var general = context.general;           
@@ -58,5 +58,6 @@
         //Carga
         //listarGeneral();
         listarEmpresa();
+        context.obtenerParametros(context.general.IDEmpresa);
     }
 })();

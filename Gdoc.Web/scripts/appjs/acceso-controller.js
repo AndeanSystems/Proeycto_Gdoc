@@ -149,9 +149,11 @@
 
         //Eventos
         context.buscarAccesoSistema = function (usuario) {
+            console.log(usuario);
             dataProvider.postData("ModuloPaginaUrl/ListarModuloPaginaUrl", usuario).success(function (respuesta) {
                     //context.accesosistema = respuesta[0];
-                    context.gridAccesos.data = respuesta;
+                context.gridAccesos.data = respuesta;
+                //context.usuario.NombreCompleto=
                 }).error(function (error) {
                     //MostrarError();
                 });
@@ -163,7 +165,7 @@
         //Metodos
         function listarUsuario() {
             dataProvider.getData("Usuario/ListarUsuario").success(function (respuesta) {
-                context.gridAccesos.data = respuesta;
+                //context.gridAccesos.data = respuesta;
                 context.listUsuario = respuesta;
             }).error(function (error) {
                 //MostrarError();
@@ -178,7 +180,7 @@
                 //MostrarError();
             });
         }
-
+        listarUsuario();
         
         //Carga
     }

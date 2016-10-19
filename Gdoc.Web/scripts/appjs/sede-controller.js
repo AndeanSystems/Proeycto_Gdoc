@@ -43,16 +43,17 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'CodigoSede', width: '10%', displayName: 'Ruc Empresa' },
-                { field: 'NombreSede', width: '60%', displayName: 'Razon Social' },
-                { field: 'EstadoSede', width: '10%', displayName: 'Estado' },
-                { field: 'FechaModifica', width: '10%', displayName: 'Fecha de Registro', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
                 {
                     name: 'Acciones',
                     width: '10%',
-                    cellTemplate: '<i ng-click="grid.appScope.editarSede(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' 
-                        //'<i ng-click="grid.appScope.eliminarSede(grid.renderContainers.body.visibleRowCache.indexOf(row))"class="fa fa-times"  style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>'
-                }
+                    cellTemplate: '<i ng-click="grid.appScope.editarSede(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Editar"></i>' 
+                    //'<i ng-click="grid.appScope.eliminarSede(grid.renderContainers.body.visibleRowCache.indexOf(row))"class="fa fa-times"  style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>'
+                },
+                { field: 'CodigoSede', width: '10%', displayName: 'Ruc Empresa' },
+                { field: 'NombreSede', width: '60%', displayName: 'Razon Social' },
+                { field: 'EstadoSede', width: '10%', displayName: 'Estado' },
+                { field: 'FechaModifica', width: '10%', displayName: 'Fecha de Registro', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' }
+                
 
             ],
 

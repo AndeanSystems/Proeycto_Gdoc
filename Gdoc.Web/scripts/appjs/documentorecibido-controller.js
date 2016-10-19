@@ -174,7 +174,7 @@
             appScopeProvider: context,
             columnDefs: [
                 { field: 'FechaPublicacion', displayName: 'Fecha', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm"' },
-                { field: 'Usuario.NombreUsuario', displayName: 'Participante' },
+                { field: 'Usuario.NombreUsuario', displayName: 'Remitente' },
                 { field: 'ComentarioMesaVirtual', displayName: 'Comentario' }
                 //{
                 //    name: 'Adjuntos', width: '7%',
