@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Gdoc.Negocio
 {
+    //Comentario
     public class NOperacion:IDisposable
     {
         #region "Variable"
