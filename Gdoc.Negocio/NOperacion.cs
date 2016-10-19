@@ -1173,92 +1173,96 @@ namespace Gdoc.Negocio
         #region Metodos
         protected void EnviarCorreo(string correoDestinatario,string Titulo, string codigoEvento,string numerooperacion,string tipooperacion,long idusuario)
         {
-            /*-------------------------MENSAJE DE CORREO----------------------*/
-
-            //Creamos un nuevo Objeto de mensaje
-            System.Net.Mail.MailMessage mmsg = new System.Net.Mail.MailMessage();
-
-            //Direccion de correo electronico a la que queremos enviar el mensaje
-            //mmsg.To.Add("andersonberrocal94@gmail.com");
-            mmsg.To.Add(correoDestinatario);
-
-            //Nota: La propiedad To es una colección que permite enviar el mensaje a más de un destinatario
-
-            //Asunto
-            var ope = string.Empty;
-            if (tipooperacion == Constantes.TipoOperacion.DocumentoElectronico)
-                ope = " DOC-E ";
-            else if (tipooperacion == Constantes.TipoOperacion.DocumentoElectronico)
-                ope = " DOC-D ";
-            else
-                ope = " GRUPO-V ";
-
-            var destinatario = dUsuario.ListarUsuario().Where(x => x.IDUsuario == idusuario).FirstOrDefault().NombreUsuario;
-            mmsg.Subject = "Notificación DocWeb :" + ope + numerooperacion;
-            mmsg.SubjectEncoding = System.Text.Encoding.UTF8;
-
             //Busca Descripcion del Evento
-            var evento = dConcepto.ListarConcepto().Where(x => x.TipoConcepto == "008" && x.CodiConcepto == codigoEvento).FirstOrDefault().DescripcionConcepto;
-            
-            //Direccion de correo electronico que queremos que reciba una copia del mensaje
+            var evento = dConcepto.ListarConcepto().Where(x => x.TipoConcepto == "008" && x.CodiConcepto == codigoEvento).FirstOrDefault();
 
-            //mmsg.Bcc.Add("destinatariocopia@servidordominio.com"); //Opcional
-
-            //Cuerpo del Mensaje
-            var body = "Sr.(ita).  " + destinatario + 
-                        Environment.NewLine +
-                        Environment.NewLine +
-                        evento +
-                        Environment.NewLine +
-                        Environment.NewLine +
-                        "Asunto: " + Titulo +
-                        Environment.NewLine +
-                        Environment.NewLine +
-                        "Pulse Click en el siguiente link " + 
-                        "http://192.168.100.29:90" + 
-                        " para ingresar al sistema DocWeb, usando sus credenciales de red."+
-                        Environment.NewLine +
-                        Environment.NewLine +
-                        "Att." +
-                        Environment.NewLine +
-                        Environment.NewLine +
-                        "Administrador – DocWeb" +
-                        Environment.NewLine +
-                        "FEPCMAC" +
-                        Environment.NewLine +
-                        "Lima, Perú";
-            mmsg.Body = body;
-            mmsg.BodyEncoding = System.Text.Encoding.UTF8;
-            mmsg.IsBodyHtml = false; //Si no queremos que se envíe como HTML
-
-            //Correo electronico desde la que enviamos el mensaje
-            mmsg.From = new System.Net.Mail.MailAddress("jmorales@fpcmac.org.pe");
-
-
-            /*-------------------------CLIENTE DE CORREO----------------------*/
-
-            //Creamos un objeto de cliente de correo
-            System.Net.Mail.SmtpClient cliente = new System.Net.Mail.SmtpClient();
-
-            //Hay que crear las credenciales del correo emisor
-            cliente.Credentials =
-                new System.Net.NetworkCredential("jmorales@fpcmac.org.pe", "Peru2015");
-
-            //Lo siguiente es obligatorio si enviamos el mensaje desde Gmail
-
-            cliente.Port = 587;
-            cliente.EnableSsl = true;
-            cliente.Host = "smtp.office365.com"; //Para Gmail "smtp.gmail.com"; 
-            /*-------------------------ENVIO DE CORREO----------------------*/
-
-            try
+            if (evento.TextoDos.ToUpper() == "S")
             {
-                //Enviamos el mensaje      
-                cliente.Send(mmsg);
-            }
-            catch (System.Net.Mail.SmtpException ex)
-            {
-                //Aquí gestionamos los errores al intentar enviar el correo
+                /*-------------------------MENSAJE DE CORREO----------------------*/
+
+                //Creamos un nuevo Objeto de mensaje
+                System.Net.Mail.MailMessage mmsg = new System.Net.Mail.MailMessage();
+
+                //Direccion de correo electronico a la que queremos enviar el mensaje
+                //mmsg.To.Add("andersonberrocal94@gmail.com");
+                mmsg.To.Add(correoDestinatario);
+
+                //Nota: La propiedad To es una colección que permite enviar el mensaje a más de un destinatario
+
+                //Asunto
+                var ope = string.Empty;
+                if (tipooperacion == Constantes.TipoOperacion.DocumentoElectronico)
+                    ope = " DOC-E ";
+                else if (tipooperacion == Constantes.TipoOperacion.DocumentoElectronico)
+                    ope = " DOC-D ";
+                else
+                    ope = " GRUPO-V ";
+
+                var destinatario = dUsuario.ListarUsuario().Where(x => x.IDUsuario == idusuario).FirstOrDefault().NombreUsuario;
+                mmsg.Subject = "Notificación DocWeb :" + ope + numerooperacion;
+                mmsg.SubjectEncoding = System.Text.Encoding.UTF8;
+
+
+                //Direccion de correo electronico que queremos que reciba una copia del mensaje
+
+                //mmsg.Bcc.Add("destinatariocopia@servidordominio.com"); //Opcional
+
+                //Cuerpo del Mensaje
+                var body = "Sr.(ita).  " + destinatario +
+                            Environment.NewLine +
+                            Environment.NewLine +
+                            evento.DescripcionConcepto +
+                            Environment.NewLine +
+                            Environment.NewLine +
+                            "Asunto: " + Titulo +
+                            Environment.NewLine +
+                            Environment.NewLine +
+                            "Pulse Click en el siguiente link " +
+                            "http://192.168.100.29:90" +
+                            " para ingresar al sistema DocWeb, usando sus credenciales de red." +
+                            Environment.NewLine +
+                            Environment.NewLine +
+                            "Att." +
+                            Environment.NewLine +
+                            Environment.NewLine +
+                            "Administrador – DocWeb" +
+                            Environment.NewLine +
+                            "FEPCMAC" +
+                            Environment.NewLine +
+                            "Lima, Perú";
+                mmsg.Body = body;
+                mmsg.BodyEncoding = System.Text.Encoding.UTF8;
+                mmsg.IsBodyHtml = false; //Si no queremos que se envíe como HTML
+
+                //Correo electronico desde la que enviamos el mensaje
+                mmsg.From = new System.Net.Mail.MailAddress("jmorales@fpcmac.org.pe");
+
+
+                /*-------------------------CLIENTE DE CORREO----------------------*/
+
+                //Creamos un objeto de cliente de correo
+                System.Net.Mail.SmtpClient cliente = new System.Net.Mail.SmtpClient();
+
+                //Hay que crear las credenciales del correo emisor
+                cliente.Credentials =
+                    new System.Net.NetworkCredential("jmorales@fpcmac.org.pe", "Peru2015");
+
+                //Lo siguiente es obligatorio si enviamos el mensaje desde Gmail
+
+                cliente.Port = 587;
+                cliente.EnableSsl = true;
+                cliente.Host = "smtp.office365.com"; //Para Gmail "smtp.gmail.com"; 
+                /*-------------------------ENVIO DE CORREO----------------------*/
+
+                try
+                {
+                    //Enviamos el mensaje      
+                    cliente.Send(mmsg);
+                }
+                catch (System.Net.Mail.SmtpException ex)
+                {
+                    //Aquí gestionamos los errores al intentar enviar el correo
+                }
             }
 
         }
@@ -1307,7 +1311,7 @@ namespace Gdoc.Negocio
                 dMensajeAlerta.GrabarMensajeAlerta(mensajeAlerta);
                 //Envia Correo
                 var correo = dUsuario.ListarUsuario().Where(x => x.IDUsuario == IDusuario).FirstOrDefault().Personal.EmailTrabrajo;
-                EnviarCorreo(correo, operacion.TituloOperacion, "017", operacion.NumeroOperacion, operacion.TipoOperacion, IDusuario);
+                EnviarCorreo(correo, operacion.TituloOperacion, codigoevento, operacion.NumeroOperacion, operacion.TipoOperacion, IDusuario);
                         
             }
             catch (Exception)
