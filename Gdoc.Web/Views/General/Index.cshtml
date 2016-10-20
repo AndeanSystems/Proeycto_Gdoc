@@ -48,7 +48,10 @@
                                                 <input type="text" class="form-control" placeholder="Alerta Documento Electronico" ng-model="ctrl.general.AlertaDoctoElectronico">
                                             </div>
 
-
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Plazo Expira Firma</label>
+                                                <input type="text" class="form-control" placeholder="Plazo Expira Firma" ng-model="ctrl.general.PlazoExpiraFirma">
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -86,8 +89,13 @@
                                             </div>
 
                                             <div class="form-group no-margin-bottom">
-                                                <label>Plazo Expira Firma</label>
-                                                <input type="text" class="form-control" placeholder="Plazo Expira Firma" ng-model="ctrl.general.PlazoExpiraFirma">
+                                                <label>Tamaño maximo de Adjunto (Bytes)</label>
+                                                <input type="text" class="form-control" placeholder="Tamaño maximo de Adjunto" ng-model="ctrl.general.TamanoMaxArchivo">
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+                                                <label>Tamaño maximo de total de Adjuntos (Bytes)</label>
+                                                <input type="text" class="form-control" placeholder="Tamaño maximo de total de Adjuntos" ng-model="ctrl.general.TamanoMaxArchivos">
                                             </div>
                                         </div>
                                     </form>

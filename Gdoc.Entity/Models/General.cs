@@ -24,6 +24,8 @@ namespace Gdoc.Entity.Models
         public string RutaGdocAdjuntos { get; set; }
         public string RutaGdocExternos { get; set; }
         public string Servidor { get; set; }
+        public Nullable<int> TamanoMaxArchivo { get; set; }
+        public Nullable<int> TamanoMaxArchivos { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual Usuario Usuario { get; set; }
     }

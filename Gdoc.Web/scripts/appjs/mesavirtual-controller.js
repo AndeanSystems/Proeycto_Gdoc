@@ -118,9 +118,9 @@ function ReadFileToBinary(control) {
             ObtenerUsuariosParticipantes(context.operacion)
             context.usuarioOrganizador = listOrganizador;
             context.usuarioInvitados = listInvitados;
-            if (context.operacion.EstadoOperacion == 1)
-                context.CambiarVentana('Commentario');
-            else
+            //if (context.operacion.EstadoOperacion == 1)
+            //    context.CambiarVentana('Commentario');
+            //else
                 context.CambiarVentana('CreateAndEdit');
         }
         context.eliminarOperacion = function (rowIndex) {
@@ -150,7 +150,7 @@ function ReadFileToBinary(control) {
         };
         context.grabar = function (numeroboton) {
             let Operacion = context.operacion;
-            if (Operacion.EstadoOperacion == "ACTIVO") {
+            if (Operacion.EstadoOperacion == 1) {
                 return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
             }
             //if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
@@ -197,6 +197,13 @@ function ReadFileToBinary(control) {
                 });
                 console.log(listDocumentosAdjuntos);
             }
+            //validar tamaño maximo total de archivos
+            var size = 0;
+            for (var index in listDocumentosAdjuntos) {
+                size = size + listDocumentosAdjuntos[index].TamanoArchivo;
+            }
+            if (size >= context.listParametros[0].TamanoMaxArchivos)
+                return appService.mostrarAlerta("Información", "Se excedio el tamaño maximo en archivos adjuntos", "warning")
 
             function enviarFomularioOK() {
                 dataProvider.postData("MesaVirtual/Grabar", { Operacion: Operacion, listAdjuntos: listDocumentosAdjuntos, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
@@ -254,13 +261,17 @@ function ReadFileToBinary(control) {
                     }
                 }
                 if (hola == true) {
-                    context.listDocumentoAdjunto.push({
-                        RutaArchivo: archivosSelecionados[ind].RutaBinaria,
-                        NombreOriginal: archivosSelecionados[ind].NombreArchivo,
-                        TamanoArchivo: archivosSelecionados[ind].TamanoArchivo,
-                        TipoArchivo: archivosSelecionados[ind].TipoArchivo,
-                        EstadoAdjunto: 0
-                    });
+                    if (archivosSelecionados[ind].TamanoArchivo <= context.listParametros[0].TamanoMaxArchivo) {
+                        context.listDocumentoAdjunto.push({
+                            RutaArchivo: archivosSelecionados[ind].RutaBinaria,
+                            NombreOriginal: archivosSelecionados[ind].NombreArchivo,
+                            TamanoArchivo: archivosSelecionados[ind].TamanoArchivo,
+                            TipoArchivo: archivosSelecionados[ind].TipoArchivo,
+                            EstadoAdjunto: 0
+                        });
+                    }
+                    else
+                        appService.mostrarAlerta("Información", "El archivo seleccionado se excedio del tamaño maximo", "warning");
                 }
             }
             console.log(context.listDocumentoAdjunto);
@@ -504,6 +515,12 @@ function ReadFileToBinary(control) {
             });
 
         }
+        function CargarParametros() {
+            var empresa = { IDEmpresa: 1001 };
+            appService.listarParametros(empresa).success(function (respuesta) {
+                context.listParametros = respuesta;
+            });
+        }
         function limpiarFormulario() {
             context.eliminar = true;
             context.agregar = true;
@@ -537,5 +554,6 @@ function ReadFileToBinary(control) {
         listarMesaTrabajo();
         obtenerUsuarioSession();
         LlenarConceptoTipoDocumento();
+        CargarParametros();
     }
 })();

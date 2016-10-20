@@ -11,6 +11,10 @@
         //this.listarConceptoEditable = function (concepto) {
         //    return dataProvider.postData("Concepto/ListarConceptoEditables", concepto);
         //},
+        //GENERAL
+        this.listarParametros= function (empresa) {
+            return dataProvider.postData("General/ListarGeneralParametros", empresa);
+        },
         //USUARIO
         this.listarUsuario = function (usuario) {
             return dataProvider.postData("Usuario/ListarUsuario", usuario);
@@ -86,6 +90,9 @@
     }
 })();
 
+
+//Leer Archivos de de fisico a binario
+var archivosSelecionados = [];
 (function () {
     'use strict';
     angular.module('app').controller('header_controller', header_controller);
@@ -100,13 +107,14 @@
                         IDUsuario : appService.obtenerUsuarioId(),
                         RutaAvatar : e.target.result
                     };
-                    document.getElementById("AvatarUser").src = e.target.result;
-                    dataProvider.postData("Usuario/GrabarUsuarioAvatar", eUsuario).success(function (respuesta) {
+                    //document.getElementById("AvatarUser").src = e.target.result;
+                    dataProvider.postData("Usuario/GrabarUsuarioAvatar",  eUsuario).success(function (respuesta) {
                         if (respuesta.Exitoso) {
-                            appService.mostrarAlerta("Advertencia", respuesta.Mensaje, "success");
+                            appService.mostrarAlerta("Información", respuesta.Mensaje, "success");
                         } else {
-                            appService.mostrarAlerta("Advertencia", respuesta.Mensaje, "warning");
+                            appService.mostrarAlerta("Información", respuesta.Mensaje, "warning");
                         }
+                        $("#modal_imagenes").modal("hide");
                     }).error(function (error) {
                         //MostrarError();
                     });
@@ -118,10 +126,8 @@
         var context = this;
 
         context.src = "http://192.168.100.29:85/IMAGENES/avatars/";
+        context.listAvatar = [];
         context.avatar = function (ruta) {
-
-            swal("funciona");
-
             function enviarFomularioOK() {
                 var eUsuario = {
                     IDUsuario: appService.obtenerUsuarioId(),
@@ -138,7 +144,26 @@
                     //MostrarError();
                 });
             }
-            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+            function cancelarOK() {
+
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarOK);
         }
+        context.modalAvatar = function () {
+            listAvatars();
+
+            $("#modal_imagenes").modal("show");
+        }
+        function listAvatars() {
+            dataProvider.getData("Usuario/ListaAvatars").success(function (respuesta) {
+                context.listAvatar = respuesta;
+                console.log(typeof context.src);
+                console.log(context.listAvatar);
+
+            }).error(function (error) {
+                //MostrarError();
+            });
+        }
+        listAvatars();
     }
 })();

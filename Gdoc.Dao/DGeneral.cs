@@ -42,6 +42,8 @@ namespace Gdoc.Dao
                         RutaGdocAdjuntos = x.RutaGdocAdjuntos,
                         RutaGdocExternos=x.RutaGdocExternos,
                         Servidor=x.Servidor,
+                        TamanoMaxArchivo=x.TamanoMaxArchivo,
+                        TamanoMaxArchivos=x.TamanoMaxArchivos,
 
                     }));
                 }
@@ -90,6 +92,8 @@ namespace Gdoc.Dao
                     entidad.RutaGdocAdjuntos = general.RutaGdocAdjuntos;
                     entidad.RutaGdocExternos = general.RutaGdocExternos;
                     entidad.Servidor = general.Servidor;
+                    entidad.TamanoMaxArchivo = general.TamanoMaxArchivo;
+                    entidad.TamanoMaxArchivos = general.TamanoMaxArchivos;
                     db.SaveChanges();
                 }
                 return general;

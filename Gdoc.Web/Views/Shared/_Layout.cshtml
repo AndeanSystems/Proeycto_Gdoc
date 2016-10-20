@@ -80,7 +80,15 @@
                         <h4 class="modal-title">Seleccione su avatar</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="col-md-12 margin-bottom">
+                        <div class="col-md-12 margin-bottom"  >
+                            <div ng-repeat="item in ctrl.listAvatar">
+                                <div class="clearfix" ng-if="$index % 3 == 0"></div>
+                                <div class="col-md-4">
+                                    <img ng-src="{{item}}" ng-click="ctrl.avatar(item)" style="max-width: 100%; height: auto;" class="img-responsive">
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-md-12 margin-bottom">
                             <img ng-src="{{ctrl.src}}1.png" ng-click="ctrl.avatar(ctrl.src+'1.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
                             <img ng-src="{{ctrl.src}}2.png" ng-click="ctrl.avatar(ctrl.src+'2.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
                             <img ng-src="{{ctrl.src}}3.png" ng-click="ctrl.avatar(ctrl.src+'3.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
@@ -97,10 +105,14 @@
                         </div>
                         <div class="col-md-12 margin-bottom">
                             <img ng-src="{{ctrl.src}}incognito.png" ng-click="ctrl.avatar(ctrl.src+'incognito.png')" style="max-width: 100%; height: auto;" class="img-responsive col-md-4">
-                        </div>
+                        </div>*@
                     </div>
                     <div class="modal-footer" style="max-width: 100%; height: auto;">
-                        <input type="file" class="filestyle" id="fotoAvatar" accept="image/*">
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <input type="file" data-input="false" data-buttontext="Buscar Avatar" class="filestyle" id="fotoAvatar" accept="image/*">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

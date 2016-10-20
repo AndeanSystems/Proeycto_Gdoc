@@ -14,6 +14,7 @@ namespace WebGdoc_MVC.Controllers
 
         public ActionResult Index()
         {
+            Session.Clear();
             return View();
         }
     }

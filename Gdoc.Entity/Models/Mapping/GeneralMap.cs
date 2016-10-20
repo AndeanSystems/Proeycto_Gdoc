@@ -35,6 +35,8 @@ namespace Gdoc.Entity.Models.Mapping
             this.Property(t => t.RutaGdocAdjuntos).HasColumnName("RutaGdocAdjuntos");
             this.Property(t => t.RutaGdocExternos).HasColumnName("RutaGdocExternos");
             this.Property(t => t.Servidor).HasColumnName("Servidor");
+            this.Property(t => t.TamanoMaxArchivo).HasColumnName("TamanoMaxArchivo");
+            this.Property(t => t.TamanoMaxArchivos).HasColumnName("TamanoMaxArchivos");
 
             // Relationships
             this.HasRequired(t => t.Empresa)

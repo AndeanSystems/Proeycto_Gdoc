@@ -21,6 +21,7 @@ namespace Gdoc.Web.Controllers
         #region "Variables"
         private MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
         private NUsuarioParticipante nUsuarioParticipante = new NUsuarioParticipante();
+        private NIndexacionDocumento nIndexacionDocumento = new NIndexacionDocumento();
         #endregion
         // GET: /Busqueda/
         public ActionResult Index()
@@ -35,9 +36,10 @@ namespace Gdoc.Web.Controllers
                 return RedirectToAction("Index", "Blanco");
             }
         }
-        public JsonResult ListarOperacionBusqueda(Operacion operacion)
+        public JsonResult ListarOperacionBusqueda(Operacion operacion, IndexacionDocumento indexacion)
         {
             var listOperacion = new List<EOperacion>();
+            var listIndexacion = new List<IndexacionDocumento>();
             using (var oOperacion = new NOperacion())
             {
 
@@ -49,22 +51,23 @@ namespace Gdoc.Web.Controllers
                 {
                     if (operacion.TipoDocumento != null)
                     {
-                        //if (operacion.TituloOperacion!=null )
-                        //{
-                        //    listOperacion = oOperacion.ListarOperacionBusqueda().
-                        //        Where(x => x.TipoOperacion == operacion.TipoOperacion 
-                        //            && x.TipoDocumento == operacion.TipoDocumento 
-                        //            && x.TituloOperacion.Contains(operacion.TituloOperacion)
-                        //            && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).ToList();
-                        //}
-                        //else
-                        //{
+                        if (indexacion.DescripcionIndice != null)
+                        {
+                            listOperacion = oOperacion.ListarOperacionBusqueda().
+                                Where(x => x.TipoOperacion == operacion.TipoOperacion 
+                                    && x.TipoDocumento == operacion.TipoDocumento
+                                    && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x => x.FechaEnvio).ToList();
+
+
+                        }
+                        else
+                        {
                             listOperacion = oOperacion.ListarOperacionBusqueda().
                                 Where(x => x.TipoOperacion == operacion.TipoOperacion 
                                     && x.TipoDocumento == operacion.TipoDocumento
                                     && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x=>x.FechaEnvio).ToList();
 
-                        //}
+                        }
                         
                     }
                     else

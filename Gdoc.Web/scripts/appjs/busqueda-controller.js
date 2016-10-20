@@ -14,6 +14,8 @@
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
         context.operacion = {};
+        context.indexacion = {};
+        context.referencia = false;
         context.operacion.FechaRegistro = new Date();
         context.operacion.FechaEmision = new Date();
 
@@ -82,7 +84,7 @@
         context.buscarOperacion = function (operacion) {
             console.log(context.FechaDesde);
             console.log(operacion);
-            dataProvider.postData("Busqueda/ListarOperacionBusqueda", operacion).success(function (respuesta) {
+            dataProvider.postData("Busqueda/ListarOperacionBusqueda", { operacion: operacion, indexacion: indexacion }).success(function (respuesta) {
                 console.log(respuesta);
                 context.gridOptions.data = respuesta;
                 limpiarFormulario();
@@ -110,12 +112,12 @@
         };
         context.obtenerTipoDocumento = function (tipooperacion) {
             var texto = "";
-            if (tipooperacion == "02")
+            if (tipooperacion == "02") {
                 texto = "DD";
-            else if (tipooperacion == "03")
-                texto = "DE";
-            else if (tipooperacion == "04")
-                texto = "MV";
+                context.referencia = true;
+            }
+            else if (tipooperacion == "03") texto = "DE";
+            else if (tipooperacion == "04") texto = "MV";
             var concepto = { TipoConcepto: TipoDocumento, TextoUno: texto }
             console.log(concepto);
             dataProvider.postData("Concepto/ListarConceptoTipoDocumento", concepto).success(function (respuesta) {

@@ -22,6 +22,7 @@ namespace Gdoc.Web.Controllers
         ADFunctions oADFunctions = new ADFunctions();
         EUsuarioFEPCMAC _eUsuario = new EUsuarioFEPCMAC();
         MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
+        NGeneral nGeneral = new NGeneral();
         #endregion
         // GET: Usuario
 
@@ -95,7 +96,7 @@ namespace Gdoc.Web.Controllers
                         Session["UsuarioEncontrado"] = UsuarioEncontrado;
                         if (UsuarioEncontrado != null)
                         {
-                            Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa; //Pendiente falta terminar
+                            Session["IDEmpresa"] = UsuarioEncontrado.Personal.IDEmpresa;
                             Session["NombreUsuario"] = UsuarioEncontrado.NombreUsuario;
                             Session["IDUsuario"] = UsuarioEncontrado.IDUsuario;
                             Session["ClaveUsuario"] = UsuarioEncontrado.ClaveUsuario;
@@ -416,25 +417,57 @@ namespace Gdoc.Web.Controllers
             }
         }
         public JsonResult GrabarUsuarioAvatar(Usuario eUsuario) {
-            using (var nUsuario = new NUsuario())
+            try
             {
-                if (!eUsuario.RutaAvatar.Contains("http:"))
+                using (var nUsuario = new NUsuario())
                 {
-                    byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(eUsuario.RutaAvatar);
-                    using (MemoryStream stream = new MemoryStream(fileBytes))
+                    if (!eUsuario.RutaAvatar.Contains("http:"))
                     {
-                        eUsuario.RutaAvatar = string.Format("{0}_{1}.png", "~/resources/img/", eUsuario.IDUsuario);
-                        if (System.IO.File.Exists(eUsuario.RutaAvatar))
-                            System.IO.File.Delete(eUsuario.RutaAvatar);
-                        Image.FromStream(stream).Save(@Server.MapPath(eUsuario.RutaAvatar), System.Drawing.Imaging.ImageFormat.Png);
+                        var eGeneral = nGeneral.CargaParametros(1001);
+                        if (!Directory.Exists(eGeneral.RutaGdocImagenes))
+                            Directory.CreateDirectory(eGeneral.RutaGdocImagenes);
+
+                        byte[] fileBytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(eUsuario.RutaAvatar);
+                        using (MemoryStream stream = new MemoryStream(fileBytes))
+                        {
+                            eUsuario.RutaAvatar = string.Format(@"{0}\{1}{2}", eGeneral.RutaGdocImagenes, Session["NombreUsuario"].ToString(), "-avatar.jpg");
+                            if (System.IO.File.Exists(eUsuario.RutaAvatar))
+                                System.IO.File.Delete(eUsuario.RutaAvatar);
+
+                            System.IO.File.WriteAllBytes(eUsuario.RutaAvatar, fileBytes);
+                        }
+
+                        string rutaImagenes = ConfigurationManager.AppSettings.Get("Imagenes");
+                        eUsuario.RutaAvatar = string.Format(@"{0}{1}-avatar.jpg", rutaImagenes, Session["NombreUsuario"].ToString());
                     }
+
+                    nUsuario.GrabarUsuarioAvatar(eUsuario);
                 }
-                
-                nUsuario.GrabarUsuarioAvatar(eUsuario);
+                mensajeRespuesta.Exitoso = true;
+                mensajeRespuesta.Mensaje = "Avatar Actualizado";
+                return new JsonResult { Data = mensajeRespuesta };
             }
-            mensajeRespuesta.Exitoso = true;
-            mensajeRespuesta.Mensaje = "OK";
-            return new JsonResult { Data = mensajeRespuesta };
+            catch (Exception ex)
+            {
+                mensajeRespuesta.Exitoso = false;
+                mensajeRespuesta.Mensaje = ex.Message;
+                return new JsonResult { Data = mensajeRespuesta };
+            }
+            
+        }
+        public JsonResult ListaAvatars()
+        {
+
+            string rutaImagenes = ConfigurationManager.AppSettings.Get("Imagenes");
+            var lisAvatars = new List<string>();
+            DirectoryInfo di = new DirectoryInfo(string.Format(@"{0}\{1}", Session["RutaGdocImagenes"].ToString(), "avatars"));
+            foreach (var fi in di.GetFiles())
+            {
+                if (fi.Extension.Equals(".png") || fi.Extension.Equals(".jpg"))
+                    lisAvatars.Add(string.Format(@"{0}{1}/{2}", rutaImagenes,"avatars", fi.Name));
+            }
+
+            return new JsonResult { Data = lisAvatars, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue};
         }
   
         #region "Metodos"

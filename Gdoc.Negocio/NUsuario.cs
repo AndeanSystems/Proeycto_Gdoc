@@ -127,9 +127,9 @@ namespace Gdoc.Negocio
             try
             {
                 var eGeneral = dGeneral.CargaParametros(1001);
-                if (!Directory.Exists(eGeneral.RutaGdocAdjuntos))
+                if (!Directory.Exists(eGeneral.RutaGdocImagenes))
                 {
-                    Directory.CreateDirectory(eGeneral.RutaGdocAdjuntos);
+                    Directory.CreateDirectory(eGeneral.RutaGdocImagenes);
                 }
                 foreach (var documentoOperacion in listFirmas)
                 {
@@ -167,7 +167,6 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-
         public short GrabarUsuarioAvatar(Usuario eUsuario)
         {
             try

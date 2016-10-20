@@ -29,7 +29,7 @@ function ReadFileToBinary(control) {
         ///Variables
         var context = this;
         context.usuario = {};
-
+        context.imagen = {};
         //Eventos
         context.pasar = function () {
             dataProvider.postData("GrabarUsuario", usuario).success(function (respuesta) {
