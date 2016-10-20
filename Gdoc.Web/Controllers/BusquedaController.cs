@@ -36,7 +36,7 @@ namespace Gdoc.Web.Controllers
                 return RedirectToAction("Index", "Blanco");
             }
         }
-        public JsonResult ListarOperacionBusqueda(Operacion operacion, IndexacionDocumento indexacion)
+        public JsonResult ListarOperacionBusqueda(EOperacion operacion, IndexacionDocumento indexacion)
         {
             var listOperacion = new List<EOperacion>();
             var listIndexacion = new List<IndexacionDocumento>();
@@ -47,39 +47,49 @@ namespace Gdoc.Web.Controllers
                 var fechaDesde = operacion.FechaEmision;
                 var fechaHasta = operacion.FechaRegistro;
 
-                if (operacion.TipoOperacion != null)
-                {
-                    if (operacion.TipoDocumento != null)
-                    {
-                        if (indexacion.DescripcionIndice != null)
-                        {
-                            listOperacion = oOperacion.ListarOperacionBusqueda().
-                                Where(x => x.TipoOperacion == operacion.TipoOperacion 
-                                    && x.TipoDocumento == operacion.TipoDocumento
-                                    && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x => x.FechaEnvio).ToList();
+                if (operacion.TipoOperacion == null)
+                    operacion.TipoOperacion = "";
+                if (operacion.TipoDocumento == null)
+                    operacion.TipoDocumento = "";
+                if (indexacion.DescripcionIndice == null)
+                    indexacion.DescripcionIndice = "";
+
+                listOperacion=oOperacion.ListarOperacionBusquedaTotal(operacion, indexacion);
+
+                
+                //if (operacion.TipoOperacion != null)
+                //{
+                //    if (operacion.TipoDocumento != null)
+                //    {
+                //        if (indexacion.DescripcionIndice != null)
+                //        {
+                //            listOperacion = oOperacion.ListarOperacionBusqueda().
+                //                Where(x => x.TipoOperacion == operacion.TipoOperacion 
+                //                    && x.TipoDocumento == operacion.TipoDocumento
+                //                    && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x => x.FechaEnvio).ToList();
 
 
-                        }
-                        else
-                        {
-                            listOperacion = oOperacion.ListarOperacionBusqueda().
-                                Where(x => x.TipoOperacion == operacion.TipoOperacion 
-                                    && x.TipoDocumento == operacion.TipoDocumento
-                                    && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x=>x.FechaEnvio).ToList();
+                //        }
+                //        else
+                //        {
+                //            listOperacion = oOperacion.ListarOperacionBusqueda().
+                //                Where(x => x.TipoOperacion == operacion.TipoOperacion 
+                //                    && x.TipoDocumento == operacion.TipoDocumento
+                //                    && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x=>x.FechaEnvio).ToList();
 
-                        }
+                //        }
                         
-                    }
-                    else
-                    {
-                        listOperacion = oOperacion.ListarOperacionBusqueda().
-                            Where(x => x.TipoOperacion == operacion.TipoOperacion && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x => x.FechaEnvio).ToList();
-                    }
-                }
-                else
-                {
-                    listOperacion = oOperacion.ListarOperacionBusqueda().Where(x => x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x => x.FechaEnvio).ToList();
-                }
+                //    }
+                //    else
+                //    {
+                //        listOperacion = oOperacion.ListarOperacionBusqueda().
+                //            Where(x => x.TipoOperacion == operacion.TipoOperacion && x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x => x.FechaEnvio).ToList();
+                //    }
+                //}
+                //else
+                //{
+                //    listOperacion = oOperacion.ListarOperacionBusqueda().Where(x => x.FechaRegistro >= fechaDesde && x.FechaRegistro <= fechaHasta).OrderByDescending(x => x.FechaEnvio).ToList();
+                //}
 
                 Session["listBusqueda"] = listOperacion;
                 

@@ -6,7 +6,7 @@
                 <div class="box box-primary margin-top">
                     <div class="box-header with-border">
                         <h3 class="box-title">Búsqueda</h3>
-                        <button class="btn btn-default btn-sm pull-right" ng-click="ctrl.buscarOperacion(ctrl.operacion)"><i data-placement="top" data-toggle="tooltip" title="Buscar" class="fa fa-search"></i></button>
+                        <button class="btn btn-default btn-sm pull-right" ng-click="ctrl.buscarOperacion(ctrl.operacion,ctrl.indexacion)"><i data-placement="top" data-toggle="tooltip" title="Buscar" class="fa fa-search"></i></button>
 
                          @using (Html.BeginForm("DescargarExcel", "Busqueda", FormMethod.Post, new { @class = "pull-right" }))
                         {

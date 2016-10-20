@@ -56,6 +56,18 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
+        public List<EOperacion> ListarOperacionBusquedaTotal(EOperacion operacion, IndexacionDocumento indexacion)
+        {
+            try
+            {
+                return dOperacion.ListarOperacionBusquedaTotal(operacion,indexacion);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public List<EOperacion> ListarDocumentosRecibidos(UsuarioParticipante eUsuarioParticipante)
         {
             try

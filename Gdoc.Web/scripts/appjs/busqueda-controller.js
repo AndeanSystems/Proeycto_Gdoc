@@ -14,7 +14,18 @@
         let TipoAcceso = "002";
         let TipoComunicacion = "022";
         context.operacion = {};
+
+
+        context.operacion = {
+            TipoOperacion: '',
+            TipoDocumento: '',
+
+        };
         context.indexacion = {};
+
+        context.indexacion = {
+            DescripcionIndice:' ',
+        };
         context.referencia = false;
         context.operacion.FechaRegistro = new Date();
         context.operacion.FechaEmision = new Date();
@@ -81,7 +92,7 @@
 
         }
         //FIN AUTOCOMPLETE
-        context.buscarOperacion = function (operacion) {
+        context.buscarOperacion = function (operacion, indexacion) {
             console.log(context.FechaDesde);
             console.log(operacion);
             dataProvider.postData("Busqueda/ListarOperacionBusqueda", { operacion: operacion, indexacion: indexacion }).success(function (respuesta) {
@@ -115,9 +126,16 @@
             if (tipooperacion == "02") {
                 texto = "DD";
                 context.referencia = true;
+                context.operacion.TipoDocumento = "41";
             }
-            else if (tipooperacion == "03") texto = "DE";
-            else if (tipooperacion == "04") texto = "MV";
+            else if (tipooperacion == "03"){
+                texto = "DE";
+                context.operacion.TipoDocumento = "01";
+            }
+            else if (tipooperacion == "04") {
+                texto = "MV";
+                context.operacion.TipoDocumento = "81";
+            }
             var concepto = { TipoConcepto: TipoDocumento, TextoUno: texto }
             console.log(concepto);
             dataProvider.postData("Concepto/ListarConceptoTipoDocumento", concepto).success(function (respuesta) {
@@ -129,15 +147,22 @@
         }
         context.mostrarPDF = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
-            dataProvider.postData("Busqueda/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
-                console.log(respuesta)
-                if (respuesta!="vacio") 
-                    window.open(respuesta, "mywin", "resizable=1");
-                else
-                    appService.mostrarAlerta("Información","Esta Operacion es privada no tiene acceso","warning");
-            }).error(function (error) {
-                //MostrarError();
-            });
+            if (context.operacion.TipoOperacion == "04") {
+                appService.mostrarAlerta("Información", "Esta Operacion no Contiente Documento", "warning");
+                limpiarFormulario();
+            }
+            else {
+                dataProvider.postData("Busqueda/ListarDocumentoPDF", context.operacion).success(function (respuesta) {
+                    console.log(respuesta)
+                    if (respuesta != "vacio")
+                        window.open(respuesta, "mywin", "resizable=1");
+                    else
+                        appService.mostrarAlerta("Información", "Esta Operacion es privada no tiene acceso", "warning");
+                }).error(function (error) {
+                    //MostrarError();
+                });
+                limpiarFormulario();    
+            }
         }
         context.mostrarAdjuntos = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
@@ -191,6 +216,7 @@
         }
         function limpiarFormulario() {
             context.operacion = {};
+            context.indexacion = {};
             context.operacion.FechaRegistro = new Date();
             context.operacion.FechaEmision = new Date();
             FechasInicio();

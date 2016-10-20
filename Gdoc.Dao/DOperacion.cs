@@ -91,6 +91,76 @@ namespace Gdoc.Dao
             }
             return listOperacion;
         }
+        public List<EOperacion> ListarOperacionBusquedaTotal(EOperacion operacion,IndexacionDocumento indexacion)
+        {
+            var listOperacion = new List<EOperacion>();
+            try
+            {
+                var tipoOperacion = new SqlParameter { ParameterName = "@tipoOper", Value = operacion.TipoOperacion };
+                var tipoDocumento = new SqlParameter { ParameterName = "@tipoDocu", Value = operacion.TipoDocumento };
+                var fechaDesde = new SqlParameter { ParameterName = "@fechaDesde", Value = operacion.FechaEmision };
+                var fechaHasta = new SqlParameter { ParameterName = "@fechaHasta", Value = operacion.FechaRegistro };
+                var descripcion = new SqlParameter { ParameterName = "@descripcion", Value = indexacion.DescripcionIndice };
+                using (var db = new DataBaseContext())
+                {
+                    var listResult = db.Database.SqlQuery<EOperacion>("gdoc_BusquedaOperacion @tipoOper, @tipoDocu, @fechaDesde, @fechaHasta, @descripcion",
+                        tipoOperacion, tipoDocumento, fechaDesde, fechaHasta, descripcion).ToList();
+
+                    var list = (from ope in listResult
+                               join tipodocumento in db.Conceptoes
+                                 on ope.TipoDocumento equals tipodocumento.CodiConcepto
+
+                               join estado in db.Conceptoes
+                               on ope.EstadoOperacion.ToString() equals estado.CodiConcepto
+
+                               join prioridad in db.Conceptoes
+                               on ope.PrioridadOperacion equals prioridad.CodiConcepto
+
+                               join tipooperacion in db.Conceptoes
+                               on ope.TipoOperacion equals tipooperacion.CodiConcepto
+
+                               where tipodocumento.TipoConcepto.Equals("012") &&
+                                      estado.TipoConcepto.Equals("001") &&
+                                      tipooperacion.TipoConcepto.Equals("003") &&
+                                      prioridad.TipoConcepto.Equals("005")
+
+                                select new { ope, tipodocumento,estado, tipooperacion, prioridad }).ToList();
+
+                    list.ForEach(x => listOperacion.Add(new EOperacion
+                    {
+                        IDOperacion = x.ope.IDOperacion,
+                        IDEmpresa = x.ope.IDEmpresa,
+                        TipoOperacion = x.ope.TipoOperacion,
+                        FechaEmision = x.ope.FechaEmision,
+                        NumeroOperacion = x.ope.NumeroOperacion,
+                        TituloOperacion = x.ope.TituloOperacion,
+                        AccesoOperacion = x.ope.AccesoOperacion,
+                        EstadoOperacion = x.ope.EstadoOperacion,
+                        DescripcionOperacion = x.ope.DescripcionOperacion,
+                        PrioridadOperacion = x.ope.PrioridadOperacion,
+                        FechaCierre = x.ope.FechaCierre,
+                        FechaRegistro = x.ope.FechaRegistro,
+                        FechaEnvio = x.ope.FechaEnvio,
+                        FechaVigente = x.ope.FechaVigente,
+                        DocumentoAdjunto = x.ope.DocumentoAdjunto,
+                        TipoComunicacion = x.ope.TipoComunicacion,
+                        NotificacionOperacion = x.ope.NotificacionOperacion,
+                        TipoDocumento = x.ope.TipoDocumento,
+                        NombreFinal = x.ope.NombreFinal,
+                        TipoOpe = new Concepto { DescripcionCorta = x.tipooperacion.DescripcionCorta },
+                        TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
+                        Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
+                        Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
+                    }));
+                }
+                return listOperacion;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
+        }
         public List<EOperacion> ListarDocumentosRecibidos(UsuarioParticipante eUsuarioParticipante)
         {
             var listOperacion = new List<EOperacion>();
