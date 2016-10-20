@@ -1193,9 +1193,9 @@ namespace Gdoc.Negocio
                 var ope = string.Empty;
                 if (tipooperacion == Constantes.TipoOperacion.DocumentoElectronico)
                     ope = " DOC-E ";
-                else if (tipooperacion == Constantes.TipoOperacion.DocumentoElectronico)
+                else if (tipooperacion == Constantes.TipoOperacion.DocumentoDigital)
                     ope = " DOC-D ";
-                else
+                else if (tipooperacion == Constantes.TipoOperacion.MesaVirtual)
                     ope = " GRUPO-V ";
 
                 var destinatario = dUsuario.ListarUsuario().Where(x => x.IDUsuario == idusuario).FirstOrDefault().NombreUsuario;
