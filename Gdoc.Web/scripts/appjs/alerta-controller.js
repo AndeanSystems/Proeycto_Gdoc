@@ -9,6 +9,7 @@
         context.alerta = {};
         context.operacion = {};
         context.visible = "List";
+        context.FechaBusqueda = new Date();
 
         context.CambiarVentana = function (mostrarVentana) {
             context.visible = mostrarVentana;
@@ -95,6 +96,17 @@
             }
         }
 
+        context.FechaAnterior = function () {
+            context.FechaBusqueda.setDate(context.FechaBusqueda.getDate() - 1);
+            context.gridOptions.data = [];
+            listarAlertaPorFecha(context.FechaBusqueda);
+        }
+
+        context.FechaPosterior = function () {
+            context.FechaBusqueda.setDate(context.FechaBusqueda.getDate() + 1);
+            context.gridOptions.data = [];
+            listarAlertaPorFecha(context.FechaBusqueda);
+        }
         function listarMensajeAlerta() {
             dataProvider.getData("Alertas/ListarMensajeAlerta").success(function (respuesta) {
                 context.gridOptions.data = respuesta;
@@ -116,6 +128,23 @@
         function limpiarFormulario(){
             context.alerta = {};
             context.operacion = {};
+        }
+        function listarAlertaPorFecha(fecha) {
+            dataProvider.postData("Alertas/ListarAlertasPorFecha", { fecha: fecha }).success(function (respuesta) {
+
+                for (var ind in respuesta) {
+                    if (respuesta[ind].PrioridadOperacion == "02")
+                        respuesta[ind].Prioridoc = 'verde';
+                    else if (respuesta[ind].PrioridadOperacion == "03")
+                        respuesta[ind].Prioridoc = 'amarillo';
+                    else if (respuesta[ind].PrioridadOperacion == "04")
+                        respuesta[ind].Prioridoc = 'rojo';
+                }
+                context.gridOptions.data = respuesta;
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
+            });
         }
         ////Carga
         //listarComentarioProveido();

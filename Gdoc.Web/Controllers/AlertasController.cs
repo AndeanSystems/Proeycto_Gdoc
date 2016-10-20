@@ -59,6 +59,28 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listMensajeAlerta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
+        public JsonResult ListarAlertasPorFecha(Nullable<System.DateTime> fecha)
+        {
+            try
+            {
+                DateTime a123 = Convert.ToDateTime(fecha);
+                var listMensajeAlerta = new List<EMensajeAlerta>();
+                using (var oMensajeAlerta = new NMensajeAlerta())
+                {
+                    Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
+                    listMensajeAlerta = oMensajeAlerta.ListarMensajeAlerta(IDusuario).
+                        Where(x => Convert.ToDateTime(x.Operacion.FechaEnvio).ToString("dd/MM/yyyy") == Convert.ToDateTime(fecha).ToString("dd/MM/yyyy")).
+                        OrderByDescending(x => x.FechaAlerta).ToList();
+                }
+                return new JsonResult { Data = listMensajeAlerta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
         public JsonResult ListarComentarioProveido(EMensajeAlerta alerta)
         {
             var listComentarioProveido = new List<EMesaVirtualComentario>();
