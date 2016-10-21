@@ -180,8 +180,11 @@
                                             CKEDITOR.instances['editor1'].destroy(true);
                                         } catch (e) { }
                                         CKEDITOR.replace('editor1', {
-                                            removeButtons: 'Save,Print'
+                                            removeButtons: 'Save,Print,Checkbox,Radio,TextField,Textarea,Select,Form,Button,ImageButton,HiddenField,CreatePlaceholder,Flash,About',
+                                            font_defaultLabel : 'Arial',
+                                            fontSize_defaultLabel : '9px'
                                         });
+
                                         </script>
                                     </div>
                                 </div>

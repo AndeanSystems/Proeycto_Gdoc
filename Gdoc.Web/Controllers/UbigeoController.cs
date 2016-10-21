@@ -11,14 +11,12 @@ namespace Gdoc.Web.Controllers
 {
     public class UbigeoController : Controller
     {
-        //
+      
         // GET: /Ubigeo/
         public ActionResult Index()
         {
             return View();
         }
-
-        [HttpGet]
         public JsonResult ListarUbigeo()
         {
             var listUbigeo = new List<Ubigeo>();
@@ -28,8 +26,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listUbigeo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-
-        [HttpGet]
         public JsonResult ListarDepartamento()
         {
             var listUbigeo = new List<Ubigeo>();
@@ -39,7 +35,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listUbigeo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
         public JsonResult ListarProvincias(Ubigeo ubigeo)
         {
             var listUbigeo = new List<Ubigeo>();
@@ -49,7 +44,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listUbigeo, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
         public JsonResult ListarDistritos(Ubigeo ubigeo)
         {
             var listUbigeo = new List<Ubigeo>();

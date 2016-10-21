@@ -35,7 +35,6 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-
         public List<EUsuarioGrupo> ObtenerUsuario(EUsuarioGrupo eUsuarioGrupo)
         {
             var listEUsuarioGrupo = new List<EUsuarioGrupo>();

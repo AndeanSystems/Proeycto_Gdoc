@@ -38,7 +38,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listAccesoSistema, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-
         [HttpPost]
         public JsonResult ListarAccesoSistema(EUsuario usuario)
         {
@@ -135,7 +134,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = mensajeRespuesta };
         }
-
         public JsonResult ActivarAcceso(EAccesoSistema accesosistema)
         {
             using (var oAccesosistema = new NAccesoSistema())

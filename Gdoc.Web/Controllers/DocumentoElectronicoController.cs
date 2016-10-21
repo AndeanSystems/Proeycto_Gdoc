@@ -33,7 +33,6 @@ namespace Gdoc.Web.Controllers
                 return RedirectToAction("Index", "Blanco");
             }
         }
-        [HttpPost]
         public JsonResult Grabar(Operacion operacion,List<Adjunto> listDocumentosAdjuntos,DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo) {
             try
             {
@@ -142,7 +141,6 @@ namespace Gdoc.Web.Controllers
                 throw;
             }
         }
-        [HttpPost]
         public JsonResult ListarUsuarioParticipanteDE(Operacion operacion)
         {
             var listUsuarioParticipante= new List<EUsuarioParticipante>();
@@ -151,20 +149,6 @@ namespace Gdoc.Web.Controllers
                 listUsuarioParticipante = oUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante==Constantes.EstadoParticipante.Activo && x.TipoParticipante!=Constantes.TipoParticipante.DestinatarioProveido && x.TipoParticipante!=Constantes.TipoParticipante.RemitenteProveido).ToList();
             }
             return new JsonResult { Data = listUsuarioParticipante, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
-        }
-        protected DateTime DateAgregarLaborales(Int32 add, DateTime FechaInicial)
-        {
-            if (FechaInicial.DayOfWeek == DayOfWeek.Saturday) { FechaInicial = FechaInicial.AddDays(2); }
-            if (FechaInicial.DayOfWeek == DayOfWeek.Sunday) { FechaInicial = FechaInicial.AddDays(1); }
-            Int32 weeks = add / 5;
-            add += weeks * 2;
-            if (FechaInicial.DayOfWeek > FechaInicial.AddDays(add).DayOfWeek)
-                add += 2;
-
-            if (FechaInicial.AddDays(add).DayOfWeek == DayOfWeek.Saturday)
-                add += 2;
-
-            return FechaInicial.AddDays(add);
         }
         public JsonResult EliminarOperacion(Operacion operacion)
         {
@@ -185,6 +169,21 @@ namespace Gdoc.Web.Controllers
                 throw;
             }
 
+        }
+        #region "Metodos"
+        protected DateTime DateAgregarLaborales(Int32 add, DateTime FechaInicial)
+        {
+            if (FechaInicial.DayOfWeek == DayOfWeek.Saturday) { FechaInicial = FechaInicial.AddDays(2); }
+            if (FechaInicial.DayOfWeek == DayOfWeek.Sunday) { FechaInicial = FechaInicial.AddDays(1); }
+            Int32 weeks = add / 5;
+            add += weeks * 2;
+            if (FechaInicial.DayOfWeek > FechaInicial.AddDays(add).DayOfWeek)
+                add += 2;
+
+            if (FechaInicial.AddDays(add).DayOfWeek == DayOfWeek.Saturday)
+                add += 2;
+
+            return FechaInicial.AddDays(add);
         }
         protected void GenerarPdfDatos(NOperacion oNOperacion, Operacion operacion, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo)
         {
@@ -223,8 +222,10 @@ namespace Gdoc.Web.Controllers
                     operacion.TipoComunicacion,
                     listremitentes,
                     Session["RutaGdocImagenes"].ToString(),
-                    listfirmaUsuario);
-                    
+                    listfirmaUsuario,
+                    operacion.TipoDocumento);
+
         }
+        #endregion
 	}
 }

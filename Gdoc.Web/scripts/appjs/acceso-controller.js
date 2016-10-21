@@ -131,16 +131,17 @@
             appScopeProvider: context,
 
             columnDefs: [
+                {
+                    name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.activarAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-check" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Activar"></i> ' +
+                                                    '<i ng-click="grid.appScope.desactivarAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' 
+                    //'<i ng-click="grid.appScope.editarRoles(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="glyphicon glyphicon-list-alt" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Roles"></i> '
+                },
                 { field: 'ModuloSistema', displayName: 'Modulo de Sistema' },
                 { field: 'NombrePagina', displayName: 'Nombre de Pagina' },
                 { field: 'DireccionFisicaPagina', displayName: 'Direccion de la Pagina' },
                 { field: 'CodigoPaginaPadre', displayName: 'Pagina Origen' },
-                { field: 'Asignacion', displayName: 'Asignacion' },
-                {
-                    name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.activarAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-check" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Activar"></i> ' +
-                                                    '<i ng-click="grid.appScope.desactivarAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' 
-                                                    //'<i ng-click="grid.appScope.editarRoles(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="glyphicon glyphicon-list-alt" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Roles"></i> '
-                }
+                { field: 'Asignacion', displayName: 'Asignacion' }
+                
 
             ],
             multiSelect: false,

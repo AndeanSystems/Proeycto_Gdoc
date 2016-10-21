@@ -13,14 +13,15 @@ namespace Gdoc.Web.Controllers
 {
     public class DocumentosRecibidosController : Controller
     {
-
-        MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion(); 
+        #region "Variables"
+        MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
         protected string Usuario = "U";
         protected string Grupo = "G";
         protected NUsuarioParticipante dUsuarioParticipante = new NUsuarioParticipante();
         protected NMensajeAlerta dMensajeAlerta = new NMensajeAlerta();
         protected NUsuarioGrupo dUsuarioGrupo = new NUsuarioGrupo();
         protected NUsuario dUsuario = new NUsuario();
+        #endregion
         // GET: /DocumentosRecibidos/
         public ActionResult Index()
         {
@@ -34,7 +35,6 @@ namespace Gdoc.Web.Controllers
                 return RedirectToAction("Index", "Blanco");
             }
         }
-
         public JsonResult ListarOperacion()
         {
             try
@@ -129,7 +129,6 @@ namespace Gdoc.Web.Controllers
                 throw;
             }
         }
-        [HttpPost]
         public JsonResult ListarDocumentoAdjunto(Operacion operacion)
         {
             var listDocumentoAdjunto = new List<EDocumentoAdjunto>();
@@ -139,7 +138,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listDocumentoAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
         public JsonResult ListarAdjunto(Operacion operacion)
         {
             var listAdjunto = new List<EAdjunto>();
@@ -250,6 +248,7 @@ namespace Gdoc.Web.Controllers
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
         }
+        #region "Metodos"
         protected void GrabarMensajeAlerta(string codigoevento, Operacion operacion, Int64 IDusuario,int tipoalerta, MesaVirtualComentario mesaVirtualComentario, List<UsuarioParticipante> listRemitente)
         {
             try
@@ -283,5 +282,6 @@ namespace Gdoc.Web.Controllers
             }
 
         }
+        #endregion
     }
 }

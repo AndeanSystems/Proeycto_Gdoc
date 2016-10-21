@@ -28,8 +28,6 @@ namespace Gdoc.Web.Controllers
                 return RedirectToAction("Index", "Blanco");
             }
         }
-
-        [HttpGet]
         public JsonResult ListarEmpresa()
         {
             var listEmpresa = new List<EEmpresa>();

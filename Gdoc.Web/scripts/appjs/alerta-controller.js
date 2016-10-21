@@ -44,6 +44,19 @@
             appScopeProvider: context,
             columnDefs: [
                 {
+                    field: 'Prioridoc',
+                    width: '3%',
+                    cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                        if (grid.getCellValue(row, col) === 'verde')
+                            return 'green';
+                        else if (grid.getCellValue(row, col) === 'amarillo')
+                            return 'yellow';
+                        else if (grid.getCellValue(row, col) === 'rojo')
+                            return 'red';
+                    },
+                    name: ' ',
+                },
+                {
                     name: 'Acción', width: '5%',
                     cellTemplate: '<i class="fa fa-file-pdf-o" ng-click="grid.appScope.mostrarPDF(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Ver Operacion"></i>' +
                         '<i class="fa fa-commenting" ng-click="grid.appScope.comentarioProveido(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Proveido"></i>'
@@ -109,6 +122,14 @@
         }
         function listarMensajeAlerta() {
             dataProvider.getData("Alertas/ListarMensajeAlerta").success(function (respuesta) {
+                for (var ind in respuesta) {
+                    if (respuesta[ind].Operacion.PrioridadOperacion == "02")
+                        respuesta[ind].Prioridoc = 'verde';
+                    else if (respuesta[ind].Operacion.PrioridadOperacion == "03")
+                        respuesta[ind].Prioridoc = 'amarillo';
+                    else if (respuesta[ind].Operacion.PrioridadOperacion == "04")
+                        respuesta[ind].Prioridoc = 'rojo';
+                }
                 context.gridOptions.data = respuesta;
                 console.log(respuesta);
                 //context.listEmpresa = respuesta;
@@ -133,11 +154,11 @@
             dataProvider.postData("Alertas/ListarAlertasPorFecha", { fecha: fecha }).success(function (respuesta) {
 
                 for (var ind in respuesta) {
-                    if (respuesta[ind].PrioridadOperacion == "02")
+                    if (respuesta[ind].Operacion.PrioridadOperacion == "02")
                         respuesta[ind].Prioridoc = 'verde';
-                    else if (respuesta[ind].PrioridadOperacion == "03")
+                    else if (respuesta[ind].Operacion.PrioridadOperacion == "03")
                         respuesta[ind].Prioridoc = 'amarillo';
-                    else if (respuesta[ind].PrioridadOperacion == "04")
+                    else if (respuesta[ind].Operacion.PrioridadOperacion == "04")
                         respuesta[ind].Prioridoc = 'rojo';
                 }
                 context.gridOptions.data = respuesta;

@@ -328,13 +328,26 @@ function ReadFileToBinary(control) {
             appScopeProvider: context,
             columnDefs: [
                 {
+                    field: 'Prioridoc',
+                    width: '3%',
+                    cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                        if (grid.getCellValue(row, col) === 'verde')
+                            return 'green';
+                        else if (grid.getCellValue(row, col) === 'amarillo')
+                            return 'yellow';
+                        else if (grid.getCellValue(row, col) === 'rojo')
+                            return 'red';
+                    },
+                    name: ' ',
+                },
+                {
                     name: 'Acciones', width: '6%',
                     cellTemplate: '<i ng-click="grid.appScope.editarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-commenting-o" data-placement="bottom" data-toggle="tooltip" title="Comentar"></i>'
                 },
                 { field: 'NumeroOperacion', width: '15%', displayName: 'Nº Documento' },
                 { field: 'OrganizadorMV', width: '10%', displayName: 'Organizador' },
-                { field: 'TipoDoc.DescripcionCorta', width: '41%', displayName: 'Tipo' },
-                { field: 'TituloOperacion', width: '9%', displayName: 'Titulo' },
+                { field: 'TipoDoc.DescripcionCorta', width: '9%', displayName: 'Tipo' },
+                { field: 'TituloOperacion', width: '41%', displayName: 'Titulo' },
                 { field: 'FechaRegistro', width: '10%', displayName: 'Fecha Emisión', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 { field: 'Prioridad.DescripcionCorta', width: '9%', displayName: 'Prioridad' }
                 
@@ -451,6 +464,14 @@ function ReadFileToBinary(control) {
         //Metodos
         function listarMesaTrabajo() {
             dataProvider.getData("MesaVirtual/ListarMesaTrabajoVirtual").success(function (respuesta) {
+                for (var ind in respuesta) {
+                    if (respuesta[ind].PrioridadOperacion == "02")
+                        respuesta[ind].Prioridoc = 'verde';
+                    else if (respuesta[ind].PrioridadOperacion == "03")
+                        respuesta[ind].Prioridoc = 'amarillo';
+                    else if (respuesta[ind].PrioridadOperacion == "04")
+                        respuesta[ind].Prioridoc = 'rojo';
+                }
                 context.gridMesaTrabajo.data = respuesta;
                 console.log(respuesta);
             }).error(function (error) {

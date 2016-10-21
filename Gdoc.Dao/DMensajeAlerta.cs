@@ -111,6 +111,7 @@ namespace Gdoc.Dao
                                 NumeroOperacion = x.operacion.NumeroOperacion,
                                 TipoOperacion = x.operacion.TipoOperacion,
                                 NombreFinal = x.operacion.NombreFinal,
+                                PrioridadOperacion=x.operacion.PrioridadOperacion,
                             },
                             //Remitentes = string.Join(",", remitentes.ToArray()),
                         });

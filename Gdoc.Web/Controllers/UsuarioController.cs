@@ -25,7 +25,6 @@ namespace Gdoc.Web.Controllers
         NGeneral nGeneral = new NGeneral();
         #endregion
         // GET: Usuario
-
         public bool ValidarUsuarioEnActiveDirectory(EUsuario usuario)
         {
             //txtUsuario.Text.Equals("reaseguros"))//
@@ -101,7 +100,7 @@ namespace Gdoc.Web.Controllers
                             Session["IDUsuario"] = UsuarioEncontrado.IDUsuario;
                             Session["ClaveUsuario"] = UsuarioEncontrado.ClaveUsuario;
                             Session["NombreCompleto"] = string.Format("{0} {1}", UsuarioEncontrado.Personal.NombrePers, UsuarioEncontrado.Personal.ApellidoPersonal);
-                            Session["CargoUsuario"] = FormatoNombre(UsuarioEncontrado.TipoUsuario.DescripcionConcepto);
+                            Session["CargoUsuario"] = UsuarioEncontrado.TipoUsuario.DescripcionConcepto;
                             Session["RutaAvatar"] = string.IsNullOrEmpty(UsuarioEncontrado.RutaAvatar) ? "/resources/img/incognito.png" : UsuarioEncontrado.RutaAvatar.Replace("~", string.Empty);
 
                             //CONTADORES
@@ -125,27 +124,36 @@ namespace Gdoc.Web.Controllers
                             }
 
                             //PARAMETROS GENERALES
-                            using (var NGeneral = new NGeneral())
+                            try
                             {
-                                var CargarParametros = NGeneral.CargaParametros(Convert.ToInt32(Session["IDEmpresa"]));
+                                using (var NGeneral = new NGeneral())
+                                {
+                                    var CargarParametros = NGeneral.CargaParametros(Convert.ToInt32(Session["IDEmpresa"]));
 
-                            //    Session["PlazoDoctoElectronico"] = CargarParametros.PlazoDoctoElectronico;
-                            //    Session["ExtensionPlazoDoctoElectronico"] = CargarParametros.ExtensionPlazoDoctoElectronico;
-                            //    Session["AlertaDoctoElectronico"] = CargarParametros.AlertaDoctoElectronico;
-                            //    Session["PlazoMesaVirtual"] = CargarParametros.PlazoMesaVirtual;
-                            //    Session["ExtensionPlazoMesaVirtual"] = CargarParametros.ExtensionPlazoMesaVirtual;
-                            //    Session["AlertaMesaVirtual"] = CargarParametros.AlertaMesaVirtual;
-                            //    Session["AlertaMailLaboral"] = CargarParametros.AlertaMailLaboral;
-                            //    Session["AlertaMailPersonal"] = CargarParametros.AlertaMailPersonal;
-                            //    Session["HoraActualizaEstadoOperacion"] = CargarParametros.HoraActualizaEstadoOperacion;
-                            //    Session["HoraCierreLabores"] = CargarParametros.HoraCierreLabores;
-                                Session["PlazoExpiraFirma"] = CargarParametros.PlazoExpiraFirma;
-                                Session["RutaGdocImagenes"] = CargarParametros.RutaGdocImagenes;
-                                Session["RutaGdocPDF"] = CargarParametros.RutaGdocPDF;
-                                Session["RutaGdocAdjuntos"] = CargarParametros.RutaGdocAdjuntos;
-                                Session["RutaGdocExternos"] = CargarParametros.RutaGdocExternos;
+                                    //    Session["PlazoDoctoElectronico"] = CargarParametros.PlazoDoctoElectronico;
+                                    //    Session["ExtensionPlazoDoctoElectronico"] = CargarParametros.ExtensionPlazoDoctoElectronico;
+                                    //    Session["AlertaDoctoElectronico"] = CargarParametros.AlertaDoctoElectronico;
+                                    //    Session["PlazoMesaVirtual"] = CargarParametros.PlazoMesaVirtual;
+                                    //    Session["ExtensionPlazoMesaVirtual"] = CargarParametros.ExtensionPlazoMesaVirtual;
+                                    //    Session["AlertaMesaVirtual"] = CargarParametros.AlertaMesaVirtual;
+                                    //    Session["AlertaMailLaboral"] = CargarParametros.AlertaMailLaboral;
+                                    //    Session["AlertaMailPersonal"] = CargarParametros.AlertaMailPersonal;
+                                    //    Session["HoraActualizaEstadoOperacion"] = CargarParametros.HoraActualizaEstadoOperacion;
+                                    //    Session["HoraCierreLabores"] = CargarParametros.HoraCierreLabores;
+                                    Session["PlazoExpiraFirma"] = CargarParametros.PlazoExpiraFirma;
+                                    Session["RutaGdocImagenes"] = CargarParametros.RutaGdocImagenes;
+                                    Session["RutaGdocPDF"] = CargarParametros.RutaGdocPDF;
+                                    Session["RutaGdocAdjuntos"] = CargarParametros.RutaGdocAdjuntos;
+                                    Session["RutaGdocExternos"] = CargarParametros.RutaGdocExternos;
 
+                                }
                             }
+                            catch (Exception ex)
+                            {
+                                
+                                throw;
+                            }
+                            
 
                             return RedirectToAction("Index", "Blanco");
                         }
@@ -471,16 +479,6 @@ namespace Gdoc.Web.Controllers
         }
   
         #region "Metodos"
-        public string FormatoNombre(string nombre)
-        {
-            string nombre_orig = nombre;
-            string nombre_may = nombre.ToUpper();
-
-            nombre_orig = nombre_orig.ToLower();
-
-            nombre_orig = nombre_orig.Replace(nombre_orig[0], nombre_may[0]);
-            return nombre_orig;
-        }
         #endregion
     }
 }

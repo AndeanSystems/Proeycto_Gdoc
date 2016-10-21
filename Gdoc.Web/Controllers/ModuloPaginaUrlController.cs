@@ -15,7 +15,6 @@ namespace Gdoc.Web.Controllers
         #region "Variables"
         MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
         #endregion
-        [HttpPost]
         public JsonResult ListarModuloPaginaUrl(Usuario eUsuario)
         {
             var listModuloPaginaUrl = new List<EModuloPaginaUrl>();

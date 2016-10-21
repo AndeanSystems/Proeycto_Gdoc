@@ -78,6 +78,10 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
+                {
+                    name: 'Acciones',
+                    cellTemplate: context.acciones
+                },
                 { field: 'CodiConcepto', displayName: 'Codigo' },
                 { field: 'DescripcionConcepto', width: '20%', displayName: 'Descripcion' },
                 { field: 'DescripcionCorta', displayName: 'Abreviatura' },
@@ -85,11 +89,8 @@
                 { field: 'ValorDos', width: '8%', displayName: 'Valor2' },
                 { field: 'TextoUno', width: '8%', displayName: 'Texto1' },
                 { field: 'TextoDos', width: '8%', displayName: 'Texto2' },
-                { field: 'EstadoConcepto', displayName: 'Estado' },
-                {
-                    name: 'Acciones',
-                    cellTemplate: context.acciones
-                }
+                { field: 'EstadoConcepto', displayName: 'Estado' }
+                
             ]
         };
         //Eventos

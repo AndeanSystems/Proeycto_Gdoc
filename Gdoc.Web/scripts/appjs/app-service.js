@@ -151,15 +151,11 @@ var archivosSelecionados = [];
         }
         context.modalAvatar = function () {
             listAvatars();
-
             $("#modal_imagenes").modal("show");
         }
         function listAvatars() {
             dataProvider.getData("Usuario/ListaAvatars").success(function (respuesta) {
                 context.listAvatar = respuesta;
-                console.log(typeof context.src);
-                console.log(context.listAvatar);
-
             }).error(function (error) {
                 //MostrarError();
             });

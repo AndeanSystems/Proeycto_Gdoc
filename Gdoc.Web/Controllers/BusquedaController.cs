@@ -122,7 +122,6 @@ namespace Gdoc.Web.Controllers
                 throw;
             }
         }
-        [HttpGet]
         public virtual ActionResult Download(string file)
         {
             string fullPath = Path.Combine(Server.MapPath("~/MyFiles"), file);

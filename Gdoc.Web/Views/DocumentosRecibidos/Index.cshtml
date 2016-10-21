@@ -1,26 +1,4 @@
-﻿<style>
-    .red {
-        color: transparent;
-        background-image: url(resources/img/icon_red.png);
-        background-repeat: no-repeat;
-        background-size: 20px;
-        background-position: center;
-    }
-    .green {
-        color: transparent;
-        background-image: url(resources/img/icon_green.png);
-        background-repeat: no-repeat;
-        background-size: 20px;
-        background-position: center;
-    }
-    .yellow {
-        color: transparent;
-        background-image: url(resources/img/icon_orange.png);
-        background-repeat: no-repeat;
-        background-size: 20px;
-        background-position: center;
-    }
-</style>
+﻿
 <section class="content-header">
     <section class="content" ng-controller="documentorecibido_controller as ctrl" layout="column" ng-cloak>
 
@@ -30,8 +8,6 @@
         <div class="row" ng-if="ctrl.visible == 'ComentarioProveido'">
             @Html.Partial("_ComentarioProveido")
         </div> 
-
-        
         <!--MODAL ADJUNTOS-->
         <div class="modal fade" id="modal_adjuntos">
             <div class="modal-dialog modal-lg" style="width:50%;">

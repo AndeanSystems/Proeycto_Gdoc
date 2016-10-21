@@ -1,18 +1,16 @@
 ﻿<section class="content-header">
-    <section class="content" ng-controller="mesavirtual_controller as ctrl" layout="column" ng-cloak>
-        <div class="row " ng-if="ctrl.visible == 'List'">
-            @Html.Partial("_List")
-        </div>
-        <div class="row" ng-if="ctrl.visible == 'CreateAndEdit'">
-            @Html.Partial("_CreatAndEdit")
-        </div>
-        <div class="row" ng-if="ctrl.visible == 'Commentario'">
-            @Html.Partial("_Commentary")
-        </div>
-    </section>
-
-
-
+    <h1>prueba</h1>
+</section>
+<section class="content" ng-controller="mesavirtual_controller as ctrl" layout="column" ng-cloak>
+    <div class="row " ng-if="ctrl.visible == 'List'">
+        @Html.Partial("_List")
+    </div>
+    <div class="row" ng-if="ctrl.visible == 'CreateAndEdit'">
+        @Html.Partial("_CreatAndEdit")
+    </div>
+    <div class="row" ng-if="ctrl.visible == 'Commentario'">
+        @Html.Partial("_Commentary")
+    </div>
 </section>
 @section Scripts{
     <script src="~/scripts/appjs/mesavirtual-controller.js"></script>

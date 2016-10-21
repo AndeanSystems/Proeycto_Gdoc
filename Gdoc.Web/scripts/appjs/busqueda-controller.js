@@ -117,7 +117,7 @@
                 },
                 { field: 'TipoOpe.DescripcionCorta', displayName: 'Tipo Operacion' },
                 { field: 'NumeroOperacion', displayName: 'Numero Operacion' },
-                { field: 'FechaEnvio', displayName: 'Fecha Envio', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' },
+                { field: 'FechaEnvio', displayName: 'Fecha Envio', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm"' },
                 { field: 'TipoDoc.DescripcionCorta', displayName: 'Tipo Documento/Mesa' }
             ]
         };
@@ -166,14 +166,19 @@
         }
         context.mostrarAdjuntos = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
-            if (context.operacion.TipoOperacion != "02") {
-                listarDocumentoAdjunto(context.operacion);
-                $("#modal_adjuntos").modal("show");
+            if (context.operacion.TipoOperacion == "04") {
+                appService.mostrarAlerta("Información", "Esta Operacion no Contiente Documento", "warning");
+                limpiarFormulario();
             }
             else {
-                appService.mostrarAlerta("Información", "Esta Operación no tiene Adjuntos", "warning")
+                if (context.operacion.TipoOperacion != "02") {
+                    listarDocumentoAdjunto(context.operacion);
+                    $("#modal_adjuntos").modal("show");
+                }
+                else {
+                    appService.mostrarAlerta("Información", "Esta Operación no tiene Adjuntos", "warning")
+                }
             }
-
         }
         context.mostrarAdjuntoWindows = function (archivo) {
             console.log(archivo);

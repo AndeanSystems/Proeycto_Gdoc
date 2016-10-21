@@ -52,16 +52,17 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'NombreGrupo', displayName: 'Listas' },
-                { field: 'CantidadUsuarios', displayName: 'Participantes' },
-                { field: 'ComentarioGrupo', displayName: 'Comentario' },
-                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' },
-
                 {
                     name: 'Acciones',
                     cellTemplate: '<i ng-click="grid.appScope.editarGrupo(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o  " style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
                                   '<i ng-click="grid.appScope.eliminarGrupo(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times  " style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Borrar"></i>'
-                }
+                },
+                { field: 'NombreGrupo', displayName: 'Listas' },
+                { field: 'CantidadUsuarios', displayName: 'Participantes' },
+                { field: 'ComentarioGrupo', displayName: 'Comentario' },
+                { field: 'Estado.DescripcionConcepto', displayName: 'Estado' }
+
+                
 
             ],
             multiSelect: false,

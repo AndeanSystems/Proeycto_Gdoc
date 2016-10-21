@@ -17,5 +17,6 @@ namespace Gdoc.Entity.Extension
         public UsuarioParticipante UsuarioParticipante { get; set; }
         public Usuario Usuario { get; set; }
         public string Remitentes { get; set; }
+        public string Prioridoc { get; set; }
     }
 }

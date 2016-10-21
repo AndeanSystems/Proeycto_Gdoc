@@ -28,7 +28,6 @@ namespace Gdoc.Web.Controllers
                 return RedirectToAction("Index", "Blanco");
             }
         }
-        [HttpPost]
         public JsonResult Grabar(Operacion operacion,List<Adjunto> listAdjuntos, List<EUsuarioGrupo> listEUsuarioGrupo)
         {
             try
@@ -86,8 +85,6 @@ namespace Gdoc.Web.Controllers
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
             }
         }
-
-        [HttpPost]
         public JsonResult GrabarMesaVirtualComentario(Operacion operacion,List<Adjunto> listAdjuntos, MesaVirtualComentario mesaVirtualComentario)
         {
             try
@@ -143,7 +140,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listMesaVirtual, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
         public JsonResult ListarUsuarioParticipanteMV(Operacion operacion)
         {
             var listUsuarioParticipante = new List<EUsuarioParticipante>();
@@ -153,7 +149,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listUsuarioParticipante, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };      
         }
-        [HttpPost]
         public JsonResult ListarComentarioMesaVirtual(Operacion operacion)
         {
             var listComentarioMesaVirtual = new List<EMesaVirtualComentario>();

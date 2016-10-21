@@ -27,7 +27,6 @@ namespace Gdoc.Web.Controllers
                 return RedirectToAction("Index", "Blanco");
             }
         }
-        [HttpGet]
         public JsonResult ListarGrupo()
         {
             var listGrupo = new List<EGrupo>();

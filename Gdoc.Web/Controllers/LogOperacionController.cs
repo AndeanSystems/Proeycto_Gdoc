@@ -26,7 +26,6 @@ namespace Gdoc.Web.Controllers
                 return RedirectToAction("Index", "Blanco");
             }
         }
-        [HttpPost]
         public JsonResult ListarLogOperacion(Operacion operacion)
         {
             try

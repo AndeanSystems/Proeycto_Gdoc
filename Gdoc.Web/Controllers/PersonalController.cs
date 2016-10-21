@@ -28,7 +28,6 @@ namespace Gdoc.Web.Controllers
                 return RedirectToAction("Index", "Blanco");
             }
         }
-        [HttpGet]
         public JsonResult ListarPersonal()
         {
             var listPersonal = new List<EPersonal>();
@@ -68,7 +67,6 @@ namespace Gdoc.Web.Controllers
             }
             
         }
-        [HttpPost]
         public JsonResult BuscarPersonalNombre(Personal personal)
         {
             var listUsuario = new List<EPersonal>();

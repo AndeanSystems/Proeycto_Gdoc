@@ -24,7 +24,8 @@ namespace Gdoc.Common.Utilitario
             string tipocomunicacion,
             List<string> listremitentes,
             string rutaFirma,
-            List<string> listfirmaUsuario)
+            List<string> listfirmaUsuario,
+            string tipodoc)
         {
             string sFEPCMAC = ConfigurationManager.AppSettings.Get("FooterPDF1");
             string sDireccion = ConfigurationManager.AppSettings.Get("FooterPDF2");
@@ -42,7 +43,8 @@ namespace Gdoc.Common.Utilitario
                 document.Footer = GenerarFooter(sFooter); ;
 
             document.Open();
-            GenerarCabecera(ref document, tipodocumento, destinatario, remitente, asunto);
+            if (tipodoc!="06")
+                GenerarCabecera(ref document, tipodocumento, destinatario, remitente, asunto);
             GenerarBody(ref document, sBodyTexto);
             GenerarFirmas(ref document,listremitentes,rutaFirma,listfirmaUsuario);
             document.Close();

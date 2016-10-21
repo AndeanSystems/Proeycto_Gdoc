@@ -20,28 +20,11 @@
                             </div>
                         </div>
                     </div>
-
-                    @*<div class="col-md-12">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Datos Laborales</h3>
-                                </div>
-                        </div>*@
-
-
                 </div>
 
                 <div class="row">
 
                     <div class="col-md-6">
-
-                        @*<div class="form-group no-margin-bottom">
-                            <label class="col-sm-12">Tipo de Identificacion</label>
-                            <div class="col-sm-12">
-                                <select class="form-control" ng-model="ctrl.usuario.Personal.TipoIdentificacion" ng-options="ca.CodiConcepto as ca.DescripcionConcepto for ca in ctrl.listTipoIdentificacion">
-                                    <option value="">Seleccione</option>
-                                </select>
-                            </div>
-                        </div>*@
 
                         <div class="form-group no-margin-bottom">
                             <label class="col-sm-12">N° de DNI</label>
@@ -89,9 +72,6 @@
 
                     </div>
                     <div class="col-md-6">
-                        @*<div class="box-header with-border">
-                                <h3 class="box-title">Datos Personales</h3>
-                            </div>*@
                         <div class="form-group no-margin-bottom">
                             <label class="col-sm-12">Clase de Usuario</label>
                             <div class="col-sm-12">
@@ -129,21 +109,15 @@
                         <div class="form-group no-margin-bottom">
                             <label class="col-sm-12">Expira Firma Electronica</label>
                             <md-radio-group ng-model="ctrl.usuario.ExpiraFirma">
-                                <!--Falta terminar poner los radiobutton en una sola linea-->
-                                <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="0">Si</md-radio-button><!--Falta terminar Asignale por defecto -->
+                                <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="0">Si</md-radio-button>
                                 <md-radio-button style="display:inline-block;margin-right:5em;margin-left:1em;" value="1">No</md-radio-button>
-
                             </md-radio-group>
                         </div>
-
-                    </div><!-- /.col -->
-
-
+                    </div>
                     <div class="modal-footer">
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-
-            </div><!-- /.modal -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

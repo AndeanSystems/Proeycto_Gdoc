@@ -17,7 +17,6 @@ namespace Gdoc.Web.Controllers
         {
             return View();
         }
-        [HttpPost]
         public JsonResult ListarAdjuntos(string archivo)
         {
             try

@@ -51,7 +51,6 @@ namespace Gdoc.Dao
             }
             return listEmpresa;
         }
-
         public Empresa GrabarEmpresa(Empresa empresa)
         {
             try
@@ -68,7 +67,6 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-
         public Empresa EditarEmpresa(Empresa empresa)
         {
             try
@@ -91,7 +89,6 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-
         public Empresa EliminarEmpresa(Empresa empresa)
         {
             try

@@ -14,7 +14,6 @@ namespace Gdoc.Web.Controllers
     {
         //
         // GET: /Alertas/
-
         public ActionResult Index()
         {
             using (var NUsuario = new NUsuario())
@@ -48,7 +47,6 @@ namespace Gdoc.Web.Controllers
             }
             
         }
-        [HttpGet]
         public JsonResult ListarMensajeAlerta()
         {
             var listMensajeAlerta = new List<EMensajeAlerta>();

@@ -27,7 +27,6 @@ namespace Gdoc.Web.Controllers
                 return RedirectToAction("Index", "Blanco");
             }
         }
-
         [HttpGet]
         public JsonResult ListarConcepto() {
             var listConcepto = new List<Concepto>();
@@ -50,7 +49,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
         public JsonResult ListarConceptoTipoDocumento(Concepto concepto)
         {
             var listConcepto = new List<Concepto>();
@@ -60,7 +58,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
         public JsonResult ListarConceptoEditables(Concepto concepto)
         {
             var listConcepto = new List<Concepto>();
@@ -70,7 +67,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
         public JsonResult BuscarConceptoEstado(Concepto concepto)
         {
             var listConcepto = new List<Concepto>();
@@ -88,7 +84,6 @@ namespace Gdoc.Web.Controllers
             }
             return new JsonResult { Data = listConcepto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-        [HttpPost]
         public JsonResult GrabarConcepto(Concepto concepto) {
             try
             {

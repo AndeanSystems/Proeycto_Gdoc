@@ -62,7 +62,7 @@
                 { field: 'RucEmpresa', width: '10%', displayName: 'Ruc Empresa' },
                 { field: 'RazonSocial', width: '60%', displayName: 'Razon Social' },
                 { field: 'Estado.DescripcionConcepto', width: '10%', displayName: 'Estado' },
-                { field: 'FechaRegistro', width: '10%', displayName: 'Fecha de Registro', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy"' }
+                { field: 'FechaRegistro', width: '10%', displayName: 'Fecha de Registro', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm"' }
                 
 
             ],

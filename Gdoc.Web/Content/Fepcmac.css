@@ -31,11 +31,23 @@ body {
 
 .form-control {
     font-size: 12px;
+    background-color: #fafafa;
+    border: transparent;
 }
 
 .no-margin-bottom {
     margin-bottom: 0px !important;
 }
+.sidebar {
+    background-color: #A20012;
+    height:auto;
+}
+.skin-blue .sidebar-menu>li.header {
+    color: #fff;
+    background: #A20012;
+}
+
+
 /**Estilos Angular Material*/
 .md-chips {
     display: block;

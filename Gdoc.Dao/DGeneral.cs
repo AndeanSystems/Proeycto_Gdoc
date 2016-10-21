@@ -104,7 +104,6 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-
         public General CargaParametros(int IDEmpresa)
         {
             try

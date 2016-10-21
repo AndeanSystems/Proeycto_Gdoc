@@ -224,6 +224,9 @@ function ReadFileToBinary(control) {
             if (context.DocumentoElectronicoOperacion.Memo == undefined || context.DocumentoElectronicoOperacion.Memo == "") {
                 return appService.mostrarAlerta("Atención", "Agregue Contenido al Documento", "warning");
             }
+            if (context.usuarioRemitentes.length > 4) {
+                return appService.mostrarAlerta("Atención", "Se excedió el numero de remitentes", "warning");
+            }
             var usuarioRemitenteEnSession = false;
             for (var ind in context.usuarioRemitentes) {
                 console.log(context.usuarioRemitentes[ind]);
@@ -232,6 +235,7 @@ function ReadFileToBinary(control) {
                 context.usuarioRemitentes[ind].TipoParticipante = UsuarioRemitente;
                 listEUsuarioGrupo.push(context.usuarioRemitentes[ind]);
             }
+            
             for (var ind in context.usuarioDestinatarios) {
                 console.log(context.usuarioDestinatarios[ind]);
                 context.usuarioDestinatarios[ind].TipoParticipante = UsuarioDestinatario;

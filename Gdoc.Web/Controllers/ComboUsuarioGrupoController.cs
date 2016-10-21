@@ -13,7 +13,6 @@ namespace Gdoc.Web.Controllers
         #region "Variables"
         MensajeConfirmacion mensajeRespuesta = new MensajeConfirmacion();
         #endregion
-        [HttpPost]
         public JsonResult ObtenerUsuarioGrupo(EUsuarioGrupo eUsuarioGrupo) {
             var retornoEUsuarioGrupo = new List<EUsuarioGrupo>();
             try
