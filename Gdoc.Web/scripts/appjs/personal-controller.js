@@ -20,6 +20,8 @@
         LlenarConcepto("024");
 
         context.personal = {};
+        context.btnEditar = false;
+        context.btnNuevo = true;
         context.personal.FechaNacimiento = new Date();
         context.listDepartamento = [];
 
@@ -30,6 +32,9 @@
             context.codigoprovincia = parseInt(context.personal.CodigoUbigeo.substring(2, 4));
             context.obtenerDistrito(context.codigodepartamento, context.codigoprovincia);
             context.codigodistrito = parseInt(context.personal.CodigoUbigeo.substring(4, 6));
+
+            context.btnEditar = true;
+            context.btnNuevo = false;
             $("#modal_contenido").modal("show");
         };
 
