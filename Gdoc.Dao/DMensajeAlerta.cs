@@ -112,6 +112,7 @@ namespace Gdoc.Dao
                                 TipoOperacion = x.operacion.TipoOperacion,
                                 NombreFinal = x.operacion.NombreFinal,
                                 PrioridadOperacion=x.operacion.PrioridadOperacion,
+                                FechaEnvio=x.operacion.FechaEnvio,
                             },
                             //Remitentes = string.Join(",", remitentes.ToArray()),
                         });

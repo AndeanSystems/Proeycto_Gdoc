@@ -151,7 +151,10 @@ function ReadFileToBinary(control) {
         context.grabar = function (numeroboton) {
             let Operacion = context.operacion;
             if (Operacion.EstadoOperacion == 1) {
-                return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
+                return appService.mostrarAlerta("No se puede modificar Documento", "El grupo ya ha sido compartido", "warning");
+            }
+            if (Operacion.EstadoOperacion == 2) {
+                return appService.mostrarAlerta("No se puede modificar Documento", "El grupo ya ha sido cerrado", "warning");
             }
             //if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
             //    return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");

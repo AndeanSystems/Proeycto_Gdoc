@@ -26,7 +26,8 @@ namespace Gdoc.Dao
 
                                where usua.NombreUsuario == usuario.NombreUsuario &&
                                        //usua.ClaveUsuario == usuario.ClaveUsuario &&
-                                       tipousu.TipoConcepto.Equals("010")
+                                       tipousu.TipoConcepto.Equals("010") &&
+                                       usua.EstadoUsuario==1
                                select new { usua, persona, tipousu }).FirstOrDefault();
                     return new EUsuario()
                     {

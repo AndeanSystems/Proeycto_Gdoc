@@ -119,6 +119,7 @@ namespace Gdoc.Web.Controllers
                             {
                                 var CargarAccesos = NAcceso.ListarAccesos().Where(x => x.IDUsuario == UsuarioEncontrado.IDUsuario);
 
+                                
                                 Session["ListaAccesos"] = CargarAccesos.ToList();
 
                             }

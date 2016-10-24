@@ -1,4 +1,5 @@
-﻿(function () {
+﻿let TipoMensaje = "warning";
+(function () {
     'use strict';
 
     angular.module('app').controller('usuario_controller', usuario_controller);
@@ -25,6 +26,7 @@
             CodigoTipoUsua:'04'
 
         };
+        context.buscar = true;
         context.listDepartamento = [];
 
         context.editar = false;
@@ -95,6 +97,7 @@
             console.log(context.usuario.Personal.Cargo.DescripcionConcepto)
             context.usuario.Personal.NombrePers = context.usuario.Personal.NombrePers + " " + context.usuario.Personal.ApellidoPersonal;
             context.editar = true;
+            context.buscar = false;
             $("#modal_contenido").modal("show");
         };
 
@@ -149,8 +152,8 @@
             appScopeProvider: context,
             columnDefs: [
                 {
-                    name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.editarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Editar"></i>' +
-                                                  '<i ng-click="grid.appScope.eliminarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Desactivar"></i> ' 
+                    name: 'Acciones', cellTemplate: '<i ng-click="grid.appScope.editarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-pencil-square-o" style="padding: 4px;font-size: 1.4em;" data-placement="right" data-toggle="tooltip" title="Editar"></i>' +
+                                                  '<i ng-click="grid.appScope.eliminarUsuario(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="fa fa-times" style="padding: 4px;font-size: 1.4em;" data-placement="right" data-toggle="tooltip" title="Desactivar"></i> ' 
                     //'<i ng-click="grid.appScope.abrirAcceso(grid.renderContainers.body.visibleRowCache.indexOf(row))" class="glyphicon glyphicon-list-alt" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Accesos"></i> '
                 },
                 { field: 'NombreUsuario', displayName: 'ID Usuario' },
@@ -179,7 +182,9 @@
             function enviarFomularioOK() {
                 dataProvider.postData("Usuario/GrabarUsuario", usuario).success(function (respuesta) {
                     console.log(respuesta);
-                    swal("¡Bien!", "Usuario Registrado Correctamente", "success");
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
                     listarUsuario();
                     $("#modal_contenido").modal("hide");
                 }).error(function (error) {
@@ -187,7 +192,7 @@
                 });
             }
             function cancelarFormulario() {
-                context.usuario = {};
+                //context.usuario = {};
             }
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
         }
@@ -235,6 +240,7 @@
             context.listDepartamento = [];
             context.listPronvincia = [];
             context.listDistrito = [];
+            context.buscar = true;
             context.usuario = {
                 ClaseUsuario: '0',
                 CodigoTipoUsua: '04'

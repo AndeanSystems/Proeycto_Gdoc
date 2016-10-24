@@ -67,7 +67,7 @@ namespace Gdoc.Web.Controllers
                 {
                     Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                     listMensajeAlerta = oMensajeAlerta.ListarMensajeAlerta(IDusuario).
-                        Where(x => Convert.ToDateTime(x.Operacion.FechaEnvio).ToString("dd/MM/yyyy") == Convert.ToDateTime(fecha).ToString("dd/MM/yyyy")).
+                        Where(x => Convert.ToDateTime(x.FechaAlerta).ToString("dd/MM/yyyy") == Convert.ToDateTime(fecha).ToString("dd/MM/yyyy")).
                         OrderByDescending(x => x.FechaAlerta).ToList();
                 }
                 return new JsonResult { Data = listMensajeAlerta, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };

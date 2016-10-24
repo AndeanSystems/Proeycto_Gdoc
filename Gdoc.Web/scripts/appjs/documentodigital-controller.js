@@ -211,6 +211,9 @@ function ReadFileToBinary(control) {
             if (Operacion.EstadoOperacion == 1) {
                 return appService.mostrarAlerta("Atención", "No se puede modificar el documento, ya ha sido enviado", "warning");
             }
+            if (Operacion.EstadoOperacion == 2) {
+                return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido eliminado", "warning");
+            }
             if (context.listDocumentoAdjunto == undefined || context.listDocumentoAdjunto == "" || context.listDocumentoAdjunto == null) {
                 return appService.mostrarAlerta("Advertencia", "Debe seleccionar por lo menos un archivo", "warning");
             }
