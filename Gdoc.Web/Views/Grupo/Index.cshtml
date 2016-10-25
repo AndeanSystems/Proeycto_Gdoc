@@ -1,13 +1,13 @@
-﻿<!-- Content Header (Page header) -->
-<section class="content-header">
-    <section class="content" ng-controller="grupo_controller as ctrl" layout="column" ng-cloak>
-        <div class="row" ng-if="ctrl.visible == 'List'">
-            @Html.Partial("_List")
-        </div>
-        <div class="row" ng-if="ctrl.visible == 'CreateAndEdit'">
-            @Html.Partial("_CreateAnEdit")
-        </div>
-    </section>
+﻿<section class="content-header">
+
+</section>
+<section class="content" ng-controller="grupo_controller as ctrl" layout="column" ng-cloak>
+    <div class="row" ng-if="ctrl.visible == 'List'">
+        @Html.Partial("_List")
+    </div>
+    <div class="row" ng-if="ctrl.visible == 'CreateAndEdit'">
+        @Html.Partial("_CreateAnEdit")
+    </div>
 </section>
 @section Scripts{
     <script src="~/scripts/appjs/grupo-controller.js"></script>

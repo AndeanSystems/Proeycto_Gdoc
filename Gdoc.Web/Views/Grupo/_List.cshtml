@@ -1,34 +1,29 @@
-﻿<div class="row">
-    <div class="col-md-12">
-        <div class="box box-primary margin-top">
-            <div class="box-header with-border">
-                <h3 class="box-title">Listas</h3>
-                <button class="btn btn-default pull-right" style="right:auto" ng-click="ctrl.CambiarVentana('CreateAndEdit')"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
-            </div>
-                <div class="box-body no-padding">
-
-                    @*<div class="row">
-                            <br>
-
-                            <div class="col-md-2">
-                                <h5 class="pull-right">Grupo</h5>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" placeholder="Buscar Grupo" ng-model="ctrl.nombregrupo">
-                            </div>
-
-                            <div class="col-md-2">
-                                <button type="submit" name="search" id="btnbuscar" class="btn btn-default" ng-click="ctrl.buscarGrupo(ctrl.nombregrupo)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
-                                <button class="btn btn-default" data-toggle="modal" data-target="#modal_contenido"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
-                            </div>
-                        </div>*@
-
-                </div>
-
-                <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize></div>
-            
-
+﻿<div class="col-md-12">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listas</h3>
+            <button class="btn btn-default pull-right btn-sm" style="right:auto" ng-click="ctrl.CambiarVentana('CreateAndEdit')"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
         </div>
-    </div>
+            <div class="box-body no-padding">
 
+                @*<div class="row">
+                        <br>
+
+                        <div class="col-md-2">
+                            <h5 class="pull-right">Grupo</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" placeholder="Buscar Grupo" ng-model="ctrl.nombregrupo">
+                        </div>
+
+                        <div class="col-md-2">
+                            <button type="submit" name="search" id="btnbuscar" class="btn btn-default" ng-click="ctrl.buscarGrupo(ctrl.nombregrupo)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
+                            <button class="btn btn-default" data-toggle="modal" data-target="#modal_contenido"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
+                        </div>
+                    </div>*@
+
+            </div>
+
+            <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize></div>
+    </div>
 </div>

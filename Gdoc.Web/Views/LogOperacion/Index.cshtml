@@ -1,33 +1,40 @@
 ﻿<section class="content-header">
-    <section class="content" ng-controller="logoperacion_controller as ctrl" ng-cloak>
+    
+</section>
+<section class="content" ng-controller="logoperacion_controller as ctrl" ng-cloak>
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary margin-top">
+                <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Log Operación</h3>
+                        <button type="submit" name="search" id="search-btn" class="btn btn-default btn-sm pull-right" ng-click="ctrl.buscarLogOperacion(ctrl.operacion)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
+                        @using (Html.BeginForm("DescargarExcel", "LogOperacion", FormMethod.Post, new { @class = "pull-right" }))
+                        {
+                            <button class="btn btn-default btn-sm pull-right" type="submit"><i data-placement="top" data-toggle="tooltip" title="Excel" class="fa fa-file-excel-o"></i></button>
+                        }
+                        @*<div class="pull-right">
+                                <button ng-click="ctrl.FechaAnterior()" type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                <label ng-model="crtl.FechaBusqueda">{{ctrl.FechaBusqueda | date:"dd MMM yyyy "}}</label>
+                                <button ng-click="ctrl.FechaPosterior()" type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                            </div>*@
                     </div>
                     <div class="box-body">
 
                         <div class="row">
-                            <div class="col-md-2">
-                                <h5 class="pull-right">Tipo de Operación</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <select style="margin-bottom: 15px;" class="form-control" ng-model="ctrl.operacion.TipoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoOperacion">
+                            <div class="col-sm-6">
+                                <label>Tipo de Operación</label>
+                                <select class="form-control" ng-model="ctrl.operacion.TipoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoOperacion">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
-                            <div class="col-md-2">
-                                <h5 class="pull-right">N. de Operación</h5>
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-sm-6">
+                                <label>N. de Operación</label>
                                 <input type="text" class="form-control" ng-model="ctrl.operacion.NumeroOperacion" placeholder="Operación">
+
                             </div>
-                            <div class="col-md-2">
-                                <button type="submit" name="search" id="search-btn" class="btn btn-default" ng-click="ctrl.buscarLogOperacion(ctrl.operacion)"><i class="fa fa-search" data-placement="top" data-toggle="tooltip" title="Buscar"></i></button>
-                            </div>
+
+
                         </div>
-                        <br>
                     </div>
 
                     <div class="grid" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize></div>
@@ -36,7 +43,7 @@
             </div>
         </div>
     </section>
-</section>
+
 @section Scripts{
     <script src="~/scripts/appjs/logoperacion-controller.js"></script>
 }

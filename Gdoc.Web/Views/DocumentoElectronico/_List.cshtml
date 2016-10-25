@@ -1,11 +1,11 @@
 ﻿<div class="col-md-12">
-    <div class="box box-primary margin-top">
+    <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Mis Documentos Electronicos</h3>
-            <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('CreateAndEdit')"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>      
+            <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.CambiarVentana('CreateAndEdit')"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>      
         </div>
         <div class="box-body no-padding">
-                @*<br>
+                @*
                 <div class="col-md-2"></div>
                 <div class="col-md-6">
                     <div class="input-group">
@@ -19,7 +19,8 @@
                     <button class="btn btn-default" ng-click="ctrl.CambiarVentana('CreateAndEdit')"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
                 </div>
                 <div class="col-md-2"></div>*@
-            <div class="grid" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+            
         </div>
+        <div class="grid" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
     </div>
 </div>

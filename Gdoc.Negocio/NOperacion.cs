@@ -1093,7 +1093,7 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public short AnularDocumentoDigital(Operacion operacion)
+        public short AnularDocumentoDigital(Operacion operacion, Int64 IDusuario)
         {
             try
             {
@@ -1110,6 +1110,7 @@ namespace Gdoc.Negocio
                      if (usuario.TipoParticipante == Constantes.TipoParticipante.DestinatarioDD)
                          GrabarMensajeAlerta("009", operacion, usuario.IDUsuario, eUsuarioRemitente);
                  }
+                 GrabarLogOperacion("009", operacion, IDusuario);
                  return 1;
             }
             catch (Exception)
@@ -1118,7 +1119,7 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public short AnularMesaVirtual(Operacion operacion)
+        public short AnularMesaVirtual(Operacion operacion, Int64 IDusuario)
         {
              try
              {
@@ -1136,8 +1137,9 @@ namespace Gdoc.Negocio
                      if (usuario.TipoParticipante == Constantes.TipoParticipante.OrganizadorMV)
                          eUsuarioRemitente.Add(usuario);
                      if (usuario.TipoParticipante == Constantes.TipoParticipante.ColaboradorMV)
-                         GrabarMensajeAlerta("038", operacion, usuario.IDUsuario, eUsuarioRemitente);
+                         GrabarMensajeAlerta("037", operacion, usuario.IDUsuario, eUsuarioRemitente);
                  }
+                 GrabarLogOperacion("037", operacion, IDusuario);
                  return 1;
              }
              catch (Exception)
@@ -1146,7 +1148,7 @@ namespace Gdoc.Negocio
                  throw;
              }
          }
-        public short AnularDocumentoElectronico(Operacion operacion)
+        public short AnularDocumentoElectronico(Operacion operacion, Int64 IDusuario)
         {
             try
             {
@@ -1163,6 +1165,7 @@ namespace Gdoc.Negocio
                     if (usuario.TipoParticipante == Constantes.TipoParticipante.DestinatarioDE)
                         GrabarMensajeAlerta("040", operacion, usuario.IDUsuario, eUsuarioRemitente);
                 }
+                GrabarLogOperacion("040", operacion, IDusuario);
                 return 1;
             }
             catch (Exception)

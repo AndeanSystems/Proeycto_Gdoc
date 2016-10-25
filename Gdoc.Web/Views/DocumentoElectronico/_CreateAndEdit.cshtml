@@ -1,19 +1,16 @@
-﻿<br />
-<br />
-<br />
-<form role="form" name="frmDatos" novalidate>
-    <div class="row">
+﻿<form role="form" name="frmDatos" novalidate>
+
         <div class="col-md-4">
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Datos del Documento</h3>
-                    <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
-                    <button class="btn btn-default pull-right" ng-click="ctrl.nuevo()"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
+                    <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
+                    <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.nuevo()"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
                 </div>
                 <div class="box-body">
                     <div class="form-group no-margin-bottom">
-                        <label class="col-md-12">Tipo de Documento <span class="text-danger">(*)</span></label>
-                        <div class="col-md-12">
+                        <label class="col-sm-12">Tipo de Documento <span class="text-danger">(*)</span></label>
+                        <div class="col-sm-12">
                             <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
                                 <option value="">Seleccione</option>
                             </select>
@@ -21,8 +18,8 @@
                     </div>
 
                     <div class="form-group margin-bottom">
-                        <label class="col-md-12">Tipo de Comunicacion <span class="text-danger">(*)</span></label>
-                        <div class="col-md-12">
+                        <label class="col-sm-12">Tipo de Comunicacion <span class="text-danger">(*)</span></label>
+                        <div class="col-sm-12">
                             <select class="form-control" style="margin-bottom: 15px;" ng-model="ctrl.operacion.TipoComunicacion" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoComunicacion">
                                 <option value="">Seleccione</option>
                             </select>
@@ -30,15 +27,15 @@
                     </div>
 
                     <div class="form-group no-margin">
-                        <label class="col-md-4">Accesso <span class="text-danger">(*)</span></label>
+                        <label class="col-sm-4">Accesso <span class="text-danger">(*)</span></label>
                         <md-radio-group ng-model="ctrl.operacion.AccesoOperacion">
                             <md-radio-button style="display:inline-block;margin-right:2.8em;margin-left:1em;" value="{{ta.CodiConcepto}}" class="standard" ng-repeat="ta in ctrl.listTipoAcceso ">{{ta.DescripcionCorta}} </md-radio-button>
                         </md-radio-group>
                     </div>
 
                     <div class="form-group no-margin">
-                        <label class="col-md-12">Prioridad de Atención <span class="text-danger">(*)</span></label>
-                        <div class="col-md-12">
+                        <label class="col-sm-12">Prioridad de Atención <span class="text-danger">(*)</span></label>
+                        <div class="col-sm-12">
                             <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion ">
                                 <option value="">Seleccione</option>
                             </select>
@@ -46,35 +43,35 @@
                     </div>
 
                     <div class="form-group no-margin">
-                        <label class="col-md-6">Fecha Vigente</label>
-                        <label class="col-md-6">Fecha de Envio</label>
+                        <label class="col-sm-6">Fecha Vigente</label>
+                        <label class="col-sm-6">Fecha de Envio</label>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             @*@Html.TextBox("StudentName", System.DateTime.Now.AddDays(5), new { @class = "form-control", disabled = "true" }) <!--FALTA TERMINAR PASAR PARAMETRO DE TABLA GENERAL-->*@
                             <input type="date" class="form-control" ng-model="ctrl.operacion.FechaVigente" disabled="true">
 
                             @*<md-datepicker ng-model="ctrl.operacion.FechaVigente" disabled></md-datepicker>*@
 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <input type="date" class="form-control" ng-model="ctrl.operacion.FechaEnvio" disabled="true">
                             @*<md-datepicker ng-model="ctrl.operacion.FechaEnvio" disabled></md-datepicker>*@
                         </div>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-md-6">Fecha de Creación</label>
-                        <label class="col-md-6">Estado</label>
+                        <label class="col-sm-6">Fecha de Creación</label>
+                        <label class="col-sm-6">Estado</label>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <input type="date" class="form-control" ng-model="ctrl.operacion.FechaRegistro" disabled="true">
                             @*<md-datepicker ng-model="ctrl.operacion.FechaRegistro" disabled></md-datepicker>*@
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             @*<input type="text" ng-model="ctrl.operacion.EstadoOperacion" ng-init="Creado" ng-disabled="true" class="form-control" placeholder="Creado" />*@
                             <select class="form-control" ng-model="ctrl.operacion.EstadoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listEstado" disabled>
                                 @*<option value=""></option>*@
@@ -90,8 +87,8 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Documento Electronico</h3>
-                    <button ng-model="ctrl.Enviar" class="btn btn-default pull-right" ng-disabled="frmDatos.$invalid" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
-                    <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+                    <button class="btn btn-default pull-right btn-sm" ng-model="ctrl.Enviar" ng-disabled="frmDatos.$invalid" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
+                    <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
                 </div><!-- /.box-header -->
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#Datos">Datos</a></li>
@@ -121,7 +118,7 @@
                                     <div class="col-sm-12">
                                         <label>{{ctrl.listDocumentoAdjunto.length}} adjuntos</label>
                                         @*<input type="file" id="input_file" onchange="ReadFileToBinary(this)" multiple style="display:initial;">*@
-                                        <button class="btn btn-default pull-right"  ng-click="ctrl.listarAdjunto()" ng-disabled="false"><i class="fa fa-paperclip" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true"></i></button>
+                                        <button class="btn btn-default pull-right btn-sm"  ng-click="ctrl.listarAdjunto()" ng-disabled="false"><i class="fa fa-paperclip" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true"></i></button>
                                     </div>
                                 </div>
 
@@ -130,7 +127,7 @@
                                     <div class="col-sm-12">
                                         <label>{{ctrl.listDocumentoAdjuntoR.length}} adjuntos</label>
                                         @*<input type="file" id="input_file" onchange="ReadFileToBinary(this)" multiple style="display:initial;">*@
-                                        <button class="btn btn-default pull-right" ng-click="ctrl.listarAdjuntoR()" ng-disabled="false"><i class="fa fa-share" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true"></i></button>
+                                        <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.listarAdjuntoR()" ng-disabled="false"><i class="fa fa-share" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true"></i></button>
                                     </div>
                                 </div>
 
@@ -312,5 +309,5 @@
                 </div>
             </div>
         </div>
-    </div>
+
 </form>

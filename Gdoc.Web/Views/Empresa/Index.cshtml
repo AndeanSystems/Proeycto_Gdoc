@@ -1,19 +1,17 @@
-﻿<!-- Content Header (Page header) -->
-<section class="content-header">
-    <section class="content" ng-controller="empresa_controller as ctrl" ng-cloak>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box box-primary margin-top">
-                    <div class="box-header with-border">
-                        <div class="col-md-10">
-                            <h3 class="box-title">Empresas</h3>
-                        </div>
-                        
-                        <button class="btn btn-default" style="right:auto" ng-click="ctrl.CambiarVentana()"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
-                    </div>
-                    <div class="box-body no-padding">
+﻿<section class="content-header">
+</section>
+<section class="content" ng-controller="empresa_controller as ctrl" ng-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Empresas</h3>
 
-                        @*<div class="row">
+                    <button class="btn btn-default pull-right btn-sm"  ng-click="ctrl.CambiarVentana()"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
+                </div>
+                <div class="box-body no-padding">
+
+                    @*<div class="row">
                             <br>
 
                             <div class="col-md-2">
@@ -38,15 +36,14 @@
                         </div>*@
 
 
-                    </div>
-                    <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
-                    
                 </div>
+                <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+
             </div>
         </div>
-        <!--modal de editor-->
-        @Html.Partial("_CreateAndEdit")
-    </section>
+    </div>
+    <!--modal de editor-->
+    @Html.Partial("_CreateAndEdit")
 </section>
 @section Scripts{
     <script src="~/scripts/appjs/empresa-controller.js"></script>

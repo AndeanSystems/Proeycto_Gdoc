@@ -1,13 +1,13 @@
 ﻿<section class="content-header">
-    <section class="content" ng-controller="alerta_controller as ctrl" ng-cloak>
-        <div class="row " ng-if="ctrl.visible == 'List'">
-            @Html.Partial("_List")
-        </div>
-        <div class="row" ng-if="ctrl.visible == 'ListComentarioProveido'">
-            @Html.Partial("_ListComentarioProveido")
-        </div> 
-    </section>
 
+</section>
+<section class="content" ng-controller="alerta_controller as ctrl" ng-cloak>
+    <div class="row " ng-if="ctrl.visible == 'List'">
+        @Html.Partial("_List")
+    </div>
+    <div class="row" ng-if="ctrl.visible == 'ListComentarioProveido'">
+        @Html.Partial("_ListComentarioProveido")
+    </div>
 </section>
 @section Scripts{
 <script src="~/scripts/appjs/alerta-controller.js"></script>

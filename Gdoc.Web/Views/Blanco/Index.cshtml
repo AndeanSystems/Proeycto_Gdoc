@@ -1,28 +1,24 @@
 ﻿<section class="content-header">
-    <section class="content">
-        @if (TempData["Message"] != null)
-        {
-            <script>
-                swal("Información","No tiene acceso");
-            </script>
-        }
-        <div class="row">
-            <br />
-            <br />
-            <br />
-            <form>
-                <div class="row">
-                    <div class="col-md-12">
-                        <img src="~/resources/img/fondo_docweb2b.png" style="max-width:100%;height:auto" />
-                        @*<img src="~/resources/img/fondo_docweb1b.png" style="background-size:cover" />*@
-                        @*<script language="javascript">document.write("<IMG SRC=" + imagealeatoire() + " width=1325 height=650 >");</script>*@
-                    </div>
-                </div>
-            </form>
-        </div>
-
-    </section>
+    
 </section>
+<section class="content">
+    @if (TempData["Message"] != null)
+    {
+        <script>
+            swal("Información", "No tiene acceso");
+        </script>
+    }
+    <div class="row">
+        <div class="col-md-12">
+            <img src="~/resources/img/fondo_docweb2b.png" style="max-width:100%;height:auto" />
+            @*<img src="~/resources/img/fondo_docweb1b.png" style="background-size:cover" />*@
+            @*<script language="javascript">document.write("<IMG SRC=" + imagealeatoire() + " width=1325 height=650 >");</script>*@
+        </div>
+    </div>
+
+</section>
+
+
 
 <script language="javascript">
 
@@ -62,6 +58,3 @@
 
     </script>
 
-@*@section Scripts{
-    <script src="~/scripts/appjs/blanco-controller.js"></script>
-}*@

@@ -8,6 +8,7 @@
         var context = this;
         let TipoOperacion = "003";
         context.operacion = {};
+        context.FechaBusqueda = new Date();
 
         LlenarConcepto(TipoOperacion);
         context.gridOptions = {
@@ -17,8 +18,9 @@
             data: [],
             appScopeProvider: context,
             columnDefs: [
-                { field: 'Usuario.NombreUsuario', width: '25%', displayName: 'Usuario' },
-                { field: 'Evento.DescripcionConcepto', width: '75%', displayName: 'Comentario' }
+                { field: 'Usuario.NombreUsuario', width: '20%', displayName: 'Usuario' },
+                { field: 'Evento.DescripcionConcepto', width: '60%', displayName: 'Evento' },
+                { field: 'FechaEvento', width: '20%', displayName: 'Fecha Evento', type: 'date', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm"' }
             ]
         };
         //Eventos
@@ -36,6 +38,14 @@
             appService.listarConcepto(concepto).success(function (respuesta) {
                 if (concepto.TipoConcepto == TipoOperacion)
                     context.listTipoOperacion = respuesta;
+            });
+        }
+        function listarAlertaPorFecha(fecha) {
+            dataProvider.postData("LogOperacion/ListarLogOperacionPorFechas", { fecha: fecha }).success(function (respuesta) {
+                context.gridOptions.data = respuesta;
+                console.log(respuesta);
+            }).error(function (error) {
+                //MostrarError();
             });
         }
         //Carga

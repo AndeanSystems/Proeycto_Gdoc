@@ -154,10 +154,11 @@ namespace Gdoc.Web.Controllers
         {
             try
             {
+                Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                 using (var oOperacion = new NOperacion())
                 {
                     operacion.EstadoOperacion = Estados.EstadoOperacion.Inactivo;
-                    var respuesta = oOperacion.AnularDocumentoElectronico(operacion);
+                    var respuesta = oOperacion.AnularDocumentoElectronico(operacion, IDusuario);
                     mensajeRespuesta.Exitoso = true;
                     mensajeRespuesta.Mensaje = "Documento Electronico Inactivo";
                 }

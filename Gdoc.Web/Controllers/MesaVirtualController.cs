@@ -180,10 +180,11 @@ namespace Gdoc.Web.Controllers
         {
             try
             {
+                Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                 using (var oOperacion = new NOperacion())
                 {
                     operacion.EstadoOperacion = Estados.EstadoOperacion.Inactivo;
-                    var respuesta = oOperacion.AnularMesaVirtual(operacion);
+                    var respuesta = oOperacion.AnularMesaVirtual(operacion, IDusuario);
                     mensajeRespuesta.Exitoso = true;
                     mensajeRespuesta.Mensaje = "Grupo de Trabajo Inactivo";
                 }

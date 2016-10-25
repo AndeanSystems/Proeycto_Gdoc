@@ -1,16 +1,17 @@
 ﻿<!-- Content Header (Page header) -->
 <section class="content-header">
-    <section class="content" ng-controller="documentoelectronico_controller as ctrl" layout="column" ng-cloak>
-        <div class="row" ng-if="ctrl.visible == 'List'">
-            @Html.Partial("_List")
-        </div>
-        <div class="row" ng-if="ctrl.visible == 'CreateAndEdit'">
-            @Html.Partial("_CreateAndEdit")
-        </div>
-        <div class="row" ng-if="ctrl.visible == 'ComentarioProveido'">
-            @Html.Partial("_ComentarioProveido")
-        </div>
-    </section>
+    
+</section>
+<section class="content" ng-controller="documentoelectronico_controller as ctrl" layout="column" ng-cloak>
+    <div class="row" ng-if="ctrl.visible == 'List'">
+        @Html.Partial("_List")
+    </div>
+    <div class="row" ng-if="ctrl.visible == 'CreateAndEdit'">
+        @Html.Partial("_CreateAndEdit")
+    </div>
+    <div class="row" ng-if="ctrl.visible == 'ComentarioProveido'">
+        @Html.Partial("_ComentarioProveido")
+    </div>
 </section>
 @section Scripts{
     <script src="~/Content/plugins/ckeditor/ckeditor.js"></script>

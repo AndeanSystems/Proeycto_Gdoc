@@ -1,64 +1,65 @@
-﻿@model Gdoc.Entity.Models.Operacion
-<section class="content-header">
-    <section class="content" ng-controller="busqueda_controller as ctrl" ng-cloak>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box box-primary margin-top">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Búsqueda</h3>
-                        <button class="btn btn-default btn-sm pull-right" ng-click="ctrl.buscarOperacion(ctrl.operacion,ctrl.indexacion)"><i data-placement="top" data-toggle="tooltip" title="Buscar" class="fa fa-search"></i></button>
+﻿<section class="content-header">
+    
+</section>
+<section class="content" ng-controller="busqueda_controller as ctrl" ng-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Búsqueda</h3>
+                    <button class="btn btn-default btn-sm pull-right" ng-click="ctrl.buscarOperacion(ctrl.operacion,ctrl.indexacion)"><i data-placement="top" data-toggle="tooltip" title="Buscar" class="fa fa-search"></i></button>
 
-                         @using (Html.BeginForm("DescargarExcel", "Busqueda", FormMethod.Post, new { @class = "pull-right" }))
-                        {
-                             <button class="btn btn-default btn-sm pull-right" type="submit"><i data-placement="top" data-toggle="tooltip" title="Excel" class="fa fa-file-excel-o"></i></button>
-                        }
-                        
-                    </div>
+                    @using (Html.BeginForm("DescargarExcel", "Busqueda", FormMethod.Post, new { @class = "pull-right" }))
+                    {
+                        <button class="btn btn-default btn-sm pull-right" type="submit"><i data-placement="top" data-toggle="tooltip" title="Excel" class="fa fa-file-excel-o"></i></button>
+                    }
 
-                    <div class="box-body" >
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label style="font-weight: normal;">Tipo de Operacion</label>
-                                <select class="form-control" ng-model="ctrl.operacion.TipoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoOperacion" ng-change="ctrl.obtenerTipoDocumento(ctrl.operacion.TipoOperacion)">
-                                    <option value="">Seleccione</option>
-                                </select>
-                            </div>
+                </div>
 
-                            <div class="col-sm-3">
-                                <label style="font-weight: normal;">Tipo de Documento</label>
-                                <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
-                                    <option value="">Seleccione</option>
-                                </select>
-                            </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label style="font-weight: normal;">Tipo de Operacion</label>
+                            <select class="form-control" ng-model="ctrl.operacion.TipoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoOperacion" ng-change="ctrl.obtenerTipoDocumento(ctrl.operacion.TipoOperacion)">
+                                <option value="">Seleccione</option>
+                            </select>
+                        </div>
 
-                            @*<div class="col-sm-6">
+                        <div class="col-sm-3">
+                            <label style="font-weight: normal;">Tipo de Documento</label>
+                            <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
+                                <option value="">Seleccione</option>
+                            </select>
+                        </div>
+
+                        @*<div class="col-sm-6">
                                 <label style="font-weight: normal;">Buscar</label>
                                 <input type="text" class="form-control" placeholder="Buscar Mesa Virtual">
                                 <span class="glyphicon   form-control-feedback"></span>
                             </div>*@
 
-                            <div class="col-sm-3">
-                                <label style="font-weight: normal;">Fecha Registro</label>
-                                <div class="col-md-12">
-                                    <md-datepicker ng-model="ctrl.operacion.FechaEmision"></md-datepicker>
-                                </div>
-                                @*<input ng-model="ctrl.FechaDesde" type="date" class="form-control">*@
+                        <div class="col-sm-3">
+                            <label style="font-weight: normal;">Fecha Registro</label>
+                            <div class="col-md-12">
+                                <md-datepicker ng-model="ctrl.operacion.FechaEmision"></md-datepicker>
                             </div>
+                            @*<input ng-model="ctrl.FechaDesde" type="date" class="form-control">*@
+                        </div>
 
-                            <div class="col-sm-3">
-                                <label style="font-weight: normal;">Hasta</label>
-                                @*<input ng-model="ctrl.FechaHasta" type="date" class="form-control">*@
-                                <div class="col-md-12">
-                                    <md-datepicker ng-model="ctrl.operacion.FechaRegistro"></md-datepicker>
-                                </div>
+                        <div class="col-sm-3">
+                            <label style="font-weight: normal;">Hasta</label>
+                            @*<input ng-model="ctrl.FechaHasta" type="date" class="form-control">*@
+                            <div class="col-md-12">
+                                <md-datepicker ng-model="ctrl.operacion.FechaRegistro"></md-datepicker>
                             </div>
+                        </div>
 
-                            @*<div class="col-sm-3">
+                        @*<div class="col-sm-3">
                                 <label style="font-weight: normal;">Remitente</label>
                                 <input type="text" class="form-control" placeholder="Remitente">
                             </div>*@
 
-                            @*<div class="col-md-3">
+                        @*<div class="col-md-3">
                                 <label style="font-weight: normal;">Remitente</label>
                                 <md-content>
                                     <form ng-submit="$event.preventDefault()">
@@ -82,12 +83,12 @@
 
                             </div>*@
 
-                            @*<div class="col-sm-3">
+                        @*<div class="col-sm-3">
                                 <label style="font-weight: normal;">Destinatario</label>
                                 <input type="email" class="form-control" id="Email1" placeholder="Destinatario">
                             </div>*@
 
-                            @*<div class="col-md-3">
+                        @*<div class="col-md-3">
                                 <label style="font-weight: normal;">Destinatario</label>
                                 <md-content>
                                     <form ng-submit="$event.preventDefault()">
@@ -111,57 +112,55 @@
 
                             </div>*@
 
-                            <div class="col-sm-3" >
-                                <label style="font-weight: normal;">Descripción</label>
-                                <input ng-model="ctrl.indexacion.DescripcionIndice" type="text" class="form-control" placeholder="Referencia">
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
-                </div>
-            </div>
-
-        </div>
-
-        <!--MODAL ADJUNTOS-->
-        <div class="modal fade" id="modal_adjuntos">
-            <div class="modal-dialog modal-lg" style="width:50%;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Documentos Adjuntos</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="box box-primary">
-                                    <table class="table table-hover table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>Abrir</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in ctrl.listDocumentoAdjunto">
-                                                <td>{{item.NombreOriginal}}</td>
-                                                <td>
-                                                    <i class="fa fa-folder-open-o" ng-click="ctrl.mostrarAdjuntoWindows(item)" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Abrir"></i>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        <div class="col-sm-3">
+                            <label style="font-weight: normal;">Descripción</label>
+                            <input ng-model="ctrl.indexacion.DescripcionIndice" type="text" class="form-control" placeholder="Referencia">
                         </div>
                     </div>
+
+                </div>
+                <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--MODAL ADJUNTOS-->
+    <div class="modal fade" id="modal_adjuntos">
+        <div class="modal-dialog modal-lg" style="width:50%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Documentos Adjuntos</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-primary">
+                                <table class="table table-hover table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Abrir</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in ctrl.listDocumentoAdjunto">
+                                            <td>{{item.NombreOriginal}}</td>
+                                            <td>
+                                                <i class="fa fa-folder-open-o" ng-click="ctrl.mostrarAdjuntoWindows(item)" style="padding: 4px;font-size: 1.4em;" data-placement="top" data-toggle="tooltip" title="Abrir"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </section>
-
 
 @section Scripts{
     <script src="~/scripts/appjs/busqueda-controller.js"></script>

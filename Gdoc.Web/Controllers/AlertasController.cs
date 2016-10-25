@@ -61,7 +61,6 @@ namespace Gdoc.Web.Controllers
         {
             try
             {
-                DateTime a123 = Convert.ToDateTime(fecha);
                 var listMensajeAlerta = new List<EMensajeAlerta>();
                 using (var oMensajeAlerta = new NMensajeAlerta())
                 {

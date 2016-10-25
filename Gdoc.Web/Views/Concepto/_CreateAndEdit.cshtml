@@ -13,10 +13,8 @@
                             <div class="box box-primary">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Opciones del Concepto</h3>
-                                </div><!-- /.box-header -->
-                                <!-- form start -->
-                                <form role="form" novalidate name="frmConcepto">
-                                    <div class="box-body no-padding">
+                                </div>
+                                <div class="box-body no-padding">
 
                                         <div class="form-group no-margin-bottom">
                                             <label>Tipo de Concepto <span class="text-danger">(*)</span></label>
@@ -50,7 +48,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                </form>
                             </div>
                         </div><!-- /.col -->
 
@@ -61,9 +58,7 @@
                                     @*<button class="btn btn-default pull-right" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>*@
                                     @*<button class="btn btn-default pull-right" ng-click="ctrl.grabar()"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>*@
                                     <button class="btn btn-default pull-right" ng-click="ctrl.grabar()" ng-disabled="frmConcepto.$invalid"><i class="fa fa-floppy-o" data-placement="top" title="Guardar"></i></button>
-                                </div><!-- /.box-header -->
-
-                                <form role="form">
+                                </div>
                                     <div class="box-body no-padding">
 
                                         <div class="form-group no-margin-bottom">
@@ -86,7 +81,6 @@
                                             <input type="text" class="form-control" placeholder="Texto2" ng-model="ctrl.concepto.TextoDos">
                                         </div>
                                     </div>
-                                </form>
                             </div>
                         </div>
                         <div class="modal-footer">

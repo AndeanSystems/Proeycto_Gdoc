@@ -1,20 +1,16 @@
-﻿<div class="row">
-    <div class="col-md-12">
-        <div class="box box-primary margin-top">
-            <div class="box-header with-border">
-                <h3 class="box-title">Alertas Recibidas</h3>
-                <div class="pull-right">
-                    <button ng-click="ctrl.FechaAnterior()" type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-chevron-left"></i></button>
-                    <label ng-model="crtl.FechaBusqueda">{{ctrl.FechaBusqueda | date:"dd MMM yyyy "}}</label>
-                    <button ng-click="ctrl.FechaPosterior()" type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-chevron-right"></i></button>
-                </div>
-            </div>
-            <div class="box-body no-padding">
-                <div class="table-responsive mailbox-messages" style="resize:both">
-                    <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
-
-                </div>
+﻿<div class="col-md-12">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Alertas Recibidas</h3>
+            <div class="pull-right">
+                <button ng-click="ctrl.FechaAnterior()" type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                <label ng-model="crtl.FechaBusqueda">{{ctrl.FechaBusqueda | date:"dd MMM yyyy "}}</label>
+                <button ng-click="ctrl.FechaPosterior()" type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-chevron-right"></i></button>
             </div>
         </div>
+        <div class="box-body no-padding">
+        </div>
+        <div class="grid" style="font-size: 12px; height: 400px" ui-grid="ctrl.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+
     </div>
 </div>
