@@ -39,14 +39,13 @@ namespace Gdoc.Common.Utilitario
             PdfWriter.GetInstance(document, ms);
             //Traer ruta de imagenes.. logos 
             document.Header = GenerarHeader(IDEmpresa, "FEPCMAC_Logo2.jpg", rutaPDF, tipodocumento, destinatario, remitente,  asunto);
-            if (tipocomunicacion != "1")
-                document.Footer = GenerarFooter(sFooter); ;
-
             document.Open();
             if (tipodoc!="06")
                 GenerarCabecera(ref document, tipodocumento, destinatario, remitente, asunto);
             GenerarBody(ref document, sBodyTexto);
             GenerarFirmas(ref document,listremitentes,rutaFirma,listfirmaUsuario);
+            if (tipocomunicacion != "1")
+                document.Footer = GenerarFooter(sFooter); ;
             document.Close();
 
             byte[] byteArray = ms.ToArray();
@@ -196,7 +195,7 @@ namespace Gdoc.Common.Utilitario
                         PdfPCell cell = new PdfPCell(firma1);
                         cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
                         cell.Border = 0;
-                        cell.PaddingTop = 50;
+                        cell.PaddingTop = 5;//50
 
                         tabla2.AddCell(cell);
                     }
@@ -235,59 +234,59 @@ namespace Gdoc.Common.Utilitario
             cell.Colspan = 2;
             cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
             cell.Border = 0;
-            cell.BorderWidthTop = 0.75f;
-            cell.PaddingTop = 20;
-            cell.PaddingBottom = 30;
+            //cell.BorderWidthTop = 0.75f;
+            //cell.PaddingTop = 20;
+            cell.PaddingBottom = 5;//30
             tblPrueba.AddCell(cell);
 
             PdfPCell space2 = new PdfPCell(new Phrase("Para:", fonttabla));
             space2.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             space2.Border = 0;
-            space2.PaddingBottom = 20;
+            //space2.PaddingBottom = 20;
             tblPrueba.AddCell(space2);
 
             PdfPCell destinatario = new PdfPCell(new Phrase(destinatarios, fonttabla));
             destinatario.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             destinatario.Border = 0;
-            destinatario.PaddingBottom = 20;
+            //destinatario.PaddingBottom = 20;
             tblPrueba.AddCell(destinatario);
 
             PdfPCell de = new PdfPCell(new Phrase("De:", fonttabla));
             de.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             de.Border = 0;
-            de.PaddingBottom = 20;
+            //de.PaddingBottom = 20;
             tblPrueba.AddCell(de);
 
             PdfPCell remitente = new PdfPCell(new Phrase(remitentes, fonttabla));
             remitente.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             remitente.Border = 0;
-            remitente.PaddingBottom = 20;
+            //remitente.PaddingBottom = 20;
             tblPrueba.AddCell(remitente);
 
             PdfPCell tres = new PdfPCell(new Phrase("Asunto:", fonttabla));
             tres.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             tres.Border = 0;
-            tres.PaddingBottom = 20;
+            //tres.PaddingBottom = 20;
             tblPrueba.AddCell(tres);
 
             PdfPCell asunto = new PdfPCell(new Phrase(asuntos, fonttabla));
             asunto.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             asunto.Border = 0;
-            asunto.PaddingBottom = 20;
+            //asunto.PaddingBottom = 20;
             tblPrueba.AddCell(asunto);
 
             PdfPCell fecha = new PdfPCell(new Phrase("Fecha:", fonttabla));
             fecha.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             fecha.Border = 0;
-            fecha.PaddingBottom = 20;
-            fecha.BorderWidthBottom = 1.00f;
+            //fecha.PaddingBottom = 20;
+            //fecha.BorderWidthBottom = 1.00f;
             tblPrueba.AddCell(fecha);
 
             PdfPCell hoy = new PdfPCell(new Phrase(System.DateTime.Now.ToLongDateString(), fonttabla));
             hoy.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             hoy.Border = 0;
-            hoy.PaddingBottom = 20;
-            hoy.BorderWidthBottom = 1.00f;
+            //hoy.PaddingBottom = 20;
+            //hoy.BorderWidthBottom = 1.00f;
             tblPrueba.AddCell(hoy);
 
 

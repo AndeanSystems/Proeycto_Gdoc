@@ -47,9 +47,9 @@ function ReadFileToBinary(control) {
             if (archivosSelecionados == undefined || archivosSelecionados == "" || archivosSelecionados == null) {
                 return appService.mostrarAlerta("Advertencia", "Debe adjuntar una firma", "warning");
             }
-            if (usuario.FirmaElectronicaNueva == undefined || usuario.FirmaElectronicaNueva == "") {
-                return appService.mostrarAlerta("Advertencia", "Ingrese caracteres", "warning");
-            }
+            //if (usuario.FirmaElectronicaNueva == undefined || usuario.FirmaElectronicaNueva == "") {
+            //    return appService.mostrarAlerta("Advertencia", "Ingrese caracteres", "warning");
+            //}
             else {
 
                 let listoFirmas = [];

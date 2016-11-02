@@ -42,6 +42,9 @@ namespace Gdoc.Web.Controllers
         }
         public ActionResult Index()
         {
+            if (Session["ListaAccesos"] == null)
+                return RedirectToAction("Index", "Home");
+
             var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 8 && x.EstadoAcceso == 1).FirstOrDefault();
 
             if (listAcceso != null)
@@ -55,6 +58,9 @@ namespace Gdoc.Web.Controllers
         }
         public ActionResult CambiarContraseña()
         {
+            if (Session["ListaAccesos"] == null)
+                return RedirectToAction("Index", "Home");
+
             var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 20 && x.EstadoAcceso == 1).FirstOrDefault();
 
             if (listAcceso != null)
@@ -67,6 +73,9 @@ namespace Gdoc.Web.Controllers
         }
         public ActionResult CambiarFirmaElectronica()
         {
+            if (Session["ListaAccesos"] == null)
+                return RedirectToAction("Index", "Home");
+
             var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 21 && x.EstadoAcceso == 1).FirstOrDefault();
 
             if (listAcceso != null)

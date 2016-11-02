@@ -23,6 +23,9 @@ namespace Gdoc.Web.Controllers
         // GET: /DocumentoElectronico/
         public ActionResult Index()
         {
+            if (Session["ListaAccesos"] == null)
+                return RedirectToAction("Index", "Home");
+
             var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x=>x.IDModuloPagina==2 && x.EstadoAcceso==1).FirstOrDefault();
 
             if (listAcceso != null)

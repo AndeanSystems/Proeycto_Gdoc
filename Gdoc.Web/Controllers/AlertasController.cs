@@ -18,6 +18,9 @@ namespace Gdoc.Web.Controllers
         {
             using (var NUsuario = new NUsuario())
             {
+                if (Session["IDUsuario"] == null)
+                    return RedirectToAction("Index", "Home");
+
                 var usuarioe = new EUsuario() { IDUsuario = Convert.ToInt32(Session["IDUsuario"]), NombreUsuario = Session["NombreUsuario"].ToString() };
 
 

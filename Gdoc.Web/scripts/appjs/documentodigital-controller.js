@@ -173,7 +173,9 @@ function ReadFileToBinary(control) {
 
                 context.mesavirtualComentario = {};
             }
-            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+            function cancelarFormulario() {
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
         }
         //Eventos
         context.mostrarPDF = function (rowIndex) {
@@ -284,6 +286,7 @@ function ReadFileToBinary(control) {
             }
             if (size >= context.listParametros[0].TamanoMaxArchivos)
                 return appService.mostrarAlerta("Información", "Se excedio el tamaño maximo en archivos adjuntos", "warning")
+
             function enviarFomularioOK() {
                 dataProvider.postData("DocumentoDigital/Grabar", { Operacion: Operacion, listDocumentoDigitalOperacion: listDocumentoDigitaloOperacion, listEUsuarioGrupo: listEUsuarioGrupo, listIndexacion: listIndexacionDocumento }).success(function (respuesta) {
                     console.log(respuesta);

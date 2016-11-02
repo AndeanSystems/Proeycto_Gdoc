@@ -14,26 +14,36 @@ namespace Gdoc.Web.Controllers
         // GET: /Blanco/
         public ActionResult Index()
         {
-            using (var NUsuario = new NUsuario())
+            try
             {
-                var usuarioe = new EUsuario() { IDUsuario = Convert.ToInt32(Session["IDUsuario"]), NombreUsuario = Session["NombreUsuario"].ToString() };
+                using (var NUsuario = new NUsuario())
+                {
+                    if (Session["IDUsuario"] == null)
+                        return RedirectToAction("Index", "Home");
 
+                    var usuarioe = new EUsuario() { IDUsuario = Convert.ToInt32(Session["IDUsuario"]), NombreUsuario = Session["NombreUsuario"].ToString() };
+                    var CantidadAlerta = NUsuario.CantidadAlerta(usuarioe);
+                    var CantidadDocumentosRecibidos = NUsuario.CantidadDocumentosRecibidos(usuarioe);
+                    var CantidadMesaVirtual = NUsuario.CantidadMesaVirtual(usuarioe);
+                    //CONTADORES
+                    if (CantidadAlerta != null) Session["CantidadAlerta"] = CantidadAlerta.CantidadAlerta;
+                    else Session["CantidadAlerta"] = 0;
+                    //---
+                    if (CantidadDocumentosRecibidos != null) Session["CantidadDocumentosRecibidos"] = CantidadDocumentosRecibidos.CantidadDocumentosRecibidos;
+                    else Session["CantidadDocumentosRecibidos"] = 0;
+                    //---
+                    if (CantidadMesaVirtual != null) Session["CantidadMesaVirtual"] = CantidadMesaVirtual.CantidadMesasVirtual;
+                    else Session["CantidadMesaVirtual"] = 0;
 
-                var CantidadAlerta = NUsuario.CantidadAlerta(usuarioe);
-                var CantidadDocumentosRecibidos = NUsuario.CantidadDocumentosRecibidos(usuarioe);
-                var CantidadMesaVirtual = NUsuario.CantidadMesaVirtual(usuarioe);
-                //CONTADORES
-                if (CantidadAlerta != null) Session["CantidadAlerta"] = CantidadAlerta.CantidadAlerta;
-                else Session["CantidadAlerta"] = 0;
-                //---
-                if (CantidadDocumentosRecibidos != null) Session["CantidadDocumentosRecibidos"] = CantidadDocumentosRecibidos.CantidadDocumentosRecibidos;
-                else Session["CantidadDocumentosRecibidos"] = 0;
-                //---
-                if (CantidadMesaVirtual != null) Session["CantidadMesaVirtual"] = CantidadMesaVirtual.CantidadMesasVirtual;
-                else Session["CantidadMesaVirtual"] = 0;
-
-                return View();
+                    return View();
+                }
             }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
 
     }

@@ -20,6 +20,9 @@ namespace Gdoc.Web.Controllers
         // GET: /DocumentoDigital/
         public ActionResult Index()
         {
+            if (Session["ListaAccesos"] == null)
+                return RedirectToAction("Index", "Home");
+
             var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 3 && x.EstadoAcceso == 1).FirstOrDefault();
 
             if (listAcceso != null)
@@ -32,11 +35,11 @@ namespace Gdoc.Web.Controllers
         }
         public JsonResult Grabar(Operacion operacion, List<DocumentoDigitalOperacion> listDocumentoDigitalOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, List<IndexacionDocumento> listIndexacion)
         {
+            
             try
             {
                 using (var oOperacion = new NOperacion())
                 {
-
                     Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
                     if (operacion.IDOperacion > 0)
                     {

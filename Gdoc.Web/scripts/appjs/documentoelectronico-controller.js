@@ -175,7 +175,9 @@ function ReadFileToBinary(control) {
 
                 context.mesavirtualComentario = {};
             }
-            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+            function cancelarFormulario() {
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK,cancelarFormulario);
         }
         //Eventos
         //Visualizacion

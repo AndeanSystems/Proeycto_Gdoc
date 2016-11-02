@@ -125,7 +125,9 @@
 
                 context.mesavirtualComentario = {};
             }
-            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK);
+            function cancelarFormulario() {
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
         }
         context.gridOptions = {
             paginationPageSizes: [25, 50, 75],

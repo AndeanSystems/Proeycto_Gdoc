@@ -12,6 +12,7 @@ namespace WebGdoc_MVC.Controllers
         //
         // GET: /Home/
 
+        
         public ActionResult Index()
         {
             Session.Clear();

@@ -17,6 +17,9 @@ namespace Gdoc.Web.Controllers
         // GET: Concepto
         public ActionResult Index()
         {
+            if (Session["ListaAccesos"] == null)
+                return RedirectToAction("Index", "Home");
+
             var listAcceso = ((List<AccesoSistema>)Session["ListaAccesos"]).Where(x => x.IDModuloPagina == 15 && x.EstadoAcceso == 1).FirstOrDefault();
 
             if (listAcceso != null)

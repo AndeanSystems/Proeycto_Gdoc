@@ -5,7 +5,7 @@
                 <h3 class="box-title">Nota Proveido</h3>
                 <button class="btn btn-default pull-right" ng-disabled="frmDatos.$invalid" ng-click="ctrl.grabarComentarioProveido()"><i class="fa fa-paper-plane" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
 
-                <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Grupos de Trabajo"></i></button>
+                <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Documentos"></i></button>
             </div>
 
             <div class="box-body">
@@ -55,7 +55,7 @@
                 <div class="form-group">
                     <label class="col-sm-12">Nota</label>
                     <div class="col-sm-12">
-                        <textarea ng-model="ctrl.mesavirtualComentario.ComentarioMesaVirtual" style="resize:inherit;height:60px" class="form-control" required></textarea>
+                        <textarea maxlength="150" ng-model="ctrl.mesavirtualComentario.ComentarioMesaVirtual" class="form-control" required></textarea>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                 <button class="btn btn-default pull-right" ng-click="ctrl.recargarComentario()"><span class="fa fa-refresh" data-placement="top" data-toggle="tooltip" title="Refrescar"></span></button>
             </div>
             <div class="box-body no-padding">
-                <div class="grid" style="font-size: 12px; height: 200px" ui-grid="ctrl.gridComentarios"></div>
+                <div class="grid" style="font-size: 12px; height: 200px" ui-grid="ctrl.gridComentarios" ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
             </div>
         </div>
     </div>
