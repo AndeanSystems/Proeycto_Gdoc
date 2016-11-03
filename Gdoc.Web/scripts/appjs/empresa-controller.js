@@ -1,15 +1,18 @@
-﻿(function () {
+﻿let TipoMensaje = "warning";
+(function () {
     'use strict';
 
     angular.module('app').controller('empresa_controller', empresa_controller);
-    empresa_controller.$inject = ['$location', 'app_factory'];
+    empresa_controller.$inject = ['$location', 'app_factory', 'appService'];
 
-    function empresa_controller($location, dataProvider) {
+    function empresa_controller($location, dataProvider, appService) {
         /* jshint validthis:true */
         ///Variables
         var context = this;
         context.empresa = {};
-        
+        context.codigodepartamento = {};
+        context.codigoprovincia = {};
+        context.codigodistrito = {};
         //comienzo
         context.empresa.EstadoEmpresa = '0';
         //Eventos
@@ -25,20 +28,9 @@
             $("#modal_contenido").modal("show");
         };
 
-        context.conformifad = function () {
-            //$("#modal_conformidad").modal("show");
-            $("#modal_prueba2").modal("show");
-            
-        };
-
-        context.clave = function () {
-            $("#modal_clave").modal("show");
-        };
-
         context.eliminarEmpresa = function (rowIndex) {
             var empresa = context.gridOptions.data[rowIndex];
             dataProvider.postData("Empresa/EliminarEmpresa", empresa).success(function (respuesta) {
-                console.log(respuesta);
                 listarEmpresa();
             }).error(function (error) {
                 //MostrarError();
@@ -70,50 +62,42 @@
         };
 
         context.grabar = function () {
-            swal({
-                title: "¿Seguro que deseas continuar?",
-                text: "No podrás deshacer este paso...",
-                type: "warning",
-                showCancelButton: true,
-                cancelButtonText: "Cancelar",
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Aceptar",
-                closeOnConfirm: false
-            },
-            function () {
-                console.log(context.empresa);
-                var empresa = context.empresa;
-                var departamento, provincia, distrito;
+            var empresa = context.empresa;
+            var departamento, provincia, distrito;
 
-                departamento = (context.codigodepartamento < 10) ? "0" + context.codigodepartamento : context.codigodepartamento.toString();
-                provincia = (context.codigoprovincia < 10) ? "0" + context.codigoprovincia : context.codigoprovincia.toString();
-                distrito = (context.codigodistrito < 10) ? "0" + context.codigodistrito : context.codigodistrito.toString();
+            departamento = (context.codigodepartamento < 10) ? "0" + context.codigodepartamento : context.codigodepartamento.toString();
+            provincia = (context.codigoprovincia < 10) ? "0" + context.codigoprovincia : context.codigoprovincia.toString();
+            distrito = (context.codigodistrito < 10) ? "0" + context.codigodistrito : context.codigodistrito.toString();
 
-                //if (numeroboton == 1)
-                //    empresa.EstadoEmpresa = 0
-                //else if(numeroboton == 2)
-                //empresa.EstadoEmpresa = 1
+            //if (numeroboton == 1)
+            //    empresa.EstadoEmpresa = 0
+            //else if(numeroboton == 2)
+            //empresa.EstadoEmpresa = 1
 
-                empresa.CodigoUbigeo = (departamento + provincia + distrito);
-                console.log(empresa);
+            empresa.CodigoUbigeo = (departamento + provincia + distrito);
+
+            function enviarFomularioOK() {
                 dataProvider.postData("Empresa/GrabarEmpresa", empresa).success(function (respuesta) {
-                    console.log(respuesta);
+                    if (respuesta.Exitoso)
+                        TipoMensaje = "success";
+                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+                    limpiarFormulario();
                     listarEmpresa();
-                    context.empresa = {};
                     $("#modal_contenido").modal("hide");
                 }).error(function (error) {
                     //MostrarError();
                 });
-                swal("¡Bien!", "Empresa Registrada Correctamente", "success");
-            });
+            }
+            function cancelarFormulario() {
+            }
+            appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
+ 
             
         }
 
         //Metodos
         context.obtenerProvincia = function (CodigoDepartamento) {
-            console.log(CodigoDepartamento);
             dataProvider.postData("Ubigeo/ListarProvincias", {CodigoDepartamento:CodigoDepartamento}).success(function (respuesta) {
-                console.log(respuesta);
                 context.listPronvincia = respuesta;
             }).error(function (error) {
                 //MostrarError();
@@ -122,7 +106,6 @@
 
         context.obtenerDistrito = function (CodigoDepartamento, CodigoProvincia) {
             dataProvider.postData("Ubigeo/ListarDistritos", { CodigoDepartamento: CodigoDepartamento , CodigoProvincia: CodigoProvincia}).success(function (respuesta) {
-                console.log(respuesta);
                 context.listDistrito = respuesta;
             }).error(function (error) {
                 //MostrarError();
@@ -130,10 +113,7 @@
         }
         
         context.CambiarVentana = function () {
-            context.empresa = {};
-            context.codigodepartamento = {};
-            context.codigoprovincia = {};
-            context.codigodistrito = {};
+            limpiarFormulario();
             $("#modal_contenido").modal("show");
         }
         function listarEmpresa() {
@@ -151,6 +131,13 @@
             }).error(function(error){
 
             });
+        }
+        function limpiarFormulario() {
+            context.empresa = {};
+            context.codigodepartamento = {};
+            context.codigoprovincia = {};
+            context.codigodistrito = {};
+            context.empresa.EstadoEmpresa = '0';
         }
 
         //Carga

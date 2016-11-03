@@ -176,6 +176,7 @@ function ReadFileToBinary(control) {
                 context.mesavirtualComentario = {};
             }
             function cancelarFormulario() {
+
             }
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK,cancelarFormulario);
         }
@@ -313,6 +314,8 @@ function ReadFileToBinary(control) {
             }
             function cancelarFormulario() {
                 Operacion.EstadoOperacion = 0;
+                listDocumentosAdjuntos = [];
+                listEUsuarioGrupo = [];
             }
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
         }
@@ -373,7 +376,10 @@ function ReadFileToBinary(control) {
             if (context.visible == "List") {
                 limpiarFormulario();
                 listarOperacion();
-            } else {
+            } else if (context.visible == "CreateAndEdit") {
+                limpiarFormulario();
+            }
+            else {
                 //obtenerUsuarioSession();
             }
         }

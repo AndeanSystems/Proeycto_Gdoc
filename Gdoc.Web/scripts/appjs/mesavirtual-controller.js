@@ -224,6 +224,8 @@ function ReadFileToBinary(control) {
             }
             function cancelarFormulario() {
                 Operacion.EstadoOperacion = 0;
+                listDocumentosAdjuntos = [];
+                listEUsuarioGrupo = [];
             }
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarFormulario);
         }

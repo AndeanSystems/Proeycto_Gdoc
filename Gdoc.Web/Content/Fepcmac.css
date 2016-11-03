@@ -46,8 +46,16 @@ body {
     color: #fff;
     background: #A20012;
 }
-
-
+.btn-default.focus, .btn-default:focus {
+    color: white;
+    background-color: #E83333;
+    border-color: #ddd;
+}
+.skin-blue .sidebar-menu>li:hover>a, .skin-blue .sidebar-menu>li.active>a {
+    color: #fff;
+    background: #E83333;
+    border-left-color: #E83333;
+}
 /**Estilos Angular Material*/
 .md-chips {
     display: block;

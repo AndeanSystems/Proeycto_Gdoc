@@ -110,10 +110,7 @@
             //});
         }
         context.grabar = function (numeroboton) {
-
             var grupo = context.grupo;
-
-            
             for (var ind in context.participantesGrupo) {
                 listEUsuarioGrupo.push(context.participantesGrupo[ind]);
             }
@@ -137,7 +134,7 @@
                 limpiarFormulario();
             }
             function cancelarOK() {
-
+                listEUsuarioGrupo = [];
             }
             appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK, cancelarOK);
         }

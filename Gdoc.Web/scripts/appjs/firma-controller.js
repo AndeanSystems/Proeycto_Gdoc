@@ -76,14 +76,9 @@ function ReadFileToBinary(control) {
                     }).error(function (error) {
                         //MostrarError();
                     });
-                    //context.usuario = {};
-                    //document.getElementById("input_file").value = "";
-                    //listarUsuario();
-                    //listarFirma();
-                    //location.href = "CambiarFirmaElectronica";
                 }
                 function cancelarFormulario() {
-                    //Operacion.EstadoOperacion = 0;
+                    listoFirmas = [];
                 }
                 appService.confirmarEnvio("¿Seguro que deseas continuar?", "No podrás deshacer este paso...", "warning", enviarFomularioOK,cancelarFormulario);
 

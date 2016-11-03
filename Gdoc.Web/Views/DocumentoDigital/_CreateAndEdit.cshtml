@@ -4,8 +4,8 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Datos del Documento</h3>
-                <button class="btn btn-default pull-right" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
-                <button class="btn btn-default pull-right" ng-click="ctrl.nuevo()"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
+                <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
+                <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.nuevo()"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
             </div>
             <div class="box-body">
                 <div class="form-group margin-bottom">
@@ -88,8 +88,8 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Documento Digital</h3>
-                <button class="btn btn-default pull-right" ng-disabled="frmDatos.$invalid" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
-                <button class="btn btn-default pull-right" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
+                <button class="btn btn-default pull-right btn-sm" ng-disabled="frmDatos.$invalid" ng-click="ctrl.grabar(2)"><span class="glyphicon glyphicon-floppy-saved" data-placement="top" data-toggle="tooltip" title="Guardar enviar"></span></button>
+                <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.grabar(1)"><i class="fa fa-floppy-o" data-placement="top" data-toggle="tooltip" title="Guardar"></i></button>
             </div>
 
             <ul class="nav nav-tabs">
@@ -147,7 +147,7 @@
                         <label class="col-sm-12">Elegir Archivo</label>
                         <div class="col-md-12">
                             <label>{{ctrl.listDocumentoAdjunto[0].NombreOriginal}}</label>
-                            <button class="btn btn-default pull-right" ng-click="ctrl.listarAdjunto()" ng-disabled="false"><i class="fa fa-paperclip" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true"></i></button>
+                            <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.listarAdjunto()" ng-disabled="false"><i class="fa fa-paperclip" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true"></i></button>
                         </div>
                     </div>
 
@@ -230,7 +230,7 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <button class="btn btn-default pull-right" ng-show="ctrl.agregar" ng-click="ctrl.agregaradjunto()"><i class="fa fa-plus" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>
+                                        <button class="btn btn-default pull-right btn-sm" ng-show="ctrl.agregar" ng-click="ctrl.agregaradjunto()"><i class="fa fa-plus" data-placement="top" data-toggle="tooltip" title="Agregar"></i></button>
                                     </div>
                                 </div>
                                 
