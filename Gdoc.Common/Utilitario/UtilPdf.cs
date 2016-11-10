@@ -35,13 +35,14 @@ namespace Gdoc.Common.Utilitario
 
             iTextSharp.text.Document document = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 90,90,50,50);
 
+            string tituloDoc = tipodocumento+" "+ sNumeroDocumentoElectronico;
             MemoryStream ms = new MemoryStream();
             PdfWriter.GetInstance(document, ms);
             //Traer ruta de imagenes.. logos 
-            document.Header = GenerarHeader(IDEmpresa, "FEPCMAC_Logo2.jpg", rutaPDF, tipodocumento, destinatario, remitente,  asunto);
+            document.Header = GenerarHeader(IDEmpresa, "FEPCMAC_Logo2.jpg", rutaPDF, tituloDoc, destinatario, remitente, asunto);
             document.Open();
             if (tipodoc!="06")
-                GenerarCabecera(ref document, tipodocumento, destinatario, remitente, asunto);
+                GenerarCabecera(ref document, tituloDoc, destinatario, remitente, asunto);
             GenerarBody(ref document, sBodyTexto);
             GenerarFirmas(ref document,listremitentes,rutaFirma,listfirmaUsuario);
             if (tipocomunicacion != "1")
@@ -54,7 +55,7 @@ namespace Gdoc.Common.Utilitario
             ms.Flush();
             ms.Close();
 
-            SubirArchivoFTP(sNumeroDocumentoElectronico, ".pdf", byteArray, rutaPDF, IDEmpresa);
+            SubirArchivoFTP(sNumeroDocumentoElectronico, tipodocumento, ".pdf", byteArray, rutaPDF, IDEmpresa);
         }
         protected HeaderFooter GenerarHeader(int IDEmpresa, string sNameImagen,string logoRuta,string tipodocumento,string destinatarios,string remitentes, string asuntos)
         {
@@ -279,14 +280,14 @@ namespace Gdoc.Common.Utilitario
             fecha.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             fecha.Border = 0;
             //fecha.PaddingBottom = 20;
-            //fecha.BorderWidthBottom = 1.00f;
+            fecha.BorderWidthBottom = 1.00f;
             tblPrueba.AddCell(fecha);
 
             PdfPCell hoy = new PdfPCell(new Phrase(System.DateTime.Now.ToLongDateString(), fonttabla));
             hoy.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
             hoy.Border = 0;
             //hoy.PaddingBottom = 20;
-            //hoy.BorderWidthBottom = 1.00f;
+            hoy.BorderWidthBottom = 1.00f;
             tblPrueba.AddCell(hoy);
 
 
@@ -300,7 +301,7 @@ namespace Gdoc.Common.Utilitario
             worker.EndDocument();
             worker.Close();
         }
-        protected string SubirArchivoFTP(string sNombreArchivo, string sExtencionArchivo, byte[] sbyteContent, string rutaPDF, int IDEmpresa)
+        protected string SubirArchivoFTP(string sNombreArchivo,string tDocumento, string sExtencionArchivo, byte[] sbyteContent, string rutaPDF, int IDEmpresa)
         {
             string _MensajeError = string.Empty;
 
@@ -318,8 +319,8 @@ namespace Gdoc.Common.Utilitario
                     if (!Directory.Exists(rutaPDF))
                         Directory.CreateDirectory(Path.Combine(rutaPDF));
 
-                    if (!File.Exists(Path.Combine(rutaPDF, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo))))
-                        File.WriteAllBytes(Path.Combine(rutaPDF, string.Format("{0}{1}", sNombreArchivo, sExtencionArchivo)), sbyteContent);
+                    if (!File.Exists(Path.Combine(rutaPDF, string.Format("{0}-{1}{2}", sNombreArchivo, tDocumento, sExtencionArchivo))))
+                        File.WriteAllBytes(Path.Combine(rutaPDF, string.Format("{0}-{1}{2}", sNombreArchivo, tDocumento, sExtencionArchivo)), sbyteContent);
                 }
                 catch (Exception ex)
                 {

@@ -18,6 +18,7 @@ namespace Gdoc.Web.Controllers
         private NUsuario nUsuario = new NUsuario();
         private NPersonal nPersonal = new NPersonal();
         private NOperacion nOperacion = new NOperacion();
+        private NConcepto nConcepto = new NConcepto();
         #endregion
         //
         // GET: /DocumentoElectronico/
@@ -41,29 +42,34 @@ namespace Gdoc.Web.Controllers
             {
                 var remitentes = new List<string>();
                 var destinatarios = new List<string>();
+                Operacion operacionPDF = new Operacion();
+
                 using (var oNOperacion = new NOperacion())
                 {
                     Int64 IDusuario = Convert.ToInt64(Session["IDUsuario"]);
-                   
+
+                    var tipoDoc = nConcepto.ListarConcepto().Where(x => x.TipoConcepto == "012" && x.CodiConcepto == operacion.TipoDocumento).
+                        FirstOrDefault().DescripcionCorta;
+
                     if (operacion.IDOperacion > 0)
                     {
                         if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                         {
                             operacion.FechaEnvio = DateTime.Now;
                             operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
-                            operacion.NombreFinal = operacion.NumeroOperacion + ".pdf";
+
+                            operacion.NombreFinal = string.Format(@"{0}-{1}.pdf", operacion.NumeroOperacion, tipoDoc);
                         }
 
-                        oNOperacion.EditarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
-
-                        GenerarPdfDatos(oNOperacion,operacion,eDocumentoElectronicoOperacion,listEUsuarioGrupo);
+                        operacionPDF = oNOperacion.EditarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
+                        //GenerarPdfDatos(oNOperacion, operacion, eDocumentoElectronicoOperacion, listEUsuarioGrupo);
                     }
                     else
                     {
                         operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                         operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
 
-                        operacion.NumeroOperacion = oNOperacion.NumeroOperacion(IDusuario, Constantes.TipoOperacion.DocumentoElectronico);
+                        operacion.NumeroOperacion = oNOperacion.NumeroOperacion(IDusuario, Constantes.TipoOperacion.DocumentoElectronico, operacion.TipoDocumento, Convert.ToInt32(Session["IDEmpresa"]));
                         //operacion.NumeroOperacion = "DE" + DateTime.Now.Ticks.ToString();
                         operacion.NotificacionOperacion = "S";
 
@@ -78,21 +84,42 @@ namespace Gdoc.Web.Controllers
                         {
                             operacion.FechaEnvio = DateTime.Now;
                             operacion.FechaVigente = DateAgregarLaborales(5, DateTime.Now);
-                            operacion.NombreFinal = operacion.NumeroOperacion + ".pdf";
+                            operacion.NombreFinal = string.Format(@"{0}-{1}.pdf", operacion.NumeroOperacion, tipoDoc);
                         }
 
-                        oNOperacion.GrabarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
+                        operacionPDF = oNOperacion.GrabarDocumentoElectronico(operacion, listDocumentosAdjuntos, eDocumentoElectronicoOperacion, listEUsuarioGrupo, IDusuario);
 
-                        GenerarPdfDatos(oNOperacion, operacion, eDocumentoElectronicoOperacion, listEUsuarioGrupo);
+                        //GenerarPdfDatos(oNOperacion, operacion, eDocumentoElectronicoOperacion, listEUsuarioGrupo);
                     }
                     
                 }
+                
                 if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                     mensajeRespuesta.Mensaje = "La operación " + operacion.NumeroOperacion + " se envió correctamente";
                 else
                     mensajeRespuesta.Mensaje = "La operacion " + operacion.NumeroOperacion + " se grabó correctamente";
                 mensajeRespuesta.Exitoso = true;
+                var Result = new { mensajeRespuesta, operacionPDF };
+                return new JsonResult { Data = Result, MaxJsonLength = Int32.MaxValue };
+            }
+            catch (Exception ex)
+            {
+                mensajeRespuesta.Mensaje = ex.Message;
+                mensajeRespuesta.Exitoso = false;
                 return new JsonResult { Data = mensajeRespuesta, MaxJsonLength = Int32.MaxValue };
+            }
+        }
+        public JsonResult GenerarPDF(Operacion operacion, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo)
+        {
+            try
+            {
+                using (var oNOperacion = new NOperacion())
+                {
+                    GenerarPdfDatos(oNOperacion, operacion, eDocumentoElectronicoOperacion, listEUsuarioGrupo);
+                    mensajeRespuesta.Mensaje = "El Documento PDF fue generado Correctamente";
+                    mensajeRespuesta.Exitoso = true;
+                }
+                return new JsonResult { Data = mensajeRespuesta, MaxJsonLength=Int32.MaxValue};
             }
             catch (Exception ex)
             {
@@ -212,7 +239,7 @@ namespace Gdoc.Web.Controllers
                 else
                     destinatarios.Add(string.Format(@"{0} {1}{2}", personal.NombrePers, personal.ApellidoPersonal + Environment.NewLine, personal.Cargo.DescripcionConcepto));
             }
-            var documento = (string.Format(@"{0} {1}", oNOperacion.ListarOperacionBusqueda().Where(x => x.IDOperacion == operacion.IDOperacion).FirstOrDefault().TipoDoc.DescripcionCorta,operacion.NumeroOperacion));
+            var documento = oNOperacion.ListarOperacionBusqueda().Where(x => x.IDOperacion == operacion.IDOperacion).FirstOrDefault().TipoDoc.DescripcionCorta;
 
             if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                 new UtilPdf().GenerarArchivoPDF(operacion.NumeroOperacion, 

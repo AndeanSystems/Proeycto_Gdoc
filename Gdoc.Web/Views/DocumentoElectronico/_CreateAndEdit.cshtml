@@ -101,32 +101,32 @@
                                 <div class="form-group">
                                     <label class="col-sm-12">Titulo <span class="text-danger">(*)</span></label>
                                     <div class="col-sm-12">
-                                        <input type="text" ng-model="ctrl.operacion.TituloOperacion" class="form-control" required>
+                                        <input type="text" style="font-weight:bold" ng-model="ctrl.operacion.TituloOperacion" class="form-control" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-12">Asunto <span class="text-danger">(*)</span></label>
                                     <div class="col-sm-12">
-                                        <input type="text" ng-model="ctrl.operacion.DescripcionOperacion" class="form-control" required>
+                                        <input type="text" ng-model="ctrl.operacion.DescripcionOperacion" class="form-control" style="text-transform: uppercase; font-weight: bold" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-12">Documento Adjunto</label>
                                     <div class="col-sm-12">
-                                        <label>{{ctrl.listDocumentoAdjunto.length}} adjuntos</label>
+                                        <label style="font-weight: bold">{{ctrl.listDocumentoAdjunto.length}} adjuntos</label>
                                         @*<input type="file" id="input_file" onchange="ReadFileToBinary(this)" multiple style="display:initial;">*@
-                                        <button class="btn btn-default pull-right btn-sm"  ng-click="ctrl.listarAdjunto()" ng-disabled="false"><i class="fa fa-paperclip" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true"></i></button>
+                                        <button class="btn btn-default pull-right btn-sm"  ng-click="ctrl.listarAdjunto()" ng-disabled="false"><i class="fa fa-paperclip" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true" data-placement="top" data-toggle="tooltip" title="Adjuntos"></i></button>
                                     </div>
                                 </div>
 
                                 <div class="form-group" ng-show="ctrl.referencia">
                                     <label class="col-sm-12">Documentos Adjuntos Referenciados</label>
                                     <div class="col-sm-12">
-                                        <label>{{ctrl.listDocumentoAdjuntoR.length}} adjuntos</label>
+                                        <label style="font-weight: bold">{{ctrl.listDocumentoAdjuntoR.length}} adjuntos</label>
                                         @*<input type="file" id="input_file" onchange="ReadFileToBinary(this)" multiple style="display:initial;">*@
-                                        <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.listarAdjuntoR()" ng-disabled="false"><i class="fa fa-share" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true"></i></button>
+                                        <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.listarAdjuntoR()" ng-disabled="false"><i class="fa fa-share" aria-hidden="true" style="font-size:1.5em;" ng-disabled="true" data-placement="top" data-toggle="tooltip" title="Adjuntos Referenciado"></i></button>
                                     </div>
                                 </div>
 

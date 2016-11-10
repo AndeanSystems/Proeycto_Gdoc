@@ -39,7 +39,10 @@ namespace Gdoc.Web.Controllers
                 using (var oLogOperacion = new NLogOperacion())
                 {
                     listLogOperacion = oLogOperacion.ListarLogOperacion()
-                        .Where(x=>x.Operacion.TipoOperacion==operacion.TipoOperacion && x.Operacion.NumeroOperacion==operacion.NumeroOperacion).OrderByDescending(x => x.FechaEvento).ToList();
+                        .Where(x=>x.Operacion.TipoOperacion==operacion.TipoOperacion
+                            && x.Operacion.TipoDocumento == operacion.TipoDocumento
+                            && x.Operacion.NumeroOperacion == operacion.NumeroOperacion
+                            ).OrderByDescending(x => x.FechaEvento).ToList();
                 }
                 Session["listLogOperacion"] = listLogOperacion;
                 return new JsonResult { Data = listLogOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };

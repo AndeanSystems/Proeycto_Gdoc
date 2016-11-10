@@ -119,12 +119,16 @@ namespace Gdoc.Dao
                                join tipooperacion in db.Conceptoes
                                on ope.TipoOperacion equals tipooperacion.CodiConcepto
 
+                                join tipoacceso in db.Conceptoes
+                                on ope.AccesoOperacion equals (tipoacceso.CodiConcepto+" ")
+
                                where tipodocumento.TipoConcepto.Equals("012") &&
                                       estado.TipoConcepto.Equals("001") &&
                                       tipooperacion.TipoConcepto.Equals("003") &&
                                       prioridad.TipoConcepto.Equals("005")
+                                      && tipoacceso.TipoConcepto.Equals("002")
 
-                                select new { ope, tipodocumento,estado, tipooperacion, prioridad }).ToList();
+                                select new { ope, tipodocumento, estado, tipooperacion, prioridad, tipoacceso }).ToList();
 
                     list.ForEach(x => listOperacion.Add(new EOperacion
                     {
@@ -150,6 +154,7 @@ namespace Gdoc.Dao
                         TipoOpe = new Concepto { DescripcionCorta = x.tipooperacion.DescripcionCorta },
                         TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
                         Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
+                        Acceso = new Concepto { DescripcionCorta = x.tipoacceso.DescripcionCorta },
                         Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
                     }));
                 }
@@ -373,6 +378,17 @@ namespace Gdoc.Dao
 
                     //var list = db.Operacions.ToList();
 
+                    var listremitente = (from remitente in db.UsuarioParticipantes
+
+                                         join operacion in db.Operacions
+                                         on remitente.IDOperacion equals operacion.IDOperacion
+
+                                         join usuario in db.Usuarios
+                                         on remitente.IDUsuario equals usuario.IDUsuario
+
+                                         where remitente.TipoParticipante.Equals("04")
+                                         select new { remitente, operacion, usuario }).ToList();
+
                     var list = (from operacion in db.Operacions
 
                                  join documentoelectronico in db.DocumentoElectronicoOperacions
@@ -396,52 +412,80 @@ namespace Gdoc.Dao
                                  where tipodocumento.TipoConcepto.Equals("012") &&
                                         estado.TipoConcepto.Equals("001") &&
                                         prioridad.TipoConcepto.Equals("005") &&
-                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && x.TipoParticipante == Constantes.TipoParticipante.RemitenteDE ) > 0)
+                                        (operacion.UsuarioParticipantes.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario && (x.TipoParticipante == Constantes.TipoParticipante.RemitenteDE || x.TipoParticipante == Constantes.TipoParticipante.EmisorDE)) > 0)
                                         
                                  select new { operacion, tipodocumento, documentoelectronico, /*usuariopart,*/ estado /*,usuario*/,prioridad }).ToList();
 
-                    list.ForEach(x => listOperacion.Add(new EOperacion
-                    {
-                        IDOperacion = x.operacion.IDOperacion,
-                        IDEmpresa = x.operacion.IDEmpresa,
-                        TipoOperacion = x.operacion.TipoOperacion,
-                        FechaEmision = x.operacion.FechaEmision,
-                        NumeroOperacion = x.operacion.NumeroOperacion,
-                        TituloOperacion = x.operacion.TituloOperacion,
-                        AccesoOperacion = x.operacion.AccesoOperacion,
-                        EstadoOperacion = x.operacion.EstadoOperacion,
-                        DescripcionOperacion = x.operacion.DescripcionOperacion,
-                        PrioridadOperacion = x.operacion.PrioridadOperacion,
-                        FechaCierre = x.operacion.FechaCierre,
-                        FechaRegistro = x.operacion.FechaRegistro,
-                        FechaEnvio = x.operacion.FechaEnvio,
-                        FechaVigente = x.operacion.FechaVigente,
-                        DocumentoAdjunto = x.operacion.DocumentoAdjunto,
-                        TipoComunicacion = x.operacion.TipoComunicacion,
-                        NotificacionOperacion = x.operacion.NotificacionOperacion,
-                        TipoDocumento = x.operacion.TipoDocumento,
-                        NombreFinal = x.operacion.NombreFinal,
-                        DocumentoElectronicoOperacion = new DocumentoElectronicoOperacion
-                        {
-                            IDDoctoElectronicoOperacion=x.documentoelectronico.IDDoctoElectronicoOperacion,
-                            IDOperacion=x.documentoelectronico.IDOperacion,
-                            Memo = x.documentoelectronico.Memo,
-                        },
-                        
-                        //UsuarioParticipante = new UsuarioParticipante
-                        //{
-                        //    IDUsuarioParticipante=x.usuariopart.IDUsuarioParticipante,
-                        //    IDUsuario=x.usuariopart.IDUsuario,
-                        //    TipoParticipante=x.usuariopart.TipoParticipante,
-                        //},
 
-                        //Usuario=new Usuario{
-                        //    NombreUsuario=x.usuario.NombreUsuario,
-                        //},
-                        TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
-                        Prioridad= new Concepto{DescripcionConcepto=x.prioridad.DescripcionConcepto},
-                        Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
-                    }));
+                    foreach (var x in list)
+                    {
+                        listOperacion.Add(new EOperacion
+                        {
+                            IDOperacion = x.operacion.IDOperacion,
+                            IDEmpresa = x.operacion.IDEmpresa,
+                            TipoOperacion = x.operacion.TipoOperacion,
+                            FechaEmision = x.operacion.FechaEmision,
+                            NumeroOperacion = x.operacion.NumeroOperacion,
+                            TituloOperacion = x.operacion.TituloOperacion,
+                            AccesoOperacion = x.operacion.AccesoOperacion,
+                            EstadoOperacion = x.operacion.EstadoOperacion,
+                            DescripcionOperacion = x.operacion.DescripcionOperacion,
+                            PrioridadOperacion = x.operacion.PrioridadOperacion,
+                            FechaCierre = x.operacion.FechaCierre,
+                            FechaRegistro = x.operacion.FechaRegistro,
+                            FechaEnvio = x.operacion.FechaEnvio,
+                            FechaVigente = x.operacion.FechaVigente,
+                            DocumentoAdjunto = x.operacion.DocumentoAdjunto,
+                            TipoComunicacion = x.operacion.TipoComunicacion,
+                            NotificacionOperacion = x.operacion.NotificacionOperacion,
+                            TipoDocumento = x.operacion.TipoDocumento,
+                            NombreFinal = x.operacion.NombreFinal,
+                            DocumentoElectronicoOperacion = new DocumentoElectronicoOperacion
+                            {
+                                IDDoctoElectronicoOperacion = x.documentoelectronico.IDDoctoElectronicoOperacion,
+                                IDOperacion = x.documentoelectronico.IDOperacion,
+                                Memo = x.documentoelectronico.Memo,
+                            },
+
+                            TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
+                            Prioridad = new Concepto { DescripcionConcepto = x.prioridad.DescripcionConcepto },
+                            Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
+
+                            Emisor= listremitente.FirstOrDefault().usuario.NombreUsuario,
+                        });
+                    }
+                    //list.ForEach(x => listOperacion.Add(new EOperacion
+                    //{
+                    //    IDOperacion = x.operacion.IDOperacion,
+                    //    IDEmpresa = x.operacion.IDEmpresa,
+                    //    TipoOperacion = x.operacion.TipoOperacion,
+                    //    FechaEmision = x.operacion.FechaEmision,
+                    //    NumeroOperacion = x.operacion.NumeroOperacion,
+                    //    TituloOperacion = x.operacion.TituloOperacion,
+                    //    AccesoOperacion = x.operacion.AccesoOperacion,
+                    //    EstadoOperacion = x.operacion.EstadoOperacion,
+                    //    DescripcionOperacion = x.operacion.DescripcionOperacion,
+                    //    PrioridadOperacion = x.operacion.PrioridadOperacion,
+                    //    FechaCierre = x.operacion.FechaCierre,
+                    //    FechaRegistro = x.operacion.FechaRegistro,
+                    //    FechaEnvio = x.operacion.FechaEnvio,
+                    //    FechaVigente = x.operacion.FechaVigente,
+                    //    DocumentoAdjunto = x.operacion.DocumentoAdjunto,
+                    //    TipoComunicacion = x.operacion.TipoComunicacion,
+                    //    NotificacionOperacion = x.operacion.NotificacionOperacion,
+                    //    TipoDocumento = x.operacion.TipoDocumento,
+                    //    NombreFinal = x.operacion.NombreFinal,
+                    //    DocumentoElectronicoOperacion = new DocumentoElectronicoOperacion
+                    //    {
+                    //        IDDoctoElectronicoOperacion=x.documentoelectronico.IDDoctoElectronicoOperacion,
+                    //        IDOperacion=x.documentoelectronico.IDOperacion,
+                    //        Memo = x.documentoelectronico.Memo,
+                    //    },
+                        
+                    //    TipoDoc = new Concepto { DescripcionCorta = x.tipodocumento.DescripcionCorta },
+                    //    Prioridad= new Concepto{DescripcionConcepto=x.prioridad.DescripcionConcepto},
+                    //    Estado = new Concepto { DescripcionConcepto = x.estado.DescripcionConcepto },
+                    //}));
 
 
                 }
@@ -650,7 +694,7 @@ namespace Gdoc.Dao
                 throw;
             }
         }
-        public string NumeroOperacion(Int64 IDUsuario,string tipooperacion)
+        public string NumeroOperacion(Int64 IDUsuario,string tipooperacion, string tipodocumento, int idempresa)
         {
             try
             {
@@ -658,14 +702,16 @@ namespace Gdoc.Dao
                 {
                     var iCodiUsu = new SqlParameter { ParameterName = "@iCodiUsu", Value = IDUsuario };
                     var cTipoOper = new SqlParameter { ParameterName = "@cTipoOper", Value = tipooperacion };
+                    var cTipoDocto = new SqlParameter { ParameterName = "@cTipoDocto", Value = tipodocumento };
+                    var iIDEmpresa = new SqlParameter { ParameterName = "@iIDEmpresa", Value = idempresa };
                     var out_cNumeroOperacion = new SqlParameter
                     {
                         ParameterName = "@out_cNumeroOperacion",
                         Value = "",
                         Direction = ParameterDirection.Output };
                     //var out_cNumeroOperacion = new SqlParameter("@out_cNumeroOperacion", SqlDbType.VarChar) { Direction = System.Data.ParameterDirection.Output };
-               
-                    var numero=db.Database.SqlQuery<String>("gdoc_NumeraOperacion @iCodiUsu, @cTipoOper, @out_cNumeroOperacion out", iCodiUsu, cTipoOper, out_cNumeroOperacion);
+
+                    var numero = db.Database.SqlQuery<String>("gdoc_NumeraOperacion @iIDEmpresa, @iCodiUsu, @cTipoOper, @cTipoDocto, @out_cNumeroOperacion out", iIDEmpresa, iCodiUsu, cTipoOper, cTipoDocto, out_cNumeroOperacion);
 
                     //var NumeroOperacion = (string)out_cNumeroOperacion.Value;
 

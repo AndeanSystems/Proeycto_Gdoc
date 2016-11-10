@@ -18,9 +18,11 @@ namespace Gdoc.Entity.Extension
         public Concepto TipoOpe { get; set; }
         public Concepto TipoDoc { get; set; }
         public Concepto Estado { get; set; }
+        public Concepto Acceso { get; set; }
         public Concepto Prioridad { get; set; }
         public string OrganizadorMV { get; set; }
         public string Remitente { get; set; }
         public string Prioridoc { get; set; }
+        public string Emisor { get; set; }
     }
 }

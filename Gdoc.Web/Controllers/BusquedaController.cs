@@ -125,6 +125,32 @@ namespace Gdoc.Web.Controllers
                 throw;
             }
         }
+        public JsonResult ListarAdjunto(Operacion operacion)
+        {
+            var listAdjunto = new List<EAdjunto>();
+            using (var oAdjunto = new NAdjunto())
+            {
+                if (operacion.AccesoOperacion == "1 ")
+                {
+                    var listparticipantes = nUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion).ToList();
+                    foreach (var item in listparticipantes)
+                    {
+                        if (item.IDUsuario == Convert.ToInt32(Session["IDUsuario"]))
+                        {
+                            listAdjunto = oAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDOperacion == operacion.IDOperacion && x.EstadoAdjunto == Estados.EstadoAdjunto.Activo).ToList(); 
+                            return new JsonResult { Data = listAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+                        }
+                   }
+                }
+                else
+                {
+                    listAdjunto = oAdjunto.ListarAdjunto().Where(x => x.DocumentoAdjunto.IDOperacion == operacion.IDOperacion && x.EstadoAdjunto == Estados.EstadoAdjunto.Activo).ToList();
+                    return new JsonResult { Data = listAdjunto, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+                }
+                   
+            }
+            return new JsonResult { Data = "vacio", JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
+        }
         public ActionResult DescargarExcel()
         {
             try

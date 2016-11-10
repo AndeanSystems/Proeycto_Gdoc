@@ -56,7 +56,7 @@ namespace Gdoc.Web.Controllers
                         operacion.IDEmpresa = Convert.ToInt32(Session["IDEmpresa"]);
                         operacion.TipoOperacion = Constantes.TipoOperacion.DocumentoDigital; 
                         operacion.NotificacionOperacion = "S";//FALTA
-                        operacion.NumeroOperacion = oOperacion.NumeroOperacion(IDusuario, Constantes.TipoOperacion.DocumentoDigital);
+                        operacion.NumeroOperacion = oOperacion.NumeroOperacion(IDusuario, Constantes.TipoOperacion.DocumentoDigital, operacion.TipoDocumento, Convert.ToInt32(Session["IDEmpresa"]));
                         //operacion.NumeroOperacion = "DD" + DateTime.Now.Ticks.ToString();
                         operacion.DocumentoAdjunto = "S";
 

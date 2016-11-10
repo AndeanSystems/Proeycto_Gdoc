@@ -8,6 +8,7 @@ function ReadFileToBinary(control) {
         var reader = new FileReader();
         reader.onloadend = function (e) {
             console.log(files);
+            console.log(files.name.length)
             archivosSelecionados.push({
                 NombreArchivo: files.name,
                 TamanoArchivo: files.size,
@@ -228,6 +229,9 @@ function ReadFileToBinary(control) {
             if (context.listaReferencia == undefined || context.listaReferencia == "") {
                 return appService.mostrarAlerta("Atención", "Debe adicionar referencia", "warning");
             }
+            if (context.listDocumentoAdjunto[0].NombreOriginal.length > 200) {
+                return appService.mostrarAlerta("Atención", "El nombre del documento adjunto supera el maximo permitido", "warning");
+            }
             let DocumentoDigitalOperacion = context.DocumentoDigitaloOperacion;
             var listIndexacionDocumento = context.listaReferencia;
 
@@ -367,7 +371,7 @@ function ReadFileToBinary(control) {
                 limpiarFormulario();
                 listarOperacion();
             } else if (context.visible == "CreateAndEdit") {
-                limpiarFormulario();
+                //limpiarFormulario();
             }
         }
         //Adjuntos

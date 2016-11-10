@@ -21,13 +21,19 @@
                     <div class="box-body">
 
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <label>Tipo de Operación</label>
-                                <select class="form-control" ng-model="ctrl.operacion.TipoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoOperacion">
+                                <select class="form-control" ng-model="ctrl.operacion.TipoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoOperacion" ng-change="ctrl.obtenerTipoDocumento(ctrl.operacion.TipoOperacion)">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
+                                <label>Tipo de Documento</label>
+                                <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
+                                    <option value="">Seleccione</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
                                 <label>N. de Operación</label>
                                 <input type="text" class="form-control" ng-model="ctrl.operacion.NumeroOperacion" placeholder="Operación">
 

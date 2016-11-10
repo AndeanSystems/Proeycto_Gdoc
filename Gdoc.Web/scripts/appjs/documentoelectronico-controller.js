@@ -120,10 +120,11 @@ function ReadFileToBinary(control) {
                                 '<i class="fa fa-commenting-o" ng-click="grid.appScope.ComentarioProveido(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" data-placement="bottom" data-toggle="tooltip" title="Proveido"></i>' +
                                 '<i ng-click="grid.appScope.eliminarOperacion(grid.renderContainers.body.visibleRowCache.indexOf(row))" style="padding: 4px;font-size: 1.4em;" class="fa fa-times" data-placement="bottom" data-toggle="tooltip" title="" data-original-title="Desactivar"></i>'
                 },
+                { field: 'Emisor', width: '10%', displayName: 'Emisor' },
                 { field: 'NumeroOperacion', width: '15%', displayName: 'Nº Documento' },
                 { field: 'FechaRegistro', width: '10%', displayName: 'Fecha Registro', cellFilter: 'toDateTime | date:"dd/MM/yyyy HH:mm:ss"' },
                 { field: 'TipoDoc.DescripcionCorta', width: '5%', displayName: 'T.Doc' },
-                { field: 'TituloOperacion', width: '55%', displayName: 'Titulo' },
+                { field: 'TituloOperacion', width: '45%', displayName: 'Titulo' },
                 { field: 'Estado.DescripcionConcepto', width: '8%', displayName: 'Estado' }
                 
             ]
@@ -211,6 +212,7 @@ function ReadFileToBinary(control) {
             console.log(context.usuarioDestinatarios);
             Operacion = context.operacion;
             let usuarioRemitenteLogueado = appService.obtenerUsuarioId();
+            console.log(usuarioRemitenteLogueado);
 
             if (Operacion.EstadoOperacion == 1) {
                 return appService.mostrarAlerta("No se puede modificar Documento", "El documento ya ha sido enviado", "warning");
@@ -294,20 +296,37 @@ function ReadFileToBinary(control) {
                 size = size + listDocumentosAdjuntos[index].TamanoArchivo;
             }
             if (size >= context.listParametros[0].TamanoMaxArchivos)
-                return appService.mostrarAlerta("Información","Se excedio el tamaño maximo en archivos adjuntos","warning")
- 
+                return appService.mostrarAlerta("Información", "Se excedio el tamaño maximo en archivos adjuntos", "warning")
+
+            var documentoPDF= context.DocumentoElectronicoOperacion;
+            var listUsuariosPDF = listEUsuarioGrupo;
             function enviarFomularioOK() {
                 dataProvider.postData("DocumentoElectronico/Grabar", { Operacion: Operacion, listDocumentosAdjuntos: listDocumentosAdjuntos, eDocumentoElectronicoOperacion: context.DocumentoElectronicoOperacion, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
                     console.log(Operacion);
-                    if (respuesta.Exitoso)
+                    
+                    console.log(respuesta);
+
+                    if (respuesta.mensajeRespuesta.Exitoso)
                         TipoMensaje = "success";
                     else
                         TipoMensaje = "error";
-                    appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+
+                    function PDFOK() {
+                        if (Operacion.EstadoOperacion == 1)
+                            generarPDF(respuesta.operacionPDF, documentoPDF, listUsuariosPDF);
+
+                        documentoPDF = {};
+                        listUsuariosPDF = {};
+
+                    }
+                    appService.confirmarPDF("Información", respuesta.mensajeRespuesta.Mensaje, TipoMensaje, PDFOK);
+                    //appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+
                 }).error(function (error) {
                     console.log(error);
                     //MostrarError();
                 });
+
                 limpiarFormulario();
                 document.getElementById("input_file").value = "";
                 CKEDITOR.instances.editor1.setData("");
@@ -327,6 +346,7 @@ function ReadFileToBinary(control) {
         }
         context.editarOperacion = function (rowIndex) {
             context.operacion = context.gridOptions.data[rowIndex];
+            console.log(context.gridOptions.data[rowIndex]);
             context.DocumentoElectronicoOperacion = context.operacion.DocumentoElectronicoOperacion;
             context.operacion.TipoComunicacion = context.operacion.TipoComunicacion.substring(0, 1);
             context.operacion.AccesoOperacion = context.operacion.AccesoOperacion.substring(0, 1)
@@ -377,7 +397,7 @@ function ReadFileToBinary(control) {
                 limpiarFormulario();
                 listarOperacion();
             } else if (context.visible == "CreateAndEdit") {
-                limpiarFormulario();
+                //limpiarFormulario();
             }
             else {
                 //obtenerUsuarioSession();
@@ -425,6 +445,19 @@ function ReadFileToBinary(control) {
             $("#modal_adjuntosR").modal("show");
         }
         ////
+        function generarPDF(OperacionPDF, DocumentoElectronico, listEUsuarioGrupo) {
+            dataProvider.postData("DocumentoElectronico/GenerarPDF", { Operacion: OperacionPDF, eDocumentoElectronicoOperacion: DocumentoElectronico, listEUsuarioGrupo: listEUsuarioGrupo }).success(function (respuesta) {
+                console.log(OperacionPDF);
+                if (respuesta.Exitoso)
+                    TipoMensaje = "success";
+                else
+                    TipoMensaje = "error";
+                //appService.mostrarAlerta("Información", respuesta.Mensaje, TipoMensaje);
+            }).error(function (error) {
+                console.log(error);
+                //MostrarError();
+            });
+        }
         function listarComentarioProveido(operacion) {
             dataProvider.postData("DocumentosRecibidos/ListarComentarioProveido", operacion).success(function (respuesta) {
                 context.gridComentarios.data = respuesta;
@@ -548,7 +581,7 @@ function ReadFileToBinary(control) {
                 for (var ind in respuesta) {
                     if (respuesta[ind].TipoParticipante == UsuarioRemitente)
                         listRemitentes.push(respuesta[ind]);
-                    else
+                    else if (respuesta[ind].TipoParticipante == UsuarioDestinatario)
                         listDestinatarios.push(respuesta[ind]);
                 }
             }).error(function (error) {

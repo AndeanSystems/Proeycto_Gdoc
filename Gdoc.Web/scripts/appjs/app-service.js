@@ -50,6 +50,21 @@
             });
             return;
         },
+        this.confirmarPDF = function (title, text, type, metodoPDFOK) {
+            swal({
+                title: title,
+                text: text,
+                type: type,
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: true,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    metodoPDFOK();
+                } 
+            });
+        },
         this.confirmarEnvio = function (title, text, type,metodoOK,metodoCancel) {
             swal({
                 title: title,
@@ -105,19 +120,28 @@ var archivosSelecionados = [];
                 reader.onloadend = function (e) {
                     var eUsuario = {
                         IDUsuario : appService.obtenerUsuarioId(),
-                        RutaAvatar : e.target.result
+                        RutaAvatar: e.target.result,
+                        Tamano: e.loaded
                     };
+                    console.log(e);
                     //document.getElementById("AvatarUser").src = e.target.result;
-                    dataProvider.postData("Usuario/GrabarUsuarioAvatar",  eUsuario).success(function (respuesta) {
-                        if (respuesta.Exitoso) {
-                            appService.mostrarAlerta("Información", respuesta.Mensaje, "success");
-                        } else {
-                            appService.mostrarAlerta("Información", respuesta.Mensaje, "warning");
-                        }
+                    if (eUsuario.Tamano > 60000) {
                         $("#modal_imagenes").modal("hide");
-                    }).error(function (error) {
-                        //MostrarError();
-                    });
+                        appService.mostrarAlerta("Información", "La imagen se excedio en el tamaño", "warning");
+
+                    }
+                    else {
+                        dataProvider.postData("Usuario/GrabarUsuarioAvatar", eUsuario).success(function (respuesta) {
+                            if (respuesta.Exitoso) {
+                                appService.mostrarAlerta("Información", respuesta.Mensaje, "success");
+                            } else {
+                                appService.mostrarAlerta("Información", respuesta.Mensaje, "warning");
+                            }
+                            $("#modal_imagenes").modal("hide");
+                        }).error(function (error) {
+                            //MostrarError();
+                        });
+                    }
                 }
                 reader.readAsBinaryString(f);
             }
@@ -135,9 +159,9 @@ var archivosSelecionados = [];
                 };
                 dataProvider.postData("Usuario/GrabarUsuarioAvatar", eUsuario).success(function (respuesta) {
                     if (respuesta.Exitoso) {
-                        appService.mostrarAlerta("Advertencia", respuesta.Mensaje, "success");
+                        appService.mostrarAlerta("Información", respuesta.Mensaje, "success");
                     } else {
-                        appService.mostrarAlerta("Advertencia", respuesta.Mensaje, "warning");
+                        appService.mostrarAlerta("Información", respuesta.Mensaje, "warning");
                     }
                     $("#modal_imagenes").modal("hide");
                 }).error(function (error) {

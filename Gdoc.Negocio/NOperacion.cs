@@ -80,19 +80,22 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public short GrabarDocumentoElectronico(Operacion operacion,List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo,Int64 IDusuario )
+        public Operacion GrabarDocumentoElectronico(Operacion operacion,List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo,Int64 IDusuario )
         {
             try
             {
                 var listEusuarioParticipante = new List<UsuarioParticipante>();
+                var listEusuarioParticipanteR = new List<UsuarioParticipante>();
                 var listDocumentoAdjunto = new List<DocumentoAdjunto>();
                 var eDocumentoAdjunto = new DocumentoAdjunto();
                 var eMensajeAlerta = new MensajeAlerta();
                 var eGeneral = dGeneral.CargaParametros(operacion.IDEmpresa);
                 var eUsuarioRemitente = new List<UsuarioParticipante>();
+                Operacion operacionPDF = new Operacion();
 
                 //GRABAR OPERACION
                 dOperacion.Grabar(operacion);
+                operacionPDF = operacion;
 
                 //GRABAR DOCUMENTO ELECTRONICO OPERACION
                 eDocumentoElectronicoOperacion.IDOperacion = operacion.IDOperacion;
@@ -168,8 +171,20 @@ namespace Gdoc.Negocio
                 foreach (var participante in listEUsuarioGrupo)
                 {
                     var eUsuarioParticipante = new UsuarioParticipante();
+
+                    eUsuarioParticipante.IDUsuario = IDusuario;
+                    eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
+                    eUsuarioParticipante.TipoOperacion = Constantes.TipoOperacion.DocumentoElectronico;
+                    eUsuarioParticipante.TipoParticipante = Constantes.TipoParticipante.EmisorDE;
+                    eUsuarioParticipante.FechaNotificacion = operacion.FechaEnvio;
+                    eUsuarioParticipante.ReenvioOperacion = "S";
+                    eUsuarioParticipante.EstadoUsuarioParticipante = Constantes.EstadoParticipante.Activo;
+                    if (listEusuarioParticipanteR.Count(x => x.IDUsuario == eUsuarioParticipante.IDUsuario) == 0)
+                        listEusuarioParticipanteR.Add(eUsuarioParticipante);
+
                     if (participante.Tipo.Equals(Usuario))
                     {
+                        eUsuarioParticipante = new UsuarioParticipante();
                         //Grabar solo Usuarios
                         eUsuarioParticipante.IDUsuario = participante.IDUsuarioGrupo;
                         eUsuarioParticipante.IDOperacion = operacion.IDOperacion;
@@ -223,13 +238,14 @@ namespace Gdoc.Negocio
                     }
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
+                dUsuarioParticipante.Grabar(listEusuarioParticipanteR);
 
                 //GRABA LOG OPERACION
                 GrabarLogOperacion("011", operacion, IDusuario);
                 if(operacion.EstadoOperacion==1)
                     GrabarLogOperacion("017", operacion, IDusuario);
 
-                return 1;
+                return operacionPDF;
             }
             catch (Exception)
             {
@@ -237,7 +253,7 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public short EditarDocumentoElectronico(Operacion operacion, List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, Int64 IDusuario)
+        public Operacion EditarDocumentoElectronico(Operacion operacion, List<Adjunto> listDocumentosAdjuntos, DocumentoElectronicoOperacion eDocumentoElectronicoOperacion, List<EUsuarioGrupo> listEUsuarioGrupo, Int64 IDusuario)
         {
             try
             {
@@ -246,9 +262,11 @@ namespace Gdoc.Negocio
                 var eDocumentoAdjunto = new DocumentoAdjunto();
                 var eGeneral = dGeneral.CargaParametros(operacion.IDEmpresa);
                 var eUsuarioRemitente = new List<UsuarioParticipante>();
+                Operacion operacionPDF = new Operacion();
 
                 //EDITAR OPERACION
                 dOperacion.EditarOperacion(operacion);
+                operacionPDF = operacion;
                 //EDITAR DOCUMENTO ELECTRONICO
                 dDocumentoElectronicoOperacion.Editar(eDocumentoElectronicoOperacion);
 
@@ -394,6 +412,9 @@ namespace Gdoc.Negocio
                 //SI SE ENVIA GRABA ALERTA
                 if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                 {
+                    //GRABA LOG
+                    GrabarLogOperacion("017", operacion, IDusuario);
+
                     var uparticipantes = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante == 1);
                     foreach (var item in uparticipantes)
                     {
@@ -405,7 +426,7 @@ namespace Gdoc.Negocio
                 }
                 dUsuarioParticipante.Grabar(listEusuarioParticipante);
 
-                return 1;
+                return operacionPDF;
             }
             catch (Exception)
             {
@@ -436,11 +457,13 @@ namespace Gdoc.Negocio
                     var n = extension.LastIndexOf(".");
                     var ext=extension.Substring(n);
 
-                    operacion.NombreFinal = operacion.NumeroOperacion + ext;
+                    var tipoDoc = dConcepto.ListarConcepto().Where(x => x.TipoConcepto == "012" && x.CodiConcepto == operacion.TipoDocumento).FirstOrDefault().DescripcionCorta;
+
+                    operacion.NombreFinal = string.Format(@"{0}-{1}{2}", operacion.NumeroOperacion, tipoDoc, ext);
                     //GRABAR OPERACION
                     dOperacion.Grabar(operacion);
 
-                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}", eGeneral.RutaGdocPDF, operacion.NombreFinal);
+                    documentoOperacion.RutaFisica = string.Format(@"{0}\{1}-{2}", eGeneral.RutaGdocPDF, operacion.NombreFinal);
                     documentoOperacion.IDOperacion = operacion.IDOperacion;
                     documentoOperacion.NombreFisico = string.Empty;
                     documentoOperacion.TamanoDocto = documentoOperacion.TamanoDocto;
@@ -585,7 +608,9 @@ namespace Gdoc.Negocio
                         var n = extension.LastIndexOf(".");
                         var ext = extension.Substring(n);
 
-                        operacion.NombreFinal = operacion.NumeroOperacion + ext;
+                        var tipoDoc = dConcepto.ListarConcepto().Where(x => x.TipoConcepto == "012" && x.CodiConcepto == operacion.TipoDocumento).FirstOrDefault().DescripcionCorta;
+
+                        operacion.NombreFinal = string.Format(@"{0}-{1}{2}", operacion.NumeroOperacion, tipoDoc, ext);
                         //GRABAR OPERACION
                         dOperacion.EditarOperacion(operacion);
                         if (documentodigitalguardado.NombreOriginal != documentoOperacion.NombreOriginal)
@@ -696,6 +721,8 @@ namespace Gdoc.Negocio
                 //SI SE ENVIA GRABA ALERTA
                 if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                 {
+                    //GRABA LOG
+                    GrabarLogOperacion("007", operacion, IDusuario);
                     var uparticipantesalertas = dUsuarioParticipante.ListarUsuarioParticipante().Where(x => x.IDOperacion == operacion.IDOperacion && x.EstadoUsuarioParticipante == 1);
 
                     foreach (var item in uparticipantesalertas)
@@ -1029,6 +1056,9 @@ namespace Gdoc.Negocio
                 //SI SE ENVIA GRABA ALERTA
                 if (operacion.EstadoOperacion == Estados.EstadoOperacion.Activo)
                 {
+                    //GRABA LOG
+                    GrabarLogOperacion("044", operacion, IDusuario);
+
                     foreach (var item in uparticipantesalerta)
                     {
                         //GRABAR MENSAJE ALERTA
@@ -1174,11 +1204,11 @@ namespace Gdoc.Negocio
                 throw;
             }
         }
-        public String NumeroOperacion(Int64 IDUsuario, string tipooperacion)
+        public String NumeroOperacion(Int64 IDUsuario, string tipooperacion, string tipodocumento, int idempresa)
         {
             try
             {
-                return dOperacion.NumeroOperacion(IDUsuario, tipooperacion);
+                return dOperacion.NumeroOperacion(IDUsuario, tipooperacion, tipodocumento, idempresa);
             }
             catch (Exception)
             {

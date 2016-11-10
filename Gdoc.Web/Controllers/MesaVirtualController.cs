@@ -55,7 +55,7 @@ namespace Gdoc.Web.Controllers
                         operacion.TipoOperacion = Constantes.TipoOperacion.MesaVirtual;
 
                         //operacion.NumeroOperacion = "MV" + DateTime.Now.Ticks.ToString();
-                        operacion.NumeroOperacion = oNOperacion.NumeroOperacion(IDusuario, Constantes.TipoOperacion.MesaVirtual);
+                        operacion.NumeroOperacion = oNOperacion.NumeroOperacion(IDusuario, Constantes.TipoOperacion.MesaVirtual, operacion.TipoDocumento, Convert.ToInt32(Session["IDEmpresa"]));
                         //operacion.NotificacionOperacion = "S";
 
                         if (listAdjuntos != null)

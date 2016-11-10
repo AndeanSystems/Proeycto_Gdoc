@@ -47,6 +47,7 @@ namespace Gdoc.Dao
                         Operacion = new Operacion{
                             NumeroOperacion=x.operacion.NumeroOperacion,
                             TipoOperacion=x.operacion.TipoOperacion,
+                            TipoDocumento=x.operacion.TipoDocumento,
                         },
                         Usuario = new Usuario{NombreUsuario=x.usuario.NombreUsuario},
                         Evento= new Concepto{DescripcionConcepto=x.evento.DescripcionConcepto},
