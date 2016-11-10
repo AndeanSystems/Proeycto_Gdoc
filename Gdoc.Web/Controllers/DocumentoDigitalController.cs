@@ -95,7 +95,7 @@ namespace Gdoc.Web.Controllers
                 listOperacion = oOperacion.ListarOperacionDigital(new UsuarioParticipante
                 {
                     IDUsuario = Convert.ToInt32(Session["IDUsuario"].ToString()),
-                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital).OrderByDescending(x => x.FechaEnvio).ToList();
+                }).Where(x => x.TipoOperacion == Constantes.TipoOperacion.DocumentoDigital).OrderByDescending(x => x.FechaRegistro).ToList();
             }
             return new JsonResult { Data = listOperacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }

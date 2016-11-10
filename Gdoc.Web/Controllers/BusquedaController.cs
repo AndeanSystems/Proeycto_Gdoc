@@ -57,7 +57,7 @@ namespace Gdoc.Web.Controllers
                 if (indexacion.DescripcionIndice == null)
                     indexacion.DescripcionIndice = "";
 
-                listOperacion=oOperacion.ListarOperacionBusquedaTotal(operacion, indexacion);
+                listOperacion=oOperacion.ListarOperacionBusquedaTotal(operacion, indexacion).OrderByDescending(x=>x.FechaEnvio).ToList();
 
                 
                 //if (operacion.TipoOperacion != null)

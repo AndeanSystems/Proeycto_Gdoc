@@ -4,7 +4,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Datos del Grupo Virtual</h3>
-                    <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
+                    <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Mis Grupos"></i></button>
                     <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.nuevo()"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
                 </div>
 
@@ -13,7 +13,7 @@
                     <div class="form-group margin-bottom">
                         <label class="col-sm-12">Tipo Grupo<span class="text-danger">(*)</span></label>
                         <div class="col-sm-12">
-                            <select style="margin-bottom: 15px;" class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
+                            <select style="margin-bottom: 15px; font-weight: bold" class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
                                 <option value="">Seleccione</option>
                             </select>
                         </div>
@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label class="col-sm-12">Prioridad Atencion <span class="text-danger">(*)</span></label>
                         <div class="col-sm-12">
-                            <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listPrioridadAtencion">
+                            <select style="font-weight:bold" class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listPrioridadAtencion">
                                 <option value="">Seleccione</option>
                             </select>
                         </div>
@@ -53,10 +53,10 @@
                     <div class="form-group">
                         <div class="col-sm-6">
                             @*<input type="text" ng-model="ctrl.operacion.EstadoOperacion" ng-init="Creado" ng-disabled="true" class="form-control" placeholder="Creado" />*@
-                            <select class="form-control" ng-model="ctrl.operacion.EstadoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listEstado" disabled></select>
+                            <select style="font-weight:bold" class="form-control" ng-model="ctrl.operacion.EstadoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listEstado" disabled></select>
                         </div>
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" ng-model="ctrl.operacion.FechaRegistro" disabled>
+                            <input style="font-weight:bold" type="date" class="form-control" ng-model="ctrl.operacion.FechaRegistro" disabled>
                         </div>
                     </div>
 
@@ -67,10 +67,10 @@
 
                     <div class="form-group">
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" ng-model="ctrl.operacion.FechaEnvio" disabled>
+                            <input style="font-weight:bold" type="date" class="form-control" ng-model="ctrl.operacion.FechaEnvio" disabled>
                         </div>
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" ng-model="ctrl.operacion.FechaCierre" disabled>
+                            <input style="font-weight:bold" type="date" class="form-control" ng-model="ctrl.operacion.FechaCierre" disabled>
                         </div>
                         @*<div class="col-sm-6">
                                 <input type="date" class="form-control" ng-model="ctrl.operacion.FechaCierre" disabled>
@@ -97,7 +97,7 @@
                     <div class="form-group">
                         <label class="col-sm-12">Titulo <span class="text-danger">(*)</span></label>
                         <div class="col-sm-12">
-                            <input type="text" ng-model="ctrl.operacion.TituloOperacion" class="form-control" required>
+                            <input style="font-weight:bold" type="text" ng-model="ctrl.operacion.TituloOperacion" class="form-control" required>
                         </div>
                     </div>
 

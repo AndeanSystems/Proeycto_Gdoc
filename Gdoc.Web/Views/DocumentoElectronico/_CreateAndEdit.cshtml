@@ -4,14 +4,14 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Datos del Documento</h3>
-                    <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Lista"></i></button>
+                    <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.CambiarVentana('List')"><i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip" title="Mis Documentos"></i></button>
                     <button class="btn btn-default pull-right btn-sm" ng-click="ctrl.nuevo()"><i class="fa fa-file fa-1x" data-placement="top" data-toggle="tooltip" title="Nuevo"></i></button>
                 </div>
                 <div class="box-body">
                     <div class="form-group no-margin-bottom">
                         <label class="col-sm-12">Tipo de Documento <span class="text-danger">(*)</span></label>
                         <div class="col-sm-12">
-                            <select class="form-control" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
+                            <select class="form-control" style="font-weight:bold" ng-model="ctrl.operacion.TipoDocumento" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listTipoDocumento">
                                 <option value="">Seleccione</option>
                             </select>
                         </div>
@@ -20,7 +20,7 @@
                     <div class="form-group margin-bottom">
                         <label class="col-sm-12">Tipo de Comunicacion <span class="text-danger">(*)</span></label>
                         <div class="col-sm-12">
-                            <select class="form-control" style="margin-bottom: 15px;" ng-model="ctrl.operacion.TipoComunicacion" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoComunicacion">
+                            <select class="form-control" style="margin-bottom: 15px; font-weight: bold" ng-model="ctrl.operacion.TipoComunicacion" ng-options="tc.CodiConcepto as tc.DescripcionConcepto for tc in ctrl.listTipoComunicacion">
                                 <option value="">Seleccione</option>
                             </select>
                         </div>
@@ -36,7 +36,7 @@
                     <div class="form-group no-margin">
                         <label class="col-sm-12">Prioridad de Atención <span class="text-danger">(*)</span></label>
                         <div class="col-sm-12">
-                            <select class="form-control" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion ">
+                            <select class="form-control" style="font-weight:bold" ng-model="ctrl.operacion.PrioridadOperacion" ng-options="pa.CodiConcepto as pa.DescripcionConcepto for pa in ctrl.listPrioridadAtencion ">
                                 <option value="">Seleccione</option>
                             </select>
                         </div>
@@ -50,13 +50,13 @@
                     <div class="form-group no-margin-bottom">
                         <div class="col-sm-6">
                             @*@Html.TextBox("StudentName", System.DateTime.Now.AddDays(5), new { @class = "form-control", disabled = "true" }) <!--FALTA TERMINAR PASAR PARAMETRO DE TABLA GENERAL-->*@
-                            <input type="date" class="form-control" ng-model="ctrl.operacion.FechaVigente" disabled="true">
+                            <input type="date" style="font-weight:bold" class="form-control" ng-model="ctrl.operacion.FechaVigente" disabled="true">
 
                             @*<md-datepicker ng-model="ctrl.operacion.FechaVigente" disabled></md-datepicker>*@
 
                         </div>
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" ng-model="ctrl.operacion.FechaEnvio" disabled="true">
+                            <input type="date" style="font-weight:bold" class="form-control" ng-model="ctrl.operacion.FechaEnvio" disabled="true">
                             @*<md-datepicker ng-model="ctrl.operacion.FechaEnvio" disabled></md-datepicker>*@
                         </div>
                     </div>
@@ -68,12 +68,12 @@
 
                     <div class="form-group no-margin-bottom">
                         <div class="col-sm-6">
-                            <input type="date" class="form-control" ng-model="ctrl.operacion.FechaRegistro" disabled="true">
+                            <input type="date" style="font-weight:bold" class="form-control" ng-model="ctrl.operacion.FechaRegistro" disabled="true">
                             @*<md-datepicker ng-model="ctrl.operacion.FechaRegistro" disabled></md-datepicker>*@
                         </div>
                         <div class="col-sm-6">
                             @*<input type="text" ng-model="ctrl.operacion.EstadoOperacion" ng-init="Creado" ng-disabled="true" class="form-control" placeholder="Creado" />*@
-                            <select class="form-control" ng-model="ctrl.operacion.EstadoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listEstado" disabled>
+                            <select class="form-control" style="font-weight:bold" ng-model="ctrl.operacion.EstadoOperacion" ng-options="td.CodiConcepto as td.DescripcionConcepto for td in ctrl.listEstado" disabled>
                                 @*<option value=""></option>*@
                             </select>
                          </div>
